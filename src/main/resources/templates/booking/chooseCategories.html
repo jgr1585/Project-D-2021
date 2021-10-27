@@ -5,8 +5,12 @@
     <title>Create Booking</title>
 </head>
 <body>
-
-<a href="personalDetails"><button>Submit</button></a>
-
+<form action="/booking/submitCategories">
+    <label for="from">From</label><input id="from" type="date"/>
+    <label for="until">Until</label><input id="until" type="date"/><br>
+    <label for="cat1">Single Bed</label><input id="cat1" type="text" value="0"/><br>
+    <label for="cat2">Double Bed</label><input id="cat2" type="text" value="0"/>
+    <input type="submit" value="submit"/>
+</form>
 </body>
 </html>
