@@ -1,13 +1,13 @@
 package fhv.teamd.hotel.domain;
 
 import java.security.InvalidParameterException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Booking {
     private String bookingNumber;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
 
     private List<Category> categories;
 
@@ -17,14 +17,14 @@ public class Booking {
     private Booking() { }
 
     public String getBookingNumber() {
-        return bookingNumber;
+        return this.bookingNumber;
     }
 
-    public LocalDate getCheckInDate() {
-        return checkInDate;
+    public LocalDateTime getCheckInDate() {
+        return this.checkInDate;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
+    public void setCheckInDate(LocalDateTime checkInDate) {
         if(checkInDate.isAfter(this.checkOutDate)) {
             throw new InvalidParameterException();
         }
@@ -32,11 +32,11 @@ public class Booking {
         this.checkInDate = checkInDate;
     }
 
-    public LocalDate getCheckOutDate() {
-        return checkOutDate;
+    public LocalDateTime getCheckOutDate() {
+        return this.checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
+    public void setCheckOutDate(LocalDateTime checkOutDate) {
         if(checkOutDate.isBefore(this.checkInDate)) {
             throw new InvalidParameterException();
         }
@@ -45,11 +45,11 @@ public class Booking {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return this.categories;
     }
 
     public ContactInfo getContact() {
-        return contact;
+        return this.contact;
     }
 
     public void setContact(ContactInfo contact) {
@@ -57,7 +57,7 @@ public class Booking {
     }
 
     public GuestInfo getGuest() {
-        return guest;
+        return this.guest;
     }
 
     public void setGuest(GuestInfo guest) {
