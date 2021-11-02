@@ -1,10 +1,31 @@
 <!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Create Booking</title>
+
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <meta name="description"
+          content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software.">
+
+    <title>Hotel Management</title>
+
+    <!-- ############ import css files ########################################################################################################################### -->
+
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+
+    <!-- ############ import js lib files ######################################################################################################################## -->
+
+    <script src="/js/materialize.min.js"></script>
 </head>
+
 <body>
+
 <form action="/booking/submitCategories">
     <label for="from">From</label><input id="from" type="date"/>
     <label for="until">Until</label><input id="until" type="date"/><br>
@@ -12,5 +33,7 @@
     <label for="cat2">Double Bed</label><input id="cat2" type="text" value="0"/>
     <input type="submit" value="submit"/>
 </form>
+
 </body>
+
 </html>
