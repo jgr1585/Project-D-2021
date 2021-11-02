@@ -14,17 +14,17 @@ public class HotelViewController {
 
     @GetMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("index");
+        return new ModelAndView("index.html");
     }
 
     @GetMapping("/booking/chooseCategories")
     public ModelAndView createBooking() {
-        return new ModelAndView("booking/chooseCategories");
+        return new ModelAndView("/booking/chooseCategories");
     }
 
     @GetMapping("/booking/personalDetails")
     public ModelAndView personalDetails() {
-        return new ModelAndView("booking/personalDetails");
+        return new ModelAndView("/booking/personalDetails");
     }
 
     @RequestMapping("/booking/submitCategories")
