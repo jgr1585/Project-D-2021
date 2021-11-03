@@ -21,8 +21,8 @@
 
     <!-- ############ import js lib files ######################################################################################################################## -->
 
-    <script src="/js/materialize.min.js"></script>
     <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
 </head>
 
 <body>
@@ -57,12 +57,12 @@
                 <div class="row" id="privateForm">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="guestFirstName" type="text">
-                        <label for="guestFirstName">First Name</label>
+                        <input id="privateGuestFirstName" type="text">
+                        <label for="privateGuestFirstName">First Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="guestLastName" type="text">
-                        <label for="guestLastName">Last Name</label>
+                        <input id="privateGuestLastName" type="text">
+                        <label for="privateGuestLastName">Last Name</label>
                     </div>
                 </div>
 
@@ -161,7 +161,7 @@
 
 <script>
     $(document).ready(function () {
-        $("select").material_select();
+        $("select").formSelect();
     });
 
     function swapForm(x) {
