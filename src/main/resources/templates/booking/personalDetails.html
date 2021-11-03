@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <meta name="description"
+          content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software.">
+
+    <title>Hotel Management</title>
+
+    <!-- ############ import css files ########################################################################################################################### -->
+
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+
+    <!-- ############ import js lib files ######################################################################################################################## -->
+
+    <script src="/js/materialize.min.js"></script>
+</head>
+
+<body>
+
+<form action="/booking/submitPersonalDetails">
+    <label for="guestName">Guest or Group Name</label><input id="guestName" type="text"/><br>
+    <label for="guestAddr">Guest or Group Address</label><input id="guestAddr" type="text"/><br>
+    <hr>
+    <label for="bookerName">First Name</label><input id="bookerName" type="text"/><br>
+    <label for="bookerAddr">Last Name</label><input id="bookerAddr" type="text"/><br>
+    <label for="bookerPhone">Telephone</label><input id="bookerPhone" type="text"/><br>
+    <label for="payment">Payment Type</label>
+    <select id="payment">
+        <option value="creditCard">Credit Card</option>
+        <option value="asdf">Monopoly Money</option>
+    </select>
+    <br>
+
+    <input type="submit" value="submit"/>
+</form>
+
+</body>
+
+</html>
