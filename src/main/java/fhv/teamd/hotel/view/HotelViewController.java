@@ -14,7 +14,7 @@ public class HotelViewController {
 
     @GetMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("index.html");
+        return new ModelAndView("index");
     }
 
     @GetMapping("/booking/chooseCategories")
@@ -28,7 +28,7 @@ public class HotelViewController {
     }
 
     @RequestMapping("/booking/submitCategories")
-    public String submitCategories(HttpServletResponse response) throws IOException {
+    public void submitCategories(HttpServletResponse response) throws IOException {
         // to do: read parameters and check for availability here
 
         // not available or other error: redirect back, with error msg
@@ -36,8 +36,5 @@ public class HotelViewController {
 
         // success: redirect to next step
         response.sendRedirect("/booking/personalDetails");
-
-        // this is irrelevant
-        return null;
     }
 }
