@@ -9,6 +9,7 @@ create table booking (
 
     guest_name varchar not null,
     guest_address varchar not null,
+
     representative_name varchar not null,
     representative_email varchar not null,
     representative_address varchar not null,
@@ -33,7 +34,7 @@ create table booking_for_category (
     number_of_rooms int not null,
 
     primary key (booking_number, category_title),
-    foreign key (booking_number) references booking(booking_number),
-    foreign key (category_title) references category(title),
+    foreign key (booking_number) references booking(booking_number) on delete cascade,
+    foreign key (category_title) references category(title) on delete cascade,
     check number_of_rooms > 0
 );
