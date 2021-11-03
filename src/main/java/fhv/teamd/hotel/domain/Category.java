@@ -1,7 +1,10 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.ids.CategoryId;
+
 public class Category {
     private Long id;
+    private CategoryId categoryId;
 
     private String title;
     private String description;
