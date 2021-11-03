@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Booking" table="booking">
+        <id name="id" column="id" type="long"/>
+        <property name="checkInDate" column="check_in" type="java.time.LocalDateTime"/>
+        <property name="checkOutDate" column="check_in" type="java.time.LocalDateTime"/>
+
+    </class>
+</hibernate-mapping>
