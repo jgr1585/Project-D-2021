@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--suppress HtmlUnknownTarget -->
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -48,19 +48,19 @@
             <h6>Select room categories</h6>
             <div class="row">
                 <div class="input-field col s3">
-                    <input id="cat1" type="number" value="0"/>
+                    <input id="cat1" type="number" min="0" value="0"/>
                     <label for="cat1">Category 1</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="cat2" type="number" value="0"/>
+                    <input id="cat2" type="number" min="0" value="0"/>
                     <label for="cat2">Category 2</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="cat3" type="number" value="0"/>
+                    <input id="cat3" type="number" min="0" value="0"/>
                     <label for="cat3">Category 3</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="cat4" type="number" value="0"/>
+                    <input id="cat4" type="number" min="0" value="0"/>
                     <label for="cat4">Category 4</label>
                 </div>
             </div>
