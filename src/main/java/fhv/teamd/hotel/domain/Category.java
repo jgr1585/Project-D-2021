@@ -1,40 +1,31 @@
 package fhv.teamd.hotel.domain;
 
 public class Category {
+    private Long id;
 
     private String title;
     private String description;
-    private double price;
+    private double pricePerNight;
 
     private Category() { }
 
     public Category(String title, String description, double price) {
         this.title = title;
         this.description = description;
-        this.price = price;
+        this.pricePerNight = price;
     }
 
-    public String getTitle() {
-        return title;
+    protected Long id() {
+        return this.id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String title() {
+        return this.title;
     }
 
-    public String getDescription() {
-        return description;
+    public String description() {
+        return this.description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public double pricePerNight() { return this.pricePerNight; }
 }
