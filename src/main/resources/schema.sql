@@ -7,6 +7,13 @@ create table booking (
     check_in datetime not null,
     check_out datetime not null,
 
+    guest_name varchar not null,
+    guest_address varchar not null,
+    representative_name varchar not null,
+    representative_email varchar not null,
+    representative_address varchar not null,
+    representative_phone varchar not null,
+
     primary key (booking_number),
     check check_in < check_out
 );
