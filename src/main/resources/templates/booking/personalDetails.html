@@ -1,47 +1,119 @@
 <!DOCTYPE html>
 
 <!--suppress HtmlUnknownTarget -->
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="UTF-8">
 
-    <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="true" name="HandheldFriendly"/>
+    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 
-    <meta name="description"
-          content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software.">
+    <meta content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software."
+          name="description">
 
     <title>Hotel Management</title>
 
     <!-- ############ import css files ########################################################################################################################### -->
 
-    <link rel="stylesheet" href="/css/materialize.min.css">
-    <link rel="stylesheet" href="/css/global.css">
+    <link href="/css/materialize.min.css" rel="stylesheet">
+    <link href="/css/global.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- ############ import js lib files ######################################################################################################################## -->
 
     <script src="/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 </head>
 
 <body>
+<div class="container">
+    <h3>Room Booking - Personal Details</h3>
 
-<form action="/booking/submitPersonalDetails">
-    <label for="guestName">Guest or Group Name</label><input id="guestName" type="text"/><br>
-    <label for="guestAddr">Guest or Group Address</label><input id="guestAddr" type="text"/><br>
-    <hr>
-    <label for="bookerName">First Name</label><input id="bookerName" type="text"/><br>
-    <label for="bookerAddr">Last Name</label><input id="bookerAddr" type="text"/><br>
-    <label for="bookerPhone">Telephone</label><input id="bookerPhone" type="text"/><br>
-    <label for="payment">Payment Type</label>
-    <select id="payment">
-        <option value="creditCard">Credit Card</option>
-        <option value="asdf">Monopoly Money</option>
-    </select>
-    <br>
+    <div class="row">
+        <form action="/booking/submitPersonalDetails">
+            <!-- guest/group data -->
+            <h6>Guest or Group Data</h6>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="guestName" type="text"/>
+                    <label for="guestName">Guest or Group Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="guestAddress" type="text"/><br>
+                    <label for="guestAddress">Guest or Group Address</label>
+                </div>
+            </div>
 
-    <input type="submit" value="submit"/>
-</form>
+            <!-- booker data -->
+            <h6>Booker Data</h6>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="bookerFirstName" type="text">
+                    <label for="bookerFirstName">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="bookerLastName" type="text">
+                    <label for="bookerLastName">Last Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">location_city</i>
+                    <input id="bookerAddress" type="text"/>
+                    <label for="bookerAddress">Address</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="bookerCity" type="text"/>
+                    <label for="bookerCity">City/Town</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="bookerCountry" type="text"/>
+                    <label for="bookerCountry">Country</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input class="validate" id="bookerPhone" type="tel">
+                    <label for="bookerPhone">Telephone</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">payment</i>
+                    <select id="payment">
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="cash">Cash</option>
+                        <option value="creditCard">Credit Card</option>
+                    </select>
+                    <label for="payment">Payment</label>
+                </div>
+            </div>
+
+            <!-- back/cancel/submit buttons -->
+            <div class="row right-align">
+                <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+                <a class="btn waves-effect waves-light" href="chooseCategories">Back
+                    <i class="material-icons left">navigate_before</i>
+                </a>
+                <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                    <i class="material-icons right">cancel</i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("select").material_select();
+    });
+</script>
 
 </body>
 
