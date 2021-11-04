@@ -14,6 +14,6 @@ public interface CategoryService {
 
     List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until);
 
-    Optional<Boolean> isAvailable(RequestedStayDTO requestedStay);
+    boolean isAvailable(RequestedStayDTO requestedStay);
 
 }
