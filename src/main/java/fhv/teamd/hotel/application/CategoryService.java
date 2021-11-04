@@ -1,6 +1,6 @@
 package fhv.teamd.hotel.application;
 
-import fhv.teamd.hotel.application.dto.AvailableCategoriesDTO;
+import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.RequestedStayDTO;
 
@@ -12,7 +12,7 @@ public interface CategoryService {
 
     List<CategoryDTO> getAll();
 
-    AvailableCategoriesDTO getAvailableCategories(LocalDateTime from, LocalDateTime until);
+    List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until);
 
     Optional<Boolean> isAvailable(RequestedStayDTO requestedStay);
 
