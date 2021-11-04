@@ -9,6 +9,10 @@ public class CategoryDTO {
     private String description;
     private double price;
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public Long id() {
         return this.id;
     }
