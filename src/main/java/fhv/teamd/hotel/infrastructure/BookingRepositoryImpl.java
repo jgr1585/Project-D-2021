@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Repository
-public class BookingRepositoryImpl implements fhv.teamd.hotel.domain.repositories.BookingRepository {
+public class BookingRepositoryImpl {
 
     private final List<Booking> placeholder;
 
@@ -31,12 +30,10 @@ public class BookingRepositoryImpl implements fhv.teamd.hotel.domain.repositorie
         );
     }
 
-    @Override
     public BookingId nextIdentity() {
         return new BookingId(java.util.UUID.randomUUID().toString());
     }
 
-    @Override
     public List<Booking> getAllBookings() {
         return Collections.unmodifiableList(this.placeholder);
     }
@@ -50,7 +47,6 @@ public class BookingRepositoryImpl implements fhv.teamd.hotel.domain.repositorie
         return Optional.empty();
     }
 
-    @Override
     public List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
         List<Booking> list = new ArrayList<>();
         for (Booking b : this.placeholder) {
