@@ -2,8 +2,6 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
-import org.apache.catalina.filters.ExpiresFilter;
-import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +33,16 @@ public class HotelViewController {
         model.addAttribute("form", form);
 
         return new ModelAndView("/booking/chooseCategories");
+    }
+
+    @GetMapping("/booking/bookingOverview")
+    public ModelAndView bookingOverview(
+            @ModelAttribute CustomerDetailsForm form,
+            Model model) {
+
+        model.addAttribute("form", form);
+
+        return new ModelAndView("/booking/bookingOverview");
     }
 
     @GetMapping("/booking/personalDetails")
