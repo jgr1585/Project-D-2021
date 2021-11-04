@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--suppress HtmlUnknownTarget -->
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
     <h3>Room Booking - Personal Details</h3>
 
     <div class="row">
-        <form action="/booking/submitPersonalDetails">
+        <form action="/booking/submitPersonalDetails" method="post" class="col s12" th:object="${form}">
             <!-- guest/group data -->
             <div class="section">
                 <h6>Guest or Group Data</h6>
@@ -46,7 +46,7 @@
                         <p>
                             <label for="companyOrTravelAgency">
                                 <input id="companyOrTravelAgency" name="guestType" onchange="swapForm(this)"
-                                       type="radio" value="companyOrTravelAgency"/>
+                                       type="radio" disabled value="companyOrTravelAgency"/>
                                 <span>Company or Travel Agency</span>
                             </label>
                         </p>
@@ -57,11 +57,11 @@
                 <div class="row" id="privateForm">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="privateGuestFirstName" type="text">
+                        <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}"/>
                         <label for="privateGuestFirstName">First Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="privateGuestLastName" type="text">
+                        <input id="privateGuestLastName" type="text" th:field="*{guestLastName}"/>
                         <label for="privateGuestLastName">Last Name</label>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="row" id="companyOrTravelAgencyForm" style="display: none">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">group</i>
-                        <input id="guestFirstName" type="text">
+                        <input id="guestFirstName" type="text"/>
                         <label for="guestFirstName">Company or Travel Agency Name</label>
                     </div>
                 </div>
@@ -78,8 +78,8 @@
                 <div class="row">
                     <div class="input-field col s4">
                         <i class="material-icons prefix">location_city</i>
-                        <input id="guestAddress" type="text"/>
-                        <label for="guestAddress">Address</label>
+                        <input id="guestStreet" type="text" th:field="*{guestStreet}"/>
+                        <label for="guestStreet">Street</label>
                     </div>
                     <div class="input-field col s4">
                         <input id="guestCity" type="text"/>

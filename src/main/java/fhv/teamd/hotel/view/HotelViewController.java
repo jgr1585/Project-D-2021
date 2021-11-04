@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
+import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
 import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,28 @@ public class HotelViewController {
     }
 
     @GetMapping("/booking/personalDetails")
-    public ModelAndView personalDetails() {
+    public ModelAndView personalDetails(
+            @ModelAttribute CustomerDetailsForm form,
+            Model model) {
+
+        model.addAttribute("form", form);
+
         return new ModelAndView("/booking/personalDetails");
+    }
+
+    @PostMapping("/booking/personalDetails")
+    public void submitCustomerDetails(
+            @ModelAttribute CustomerDetailsForm form,
+            Model model,
+            HttpServletResponse response) throws IOException {
+
+        // to do: read parameters and check for availability here
+
+        // not available or other error: redirect back, with error msg
+        //response.sendRedirect("/booking/chooseCategories");
+
+        // success: redirect to next step
+        response.sendRedirect("index");
     }
 
     @PostMapping("/booking/submitCategories")

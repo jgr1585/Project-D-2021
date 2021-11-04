@@ -123,5 +123,20 @@ public class RepresentativeDetailsDTO {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final RepresentativeDetailsDTO that = (RepresentativeDetailsDTO) o;
+        return Objects.equals(this.id, that.id) && Objects.equals(this.representativeFirstName, that.representativeFirstName) && Objects.equals(this.representativeLastName, that.representativeLastName) && Objects.equals(this.representativeStreet, that.representativeStreet) && Objects.equals(this.representativeZip, that.representativeZip) && Objects.equals(this.representativeCity, that.representativeCity) && Objects.equals(this.representativeCountry, that.representativeCountry) && Objects.equals(this.representativePhone, that.representativePhone) && Objects.equals(this.representativeEmail, that.representativeEmail);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.representativeFirstName, this.representativeLastName, this.representativeStreet, this.representativeZip, this.representativeCity, this.representativeCountry, this.representativePhone, this.representativeEmail);
+    }
 }
