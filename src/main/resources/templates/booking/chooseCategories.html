@@ -50,7 +50,18 @@
             <!-- select choice of categories -->
             <div class="section">
                 <h6>Select room categories</h6>
+
                 <div class="row">
+
+                    <div th:each="entry: ${form.categorySelection.entrySet()}">
+                        <div class="input-field col s3" >
+                            <input th:id="${entry.key}" min="0" type="number" th:value="${entry.value}"/>
+                            <label th:for="${entry.key}" th:min="0" type="number" th:text="${entry.key}">placeholder</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row">
                     <div class="input-field col s3">
                         <i class="material-icons prefix">looks_one</i>
                         <input id="cat1" min="0" type="number" value="0"/>
@@ -71,7 +82,7 @@
                         <input id="cat4" min="0" type="number" value="0"/>
                         <label for="cat4">Category 4</label>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <!-- back/cancel/submit buttons -->

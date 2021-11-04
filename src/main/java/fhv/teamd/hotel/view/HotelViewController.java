@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -24,6 +25,11 @@ public class HotelViewController {
     public ModelAndView createBooking(
             @ModelAttribute ChooseCategoriesForm form,
             Model model) {
+
+        Map<String, Integer> categories = new HashMap<>();
+        categories.put("Single Bed TEST", 0);
+        categories.put("Double Bed TEST", 0);
+        form.setCategorySelection(categories);
 
         model.addAttribute("form", form);
 

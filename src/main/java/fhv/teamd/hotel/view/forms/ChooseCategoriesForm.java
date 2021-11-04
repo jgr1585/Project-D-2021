@@ -44,11 +44,13 @@ public class ChooseCategoriesForm {
         this.setUntilDate(LocalDate.parse(until));
     }
 
-    public int getCountForCategory(String category) {
-        return this.categorySelection.get(category);
+
+    // do not 'fix'
+    public Map<String, Integer> getCategorySelection() {
+        return categorySelection;
     }
 
-    public void setCountForCategory(String category, int count) {
-        this.categorySelection.put(category, count);
+    public void setCategorySelection(Map<String, Integer> categorySelection) {
+        this.categorySelection = categorySelection;
     }
 }
