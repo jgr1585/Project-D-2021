@@ -24,16 +24,24 @@ public class ChooseCategoriesForm {
         return from;
     }
 
-    public void setFrom(LocalDate from) {
+    public void setFromDate(LocalDate from) {
         this.from = from;
+    }
+
+    public void setFrom(String from) {
+        this.setFromDate(LocalDate.parse(from));
     }
 
     public LocalDate getUntil() {
         return until;
     }
 
-    public void setUntil(LocalDate until) {
+    public void setUntilDate (LocalDate until) {
         this.until = until;
+    }
+
+    public void setUntil(String until) {
+        this.setUntilDate(LocalDate.parse(until));
     }
 
     public int getCountForCategory(String category) {
