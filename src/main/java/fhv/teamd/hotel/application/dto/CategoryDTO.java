@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.dto;
 import java.util.Objects;
 
 public class CategoryDTO {
+
     private Long id;
     private String title;
     private String description;

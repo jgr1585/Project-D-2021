@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.dto;
 import java.util.Objects;
 
 public class RepresentativeDetailsDTO {
+
     private Long id;
     private String representativeFirstName;
     private String representativeLastName;
