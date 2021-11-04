@@ -4,28 +4,14 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-
-    <meta content="true" name="HandheldFriendly"/>
-    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-
-    <meta content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software."
-          name="description">
-
     <title>Hotel Management</title>
-
-    <!-- ############ import css files ########################################################################################################################### -->
-
-    <link rel="stylesheet" href="/css/materialize.min.css">
-    <link rel="stylesheet" href="/css/global.css">
-
-    <!-- ############ import js lib files ######################################################################################################################## -->
-
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/js/materialize.min.js"></script>
+    <meta name="page" content="CreateBooking">
+    <placeholder th:replace="fragments/head.html :: head"></placeholder>
 </head>
 
 <body>
+<header th:insert="fragments/header.html :: header"></header>
+
 <div class="container">
     <h3>Room Booking - Personal Details</h3>
 
@@ -82,12 +68,20 @@
                         <label for="guestStreet">Street</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="guestCity" type="text"/>
+                        <input id="guestCity" type="text" th:field="*{guestCity}"/>
                         <label for="guestCity">City/Town</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="guestCountry" type="text"/>
+                        <input id="guestCountry" type="text" th:field="*{guestCountry}"/>
                         <label for="guestCountry">Country</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4">
+                        <i class="material-icons prefix">location_city</i>
+                        <input id="guestZip" type="text" th:field="*{guestZip}"/>
+                        <label for="guestZip">Zip</label>
                     </div>
                 </div>
             </div>
@@ -100,38 +94,48 @@
                 <div class="row">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="representativeFirstName" type="text">
+                        <input id="representativeFirstName" type="text" th:field="*{representativeFirstName}"/>
                         <label for="representativeFirstName">First Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="representativeLastName" type="text">
+                        <input id="representativeLastName" type="text" th:field="*{representativeLastName}"/>
                         <label for="representativeLastName">Last Name</label>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="input-field col s4">
                         <i class="material-icons prefix">location_city</i>
-                        <input id="representativeAddress" type="text"/>
-                        <label for="representativeAddress">Address</label>
+                        <input id="representativeStreet" type="text" th:field="*{representativeStreet}"/>
+                        <label for="representativeStreet">Street</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="representativeCity" type="text"/>
+                        <input id="representativeCity" type="text" th:field="*{representativeCity}"/>
                         <label for="representativeCity">City/Town</label>
                     </div>
                     <div class="input-field col s4">
-                        <input id="representativeCountry" type="text"/>
+                        <input id="representativeCountry" type="text" th:field="*{representativeCountry}"/>
                         <label for="representativeCountry">Country</label>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="input-field col s4">
+                        <i class="material-icons prefix">location_city</i>
+                        <input id="representativeZip" type="text" th:field="*{representativeZip}"/>
+                        <label for="representativeZip">Zip</label>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">email</i>
-                        <input class="validate" id="representativeEmail" type="email">
-                        <label for="representativeEmail">Email</label>
+                        <input class="validate" id="representativeMail" type="email" th:field="*{representativeMail}"/>
+                        <label for="representativeMail">Email</label>
                     </div>
                     <div class="input-field col s6">
                         <i class="material-icons prefix">phone</i>
-                        <input class="validate" id="representativePhone" type="tel">
+                        <input class="validate" id="representativePhone" type="tel" th:field="*{representativePhone}"/>
                         <label for="representativePhone">Phone</label>
                     </div>
                 </div>
@@ -164,20 +168,7 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $("select").formSelect();
-    });
-
-    function swapForm(x) {
-        let radioName = document.getElementsByName(x.name);
-        for (let i = 0; i < radioName.length; i++) {
-            document.getElementById(radioName[i].id.concat("Form")).style.display = "none";
-        }
-        document.getElementById(x.id.concat("Form")).style.display = "initial";
-    }
-</script>
-
+<footer th:insert="fragments/footer.html :: footer"></footer>
 </body>
 
 </html>
