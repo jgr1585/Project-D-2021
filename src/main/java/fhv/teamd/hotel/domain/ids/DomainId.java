@@ -26,4 +26,11 @@ public abstract class DomainId<TEntity> {
     public int hashCode() {
         return Objects.hash(this.id);
     }
+
+    @Override
+    public String toString() {
+        return "DomainId{" +
+                "id='" + id + '\'' +
+                '}';
+    }
 }
