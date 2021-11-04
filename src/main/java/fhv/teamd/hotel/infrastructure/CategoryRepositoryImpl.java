@@ -6,10 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class CategoryRepositoryImpl implements CategoryRepository {
+public class CategoryRepositoryImpl {
 
-    @Override
     public List<Category> getAll() {
         return List.of(
                 new Category("Single Bed", "adsf", 55),
