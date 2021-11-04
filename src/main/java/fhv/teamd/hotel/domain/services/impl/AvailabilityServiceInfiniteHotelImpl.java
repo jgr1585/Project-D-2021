@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.domain.services.impl;
 
+import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.Selection;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
 
@@ -12,4 +13,8 @@ public class AvailabilityServiceInfiniteHotelImpl implements AvailabilityService
         return true;
     }
 
+    @Override
+    public int countAvailable(Category category, LocalDateTime from, LocalDateTime until) {
+        return 999;
+    }
 }
