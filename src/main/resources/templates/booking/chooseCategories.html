@@ -41,7 +41,10 @@
 
                     <div th:each="entry: ${form.categorySelection.entrySet()}">
                         <div class="input-field col s3" >
-                            <input th:id="${entry.key}" min="0" type="number" th:value="${entry.value}"/>
+                            <input th:id="${entry.key}"
+                                   th:value="${entry.value}"
+                                   th:field="*{categorySelection['__${entry.key}__']}"
+                                   min="0" type="number"/>
                             <label th:for="${entry.key}" type="number" th:text="${entry.key}">placeholder</label>
                         </div>
                     </div>
