@@ -22,6 +22,10 @@ public class Category {
         return this.id;
     }
 
+    public CategoryId categoryId() {
+        return this.categoryId;
+    }
+
     public String title() {
         return this.title;
     }
