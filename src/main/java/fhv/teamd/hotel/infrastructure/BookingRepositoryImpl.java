@@ -3,10 +3,12 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.exceptions.HotelFullException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Repository
 public class BookingRepositoryImpl implements fhv.teamd.hotel.domain.repositories.BookingRepository {
 
     private final List<Booking> placeholder;
