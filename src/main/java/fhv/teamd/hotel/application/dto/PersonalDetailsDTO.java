@@ -7,14 +7,14 @@ public class PersonalDetailsDTO {
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
-    private int guestZip;
+    private String guestZip;
     private String guestCity;
     private String guestCountry;
 
     private String representativeFirstName;
     private String representativeLastName;
     private String representativeStreet;
-    private int representativeZip;
+    private String representativeZip;
     private String representativeCity;
     private String representativeCountry;
     private String representativePhone;
@@ -40,7 +40,7 @@ public class PersonalDetailsDTO {
         return this.guestStreet;
     }
 
-    public int guestZip() {
+    public String guestZip() {
         return this.guestZip;
     }
 
@@ -64,7 +64,7 @@ public class PersonalDetailsDTO {
         return this.representativeStreet;
     }
 
-    public int representativeZip() {
+    public String representativeZip() {
         return this.representativeZip;
     }
 
@@ -114,7 +114,7 @@ public class PersonalDetailsDTO {
             return this;
         }
 
-        public Builder withGuestZip(int guestZip) {
+        public Builder withGuestZip(String guestZip) {
             this.instance.guestZip = guestZip;
             return this;
         }
@@ -144,7 +144,7 @@ public class PersonalDetailsDTO {
             return this;
         }
 
-        public Builder withRepresentativeZip(int representativeZip) {
+        public Builder withRepresentativeZip(String representativeZip) {
             this.instance.representativeZip = representativeZip;
             return this;
         }
@@ -169,13 +169,42 @@ public class PersonalDetailsDTO {
             return this;
         }
 
-
         public PersonalDetailsDTO build() {
             Objects.requireNonNull(this.instance.id, "id must be set in PersonalDetailsDTO");
             Objects.requireNonNull(this.instance.guestFirstName, "guestFirstName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.guestLastName, "guestLastName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.guestStreet, "guestStreet must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.guestZip, "guestZip must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.guestCity, "guestCity must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.guestCountry, "guestCountry must be set in PersonalDetailsDTO");
+
+            Objects.requireNonNull(this.instance.representativeFirstName, "representativeFirstName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeLastName, "representativeLastName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeStreet, "representativeStreet must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeZip, "representativeZip must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeCity, "representativeCity must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeCountry, "representativeCountry must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativeEmail, "representativeEmail must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.representativePhone, "representativePhone must be set in PersonalDetailsDTO");
 
             return this.instance;
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final PersonalDetailsDTO that = (PersonalDetailsDTO) o;
+        return Objects.equals(this.id, that.id) && Objects.equals(this.guestFirstName, that.guestFirstName) && Objects.equals(this.guestLastName, that.guestLastName) && Objects.equals(this.guestStreet, that.guestStreet) && Objects.equals(this.guestZip, that.guestZip) && Objects.equals(this.guestCity, that.guestCity) && Objects.equals(this.guestCountry, that.guestCountry) && Objects.equals(this.representativeFirstName, that.representativeFirstName) && Objects.equals(this.representativeLastName, that.representativeLastName) && Objects.equals(this.representativeStreet, that.representativeStreet) && Objects.equals(this.representativeZip, that.representativeZip) && Objects.equals(this.representativeCity, that.representativeCity) && Objects.equals(this.representativeCountry, that.representativeCountry) && Objects.equals(this.representativePhone, that.representativePhone) && Objects.equals(this.representativeEmail, that.representativeEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.guestFirstName, this.guestLastName, this.guestStreet, this.guestZip, this.guestCity, this.guestCountry, this.representativeFirstName, this.representativeLastName, this.representativeStreet, this.representativeZip, this.representativeCity, this.representativeCountry, this.representativePhone, this.representativeEmail);
+    }
 }
