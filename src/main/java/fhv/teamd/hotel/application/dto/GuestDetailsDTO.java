@@ -101,7 +101,20 @@ public class GuestDetailsDTO {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final GuestDetailsDTO that = (GuestDetailsDTO) o;
+        return Objects.equals(this.id, that.id) && Objects.equals(this.guestFirstName, that.guestFirstName) && Objects.equals(this.guestLastName, that.guestLastName) && Objects.equals(this.guestStreet, that.guestStreet) && Objects.equals(this.guestZip, that.guestZip) && Objects.equals(this.guestCity, that.guestCity) && Objects.equals(this.guestCountry, that.guestCountry);
+    }
 
-    // TODO: equals & hashCode
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.guestFirstName, this.guestLastName, this.guestStreet, this.guestZip, this.guestCity, this.guestCountry);
+    }
 }
