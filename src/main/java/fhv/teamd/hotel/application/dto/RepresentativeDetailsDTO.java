@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class RepresentativeDetailsDTO {
 
-    private Long id;
+    private String id;
     private String representativeFirstName;
     private String representativeLastName;
     private String representativeStreet;
@@ -18,7 +18,7 @@ public class RepresentativeDetailsDTO {
         return new Builder();
     }
 
-    public Long id() {
+    public String id() {
         return this.id;
     }
 
@@ -64,7 +64,7 @@ public class RepresentativeDetailsDTO {
             this.instance = new RepresentativeDetailsDTO();
         }
 
-        public Builder withId(Long id) {
+        public Builder withId(String id) {
             this.instance.id = id;
             return this;
         }

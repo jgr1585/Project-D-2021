@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class GuestDetailsDTO {
 
-    private Long id;
+    private String id;
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
@@ -16,7 +16,7 @@ public class GuestDetailsDTO {
         return new Builder();
     }
 
-    public Long id() {
+    public String id() {
         return this.id;
     }
 
@@ -54,7 +54,7 @@ public class GuestDetailsDTO {
             this.instance = new GuestDetailsDTO();
         }
 
-        public Builder withId(Long id) {
+        public Builder withId(String id) {
             this.instance.id = id;
             return this;
         }

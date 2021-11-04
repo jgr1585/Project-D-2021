@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class CategoryDTO {
 
-    private Long id;
+    private String id;
     private String title;
     private String description;
     private double price;
@@ -13,7 +13,7 @@ public class CategoryDTO {
         return new Builder();
     }
 
-    public Long id() {
+    public String id() {
         return this.id;
     }
 
@@ -39,7 +39,7 @@ public class CategoryDTO {
             this.instance = new CategoryDTO();
         }
 
-        public Builder withId(Long id) {
+        public Builder withId(String id) {
             this.instance.id = id;
             return this;
         }
