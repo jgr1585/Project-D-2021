@@ -4,27 +4,13 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-
-    <meta content="true" name="HandheldFriendly"/>
-    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-
-    <meta content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software."
-          name="description">
-
     <title>Hotel Management</title>
-
-    <!-- ############ import css files ########################################################################################################################### -->
-
-    <link href="/css/materialize.min.css" rel="stylesheet">
-    <link href="/css/global.css" rel="stylesheet">
-
-    <!-- ############ import js lib files ######################################################################################################################## -->
-
-    <script src="/js/materialize.min.js"></script>
+    <meta name="page" content="Home">
+    <placeholder th:replace="fragments/head.html :: head"></placeholder>
 </head>
 
 <body>
+<header th:insert="fragments/header.html :: header"></header>
 <div class="container">
     <h3>Room Booking - Choose Categories</h3>
 
@@ -100,6 +86,7 @@
         </form>
     </div>
 </div>
+<footer th:insert="fragments/footer.html :: footer"></footer>
 </body>
 
 </html>
