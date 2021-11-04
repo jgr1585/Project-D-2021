@@ -25,15 +25,15 @@ public class BookableCategoryDTO {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         final BookableCategoryDTO that = (BookableCategoryDTO) o;
-        return numberAvailable == that.numberAvailable && Objects.equals(categoryName, that.categoryName);
+        return this.numberAvailable == that.numberAvailable && Objects.equals(this.categoryName, that.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryName, numberAvailable);
+        return Objects.hash(this.categoryName, this.numberAvailable);
     }
 }
