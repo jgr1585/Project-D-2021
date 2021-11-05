@@ -28,4 +28,9 @@ public class CategoryId {
     public int hashCode() {
         return Objects.hash(this.id);
     }
+
+    @Override
+    public String toString() {
+        return this.id;
+    }
 }
