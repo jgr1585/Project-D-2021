@@ -13,4 +13,7 @@ $(document).ready(function () {
 
     let elems = document.querySelectorAll("select");
     M.FormSelect.init(elems, {});
+
+    elems = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(elems, {});
 });
