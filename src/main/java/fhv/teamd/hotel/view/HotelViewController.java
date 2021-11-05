@@ -47,7 +47,7 @@ public class HotelViewController {
 
         List<Optional<DetailedBookingDTO>> detailedBookings
                 = bookings.stream()
-                .map(bdto -> this.bookingService.getDetails(bdto.id()))
+                .map(dbdto -> this.bookingService.getDetails(dbdto.id()))
                 .collect(Collectors.toUnmodifiableList());
 
 
@@ -76,13 +76,14 @@ public class HotelViewController {
                 defaultStartDate.atStartOfDay(),
                 defaultEndDate.atStartOfDay());
 
-        HashMap<String, ChooseCategoriesForm.CategoryField> categoriesWithValuesInFields = new HashMap<>();
+        // todo spaghetti
+        HashMap<String, ChooseCategoriesForm.CategoryField> defaultValues = new HashMap<>();
         for(BookableCategoryDTO cat: categories) {
-            categoriesWithValuesInFields.put(cat.categoryName(),
+            defaultValues.put(cat.categoryName(),
                     new ChooseCategoriesForm.CategoryField(cat, 0)); // 0 by default
         }
 
-        form.setCategorySelection(categoriesWithValuesInFields);
+        form.setCategorySelection(defaultValues);
 
         model.addAttribute("form", form);
 
@@ -95,10 +96,20 @@ public class HotelViewController {
             Model model,
             HttpServletResponse response) throws IOException {
 
-        // to do: read parameters and check for availability here
+        // todo: check availability and other validations
+        // todo: validation should be elsewhere
 
-        // not available or other error: redirect back, with error msg
-        //response.sendRedirect("/booking/chooseCategories");
+        LocalDate from = form.getFrom();
+        LocalDate until = form.getUntil();
+
+        boolean valid = from.isBefore(LocalDate.now()) || from.isAfter(until);
+        
+
+
+        if(!valid) {
+            // todo add an error message obj to the model
+            response.sendRedirect("/booking/chooseCategories");
+        }
 
         // success: redirect to next step
         response.sendRedirect("/booking/personalDetails");

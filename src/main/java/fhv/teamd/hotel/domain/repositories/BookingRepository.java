@@ -17,4 +17,6 @@ public interface BookingRepository {
 
     List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
 
+    void put(Booking booking);
+
 }

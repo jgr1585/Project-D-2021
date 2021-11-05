@@ -1,16 +1,17 @@
 package fhv.teamd.hotel.application;
 
-import fhv.teamd.hotel.application.dto.BookingDTO;
-import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
-import fhv.teamd.hotel.application.dto.GuestDetailsDTO;
-import fhv.teamd.hotel.application.dto.RequestedStayDTO;
+import fhv.teamd.hotel.application.dto.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface BookingService {
 
-    void book(RequestedStayDTO requestedStay, GuestDetailsDTO customerData);
+    void book(Map<String, Integer> categoryIdsAndAmounts,
+              LocalDateTime from, LocalDateTime until,
+              GuestDetailsDTO guest, RepresentativeDetailsDTO representative);
 
     List<BookingDTO> getAll();
 

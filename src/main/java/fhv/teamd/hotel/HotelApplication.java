@@ -1,9 +1,5 @@
 package fhv.teamd.hotel;
 
-import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import fhv.teamd.hotel.domain.repositories.CategoryRepository;
-import fhv.teamd.hotel.infrastructure.HibernateBookingRepository;
-import fhv.teamd.hotel.infrastructure.HibernateCategoryRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,13 +25,4 @@ public class HotelApplication {
 		return this.entityManagerFactory.createEntityManager();
 	}
 
-	@Bean
-	public CategoryRepository categoryRepository() {
-		return new HibernateCategoryRepository();
-	}
-
-	@Bean
-	public BookingRepository bookingRepository() {
-		return new HibernateBookingRepository();
-	}
 }

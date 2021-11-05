@@ -2,11 +2,10 @@ package fhv.teamd.hotel.application;
 
 import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
-import fhv.teamd.hotel.application.dto.RequestedStayDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 public interface CategoryService {
 
@@ -14,6 +13,7 @@ public interface CategoryService {
 
     List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until);
 
-    boolean isAvailable(RequestedStayDTO requestedStay);
+    boolean isAvailable(Map<String, Integer> categoryIdsAndAmounts,
+                        LocalDateTime from, LocalDateTime until);
 
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class ChooseCategoriesForm {
 
+    // todo entspaghettifizierung
+
     public static class CategoryField {
         private BookableCategoryDTO category;
         private int selectedAmount;
