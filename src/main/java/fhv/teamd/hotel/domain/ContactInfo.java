@@ -16,6 +16,11 @@ public class ContactInfo {
         this.phone = phone;
     }
 
+    private ContactInfo() {
+        // hibernate
+        this(null, null, null, null);
+    }
+
     public String name() {
         return this.name;
     }

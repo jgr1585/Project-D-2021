@@ -12,6 +12,11 @@ public class GuestInfo {
         this.address = address;
     }
 
+    private GuestInfo() {
+        // hibernate
+        this(null, null);
+    }
+
     public String name() {
         return this.name;
     }

@@ -1,6 +1,9 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.dto.BookingDTO;
+import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class HotelViewController {
@@ -20,10 +26,23 @@ public class HotelViewController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private BookingService bookingService;
+
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
         model.addAttribute("categories", this.categoryService.getAll());
+
+
+        List<BookingDTO> bookings = this.bookingService.getAll();
+        model.addAttribute("bookings", bookings);
+
+        List<Optional<DetailedBookingDTO>> detailedBookings
+                = bookings.stream()
+                .map(bdto -> this.bookingService.getDetails(bdto.id()))
+                .collect(Collectors.toUnmodifiableList());
+
 
         return new ModelAndView("index");
     }
