@@ -5,7 +5,9 @@
 
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Category" table="category" >
-        <id name="id" column="id" type="long"/>
+        <id name="id" column="id" type="long">
+            <generator class="native"/>
+        </id>
 
         <component name="categoryId" class="fhv.teamd.hotel.domain.ids.CategoryId">
             <property name="id" column="category_id" type="string"/>

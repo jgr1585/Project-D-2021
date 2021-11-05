@@ -81,7 +81,9 @@ public class BookingServiceImpl implements BookingService {
                 rep.phone()
         );
 
-        Booking newBooking = new Booking(from, until, categoriesAndAmounts, contactInfo, guestInfo);
+        Booking newBooking = new Booking(
+                this.bookingRepository.nextIdentity(),
+                from, until, categoriesAndAmounts, contactInfo, guestInfo);
 
         this.bookingRepository.put(newBooking);
     }

@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class GuestDetailsDTO {
 
-    private String id;
     private String firstName;
     private String lastName;
     private String street;
@@ -14,10 +13,6 @@ public class GuestDetailsDTO {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    public String id() {
-        return this.id;
     }
 
     public String firstName() {
@@ -54,11 +49,6 @@ public class GuestDetailsDTO {
             this.instance = new GuestDetailsDTO();
         }
 
-        public Builder withId(String id) {
-            this.instance.id = id;
-            return this;
-        }
-
         public Builder withFirstName(String firstName) {
             this.instance.firstName = firstName;
             return this;
@@ -90,7 +80,6 @@ public class GuestDetailsDTO {
         }
 
         public GuestDetailsDTO build() {
-            Objects.requireNonNull(this.instance.id, "id must be set in PersonalDetailsDTO");
             Objects.requireNonNull(this.instance.firstName, "firstName must be set in PersonalDetailsDTO");
             Objects.requireNonNull(this.instance.lastName, "lastName must be set in PersonalDetailsDTO");
             Objects.requireNonNull(this.instance.street, "street must be set in PersonalDetailsDTO");
@@ -111,11 +100,11 @@ public class GuestDetailsDTO {
             return false;
         }
         final GuestDetailsDTO that = (GuestDetailsDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.firstName, that.firstName) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.street, that.street) && Objects.equals(this.zip, that.zip) && Objects.equals(this.city, that.city) && Objects.equals(this.country, that.country);
+        return Objects.equals(this.firstName, that.firstName) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.street, that.street) && Objects.equals(this.zip, that.zip) && Objects.equals(this.city, that.city) && Objects.equals(this.country, that.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.firstName, this.lastName, this.street, this.zip, this.city, this.country);
+        return Objects.hash(this.firstName, this.lastName, this.street, this.zip, this.city, this.country);
     }
 }

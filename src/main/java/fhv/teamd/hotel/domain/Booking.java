@@ -24,10 +24,10 @@ public class Booking {
 
     private Booking() { }
 
-    public Booking(LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
+    public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
                    ContactInfo contact, GuestInfo guest) {
 
-
+        this.bookingId = id;
         this.checkInDate = checkIn;
         this.checkOutDate = checkOut;
         this.categories = categories;

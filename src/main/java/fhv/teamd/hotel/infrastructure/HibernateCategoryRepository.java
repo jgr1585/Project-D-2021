@@ -27,12 +27,18 @@ public class HibernateCategoryRepository implements CategoryRepository {
 
     @Override
     public Optional<Category> findById(CategoryId id) {
+        // todo
 
+/*
         TypedQuery<Category> q = this.entityManager
                 .createQuery("select c from Category c where c.categoryId=:id", Category.class);
 
         q.setParameter("id", id);
 
         return Optional.ofNullable(q.getSingleResult());
+ */
+
+        return this.getAll().stream().filter(c -> c.categoryId().equals(id)).findFirst();
+
     }
 }
