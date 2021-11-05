@@ -1,37 +1,37 @@
 /* fallback */
 @font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src:url('/fonts/materialize-webfont.woff2') format('woff2');
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/materialize-webfont.woff2') format('woff2');
 }
 
 .material-icons {
-  font-family: 'Material Icons', serif;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
+    font-family: 'Material Icons', serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
 }
 
 .float-left {
-  float: left;
-  left: 0;
-  margin-left: 0;
-  margin-right: auto;
+    float: left;
+    left: 0;
+    margin-left: 0;
+    margin-right: auto;
 }
 
 .float-right {
-  float: right;
-  right: 0;
-  margin-left: auto;
-  margin-right: 0;
+    float: right;
+    right: 0;
+    margin-left: auto;
+    margin-right: 0;
 }
