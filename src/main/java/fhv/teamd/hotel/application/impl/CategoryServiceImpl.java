@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categories.stream().map(cat ->
             CategoryDTO.builder()
-                    .withId("FIXME")
+                    .withId(cat.categoryId() == null ? null : cat.categoryId().toString())
                     .withTitle(cat.title())
                     .withDescription(cat.description())
                     .withPrice(cat.pricePerNight())

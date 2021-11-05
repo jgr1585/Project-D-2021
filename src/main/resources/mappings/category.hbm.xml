@@ -7,9 +7,9 @@
     <class name="fhv.teamd.hotel.domain.Category" table="category" >
         <id name="id" column="id" type="long"/>
 
-        <!--<component name="categoryId" class="fhv.teamd.hotel.domain.ids.CategoryId">
-            <property name="id" column="booking_id" type="string"/>
-        </component>-->
+        <component name="categoryId" class="fhv.teamd.hotel.domain.ids.CategoryId">
+            <property name="id" column="category_id" type="string"/>
+        </component>
 
         <property name="title" column="title" type="string"/>
         <property name="description" column="description" type="string"/>
