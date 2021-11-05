@@ -1,7 +1,9 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +17,14 @@ import java.util.Map;
 @Controller
 public class HotelViewController {
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/")
-    public ModelAndView index() {
+    public ModelAndView index(Model model) {
+
+        model.addAttribute("categories", this.categoryService.getAll());
+
         return new ModelAndView("index");
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Booking" table="booking" >
+        <id name="id" column="id" type="long"/>
+
+        <component name="bookingId" class="BookingId">
+            <property name="id" column="booking_id" type="string"/>
+        </component>
+
+        <property name="checkInDate" column="check_in" type="java.time.LocalDateTime"/>
+        <property name="checkOutDate" column="check_in" type="java.time.LocalDateTime"/>
+
+        <component name="guest" class="GuestInfo">
+            <property name="name" column="guest_name" type="string"/>
+            <property name="address" column="guest_address" type="string"/>
+        </component>
+
+        <component name="contact" class="ContactInfo">
+            <property name="name" column="representative_name" type="string"/>
+            <property name="email" column="representative_email" type="string"/>
+            <property name="address" column="representative_address" type="string"/>
+            <property name="phone" column="representative_phone" type="string"/>
+        </component>
+
+
+    </class>
+</hibernate-mapping>

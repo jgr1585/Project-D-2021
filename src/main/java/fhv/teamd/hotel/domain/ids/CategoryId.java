@@ -6,4 +6,8 @@ public class CategoryId extends DomainId<Category> {
     public CategoryId(String id) {
         super(id);
     }
+
+    public CategoryId() {
+        super("TEST123-UNINITIALIZED");
+    }
 }

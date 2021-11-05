@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Category" table="category" >
+        <id name="id" column="id" type="long"/>
+
+        <!--<component name="categoryId" class="fhv.teamd.hotel.domain.ids.CategoryId">
+            <property name="id" column="booking_id" type="string"/>
+        </component>-->
+
+        <property name="title" column="title" type="string"/>
+        <property name="description" column="description" type="string"/>
+        <property name="pricePerNight" column="price_per_night" type="double"/>
+    </class>
+</hibernate-mapping>
