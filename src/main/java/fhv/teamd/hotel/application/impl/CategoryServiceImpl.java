@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-    // @Autowired
-    // private AvailabilityService availabilityService;
 
     @Override
     public List<CategoryDTO> getAll() {
@@ -42,9 +40,13 @@ public class CategoryServiceImpl implements CategoryService {
         List<BookableCategoryDTO> result = new ArrayList<>();
 
         for(Category cat: this.categoryRepository.getAll()) {
-            //int count = this.availabilityService.countAvailable(cat, from, until);
+
+            // todo magic number xd
             int count = 99;
-            result.add(new BookableCategoryDTO(cat.title(), count));
+            result.add(new BookableCategoryDTO(
+                    cat.categoryId().toString(),
+                    cat.title(),
+                    count));
         }
 
         return result;
