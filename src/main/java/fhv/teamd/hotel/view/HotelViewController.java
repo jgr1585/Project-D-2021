@@ -57,7 +57,10 @@ public class HotelViewController {
             @ModelAttribute CustomerDetailsForm form,
             Model model) {
 
+        List<BookingDTO> bookings = this.bookingService.getAll();
+
         model.addAttribute("form", form);
+        model.addAttribute("bookings", bookings);
 
         return new ModelAndView("/booking/bookingOverview");
     }
@@ -137,7 +140,7 @@ public class HotelViewController {
 
 
 
-
+    // old 2-part form
 
 
 
