@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
 import org.springframework.stereotype.Controller;
@@ -35,16 +36,6 @@ public class HotelViewController {
         return new ModelAndView("/booking/chooseCategories");
     }
 
-    @GetMapping("/booking/bookingOverview")
-    public ModelAndView bookingOverview(
-            @ModelAttribute CustomerDetailsForm form,
-            Model model) {
-
-        model.addAttribute("form", form);
-
-        return new ModelAndView("/booking/bookingOverview");
-    }
-
     @GetMapping("/booking/personalDetails")
     public ModelAndView personalDetails(
             @ModelAttribute CustomerDetailsForm form,
@@ -53,6 +44,16 @@ public class HotelViewController {
         model.addAttribute("form", form);
 
         return new ModelAndView("/booking/personalDetails");
+    }
+
+    @GetMapping("/booking/bookingOverview")
+    public ModelAndView bookingList(
+            @ModelAttribute BookingListForm form,
+            Model model) {
+
+        model.addAttribute("form", form);
+
+        return new ModelAndView("/booking/bookingOverview");
     }
 
     @PostMapping("/booking/personalDetails")

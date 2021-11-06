@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Hotel Management</title>
     <meta name="page" content="BookingOverview">
@@ -12,17 +14,17 @@
         <h3>Room Booking - Overview</h3>
 
         <!-- select date (from, until) -->
-        <div class="section">
+        <div class="section" th:object="${form}">
             <h6>Select period</h6>
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">date_range</i>
-                    <input id="from" type="date" disabled/>
+                    <input id="from" type="date" disabled th:field="*{fromDate}"/>
                     <label for="from">From</label>
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">date_range</i>
-                    <input id="until" type="date" disabled/>
+                    <input id="until" type="date" disabled th:field="*{untilDate}"/>
                     <label for="until">Until</label>
                 </div>
             </div>
@@ -35,34 +37,226 @@
                 <div class="collapsible-header">
                     <div class="float-left valign-wrapper">First</div>
                     <div class="float-right valign-wrapper">
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">assignment_turned_in</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">edit</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">delete_forever</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Check-In"><i class="medium material-icons green-text">assignment_turned_in</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Edit"><i class="medium material-icons blue-grey-text">edit</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Delete"><i class="medium material-icons red-text">delete_forever</i></a>
                     </div>
                 </div>
-                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                <div class="collapsible-body">
+                    <!-- representative data -->
+                    <div class="section">
+                        <h6>Representative Data</h6>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="representativeFirstName" type="text" disabled/>
+                                <label for="representativeFirstName">First Name</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="representativeLastName" type="text" disabled/>
+                                <label for="representativeLastName">Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeStreet" type="text" disabled/>
+                                <label for="representativeStreet">Street</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCity" type="text" disabled/>
+                                <label for="representativeCity">City/Town</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCountry" type="text" disabled/>
+                                <label for="representativeCountry">Country</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeZip" type="text" disabled/>
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input class="validate" id="representativeMail" type="email" disabled/>
+                                <label for="representativeMail">Email</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input class="validate" id="representativePhone" type="tel" disabled/>
+                                <label for="representativePhone">Phone</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">payment</i>
+                                <select id="payment" disabled>
+                                    <option disabled selected value="">Select payment method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="creditCard">Credit Card</option>
+                                </select>
+                                <label for="payment">Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
             <li>
                 <div class="collapsible-header">
                     <div class="float-left valign-wrapper">Second</div>
                     <div class="float-right valign-wrapper">
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">assignment_turned_in</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">edit</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">delete_forever</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Check-In"><i class="medium material-icons green-text">assignment_turned_in</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Edit"><i class="medium material-icons blue-grey-text">edit</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Delete"><i class="medium material-icons red-text">delete_forever</i></a>
                     </div>
                 </div>
-                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                <div class="collapsible-body">
+                    <!-- representative data -->
+                    <div class="section">
+                        <h6>Representative Data</h6>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="representativeFirstName" type="text" disabled/>
+                                <label for="representativeFirstName">First Name</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="representativeLastName" type="text" disabled/>
+                                <label for="representativeLastName">Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeStreet" type="text" disabled/>
+                                <label for="representativeStreet">Street</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCity" type="text" disabled/>
+                                <label for="representativeCity">City/Town</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCountry" type="text" disabled/>
+                                <label for="representativeCountry">Country</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeZip" type="text" disabled/>
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input class="validate" id="representativeMail" type="email" disabled/>
+                                <label for="representativeMail">Email</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input class="validate" id="representativePhone" type="tel" disabled/>
+                                <label for="representativePhone">Phone</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">payment</i>
+                                <select id="payment" disabled>
+                                    <option disabled selected value="">Select payment method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="creditCard">Credit Card</option>
+                                </select>
+                                <label for="payment">Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
             <li>
                 <div class="collapsible-header">
                     <div class="float-left valign-wrapper">Third</div>
                     <div class="float-right valign-wrapper">
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">assignment_turned_in</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">edit</i></a>
-                        <a class="waves-effect waves-light center-align"><i class="medium material-icons">delete_forever</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Check-In"><i class="medium material-icons green-text">assignment_turned_in</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Edit"><i class="medium material-icons blue-grey-text">edit</i></a>
+                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Delete"><i class="medium material-icons red-text">delete_forever</i></a>
                     </div>
                 </div>
-                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                <div class="collapsible-body">
+                    <!-- representative data -->
+                    <div class="section">
+                        <h6>Representative Data</h6>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="representativeFirstName" type="text" disabled/>
+                                <label for="representativeFirstName">First Name</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="representativeLastName" type="text" disabled/>
+                                <label for="representativeLastName">Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeStreet" type="text" disabled/>
+                                <label for="representativeStreet">Street</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCity" type="text" disabled/>
+                                <label for="representativeCity">City/Town</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCountry" type="text" disabled/>
+                                <label for="representativeCountry">Country</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeZip" type="text" disabled/>
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input class="validate" id="representativeMail" type="email" disabled/>
+                                <label for="representativeMail">Email</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input class="validate" id="representativePhone" type="tel" disabled/>
+                                <label for="representativePhone">Phone</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">payment</i>
+                                <select id="payment" disabled>
+                                    <option disabled selected value="">Select payment method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="creditCard">Credit Card</option>
+                                </select>
+                                <label for="payment">Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
 
