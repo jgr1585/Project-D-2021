@@ -36,16 +36,6 @@ public class HotelViewController {
         return new ModelAndView("/booking/chooseCategories");
     }
 
-    @GetMapping("/booking/bookingOverview")
-    public ModelAndView bookingOverview(
-            @ModelAttribute CustomerDetailsForm form,
-            Model model) {
-
-        model.addAttribute("form", form);
-
-        return new ModelAndView("/booking/bookingOverview");
-    }
-
     @GetMapping("/booking/personalDetails")
     public ModelAndView personalDetails(
             @ModelAttribute CustomerDetailsForm form,
