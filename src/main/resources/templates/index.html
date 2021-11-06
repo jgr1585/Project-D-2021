@@ -6,18 +6,18 @@
 <head>
     <title>Home</title>
     <meta name="page" content="Home">
-    <placeholder th:replace="fragments/head.html :: head"></placeholder>
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
 </head>
 
 <body>
 
-<header th:insert="fragments/header.html :: header"></header>
+<header th:insert="fragments/main.html :: header"></header>
 
 <a href="/booking/experimental">
     <button class="btn">Create Booking (Test Version)</button>
 </a>
 
-<footer th:insert="fragments/footer.html :: footer"></footer>
+<footer th:insert="fragments/main.html :: footer"></footer>
 
 </body>
 </html>
