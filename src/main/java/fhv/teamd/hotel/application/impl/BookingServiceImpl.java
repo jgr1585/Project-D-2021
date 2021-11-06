@@ -67,7 +67,9 @@ public class BookingServiceImpl implements BookingService {
 
             Category cat = result.get();
 
-            categoriesAndAmounts.put(cat, count);
+            if(count > 0) {
+                categoriesAndAmounts.put(cat, count);
+            }
         }
 
         GuestInfo guestInfo = new GuestInfo(

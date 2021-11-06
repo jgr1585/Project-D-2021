@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
@@ -55,6 +56,12 @@ public class HibernateBookingRepository implements BookingRepository {
 
     @Override
     public void put(Booking booking) {
+
+        EntityTransaction t = this.entityManager.getTransaction();
+        t.begin();
+
         this.entityManager.persist(booking);
+
+        t.commit();
     }
 }
