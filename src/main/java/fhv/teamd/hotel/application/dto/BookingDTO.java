@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.application.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,13 +19,14 @@ public final class BookingDTO {
         return this.id;
     }
 
-    public LocalDateTime fromDate() {
-        return this.fromDate;
+    public LocalDate fromDate() {
+        return this.fromDate.toLocalDate();
     }
 
-    public LocalDateTime untilDate() {
-        return this.untilDate;
+    public LocalDate untilDate() {
+        return this.untilDate.toLocalDate();
     }
+
 
     public String representativeName() {
         return this.representativeName;

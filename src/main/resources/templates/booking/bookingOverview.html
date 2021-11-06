@@ -53,19 +53,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="collapsible-body">
+                <div class="collapsible-body" th:object="${booking}">
                     <!-- representative data -->
                     <div class="section">
-                        <h6>Representative Data</h6>
                         <div class="row">
                             <div class="input-field col s6">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input id="representativeFirstName" type="text" disabled/>
-                                <label for="representativeFirstName">First Name</label>
+                                <i class="material-icons prefix">date_range</i>
+                                <input th:id="*{id() + '-fromDate'}" type="date" th:value="*{fromDate()}" disabled/>
+                                <label th:for="*{id() + '-fromDate'}">From</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="representativeLastName" type="text" disabled/>
-                                <label for="representativeLastName">Last Name</label>
+                                <i class="material-icons prefix">date_range</i>
+                                <input th:id="*{id() + '-toDate'}" type="date" th:value="*{untilDate()}" disabled/>
+                                <label th:for="*{id() + '-fromDate'}">Until</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representativeName()}" disabled/>
+                                <label th:for="*{id() + '-name'}">Name</label>
                             </div>
                         </div>
 
@@ -117,9 +125,6 @@
                             </div>
                         </div>
                     </div>
-                    <span th:text="${booking.fromDate}"></span>
-                    <span>&nbsp;until&nbsp;</span>
-                    <span th:text="${booking.untilDate}"></span>
                 </div>
             </li>
         </ul>
