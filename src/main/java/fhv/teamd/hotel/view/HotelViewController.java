@@ -1,9 +1,9 @@
 package fhv.teamd.hotel.view;
 
-import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
 import fhv.teamd.hotel.view.forms.ExperimentalBookingForm;
@@ -53,24 +53,9 @@ public class HotelViewController {
         return new ModelAndView("index");
     }
 
-    @GetMapping("/booking/chooseCategories")
-    public ModelAndView createBooking(
-            @ModelAttribute ChooseCategoriesForm form,
-            Model model) {
-
-        Map<String, Integer> categories = new HashMap<>();
-        categories.put("Single Bed TEST", 0);
-        categories.put("Double Bed TEST", 0);
-        form.setCategorySelection(categories);
-
-        model.addAttribute("form", form);
-
-        return new ModelAndView("/booking/chooseCategories");
-    }
-
     @GetMapping("/booking/bookingOverview")
     public ModelAndView bookingOverview(
-            @ModelAttribute CustomerDetailsForm form,
+            @ModelAttribute BookingListForm form,
             Model model) {
 
         List<BookingDTO> bookings = this.bookingService.getAll();

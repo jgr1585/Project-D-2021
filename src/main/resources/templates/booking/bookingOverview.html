@@ -43,6 +43,7 @@
                         <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Check-In"><i class="medium material-icons green-text">assignment_turned_in</i></a>
                         <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Edit"><i class="medium material-icons blue-grey-text">edit</i></a>
                         <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Delete"><i class="medium material-icons red-text">delete_forever</i></a>
+                    </div>
                 </div>
                 <div class="collapsible-body">
                     <!-- representative data -->
@@ -108,18 +109,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <div class="float-left valign-wrapper">Second</div>
-                    <div class="float-right valign-wrapper">
-                        <a class="btn-floating waves-effect waves-light red center-align"><i class="small material-icons no-margin">assignment_turned_in</i></a>
-                        <a class="btn-floating waves-effect waves-light red center-align"><i class="small material-icons no-margin">edit</i></a>
-                        <a class="btn-floating waves-effect waves-light red center-align"><i class="small material-icons no-margin">delete_forever</i></a>
-                    </div>
-                </div>
-                <div class="collapsible-body">
                     <span th:text="${booking.fromDate}"></span>
                     <span>&nbsp;until&nbsp;</span>
                     <span th:text="${booking.untilDate}"></span>
