@@ -14,6 +14,11 @@ $(document).ready(function () {
     let elems = document.querySelectorAll("select");
     M.FormSelect.init(elems, {});
 
+    //Enable Collapsible
     elems = document.querySelectorAll('.collapsible');
     M.Collapsible.init(elems, {});
+
+    //Enable Tooltips
+    elems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(elems, {});
 });
