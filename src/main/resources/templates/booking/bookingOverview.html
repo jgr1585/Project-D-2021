@@ -33,16 +33,24 @@
         <!-- Booking Table -->
 
         <ul class="collapsible popout">
-            <li th:each="booking: ${bookings}">
+            <li th:each="booking: ${bookings}" th:id="${booking.id() + '-li'}">
                 <div class="collapsible-header">
                     <div class="float-left valign-wrapper">
                         <span>Booking by&nbsp;</span>
-                        <span th:text="${booking.representativeName()}"/>
+                        <p th:text="${booking.representativeName()}"></p>
                     </div>
+
+                    <!--Right Table Buttons -->
                     <div class="float-right valign-wrapper">
-                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Check-In"><i class="medium material-icons green-text">assignment_turned_in</i></a>
-                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Edit"><i class="medium material-icons blue-grey-text">edit</i></a>
-                        <a class="waves-effect waves-light center-align tooltipped" data-position="top" data-tooltip="Delete"><i class="medium material-icons red-text">delete_forever</i></a>
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Check-In" onclick="alert('Checked-in');">
+                            <i class="material-icons green-text no-margin center-context">assignment_turned_in</i>
+                        </div>
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Edit" onclick="alert('Edit');">
+                            <i class="material-icons blue-grey-text no-margin center-context">edit</i>
+                        </div>
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Delete" onclick="alert('Delete');">
+                            <i class="material-icons red-text no-margin center-context">delete_forever</i>
+                        </div>
                     </div>
                 </div>
                 <div class="collapsible-body">

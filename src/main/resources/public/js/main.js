@@ -11,14 +11,18 @@ $(document).ready(function () {
     let page = document.querySelector('meta[name="page"]').content;
     $("#nav" + page).addClass("active");
 
-    let elems = document.querySelectorAll("select");
+    let elems = $('select');
     M.FormSelect.init(elems, {});
 
     //Enable Collapsible
-    elems = document.querySelectorAll('.collapsible');
+    elems = $('.collapsible');
     M.Collapsible.init(elems, {});
 
     //Enable Tooltips
-    elems = document.querySelectorAll('.tooltipped');
+    elems = $('.tooltipped');
     M.Tooltip.init(elems, {});
+
+    //Disable click Event for Underlying Element in Class: disableClickThrow
+    $('.disableClickThrow').click( (event) => event.stopPropagation());
 });
+
