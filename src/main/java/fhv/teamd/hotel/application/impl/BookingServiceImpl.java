@@ -58,7 +58,11 @@ public class BookingServiceImpl implements BookingService {
         for(Map.Entry<String, Integer> entry: categoryIdsAndAmounts.entrySet()) {
 
             String id = entry.getKey();
-            int count = entry.getValue();
+            Integer count = entry.getValue();
+
+            if(count == null || count == 0) {
+                continue;
+            }
 
             Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
             if(result.isEmpty()) {
@@ -67,9 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
             Category cat = result.get();
 
-            if(count > 0) {
-                categoriesAndAmounts.put(cat, count);
-            }
+            categoriesAndAmounts.put(cat, count);
         }
 
         GuestInfo guestInfo = new GuestInfo(

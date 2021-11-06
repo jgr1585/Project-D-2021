@@ -4,47 +4,18 @@ import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ExperimentalBookingForm {
-
-    public static class CategoryField {
-        private BookableCategoryDTO category;
-        private int selectedAmount;
-
-        public CategoryField(BookableCategoryDTO category, int selectedAmount) {
-            this.category = category;
-            this.selectedAmount = selectedAmount;
-        }
-
-        public CategoryField() {
-            // thymeleaf
-        }
-
-        public BookableCategoryDTO getCategory() {
-            return this.category;
-        }
-
-        public void setCategory(BookableCategoryDTO category) {
-            this.category = category;
-        }
-
-        public int getSelectedAmount() {
-            return this.selectedAmount;
-        }
-
-        public void setSelectedAmount(int selectedAmount) {
-            this.selectedAmount = selectedAmount;
-        }
-    }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate from;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate until;
 
-    // need a string index (-> id) for thymeleaf.
-    private Map<String, ExperimentalBookingForm.CategoryField> categorySelection;
+    // keys are categoryIds, values are amount of category
+    private Map<String, Integer> categorySelection;
 
 
     private String guestFirstName;
@@ -66,6 +37,7 @@ public class ExperimentalBookingForm {
 
     public ExperimentalBookingForm() {
         // required by spring/thymeleaf
+        this.categorySelection = new HashMap<>();
     }
 
     public LocalDate getFromDate() {
@@ -101,11 +73,11 @@ public class ExperimentalBookingForm {
     }
 
 
-    public Map<String, ExperimentalBookingForm.CategoryField> getCategorySelection() {
+    public Map<String, Integer> getCategorySelection() {
         return this.categorySelection;
     }
 
-    public void setCategorySelection(Map<String, ExperimentalBookingForm.CategoryField> categorySelection) {
+    public void setCategorySelection(Map<String, Integer> categorySelection) {
         this.categorySelection = categorySelection;
     }
 

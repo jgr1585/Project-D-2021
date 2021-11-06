@@ -40,19 +40,20 @@
                 <h6>Select room categories</h6>
 
                 <div class="row">
-                    <div th:each="entry: *{categorySelection.entrySet()}">
+                    <div th:each="category: ${categories}">
                         <div class="input-field col s3" >
 
                             <!-- mama mia spaghetti -->
 
-                            <input th:id="${entry.key}"
-                                   th:value="${entry.value.selectedAmount}"
-                                   th:field="*{categorySelection['__${entry.key}__'].selectedAmount}"
+                            <input th:id="${category.categoryId()}"
+                                   th:field="*{categorySelection['__${category.categoryId()}__']}"
                                    min="0"
-                                   th:max="${entry.value.category.numberAvailable()}"
+                                   th:max="${category.numberAvailable()}"
                                    type="number"/>
 
-                            <label th:for="${entry.key}" type="number" th:text="${entry.value.category.categoryName()}">
+                            <label th:for="${category.categoryId()}"
+                                   type="number"
+                                   th:text="${category.categoryName()}">
                                 placeholder
                             </label>
                         </div>

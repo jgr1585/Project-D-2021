@@ -69,16 +69,8 @@ public class HotelViewController {
                 defaultStartDate.atStartOfDay(),
                 defaultEndDate.atStartOfDay());
 
-        // todo spaghetti
-        HashMap<String, ExperimentalBookingForm.CategoryField> categoryMap = new HashMap<>();
-        for(BookableCategoryDTO cat: categories) {
-            categoryMap.put(cat.categoryId(),
-                    new ExperimentalBookingForm.CategoryField(cat, 0)); // 0 by default
-        }
-
-        form.setCategorySelection(categoryMap);
-
         model.addAttribute("form", form);
+        model.addAttribute("categories", categories);
 
         return new ModelAndView("/booking/experimentalBookingForm");
     }
@@ -89,16 +81,8 @@ public class HotelViewController {
             Model model,
             HttpServletResponse response) throws IOException {
 
-        HashMap<String, Integer> categoriesToBook = new HashMap<>();
-
-        for(Map.Entry<String, ExperimentalBookingForm.CategoryField> entry: form.getCategorySelection().entrySet()) {
-            categoriesToBook.put(
-                    entry.getKey(),
-                    entry.getValue().getSelectedAmount());
-        }
-
         this.bookingService.book(
-                categoriesToBook,
+                form.getCategorySelection(),
                 form.getFromDate().atStartOfDay(),
                 form.getUntilDate().atStartOfDay(),
                 GuestDetailsDTO.builder()
