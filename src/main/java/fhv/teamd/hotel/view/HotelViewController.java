@@ -38,18 +38,6 @@ public class HotelViewController {
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
-        model.addAttribute("categories", this.categoryService.getAll());
-
-
-        List<BookingDTO> bookings = this.bookingService.getAll();
-        model.addAttribute("bookings", bookings);
-
-        List<Optional<DetailedBookingDTO>> detailedBookings
-                = bookings.stream()
-                .map(dbdto -> this.bookingService.getDetails(dbdto.id()))
-                .collect(Collectors.toUnmodifiableList());
-
-
         return new ModelAndView("index");
     }
 
@@ -101,14 +89,16 @@ public class HotelViewController {
             Model model,
             HttpServletResponse response) throws IOException {
 
-        HashMap<String, Integer> gottverdammt = new HashMap<>();
+        HashMap<String, Integer> categoriesToBook = new HashMap<>();
 
         for(Map.Entry<String, ExperimentalBookingForm.CategoryField> entry: form.getCategorySelection().entrySet()) {
-            gottverdammt.put(entry.getKey(), entry.getValue().getSelectedAmount());
+            categoriesToBook.put(
+                    entry.getKey(),
+                    entry.getValue().getSelectedAmount());
         }
 
         this.bookingService.book(
-                gottverdammt,
+                categoriesToBook,
                 form.getFromDate().atStartOfDay(),
                 form.getUntilDate().atStartOfDay(),
                 GuestDetailsDTO.builder()
