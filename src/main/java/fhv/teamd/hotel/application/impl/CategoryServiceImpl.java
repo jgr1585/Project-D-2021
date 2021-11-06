@@ -3,28 +3,31 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
-import fhv.teamd.hotel.application.dto.RequestedStayDTO;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
-import fhv.teamd.hotel.domain.services.AvailabilityService;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private AvailabilityService availabilityService;
 
     @Override
     public List<CategoryDTO> getAll() {
-        return categoryRepository.getAll().stream().map(cat ->
+
+        List<Category> categories = this.categoryRepository.getAll();
+
+        return categories.stream().map(cat ->
             CategoryDTO.builder()
-                    .withId(cat.categoryId().toString())
+                    .withId(cat.categoryId() == null ? null : cat.categoryId().toString())
                     .withTitle(cat.title())
                     .withDescription(cat.description())
                     .withPrice(cat.pricePerNight())
@@ -36,17 +39,24 @@ public class CategoryServiceImpl implements CategoryService {
     public List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
         List<BookableCategoryDTO> result = new ArrayList<>();
 
-        for(Category cat: categoryRepository.getAll()) {
-            int count = availabilityService.countAvailable(cat, from, until);
-            result.add(new BookableCategoryDTO(cat.title(), count));
+        for(Category cat: this.categoryRepository.getAll()) {
+
+            // todo magic number xd
+            int count = 99;
+            result.add(new BookableCategoryDTO(
+                    cat.categoryId().toString(),
+                    cat.title(),
+                    count));
         }
 
         return result;
     }
 
     @Override
-    public boolean isAvailable(RequestedStayDTO requestedStay) {
-        // todo implement using availabilityService.checkAvailability()
-        return true;
+    public boolean isAvailable(Map<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until) {
+
+        // todo implement (out of sprint 1 scope)
+
+        throw new NotYetImplementedException();
     }
 }

@@ -16,7 +16,9 @@
     <h3>Room Booking - Choose Categories</h3>
 
     <div class="row">
-        <form action="/booking/submitCategories" method="post" class="col s12" th:object="${form}">
+        <form action="/booking/chooseCategories" method="post" class="col s12"
+              th:object="${categoriesForm}">
+
             <!-- select date (from, until) -->
             <div class="section">
                 <h6>Select period</h6>
@@ -39,40 +41,24 @@
                 <h6>Select room categories</h6>
 
                 <div class="row">
-
-                    <div th:each="entry: ${form.categorySelection.entrySet()}">
+                    <div th:each="entry: *{categorySelection.entrySet()}">
                         <div class="input-field col s3" >
+
+                            <!-- mama mia spaghetti -->
+
                             <input th:id="${entry.key}"
-                                   th:value="${entry.value}"
-                                   th:field="*{categorySelection['__${entry.key}__']}"
-                                   min="0" type="number"/>
-                            <label th:for="${entry.key}" type="number" th:text="${entry.key}">placeholder</label>
+                                   th:value="${entry.value.selectedAmount}"
+                                   th:field="*{categorySelection['__${entry.key}__'].selectedAmount}"
+                                   min="0"
+                                   th:max="${entry.value.category.numberAvailable()}"
+                                   type="number"/>
+
+                            <label th:for="${entry.key}" type="number" th:text="${entry.value.category.categoryName()}">
+                                placeholder
+                            </label>
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="row">
-                    <div class="input-field col s3">
-                        <i class="material-icons prefix">looks_one</i>
-                        <input id="cat1" min="0" type="number" value="0"/>
-                        <label for="cat1">Category 1</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <i class="material-icons prefix">looks_two</i>
-                        <input id="cat2" min="0" type="number" value="0"/>
-                        <label for="cat2">Category 2</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <i class="material-icons prefix">looks_3</i>
-                        <input id="cat3" min="0" type="number" value="0"/>
-                        <label for="cat3">Category 3</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <i class="material-icons prefix">looks_4</i>
-                        <input id="cat4" min="0" type="number" value="0"/>
-                        <label for="cat4">Category 4</label>
-                    </div>
-                </div>-->
             </div>
 
             <!-- back/cancel/submit buttons -->

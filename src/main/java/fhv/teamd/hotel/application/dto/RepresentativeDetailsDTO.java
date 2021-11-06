@@ -4,54 +4,49 @@ import java.util.Objects;
 
 public class RepresentativeDetailsDTO {
 
-    private String id;
-    private String representativeFirstName;
-    private String representativeLastName;
-    private String representativeStreet;
-    private String representativeZip;
-    private String representativeCity;
-    private String representativeCountry;
-    private String representativePhone;
-    private String representativeEmail;
+    private String firstName;
+    private String lastName;
+    private String street;
+    private String zip;
+    private String city;
+    private String country;
+    private String phone;
+    private String email;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public String id() {
-        return this.id;
+    public String firstName() {
+        return this.firstName;
     }
 
-    public String representativeFirstName() {
-        return this.representativeFirstName;
+    public String lastName() {
+        return this.lastName;
     }
 
-    public String representativeLastName() {
-        return this.representativeLastName;
+    public String street() {
+        return this.street;
     }
 
-    public String representativeStreet() {
-        return this.representativeStreet;
+    public String zip() {
+        return this.zip;
     }
 
-    public String representativeZip() {
-        return this.representativeZip;
+    public String city() {
+        return this.city;
     }
 
-    public String representativeCity() {
-        return this.representativeCity;
+    public String country() {
+        return this.country;
     }
 
-    public String representativeCountry() {
-        return this.representativeCountry;
+    public String phone() {
+        return this.phone;
     }
 
-    public String representativePhone() {
-        return this.representativePhone;
-    }
-
-    public String representativeEmail() {
-        return this.representativeEmail;
+    public String email() {
+        return this.email;
     }
 
     private RepresentativeDetailsDTO() {
@@ -64,61 +59,55 @@ public class RepresentativeDetailsDTO {
             this.instance = new RepresentativeDetailsDTO();
         }
 
-        public Builder withId(String id) {
-            this.instance.id = id;
+        public Builder withFirstName(String firstName) {
+            this.instance.firstName = firstName;
             return this;
         }
 
-        public Builder withRepresentativeFirstName(String representativeFirstName) {
-            this.instance.representativeFirstName = representativeFirstName;
+        public Builder withLastName(String lastName) {
+            this.instance.lastName = lastName;
             return this;
         }
 
-        public Builder withRepresentativeLastName(String representativeLastName) {
-            this.instance.representativeLastName = representativeLastName;
+        public Builder withStreet(String street) {
+            this.instance.street = street;
             return this;
         }
 
-        public Builder withRepresentativeStreet(String representativeStreet) {
-            this.instance.representativeStreet = representativeStreet;
+        public Builder withZip(String zip) {
+            this.instance.zip = zip;
             return this;
         }
 
-        public Builder withRepresentativeZip(String representativeZip) {
-            this.instance.representativeZip = representativeZip;
+        public Builder withCity(String city) {
+            this.instance.city = city;
             return this;
         }
 
-        public Builder withRepresentativeCity(String representativeCity) {
-            this.instance.representativeCity = representativeCity;
+        public Builder withCountry(String country) {
+            this.instance.country = country;
             return this;
         }
 
-        public Builder withRepresentativeCountry(String guestCountry) {
-            this.instance.representativeCountry = guestCountry;
+        public Builder withEmail(String email) {
+            this.instance.email = email;
             return this;
         }
 
-        public Builder withRepresentativeEmail(String representativeEmail) {
-            this.instance.representativeEmail = representativeEmail;
-            return this;
-        }
-
-        public Builder withRepresentativePhone(String representativePhone) {
-            this.instance.representativePhone = representativePhone;
+        public Builder withPhone(String phone) {
+            this.instance.phone = phone;
             return this;
         }
 
         public RepresentativeDetailsDTO build() {
-            Objects.requireNonNull(this.instance.id, "id must be set in RepresentativeDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeFirstName, "representativeFirstName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeLastName, "representativeLastName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeStreet, "representativeStreet must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeZip, "representativeZip must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeCity, "representativeCity must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeCountry, "representativeCountry must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativeEmail, "representativeEmail must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.representativePhone, "representativePhone must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.firstName, "firstName must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.lastName, "lastName must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.street, "street must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.zip, "zip must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.city, "city must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.country, "country must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.email, "email must be set in RepresentativeDetailsDTO");
+            Objects.requireNonNull(this.instance.phone, "phone must be set in RepresentativeDetailsDTO");
 
             return this.instance;
         }
@@ -133,11 +122,11 @@ public class RepresentativeDetailsDTO {
             return false;
         }
         final RepresentativeDetailsDTO that = (RepresentativeDetailsDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.representativeFirstName, that.representativeFirstName) && Objects.equals(this.representativeLastName, that.representativeLastName) && Objects.equals(this.representativeStreet, that.representativeStreet) && Objects.equals(this.representativeZip, that.representativeZip) && Objects.equals(this.representativeCity, that.representativeCity) && Objects.equals(this.representativeCountry, that.representativeCountry) && Objects.equals(this.representativePhone, that.representativePhone) && Objects.equals(this.representativeEmail, that.representativeEmail);
+        return Objects.equals(this.firstName, that.firstName) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.street, that.street) && Objects.equals(this.zip, that.zip) && Objects.equals(this.city, that.city) && Objects.equals(this.country, that.country) && Objects.equals(this.phone, that.phone) && Objects.equals(this.email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.representativeFirstName, this.representativeLastName, this.representativeStreet, this.representativeZip, this.representativeCity, this.representativeCountry, this.representativePhone, this.representativeEmail);
+        return Objects.hash(this.firstName, this.lastName, this.street, this.zip, this.city, this.country, this.phone, this.email);
     }
 }

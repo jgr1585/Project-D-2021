@@ -4,44 +4,39 @@ import java.util.Objects;
 
 public class GuestDetailsDTO {
 
-    private String id;
-    private String guestFirstName;
-    private String guestLastName;
-    private String guestStreet;
-    private String guestZip;
-    private String guestCity;
-    private String guestCountry;
+    private String firstName;
+    private String lastName;
+    private String street;
+    private String zip;
+    private String city;
+    private String country;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public String id() {
-        return this.id;
+    public String firstName() {
+        return this.firstName;
     }
 
-    public String guestFirstName() {
-        return this.guestFirstName;
+    public String lastName() {
+        return this.lastName;
     }
 
-    public String guestLastName() {
-        return this.guestLastName;
+    public String street() {
+        return this.street;
     }
 
-    public String guestStreet() {
-        return this.guestStreet;
+    public String zip() {
+        return this.zip;
     }
 
-    public String guestZip() {
-        return this.guestZip;
+    public String city() {
+        return this.city;
     }
 
-    public String guestCity() {
-        return this.guestCity;
-    }
-
-    public String guestCountry() {
-        return this.guestCountry;
+    public String country() {
+        return this.country;
     }
 
     private GuestDetailsDTO() {
@@ -54,49 +49,43 @@ public class GuestDetailsDTO {
             this.instance = new GuestDetailsDTO();
         }
 
-        public Builder withId(String id) {
-            this.instance.id = id;
+        public Builder withFirstName(String firstName) {
+            this.instance.firstName = firstName;
             return this;
         }
 
-        public Builder withGuestFirstName(String guestFirstName) {
-            this.instance.guestFirstName = guestFirstName;
+        public Builder withLastName(String lastName) {
+            this.instance.lastName = lastName;
             return this;
         }
 
-        public Builder withGuestLastName(String guestLastName) {
-            this.instance.guestLastName = guestLastName;
+        public Builder withStreet(String street) {
+            this.instance.street = street;
             return this;
         }
 
-        public Builder withGuestStreet(String guestStreet) {
-            this.instance.guestStreet = guestStreet;
+        public Builder withZip(String zip) {
+            this.instance.zip = zip;
             return this;
         }
 
-        public Builder withGuestZip(String guestZip) {
-            this.instance.guestZip = guestZip;
+        public Builder withCity(String city) {
+            this.instance.city = city;
             return this;
         }
 
-        public Builder withGuestCity(String guestCity) {
-            this.instance.guestCity = guestCity;
-            return this;
-        }
-
-        public Builder withGuestCountry(String guestCountry) {
-            this.instance.guestCountry = guestCountry;
+        public Builder withCountry(String country) {
+            this.instance.country = country;
             return this;
         }
 
         public GuestDetailsDTO build() {
-            Objects.requireNonNull(this.instance.id, "id must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestFirstName, "guestFirstName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestLastName, "guestLastName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestStreet, "guestStreet must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestZip, "guestZip must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestCity, "guestCity must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.guestCountry, "guestCountry must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.firstName, "firstName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.lastName, "lastName must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.street, "street must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.zip, "zip must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.city, "city must be set in PersonalDetailsDTO");
+            Objects.requireNonNull(this.instance.country, "country must be set in PersonalDetailsDTO");
 
             return this.instance;
         }
@@ -111,11 +100,11 @@ public class GuestDetailsDTO {
             return false;
         }
         final GuestDetailsDTO that = (GuestDetailsDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.guestFirstName, that.guestFirstName) && Objects.equals(this.guestLastName, that.guestLastName) && Objects.equals(this.guestStreet, that.guestStreet) && Objects.equals(this.guestZip, that.guestZip) && Objects.equals(this.guestCity, that.guestCity) && Objects.equals(this.guestCountry, that.guestCountry);
+        return Objects.equals(this.firstName, that.firstName) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.street, that.street) && Objects.equals(this.zip, that.zip) && Objects.equals(this.city, that.city) && Objects.equals(this.country, that.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.guestFirstName, this.guestLastName, this.guestStreet, this.guestZip, this.guestCity, this.guestCountry);
+        return Objects.hash(this.firstName, this.lastName, this.street, this.zip, this.city, this.country);
     }
 }

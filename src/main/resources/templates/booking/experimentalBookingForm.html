@@ -13,10 +13,55 @@
 <header th:insert="fragments/header.html :: header"></header>
 
 <div class="container">
-    <h3>Room Booking - Personal Details</h3>
+    <h3>TEST Room Booking TEST</h3>
 
     <div class="row">
-        <form action="/booking/submitPersonalDetails" method="post" class="col s12" th:object="${customerDetailsForm}">
+        <form action="/booking/experimental" method="post" class="col s12" th:object="${form}">
+
+            <!-- select date (from, until) -->
+            <div class="section">
+                <h6>Select period</h6>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i>
+                        <input id="from" type="date" th:field="*{from}" th:value="*{from}" />
+                        <label for="from">From</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i>
+                        <input id="until" type="date" th:field="*{until}" th:value="*{until}"/>
+                        <label for="until">Until</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- select choice of categories -->
+            <div class="section">
+                <h6>Select room categories</h6>
+
+                <div class="row">
+                    <div th:each="entry: *{categorySelection.entrySet()}">
+                        <div class="input-field col s3" >
+
+                            <!-- mama mia spaghetti -->
+
+                            <input th:id="${entry.key}"
+                                   th:value="${entry.value.selectedAmount}"
+                                   th:field="*{categorySelection['__${entry.key}__'].selectedAmount}"
+                                   min="0"
+                                   th:max="${entry.value.category.numberAvailable()}"
+                                   type="number"/>
+
+                            <label th:for="${entry.key}" type="number" th:text="${entry.value.category.categoryName()}">
+                                placeholder
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
             <!-- guest/group data -->
             <div class="section">
                 <h6>Guest or Group Data</h6>
@@ -38,51 +83,50 @@
                         </p>
                     </div>
                 </div>
+            </div>
 
-                <!-- form for private guest -->
-                <div class="row" id="privateForm">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}"/>
-                        <label for="privateGuestFirstName">First Name</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="privateGuestLastName" type="text" th:field="*{guestLastName}"/>
-                        <label for="privateGuestLastName">Last Name</label>
-                    </div>
+            <!-- form for private guest -->
+            <div class="row" id="privateForm">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}"/>
+                    <label for="privateGuestFirstName">First Name</label>
                 </div>
+                <div class="input-field col s6">
+                    <input id="privateGuestLastName" type="text" th:field="*{guestLastName}"/>
+                    <label for="privateGuestLastName">Last Name</label>
+                </div>
+            </div>
 
                 <!-- form for company/travel agency -->
-                <div class="row" id="companyOrTravelAgencyForm" style="display: none">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">group</i>
-                        <input id="guestFirstName" type="text"/>
-                        <label for="guestFirstName">Company or Travel Agency Name</label>
-                    </div>
+            <div class="row" id="companyOrTravelAgencyForm" style="display: none">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">group</i>
+                    <input id="guestFirstName" type="text"/>
+                    <label for="guestFirstName">Company or Travel Agency Name</label>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="input-field col s4">
-                        <i class="material-icons prefix">location_city</i>
-                        <input id="guestStreet" type="text" th:field="*{guestStreet}"/>
-                        <label for="guestStreet">Street</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="guestCity" type="text" th:field="*{guestCity}"/>
-                        <label for="guestCity">City/Town</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="guestCountry" type="text" th:field="*{guestCountry}"/>
-                        <label for="guestCountry">Country</label>
-                    </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">location_city</i>
+                    <input id="guestStreet" type="text" th:field="*{guestStreet}"/>
+                    <label for="guestStreet">Street</label>
                 </div>
-
-                <div class="row">
-                    <div class="input-field col s4">
-                        <i class="material-icons prefix">location_city</i>
-                        <input id="guestZip" type="text" th:field="*{guestZip}"/>
-                        <label for="guestZip">Zip</label>
-                    </div>
+                <div class="input-field col s4">
+                    <input id="guestCity" type="text" th:field="*{guestCity}"/>
+                    <label for="guestCity">City/Town</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="guestCountry" type="text" th:field="*{guestCountry}"/>
+                    <label for="guestCountry">Country</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">location_city</i>
+                    <input id="guestZip" type="text" th:field="*{guestZip}"/>
+                    <label for="guestZip">Zip</label>
                 </div>
             </div>
 
@@ -167,7 +211,6 @@
         </form>
     </div>
 </div>
-
 <footer th:insert="fragments/footer.html :: footer"></footer>
 </body>
 

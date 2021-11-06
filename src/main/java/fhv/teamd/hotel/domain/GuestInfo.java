@@ -12,12 +12,17 @@ public class GuestInfo {
         this.address = address;
     }
 
-    public String getName() {
-        return name;
+    private GuestInfo() {
+        // hibernate
+        this(null, null);
     }
 
-    public String getAddress() {
-        return address;
+    public String name() {
+        return this.name;
+    }
+
+    public String address() {
+        return this.address;
     }
 
     @Override
@@ -25,15 +30,15 @@ public class GuestInfo {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         final GuestInfo guestInfo = (GuestInfo) o;
-        return Objects.equals(name, guestInfo.name) && Objects.equals(address, guestInfo.address);
+        return Objects.equals(this.name, guestInfo.name) && Objects.equals(this.address, guestInfo.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address);
+        return Objects.hash(this.name, this.address);
     }
 }
