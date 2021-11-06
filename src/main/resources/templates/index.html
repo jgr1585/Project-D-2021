@@ -13,16 +13,11 @@
 
 <header th:insert="fragments/header.html :: header"></header>
 
-<a href="/booking/chooseCategories">
-    <button>create booking</button>
+<a href="/booking/experimental">
+    <button class="btn">Create Booking (Test Version)</button>
 </a>
 
 <footer th:insert="fragments/footer.html :: footer"></footer>
-
-<div th:each="cat: ${categories}">
-    <div th:text="*{cat.title()}"/>
-    <br>
-</div>
 
 </body>
 </html>
