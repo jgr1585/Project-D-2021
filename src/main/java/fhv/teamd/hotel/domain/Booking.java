@@ -1,13 +1,11 @@
 package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.services.AvailabilityService;
-import fhv.teamd.hotel.domain.exceptions.HotelFullException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public class Booking {
 
@@ -22,7 +20,9 @@ public class Booking {
     private ContactInfo contact;
     private GuestInfo guest;
 
-    private Booking() { }
+    private Booking() {
+        // hibernate
+    }
 
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
                    ContactInfo contact, GuestInfo guest) {
@@ -61,5 +61,22 @@ public class Booking {
 
     public GuestInfo guestInfo() {
         return this.guest;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final Booking booking = (Booking) o;
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.bookingId, booking.bookingId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.bookingId);
     }
 }

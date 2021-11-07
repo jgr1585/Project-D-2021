@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
-    <class name="fhv.teamd.hotel.domain.Booking" table="booking" >
+    <class name="fhv.teamd.hotel.domain.Booking" table="booking">
         <id name="id" column="id" type="long">
             <generator class="native"/>
         </id>
@@ -28,8 +28,9 @@
             <property name="phone" column="representative_phone" type="string"/>
         </component>
 
+        <!-- Map<Category, Integer> categories; -->
         <map name="categories" table="booking_for_category">
-            <key column="booking_id" />
+            <key column="booking_id"/>
             <index-many-to-many class="fhv.teamd.hotel.domain.Category" column="category_id"/>
             <element column="number_of_rooms" type="int"/>
         </map>

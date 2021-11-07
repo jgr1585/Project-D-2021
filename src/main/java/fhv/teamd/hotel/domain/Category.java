@@ -2,6 +2,8 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.ids.CategoryId;
 
+import java.util.Objects;
+
 public class Category {
     private Long id;
     private CategoryId categoryId;
@@ -10,7 +12,9 @@ public class Category {
     private String description;
     private double pricePerNight;
 
-    private Category() { }
+    private Category() {
+        // hibernate
+    }
 
     public Category(String title, String description, double price) {
         this.title = title;
@@ -34,5 +38,24 @@ public class Category {
         return this.description;
     }
 
-    public double pricePerNight() { return this.pricePerNight; }
+    public double pricePerNight() {
+        return this.pricePerNight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final Category category = (Category) o;
+        return Objects.equals(this.id, category.id) && Objects.equals(this.categoryId, category.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.categoryId);
+    }
 }
