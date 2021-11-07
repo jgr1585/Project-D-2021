@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<header th:insert="fragments/main.html :: header"></header>
+<header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
     <h3>Room Booking - Personal Details</h3>
@@ -168,7 +168,7 @@
     </div>
 </div>
 
-<footer th:insert="fragments/main.html :: footer"></footer>
+<footer th:replace="fragments/main.html :: footer"></footer>
 </body>
 
 </html>
