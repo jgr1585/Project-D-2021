@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<!--suppress HtmlRequiredTitleElement -->
 <head>
     <meta charset="UTF-8">
 </head>
@@ -36,7 +38,7 @@
                        th:field="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
                        th:value="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
                        min="0" th:max="${category.numberAvailable}"
-                       value="0" type="number"/>
+                       type="number"/>
 
                 <label th:for="${category.categoryId}" type="number" th:text="${category.categoryName}">
                     placeholder
