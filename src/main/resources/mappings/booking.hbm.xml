@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Booking" table="booking">
+        <id name="id" column="id" type="long">
+            <generator class="native"/>
+        </id>
+
+        <component name="bookingId" class="fhv.teamd.hotel.domain.ids.BookingId">
+            <property name="id" column="booking_id" type="string"/>
+        </component>
+
+        <property name="checkInDate" column="check_in" type="java.time.LocalDateTime"/>
+        <property name="checkOutDate" column="check_out" type="java.time.LocalDateTime"/>
+
+        <component name="guest" class="fhv.teamd.hotel.domain.GuestInfo">
+            <property name="name" column="guest_name" type="string"/>
+            <property name="address" column="guest_address" type="string"/>
+        </component>
+
+        <component name="contact" class="fhv.teamd.hotel.domain.ContactInfo">
+            <property name="name" column="representative_name" type="string"/>
+            <property name="email" column="representative_email" type="string"/>
+            <property name="address" column="representative_address" type="string"/>
+            <property name="phone" column="representative_phone" type="string"/>
+        </component>
+
+        <!-- Map<Category, Integer> categories; -->
+        <map name="categories" table="booking_for_category">
+            <key column="booking_id"/>
+            <index-many-to-many class="fhv.teamd.hotel.domain.Category" column="category_id"/>
+            <element column="number_of_rooms" type="int"/>
+        </map>
+
+    </class>
+</hibernate-mapping>

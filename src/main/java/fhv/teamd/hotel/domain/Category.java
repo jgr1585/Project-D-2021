@@ -1,40 +1,61 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.ids.CategoryId;
+
+import java.util.Objects;
+
 public class Category {
+    private Long id;
+    private CategoryId categoryId;
 
     private String title;
     private String description;
-    private double price;
+    private double pricePerNight;
 
-    private Category() { }
+    private Category() {
+        // hibernate
+    }
 
     public Category(String title, String description, double price) {
         this.title = title;
         this.description = description;
-        this.price = price;
+        this.pricePerNight = price;
     }
 
-    public String getTitle() {
-        return title;
+    protected Long id() {
+        return this.id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public CategoryId categoryId() {
+        return this.categoryId;
     }
 
-    public String getDescription() {
-        return description;
+    public String title() {
+        return this.title;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String description() {
+        return this.description;
     }
 
-    public double getPrice() {
-        return price;
+    public double pricePerNight() {
+        return this.pricePerNight;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final Category category = (Category) o;
+        return Objects.equals(this.id, category.id) && Objects.equals(this.categoryId, category.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.categoryId);
     }
 }

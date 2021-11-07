@@ -16,20 +16,25 @@ public class ContactInfo {
         this.phone = phone;
     }
 
-    public String getName() {
-        return name;
+    private ContactInfo() {
+        // hibernate
+        this(null, null, null, null);
     }
 
-    public String getEmail() {
-        return email;
+    public String name() {
+        return this.name;
     }
 
-    public String getAddress() {
-        return address;
+    public String email() {
+        return this.email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String address() {
+        return this.address;
+    }
+
+    public String phone() {
+        return this.phone;
     }
 
     @Override
@@ -37,15 +42,15 @@ public class ContactInfo {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
         final ContactInfo that = (ContactInfo) o;
-        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone);
+        return Objects.equals(this.name, that.name) && Objects.equals(this.email, that.email) && Objects.equals(this.address, that.address) && Objects.equals(this.phone, that.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, address, phone);
+        return Objects.hash(this.name, this.email, this.address, this.phone);
     }
 }

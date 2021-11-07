@@ -1,66 +1,82 @@
 package fhv.teamd.hotel.domain;
 
-import java.security.InvalidParameterException;
+import fhv.teamd.hotel.domain.ids.BookingId;
+
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
 
 public class Booking {
-    private String bookingNumber;
+
+    private Long id;
+    private BookingId bookingId;
+
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
 
-    private List<Category> categories;
+    private Map<Category, Integer> categories;
 
     private ContactInfo contact;
     private GuestInfo guest;
 
-    private Booking() { }
-
-    public String getBookingNumber() {
-        return this.bookingNumber;
+    private Booking() {
+        // hibernate
     }
 
-    public LocalDateTime getCheckInDate() {
+    public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
+                   ContactInfo contact, GuestInfo guest) {
+
+        this.bookingId = id;
+        this.checkInDate = checkIn;
+        this.checkOutDate = checkOut;
+        this.categories = categories;
+        this.contact = contact;
+        this.guest = guest;
+    }
+
+    protected Long id() {
+        return this.id;
+    }
+
+    public BookingId bookingId() {
+        return this.bookingId;
+    }
+
+    public LocalDateTime checkInDate() {
         return this.checkInDate;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        if(checkInDate.isAfter(this.checkOutDate)) {
-            throw new InvalidParameterException();
-        }
-
-        this.checkInDate = checkInDate;
-    }
-
-    public LocalDateTime getCheckOutDate() {
+    public LocalDateTime checkOutDate() {
         return this.checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        if(checkOutDate.isBefore(this.checkInDate)) {
-            throw new InvalidParameterException();
-        }
-
-        this.checkOutDate = checkOutDate;
+    public Map<Category, Integer> selection() {
+        return Collections.unmodifiableMap(this.categories);
     }
 
-    public List<Category> getCategories() {
-        return this.categories;
-    }
-
-    public ContactInfo getContact() {
+    public ContactInfo contactInfo() {
         return this.contact;
     }
 
-    public void setContact(ContactInfo contact) {
-        this.contact = contact;
-    }
-
-    public GuestInfo getGuest() {
+    public GuestInfo guestInfo() {
         return this.guest;
     }
 
-    public void setGuest(GuestInfo guest) {
-        this.guest = guest;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final Booking booking = (Booking) o;
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.bookingId, booking.bookingId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.bookingId);
     }
 }

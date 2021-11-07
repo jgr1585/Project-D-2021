@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 
 <!--suppress HtmlUnknownTarget -->
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-
-    <meta name="description"
-          content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software.">
-
     <title>Hotel Management</title>
-
-    <!-- ############ import css files ########################################################################################################################### -->
-
-    <link rel="stylesheet" href="/css/materialize.min.css">
-    <link rel="stylesheet" href="/css/global.css">
-
-    <!-- ############ import js lib files ######################################################################################################################## -->
-
-    <script src="/js/materialize.min.js"></script>
+    <meta name="page" content="CreateBooking">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
 </head>
 
 <body>
+<header th:replace="fragments/main.html :: header"></header>
 
-<form action="/booking/submitPersonalDetails">
-    <label for="guestName">Guest or Group Name</label><input id="guestName" type="text"/><br>
-    <label for="guestAddr">Guest or Group Address</label><input id="guestAddr" type="text"/><br>
-    <hr>
-    <label for="bookerName">First Name</label><input id="bookerName" type="text"/><br>
-    <label for="bookerAddr">Last Name</label><input id="bookerAddr" type="text"/><br>
-    <label for="bookerPhone">Telephone</label><input id="bookerPhone" type="text"/><br>
-    <label for="payment">Payment Type</label>
-    <select id="payment">
-        <option value="creditCard">Credit Card</option>
-        <option value="asdf">Monopoly Money</option>
-    </select>
-    <br>
+<div class="container">
+    <h3>Room Booking - Personal Details</h3>
 
-    <input type="submit" value="submit"/>
-</form>
+    <div class="row">
+        <form action="/booking/submitPersonalDetails" method="post" class="col s12">
 
+            <!-- hidden fields for multipage form -->
+            <input id="from" type="hidden"
+                   th:field="${chooseCategoriesForm.from}"
+                   th:value="${chooseCategoriesForm.from}"
+                   required/>
+            <input id="until" type="hidden"
+                   th:field="${chooseCategoriesForm.until}"
+                   th:value="${chooseCategoriesForm.until}"
+                   required/>
+            <div th:each="entry: ${chooseCategoriesForm.categorySelection}">
+                <input th:id="*{entry.key}"
+                       th:field="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                       th:value="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                       type="hidden"/>
+            </div>
+
+            <div th:replace="fragments/forms :: personalDetails"></div>
+
+            <!-- back/cancel/submit buttons -->
+            <div class="row right-align">
+                <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Submit
+                    <i class="material-icons right">done</i>
+                </button>
+                <a class="btn waves-effect waves-light" href="chooseCategories">Back
+                    <i class="material-icons left">navigate_before</i>
+                </a>
+                <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                    <i class="material-icons right">cancel</i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="fragments/main.html :: footer"></footer>
 </body>
 
 </html>

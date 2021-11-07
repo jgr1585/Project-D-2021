@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="BookingOverview">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+</head>
+<body>
+    <header th:replace="fragments/main.html :: header"></header>
+
+    <div class="container">
+        <h3>Room Booking - Overview</h3>
+
+        <!-- select date (from, until) -->
+        <div class="section" th:object="${form}">
+            <h6>Select period</h6>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">date_range</i>
+                    <input id="from" type="date" disabled th:field="*{fromDate}"/>
+                    <label for="from">From</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">date_range</i>
+                    <input id="until" type="date" disabled th:field="*{untilDate}"/>
+                    <label for="until">Until</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Table -->
+
+        <ul class="collapsible popout">
+            <li th:each="booking: ${bookings}" th:id="${booking.id() + '-li'}">
+                <div class="collapsible-header">
+                    <div class="float-left valign-wrapper">
+                        <span>Booking by&nbsp;</span>
+                        <p th:text="${booking.representativeName()}"></p>
+                    </div>
+
+                    <!--Right Table Buttons -->
+                    <div class="float-right valign-wrapper">
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Check-In" onclick="alert('Checked-in');">
+                            <i class="material-icons green-text no-margin center-context">assignment_turned_in</i>
+                        </div>
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Edit" onclick="alert('Edit');">
+                            <i class="material-icons blue-grey-text no-margin center-context">edit</i>
+                        </div>
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Delete" onclick="alert('Delete');">
+                            <i class="material-icons red-text no-margin center-context">delete_forever</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapsible-body" th:object="${booking}">
+                    <!-- representative data -->
+                    <div class="section">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input th:id="*{id() + '-fromDate'}" type="date" th:value="*{fromDate()}" disabled/>
+                                <label th:for="*{id() + '-fromDate'}">From</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input th:id="*{id() + '-toDate'}" type="date" th:value="*{untilDate()}" disabled/>
+                                <label th:for="*{id() + '-fromDate'}">Until</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representativeName()}" disabled/>
+                                <label th:for="*{id() + '-name'}">Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeStreet" type="text" disabled/>
+                                <label for="representativeStreet">Street</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCity" type="text" disabled/>
+                                <label for="representativeCity">City/Town</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="representativeCountry" type="text" disabled/>
+                                <label for="representativeCountry">Country</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeZip" type="text" disabled/>
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input class="validate" id="representativeMail" type="email" disabled/>
+                                <label for="representativeMail">Email</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input class="validate" id="representativePhone" type="tel" disabled/>
+                                <label for="representativePhone">Phone</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">payment</i>
+                                <select id="payment" disabled>
+                                    <option disabled selected value="">Select payment method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="creditCard">Credit Card</option>
+                                </select>
+                                <label for="payment">Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+    <footer th:replace="fragments/main.html :: footer"></footer>
+</body>
+</html>
