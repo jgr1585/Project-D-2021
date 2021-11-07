@@ -3,55 +3,27 @@ package fhv.teamd.hotel.view.forms;
 import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.Category;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ChooseCategoriesForm {
 
-    // todo entspaghettifizierung
-
-    public static class CategoryField {
-        private BookableCategoryDTO category;
-        private int selectedAmount;
-
-        public CategoryField(BookableCategoryDTO category, int selectedAmount) {
-            this.category = category;
-            this.selectedAmount = selectedAmount;
-        }
-
-        public CategoryField() {
-            // thymeleaf
-        }
-
-        public BookableCategoryDTO getCategory() {
-            return this.category;
-        }
-
-        public void setCategory(BookableCategoryDTO category) {
-            this.category = category;
-        }
-
-        public int getSelectedAmount() {
-            return this.selectedAmount;
-        }
-
-        public void setSelectedAmount(int selectedAmount) {
-            this.selectedAmount = selectedAmount;
-        }
-    }
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate from;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate until;
 
-    // need a string index (-> id) for thymeleaf.
-    private Map<String, CategoryField> categorySelection;
+    private Map<String, Integer> categorySelection;
 
     public ChooseCategoriesForm() {
         // required by spring/thymeleaf
+        this.categorySelection = new HashMap<>();
     }
 
-    public ChooseCategoriesForm(LocalDate from, LocalDate until, Map<String, CategoryField> categorySelection) {
+    public ChooseCategoriesForm(LocalDate from, LocalDate until, Map<String, Integer> categorySelection) {
         this.from = from;
         this.until = until;
         this.categorySelection = categorySelection;
@@ -61,32 +33,24 @@ public class ChooseCategoriesForm {
         return this.from;
     }
 
-    public void setFromDate(LocalDate from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
-    }
-
-    public void setFrom(String from) {
-        this.setFromDate(LocalDate.parse(from));
     }
 
     public LocalDate getUntil() {
         return this.until;
     }
 
-    public void setUntilDate (LocalDate until) {
+    public void setUntil (LocalDate until) {
         this.until = until;
     }
 
-    public void setUntil(String until) {
-        this.setUntilDate(LocalDate.parse(until));
-    }
 
-
-    public Map<String, CategoryField> getCategorySelection() {
+    public Map<String, Integer> getCategorySelection() {
         return this.categorySelection;
     }
 
-    public void setCategorySelection(Map<String, CategoryField> categorySelection) {
+    public void setCategorySelection(Map<String, Integer> categorySelection) {
         this.categorySelection = categorySelection;
     }
 }
