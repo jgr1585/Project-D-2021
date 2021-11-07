@@ -1,6 +1,6 @@
 package fhv.teamd.hotel.view.forms;
 
-public class CustomerDetailsForm {
+public class PersonalDetailsForm {
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
@@ -19,10 +19,10 @@ public class CustomerDetailsForm {
     private String representativePhone;
 
     // required by spring/thymeleaf
-    public CustomerDetailsForm() {
+    public PersonalDetailsForm() {
     }
 
-    public CustomerDetailsForm(String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity,
+    public PersonalDetailsForm(String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity,
                                String guestCountry, String representativeFirstName, String representativeLastName, String representativeStreet,
                                String representativeZip, String representativeCity, String representativeCountry, String representativeMail, String representativePhone) {
         this.guestFirstName = guestFirstName;

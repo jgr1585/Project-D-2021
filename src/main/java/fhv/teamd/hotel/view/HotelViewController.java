@@ -5,7 +5,7 @@ import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
-import fhv.teamd.hotel.view.forms.CustomerDetailsForm;
+import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
 import fhv.teamd.hotel.view.forms.ExperimentalBookingForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -112,20 +110,8 @@ public class HotelViewController {
 
 
 
-
-
-
-    // old 2-part form
-
-
-
-
-
-
     @GetMapping("/booking/chooseCategories")
-    public ModelAndView createBooking(
-            @ModelAttribute ChooseCategoriesForm categoriesForm,
-            Model model) {
+    public ModelAndView createBooking(Model model) {
 
         LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
         LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
@@ -134,27 +120,24 @@ public class HotelViewController {
                 defaultStartDate.atStartOfDay(),
                 defaultEndDate.atStartOfDay());
 
-        // todo spaghetti
-        HashMap<String, ChooseCategoriesForm.CategoryField> defaultValues = new HashMap<>();
-        for(BookableCategoryDTO cat: categories) {
-            defaultValues.put(cat.categoryName(),
-                    new ChooseCategoriesForm.CategoryField(cat, 0)); // 0 by default
-        }
+        Map<String, Integer> defaultValues
+                = categories.stream().collect(Collectors.toMap(BookableCategoryDTO::categoryId, cat -> 0));
 
-        categoriesForm.setCategorySelection(defaultValues);
+        ChooseCategoriesForm chooseCategoriesForm
+                = new ChooseCategoriesForm(defaultStartDate, defaultEndDate, defaultValues);
 
-        model.addAttribute("categoriesForm", categoriesForm);
+        model.addAttribute("categories", categories);
+        model.addAttribute("chooseCategoriesForm", chooseCategoriesForm);
 
         return new ModelAndView("/booking/chooseCategories");
+
     }
 
     @PostMapping("/booking/chooseCategories")
-    public void submitCategories(
+    public ModelAndView submitCategories(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             Model model,
             HttpServletResponse response) throws IOException {
-
-        model.addAttribute("chooseCategoriesForm", chooseCategoriesForm);
 
         // todo: check availability and other validations
         // todo: validation should be elsewhere
@@ -171,35 +154,52 @@ public class HotelViewController {
             response.sendRedirect("/booking/chooseCategories");
         }
 
-        // success: redirect to next step
-        response.sendRedirect("/booking/personalDetails");
+        return this.personalDetails(chooseCategoriesForm, model);
     }
 
     @GetMapping("/booking/personalDetails")
     public ModelAndView personalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
-            @ModelAttribute CustomerDetailsForm customerDetailsForm,
             Model model) {
 
-        model.addAttribute("chooseCategoriesForm", chooseCategoriesForm);
-        model.addAttribute("customerDetailsForm", customerDetailsForm);
+
+        model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
+
 
         return new ModelAndView("/booking/personalDetails");
     }
 
-    @PostMapping("/booking/personalDetails")
-    public void submitCustomerDetails(
+    @PostMapping("/booking/submitPersonalDetails")
+    public void submitPersonalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-            @ModelAttribute CustomerDetailsForm customerDetailsForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
             HttpServletResponse response) throws IOException {
 
-        // to do: read parameters and check for availability here
+        this.bookingService.book(
+                chooseCategoriesForm.getCategorySelection(),
+                chooseCategoriesForm.getFrom().atStartOfDay(),
+                chooseCategoriesForm.getUntil().atStartOfDay(),
+                GuestDetailsDTO.builder()
+                        .withFirstName(personalDetailsForm.getGuestFirstName())
+                        .withLastName(personalDetailsForm.getGuestLastName())
+                        .withStreet(personalDetailsForm.getGuestStreet())
+                        .withZip(personalDetailsForm.getGuestZip())
+                        .withCity(personalDetailsForm.getGuestCity())
+                        .withCountry(personalDetailsForm.getGuestCountry())
+                        .build(),
+                RepresentativeDetailsDTO.builder()
+                        .withFirstName(personalDetailsForm.getRepresentativeFirstName())
+                        .withLastName(personalDetailsForm.getRepresentativeLastName())
+                        .withStreet(personalDetailsForm.getRepresentativeStreet())
+                        .withZip(personalDetailsForm.getRepresentativeZip())
+                        .withCity(personalDetailsForm.getRepresentativeCity())
+                        .withCountry(personalDetailsForm.getRepresentativeCountry())
+                        .withEmail(personalDetailsForm.getRepresentativeMail())
+                        .withPhone(personalDetailsForm.getRepresentativePhone())
+                        .build()
+        );
 
-        // not available or other error: redirect back, with error msg
-        //response.sendRedirect("/booking/chooseCategories");
-
-        // success: redirect to next step
-        response.sendRedirect("index");
+        response.sendRedirect("/booking/bookingOverview");
     }
 }
