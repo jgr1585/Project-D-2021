@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
@@ -39,7 +40,11 @@ public class HibernateBookingRepository implements BookingRepository {
 
         q.setParameter("id", bookingId);
 
-        return Optional.ofNullable(q.getSingleResult());
+        try {
+            return Optional.of(q.getSingleResult());
+        } catch (NoResultException x) {
+            return Optional.empty();
+        }
     }
 
     @Override
