@@ -35,9 +35,17 @@
         <ul class="collapsible popout">
             <li th:each="booking: ${bookings}" th:id="${booking.id() + '-li'}">
                 <div class="collapsible-header">
-                    <div class="float-left valign-wrapper">
-                        <span>Booking by&nbsp;</span>
-                        <p th:text="${booking.representativeName()}"></p>
+                    <div class="float-left">
+                        <div>
+                            <span>Booking by&nbsp;</span>
+                            <span th:text="${booking.representativeName()}"></span>
+                        </div>
+
+                        <div>
+                            <span th:text="${booking.fromDate()}"></span>
+                            <span> / </span>
+                            <span th:text="${booking.untilDate()}"></span>
+                        </div>
                     </div>
 
                     <!--Right Table Buttons -->
