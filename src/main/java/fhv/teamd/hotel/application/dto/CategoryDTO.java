@@ -1,5 +1,7 @@
 package fhv.teamd.hotel.application.dto;
 
+import fhv.teamd.hotel.domain.Category;
+
 import java.util.Objects;
 
 public class CategoryDTO {
@@ -8,10 +10,6 @@ public class CategoryDTO {
     private String title;
     private String description;
     private double price;
-
-    public static Builder builder() {
-        return new Builder();
-    }
 
     public String id() {
         return this.id;
@@ -32,41 +30,22 @@ public class CategoryDTO {
     private CategoryDTO() {
     }
 
-    public static class Builder {
-        private CategoryDTO instance;
+    public CategoryDTO(String id, String title, String description, double price) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+    }
 
-        private Builder() {
-            this.instance = new CategoryDTO();
-        }
+    public static CategoryDTO fromCategory(Category category) {
+        CategoryDTO categoryDTO = new CategoryDTO();
 
-        public Builder withId(String id) {
-            this.instance.id = id;
-            return this;
-        }
+        categoryDTO.id = category.categoryId() == null ? null : category.categoryId().toString();
+        categoryDTO.description = category.description();
+        categoryDTO.price = category.pricePerNight();
+        categoryDTO.title = category.title();
 
-        public Builder withTitle(String title) {
-            this.instance.title = title;
-            return this;
-        }
-
-        public Builder withDescription(String description) {
-            this.instance.description = description;
-            return this;
-        }
-
-        public Builder withPrice(double price) {
-            this.instance.price = price;
-            return this;
-        }
-
-        public CategoryDTO build() {
-            Objects.requireNonNull(this.instance.id, "id must be set in CategoryDTO");
-            Objects.requireNonNull(this.instance.title, "title must be set in CategoryDTO");
-            Objects.requireNonNull(this.instance.description, "description must be set in CategoryDTO");
-            Objects.requireNonNull(this.instance.price, "price must be set in CategoryDTO");
-
-            return this.instance;
-        }
+        return categoryDTO;
     }
 
     @Override

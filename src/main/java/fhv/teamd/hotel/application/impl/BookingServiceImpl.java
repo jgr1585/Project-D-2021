@@ -30,24 +30,6 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    private BookingDTO toDTO(Booking booking) {
-        return BookingDTO.builder()
-                .withId(booking.bookingId().toString())
-                .withRepresentativeName(booking.contactInfo().name())
-                .withFromDate(booking.checkInDate())
-                .withUntilDate(booking.checkOutDate())
-                .build();
-    }
-
-    private CategoryDTO toDTO(Category category) {
-        return CategoryDTO.builder()
-                .withId(category.categoryId().toString())
-                .withTitle(category.title())
-                .withDescription(category.description())
-                .withPrice(category.pricePerNight())
-                .build();
-    }
-
     @Override
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
@@ -55,17 +37,17 @@ public class BookingServiceImpl implements BookingService {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
-        for(Map.Entry<String, Integer> entry: categoryIdsAndAmounts.entrySet()) {
+        for (Map.Entry<String, Integer> entry : categoryIdsAndAmounts.entrySet()) {
 
             String id = entry.getKey();
             Integer count = entry.getValue();
 
-            if(count == null || count == 0) {
+            if (count == null || count == 0) {
                 continue;
             }
 
             Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
-            if(result.isEmpty()) {
+            if (result.isEmpty()) {
                 throw new EntityNotFoundException("no category with this id");
             }
 
@@ -97,7 +79,7 @@ public class BookingServiceImpl implements BookingService {
         return this.bookingRepository
                 .getAllBookings()
                 .stream()
-                .map(this::toDTO)
+                .map(BookingDTO::fromBooking)
                 .collect(Collectors.toUnmodifiableList());
 
     }
@@ -106,7 +88,7 @@ public class BookingServiceImpl implements BookingService {
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
         Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             return Optional.empty();
         }
 
@@ -114,10 +96,10 @@ public class BookingServiceImpl implements BookingService {
 
         HashMap<CategoryDTO, Integer> categories = new HashMap<>();
 
-        for(Map.Entry<Category, Integer> entry: booking.selection().entrySet()) {
-            categories.put(this.toDTO(entry.getKey()), entry.getValue());
+        for (Map.Entry<Category, Integer> entry : booking.selection().entrySet()) {
+            categories.put(CategoryDTO.fromCategory(entry.getKey()), entry.getValue());
         }
 
-        return Optional.of(new DetailedBookingDTO(this.toDTO(booking), categories));
+        return Optional.of(new DetailedBookingDTO(BookingDTO.fromBooking(booking), categories));
     }
 }

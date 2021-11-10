@@ -25,13 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categories = this.categoryRepository.getAll();
 
-        return categories.stream().map(cat ->
-            CategoryDTO.builder()
-                    .withId(cat.categoryId() == null ? null : cat.categoryId().toString())
-                    .withTitle(cat.title())
-                    .withDescription(cat.description())
-                    .withPrice(cat.pricePerNight())
-                    .build())
+        return categories
+                .stream()
+                .map(CategoryDTO::fromCategory)
                 .collect(Collectors.toUnmodifiableList());
     }
 
@@ -39,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
         List<BookableCategoryDTO> result = new ArrayList<>();
 
-        for(Category cat: this.categoryRepository.getAll()) {
+        for (Category cat : this.categoryRepository.getAll()) {
 
             // todo magic number xd
             int count = 99;

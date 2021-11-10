@@ -14,7 +14,9 @@ public class BookableCategoryDTO {
         this.numberAvailable = numberAvailable;
     }
 
-    public String categoryId() { return this.categoryId; }
+    public String categoryId() {
+        return this.categoryId;
+    }
 
     public String categoryName() {
         return this.categoryName;

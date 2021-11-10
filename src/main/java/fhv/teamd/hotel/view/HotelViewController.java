@@ -73,42 +73,6 @@ public class HotelViewController {
         return new ModelAndView("/booking/experimentalBookingForm");
     }
 
-    @PostMapping("/booking/experimental")
-    public void experimentalSubmit(
-            @ModelAttribute ExperimentalBookingForm form,
-            Model model,
-            HttpServletResponse response) throws IOException {
-
-        this.bookingService.book(
-                form.getCategorySelection(),
-                form.getFromDate().atStartOfDay(),
-                form.getUntilDate().atStartOfDay(),
-                GuestDetailsDTO.builder()
-                        .withFirstName(form.getGuestFirstName())
-                        .withLastName(form.getGuestLastName())
-                        .withStreet(form.getGuestStreet())
-                        .withZip(form.getGuestZip())
-                        .withCity(form.getGuestCity())
-                        .withCountry(form.getGuestCountry())
-                        .build(),
-                RepresentativeDetailsDTO.builder()
-                        .withFirstName(form.getRepresentativeFirstName())
-                        .withLastName(form.getRepresentativeLastName())
-                        .withStreet(form.getRepresentativeStreet())
-                        .withZip(form.getRepresentativeZip())
-                        .withCity(form.getRepresentativeCity())
-                        .withCountry(form.getRepresentativeCountry())
-                        .withEmail(form.getRepresentativeMail())
-                        .withPhone(form.getRepresentativePhone())
-                        .build()
-        );
-
-        response.sendRedirect("/");
-
-
-    }
-
-
 
     @GetMapping("/booking/chooseCategories")
     public ModelAndView createBooking(Model model) {
@@ -148,8 +112,7 @@ public class HotelViewController {
         boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
 
 
-
-        if(!valid) {
+        if (!valid) {
             // todo add an error message obj to the model
             response.sendRedirect("/booking/chooseCategories");
         }
@@ -176,18 +139,20 @@ public class HotelViewController {
             Model model,
             HttpServletResponse response) throws IOException {
 
+        GuestDetailsDTO guestDetailsDTO = new GuestDetailsDTO(
+                personalDetailsForm.getGuestFirstName(),
+                personalDetailsForm.getGuestLastName(),
+                personalDetailsForm.getGuestStreet(),
+                personalDetailsForm.getGuestZip(),
+                personalDetailsForm.getGuestCity(),
+                personalDetailsForm.getGuestCountry()
+        );
+
         this.bookingService.book(
                 chooseCategoriesForm.getCategorySelection(),
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay(),
-                GuestDetailsDTO.builder()
-                        .withFirstName(personalDetailsForm.getGuestFirstName())
-                        .withLastName(personalDetailsForm.getGuestLastName())
-                        .withStreet(personalDetailsForm.getGuestStreet())
-                        .withZip(personalDetailsForm.getGuestZip())
-                        .withCity(personalDetailsForm.getGuestCity())
-                        .withCountry(personalDetailsForm.getGuestCountry())
-                        .build(),
+                guestDetailsDTO,
                 RepresentativeDetailsDTO.builder()
                         .withFirstName(personalDetailsForm.getRepresentativeFirstName())
                         .withLastName(personalDetailsForm.getRepresentativeLastName())

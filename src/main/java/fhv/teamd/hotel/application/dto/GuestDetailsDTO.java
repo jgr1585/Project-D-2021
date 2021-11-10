@@ -1,5 +1,8 @@
 package fhv.teamd.hotel.application.dto;
 
+import fhv.teamd.hotel.domain.Category;
+import fhv.teamd.hotel.domain.GuestInfo;
+
 import java.util.Objects;
 
 public class GuestDetailsDTO {
@@ -10,10 +13,6 @@ public class GuestDetailsDTO {
     private String zip;
     private String city;
     private String country;
-
-    public static Builder builder() {
-        return new Builder();
-    }
 
     public String firstName() {
         return this.firstName;
@@ -42,53 +41,22 @@ public class GuestDetailsDTO {
     private GuestDetailsDTO() {
     }
 
-    public static class Builder {
-        private GuestDetailsDTO instance;
+    public GuestDetailsDTO(String firstName, String lastName, String street, String zip, String city, String country) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.zip = zip;
+        this.city = city;
+        this.country = country;
+    }
 
-        private Builder() {
-            this.instance = new GuestDetailsDTO();
-        }
+    public static GuestDetailsDTO fromGuestDetails(GuestInfo guestInfo) {
+        GuestDetailsDTO guestDetailsDTO = new GuestDetailsDTO();
 
-        public Builder withFirstName(String firstName) {
-            this.instance.firstName = firstName;
-            return this;
-        }
+//        guestDetailsDTO.city = guestInfo.
 
-        public Builder withLastName(String lastName) {
-            this.instance.lastName = lastName;
-            return this;
-        }
 
-        public Builder withStreet(String street) {
-            this.instance.street = street;
-            return this;
-        }
-
-        public Builder withZip(String zip) {
-            this.instance.zip = zip;
-            return this;
-        }
-
-        public Builder withCity(String city) {
-            this.instance.city = city;
-            return this;
-        }
-
-        public Builder withCountry(String country) {
-            this.instance.country = country;
-            return this;
-        }
-
-        public GuestDetailsDTO build() {
-            Objects.requireNonNull(this.instance.firstName, "firstName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.lastName, "lastName must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.street, "street must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.zip, "zip must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.city, "city must be set in PersonalDetailsDTO");
-            Objects.requireNonNull(this.instance.country, "country must be set in PersonalDetailsDTO");
-
-            return this.instance;
-        }
+        return guestDetailsDTO;
     }
 
     @Override

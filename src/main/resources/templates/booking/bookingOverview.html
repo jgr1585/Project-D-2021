@@ -61,20 +61,30 @@
                         </div>
                     </div>
                 </div>
+
+                <!--booking content-->
                 <div class="collapsible-body" th:object="${booking}">
                     <!-- representative data -->
                     <div class="section">
                         <div class="row">
-                            <div class="input-field col s6">
-                                <i class="material-icons prefix">date_range</i>
-                                <input th:id="*{id() + '-fromDate'}" type="date" th:value="*{fromDate()}" disabled/>
-                                <label th:for="*{id() + '-fromDate'}">From</label>
+
+                            <div class="section col s6">
+                                <h5>Address</h5>
+                                <p th:text="${booking}"></p>
                             </div>
-                            <div class="input-field col s6">
-                                <i class="material-icons prefix">date_range</i>
-                                <input th:id="*{id() + '-toDate'}" type="date" th:value="*{untilDate()}" disabled/>
-                                <label th:for="*{id() + '-fromDate'}">Until</label>
-                            </div>
+
+
+
+<!--                            <div class="input-field col s6">-->
+<!--                                <i class="material-icons prefix">date_range</i>-->
+<!--                                <input th:id="*{id() + '-fromDate'}" type="date" th:value="*{fromDate()}" disabled/>-->
+<!--                                <label th:for="*{id() + '-fromDate'}">From</label>-->
+<!--                            </div>-->
+<!--                            <div class="input-field col s6">-->
+<!--                                <i class="material-icons prefix">date_range</i>-->
+<!--                                <input th:id="*{id() + '-toDate'}" type="date" th:value="*{untilDate()}" disabled/>-->
+<!--                                <label th:for="*{id() + '-fromDate'}">Until</label>-->
+<!--                            </div>-->
                         </div>
 
                         <div class="row">
