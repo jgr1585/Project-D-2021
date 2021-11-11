@@ -14,88 +14,132 @@
 <div class="container">
     <h3>Room Booking - Summary</h3>
 
-    <div class="row">
-        <!-- todo: foreach -->
-        <h4>Categories</h4>
-        <table>
-            <thead>
-            <tr>
-                <th>Category</th>
-                <th>Quantity</th>
-            </tr>
-            </thead>
+    <form action="/booking/submitPersonalDetails" method="post">
 
-            <tbody>
-            <tr>
-                <td>category name</td>
-                <td>category quantity</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- hidden fields for multipage form -->
+        <input id="from" type="hidden"
+               th:field="${chooseCategoriesForm.from}"
+               th:value="${chooseCategoriesForm.from}"
+               required/>
+        <input id="until" type="hidden"
+               th:field="${chooseCategoriesForm.until}"
+               th:value="${chooseCategoriesForm.until}"
+               required/>
+        <div th:each="entry: ${chooseCategoriesForm.categorySelection}">
+            <input th:id="*{entry.key}"
+                   th:field="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                   th:value="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                   type="hidden"/>
+        </div>
 
-    <!-- guest/group data -->
-    <div class="row">
-        <h4>Guest or Group Data</h4>
-        <form action="">
 
-        </form>
-        <table>
-            <thead>
-            <tr>
-                <th>Input Field</th>
-                <th>Data</th>
-            </tr>
-            </thead>
+        <div class="row">
+            <h4>Time Period</h4>
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th>From</th>
+                    <th>Until</th>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr>
-                <td>Name</td>
-                <td><input id="from" type="date" readonly
-                           th:field="${chooseCategoriesForm.from}"
-                           th:value="${chooseCategoriesForm.from}"
-                           required/></td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                <tbody>
+                <tr>
+                    <td th:text="${chooseCategoriesForm.from}"></td>
+                    <td th:text="${chooseCategoriesForm.until}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!-- representative data -->
-    <div class="row">
-        <h4>Representative Data</h4>
-        <table>
-            <thead>
-            <tr>
-                <th>Input Field</th>
-                <th>Data</th>
-            </tr>
-            </thead>
+        <div class="row">
+            <!-- todo: foreach -->
+            <h4>Categories</h4>
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr>
-                <td>Name</td>
-                <td th:text="*{personalDetailsForm.representativeFirstName}"></td>
-                <input type="hidden">
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td>Phone</td>
-            </tr>
-            <tr>
-                <td>Payment</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                <tbody>
+                <tr>
+                    <td>category name</td>
+                    <td>category quantity</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- guest/group data -->
+        <div class="row">
+            <h4>Guest or Group Data</h4>
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th>Input Field</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- representative data -->
+        <div class="row">
+            <h4>Representative Data</h4>
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th>Input Field</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td th:text="*{personalDetailsForm.representativeFirstName} + ' ' + *{personalDetailsForm.representativeLastName}"></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Payment</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- create booking -->
+        <div class="row right-align">
+            <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Create Booking
+                <i class="material-icons right">done</i>
+            </button>
+        </div>
+    </form>
 </div>
 
 <footer th:replace="fragments/main.html :: footer"></footer>
