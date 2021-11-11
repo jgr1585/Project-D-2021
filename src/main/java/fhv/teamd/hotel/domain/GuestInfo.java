@@ -5,9 +5,9 @@ import java.util.Objects;
 public class GuestInfo {
 
     private final String name;
-    private final String address;
+    private final Address address;
 
-    public GuestInfo(String name, String address) {
+    public GuestInfo(String name, Address address) {
         this.name = name;
         this.address = address;
     }
@@ -21,7 +21,7 @@ public class GuestInfo {
         return this.name;
     }
 
-    public String address() {
+    public Address address() {
         return this.address;
     }
 

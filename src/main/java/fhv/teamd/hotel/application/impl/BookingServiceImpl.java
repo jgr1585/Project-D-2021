@@ -2,10 +2,7 @@ package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.Category;
-import fhv.teamd.hotel.domain.ContactInfo;
-import fhv.teamd.hotel.domain.GuestInfo;
+import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -58,12 +55,12 @@ public class BookingServiceImpl implements BookingService {
 
         GuestInfo guestInfo = new GuestInfo(
                 String.join(" ", guest.firstName(), guest.lastName()),
-                String.join(" ", guest.street(), guest.zip(), guest.city(), guest.country()));
+                new Address(guest.street(), guest.zip(), guest.city(), guest.country()));
 
         ContactInfo contactInfo = new ContactInfo(
                 String.join(" ", rep.firstName(), rep.lastName()),
                 rep.email(),
-                String.join(" ", rep.street(), rep.zip(), rep.city(), rep.country()),
+                new Address(rep.street(), rep.zip(), rep.city(), rep.country()),
                 rep.phone()
         );
 

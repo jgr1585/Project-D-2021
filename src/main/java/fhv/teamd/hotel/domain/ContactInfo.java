@@ -6,10 +6,10 @@ public class ContactInfo {
 
     private final String name;
     private final String email;
-    private final String address;
+    private final Address address;
     private final String phone;
 
-    public ContactInfo(String name, String email, String address, String phone) {
+    public ContactInfo(String name, String email, Address address, String phone) {
         this.name = name;
         this.email = email;
         this.address = address;
@@ -29,7 +29,7 @@ public class ContactInfo {
         return this.email;
     }
 
-    public String address() {
+    public Address address() {
         return this.address;
     }
 
