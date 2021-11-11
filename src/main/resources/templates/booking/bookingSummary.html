@@ -5,7 +5,7 @@
 
 <head>
     <title>Hotel Management</title>
-    <meta name="page" content="BookingOverview">
+    <meta name="page" content="CreateBooking">
     <placeholder th:replace="fragments/main.html :: head"></placeholder>
 </head>
 <body>
@@ -14,9 +14,9 @@
 <div class="container">
     <h3>Room Booking - Summary</h3>
 
-    <form action="/booking/submitPersonalDetails" method="post">
+    <form action="/booking/submit" method="post">
 
-        <!-- hidden fields for multipage form -->
+        <!-- hidden fields from categories form -->
         <input id="from" type="hidden"
                th:field="${chooseCategoriesForm.from}"
                th:value="${chooseCategoriesForm.from}"
@@ -32,105 +32,171 @@
                    type="hidden"/>
         </div>
 
+        <!-- hidden fields from personal details form -->
+        <input id="privateGuestFirstName" type="hidden"
+            th:field="${personalDetailsForm.guestFirstName}"
+            th:value="${personalDetailsForm.guestFirstName}"
+            required/>
+        <input id="privateGuestLastName" type="hidden"
+               th:field="${personalDetailsForm.guestLastName}"
+               th:value="${personalDetailsForm.guestLastName}"
+               required/>
+        <input id="guestStreet" type="hidden"
+               th:field="${personalDetailsForm.guestStreet}"
+               th:value="${personalDetailsForm.guestStreet}"
+               required/>
+        <input id="guestCity" type="hidden"
+               th:field="${personalDetailsForm.guestCity}"
+               th:value="${personalDetailsForm.guestCity}"
+               required/>
+        <input id="guestCountry" type="hidden"
+               th:field="${personalDetailsForm.guestCountry}"
+               th:value="${personalDetailsForm.guestCountry}"
+               required/>
+        <input id="guestZip" type="hidden"
+               th:field="${personalDetailsForm.guestZip}"
+               th:value="${personalDetailsForm.guestZip}"
+               required/>
 
+        <input id="representativeFirstName" type="hidden"
+               th:field="${personalDetailsForm.representativeFirstName}"
+               th:value="${personalDetailsForm.representativeFirstName}"
+               required/>
+        <input id="representativeLastName" type="hidden"
+               th:field="${personalDetailsForm.representativeLastName}"
+               th:value="${personalDetailsForm.representativeLastName}"
+               required/>
+        <input id="representativeStreet" type="hidden"
+               th:field="${personalDetailsForm.representativeStreet}"
+               th:value="${personalDetailsForm.representativeStreet}"
+               required/>
+        <input id="representativeCity" type="hidden"
+               th:field="${personalDetailsForm.representativeCity}"
+               th:value="${personalDetailsForm.representativeCity}"
+               required/>
+        <input id="representativeCountry" type="hidden"
+               th:field="${personalDetailsForm.representativeCountry}"
+               th:value="${personalDetailsForm.representativeCountry}"
+               required/>
+        <input id="representativeZip" type="hidden"
+               th:field="${personalDetailsForm.representativeZip}"
+               th:value="${personalDetailsForm.representativeZip}"
+               required/>
+        <input id="representativeMail" type="hidden"
+               th:field="${personalDetailsForm.representativeMail}"
+               th:value="${personalDetailsForm.representativeMail}"
+               required/>
+        <input id="representativePhone" type="hidden"
+               th:field="${personalDetailsForm.representativePhone}"
+               th:value="${personalDetailsForm.representativePhone}"
+               required/>
+
+        <!-- selected time period -->
+        <h6>Time Period</h6><br>
         <div class="row">
-            <h4>Time Period</h4>
-            <table class="highlight">
-                <thead>
-                <tr>
-                    <th>From</th>
-                    <th>Until</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td th:text="${chooseCategoriesForm.from}"></td>
-                    <td th:text="${chooseCategoriesForm.until}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="col s3">
+                <span style="font-weight: bold">From</span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.from}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Until</span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.until}"></span>
+            </div>
         </div>
 
-        <div class="row">
-            <!-- todo: foreach -->
-            <h4>Categories</h4>
-            <table class="highlight">
-                <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                </tr>
-                </thead>
+        <div class="divider"></div>
 
-                <tbody>
-                <tr>
-                    <td>category name</td>
-                    <td>category quantity</td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- selected categories -->
+        <h6>Categories</h6><br>
+        <div class="header"></div>
+        <div class="row" th:each="category: ${categories}">
+            <!-- todo: foreach category -->
+            <div class="col s3">
+                <span style="font-weight: bold" th:text="${category.title}"></span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.categorySelection['__${category.id}__']}"></span>
+            </div>
         </div>
 
-        <!-- guest/group data -->
+        <div class="divider"></div>
+
+        <!-- selected guest/group data -->
+        <h6>Guest or Group Data</h6><br>
         <div class="row">
-            <h4>Guest or Group Data</h4>
-            <table class="highlight">
-                <thead>
-                <tr>
-                    <th>Input Field</th>
-                    <th>Data</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <td>Name</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-
+            <div class="col s3">
+                <span style="font-weight: bold">Name</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.guestFirstName} + ' ' +
+                    *{personalDetailsForm.guestLastName}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Address</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.guestStreet} + ', ' +
+                        *{personalDetailsForm.guestZip} + ' ' + *{personalDetailsForm.guestCity} + ', ' +
+                        *{personalDetailsForm.guestCountry}"></span>
+            </div>
         </div>
 
-        <!-- representative data -->
-        <div class="row">
-            <h4>Representative Data</h4>
-            <table class="highlight">
-                <thead>
-                <tr>
-                    <th>Input Field</th>
-                    <th>Data</th>
-                </tr>
-                </thead>
+        <div class="divider"></div>
 
-                <tbody>
-                <tr>
-                    <td>Name</td>
-                    <td th:text="*{personalDetailsForm.representativeFirstName} + ' ' + *{personalDetailsForm.representativeLastName}"></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Phone</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Payment</td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- selected representative data -->
+        <h6>Representative Data</h6><br>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Name</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeFirstName} + ' ' +
+                    *{personalDetailsForm.representativeLastName}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Address</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeStreet} + ', ' +
+                    *{personalDetailsForm.representativeZip} + ' ' + *{personalDetailsForm.representativeCity} + ', ' +
+                    *{personalDetailsForm.representativeCountry}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Email</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeMail}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Phone</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativePhone}"></span>
+            </div>
+        </div>
+
+        <!-- todo: payment -->
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Payment</span>
+            </div>
+            <div class="col s9">
+                <span>Missing (todo)</span>
+            </div>
         </div>
 
         <!-- create booking -->
@@ -138,6 +204,14 @@
             <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Create Booking
                 <i class="material-icons right">done</i>
             </button>
+
+            <!-- todo: back button to previous page -->
+            <a class="btn waves-effect waves-light" href="chooseCategories">Back
+                <i class="material-icons left">navigate_before</i>
+            </a>
+            <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                <i class="material-icons right">cancel</i>
+            </a>
         </div>
     </form>
 </div>

@@ -4,6 +4,7 @@ import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.Category;
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -58,5 +60,25 @@ public class CategoryServiceImpl implements CategoryService {
         // todo implement (out of sprint 1 scope)
 
         throw new NotYetImplementedException();
+    }
+
+    @Override
+    public Optional<CategoryDTO> findCategoryById(String categoryId) {
+
+        CategoryId id = new CategoryId(categoryId);
+
+        Optional<Category> result = this.categoryRepository.findById(id);
+        if(result.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Category category = result.get();
+
+        return Optional.of(CategoryDTO.builder()
+                .withId(category.categoryId().toString())
+                .withTitle(category.title())
+                .withDescription(category.description())
+                .withPrice(category.pricePerNight())
+                .build());
     }
 }
