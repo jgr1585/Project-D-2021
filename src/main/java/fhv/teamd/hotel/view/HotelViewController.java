@@ -169,8 +169,29 @@ public class HotelViewController {
         return new ModelAndView("/booking/personalDetails");
     }
 
+
+    @GetMapping("/booking/bookingSummary")
+    public ModelAndView bookingSummary(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) throws IOException {
+
+        return new ModelAndView("/booking/bookingSummary");
+    }
+
     @PostMapping("/booking/submitPersonalDetails")
-    public void submitPersonalDetails(
+    public ModelAndView submitPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) throws IOException {
+
+        return this.bookingSummary(chooseCategoriesForm, personalDetailsForm, model, response);
+    }
+
+    @PostMapping("/booking/submit")
+    public void submit(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
@@ -202,4 +223,5 @@ public class HotelViewController {
 
         response.sendRedirect("/booking/bookingOverview");
     }
+
 }

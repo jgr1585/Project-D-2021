@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="BookingOverview">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+</head>
+<body>
+<header th:replace="fragments/main.html :: header"></header>
+
+<div class="container">
+    <h3>Room Booking - Summary</h3>
+
+    <div class="row">
+        <!-- todo: foreach -->
+        <h4>Categories</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Category</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>category name</td>
+                <td>category quantity</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- guest/group data -->
+    <div class="row">
+        <h4>Guest or Group Data</h4>
+        <form action="">
+
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th>Input Field</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>Name</td>
+                <td><input id="from" type="date" readonly
+                           th:field="${chooseCategoriesForm.from}"
+                           th:value="${chooseCategoriesForm.from}"
+                           required/></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- representative data -->
+    <div class="row">
+        <h4>Representative Data</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Input Field</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>Name</td>
+                <td th:text="*{personalDetailsForm.representativeFirstName}"></td>
+                <input type="hidden">
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>Phone</td>
+            </tr>
+            <tr>
+                <td>Payment</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="fragments/main.html :: footer"></footer>
+</body>
+</html>
