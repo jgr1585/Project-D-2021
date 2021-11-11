@@ -18,5 +18,4 @@ public interface BookingService {
     List<BookingDTO> getAll();
 
     Optional<DetailedBookingDTO> getDetails(String bookingId);
-
 }
