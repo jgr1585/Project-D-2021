@@ -4,18 +4,22 @@ import java.util.Objects;
 
 public class GuestDetails {
 
-    private final String name;
+    private final String firstName;
     private final String lastName;
     private final Address address;
 
-    public GuestDetails(String name, String lastName, Address address) {
-        this.name = name;
+    private GuestDetails() {
+        this(null, null, null);
+    }
+
+    public GuestDetails(String firstName, String lastName, Address address) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
     }
 
     public String firstName() {
-        return this.name;
+        return this.firstName;
     }
 
     public String lastName() {
@@ -27,6 +31,11 @@ public class GuestDetails {
     }
 
     @Override
+    public String toString() {
+        return this.firstName + ' ' + this.lastName + "\r\n" + this.address;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -35,11 +44,11 @@ public class GuestDetails {
             return false;
         }
         final GuestDetails that = (GuestDetails) o;
-        return Objects.equals(this.name, that.name) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.address, that.address);
+        return Objects.equals(this.firstName, that.firstName) && Objects.equals(this.lastName, that.lastName) && Objects.equals(this.address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name, this.lastName, this.address);
+        return Objects.hash(this.firstName, this.lastName, this.address);
     }
 }

@@ -1,11 +1,16 @@
 package fhv.teamd.hotel.view.forms;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 public class BookingListForm {
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime fromDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime untilDate;
+
     private String representativeLastName;
 
     public BookingListForm() {

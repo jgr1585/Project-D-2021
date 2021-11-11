@@ -20,20 +20,25 @@ public class Address {
         this.country = country;
     }
 
-    public String getStreet() {
+    public String street() {
         return this.street;
     }
 
-    public String getZip() {
+    public String zip() {
         return this.zip;
     }
 
-    public String getCity() {
+    public String city() {
         return this.city;
     }
 
-    public String getCountry() {
+    public String country() {
         return this.country;
+    }
+
+    @Override
+    public String toString() {
+        return String.join("\r\n", this.street, this.zip, this.city, this.country);
     }
 
     @Override

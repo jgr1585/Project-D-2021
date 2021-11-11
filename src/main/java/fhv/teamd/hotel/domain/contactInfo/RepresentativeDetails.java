@@ -10,6 +10,9 @@ public class RepresentativeDetails {
     private final Address address;
     private final String phone;
 
+    private RepresentativeDetails() {
+        this(null, null, null, null, null);
+    }
 
     public RepresentativeDetails(String firstName, String lastName, String email, Address address, String phone) {
         this.firstName = firstName;
@@ -37,6 +40,11 @@ public class RepresentativeDetails {
 
     public String phone() {
         return this.phone;
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName + ' ' + this.lastName + "\r\n" + this.email + "\r\n" + this.phone + "\r\n" + this.address;
     }
 
     @Override
