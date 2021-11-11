@@ -3,6 +3,9 @@ package fhv.teamd.hotel.view;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
@@ -139,30 +142,33 @@ public class HotelViewController {
             Model model,
             HttpServletResponse response) throws IOException {
 
-        GuestDetailsDTO guestDetailsDTO = new GuestDetailsDTO(
+        GuestDetails guest = new GuestDetails(
                 personalDetailsForm.getGuestFirstName(),
                 personalDetailsForm.getGuestLastName(),
-                personalDetailsForm.getGuestStreet(),
-                personalDetailsForm.getGuestZip(),
-                personalDetailsForm.getGuestCity(),
-                personalDetailsForm.getGuestCountry()
+                new Address(
+                        personalDetailsForm.getGuestStreet(),
+                        personalDetailsForm.getGuestZip(),
+                        personalDetailsForm.getGuestCity(),
+                        personalDetailsForm.getGuestCountry()
+                )
         );
+
+        RepresentativeDetails rep = new RepresentativeDetails(
+                personalDetailsForm.getRepresentativeFirstName(),
+                personalDetailsForm.getRepresentativeLastName(),
+                personalDetailsForm.getRepresentativeMail(),
+                new Address(
+                    personalDetailsForm.getRepresentativeStreet(),
+                    personalDetailsForm.getRepresentativeZip(),
+                    personalDetailsForm.getRepresentativeCity(),
+                    personalDetailsForm.getRepresentativeCountry()),
+                personalDetailsForm.getRepresentativePhone());
 
         this.bookingService.book(
                 chooseCategoriesForm.getCategorySelection(),
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay(),
-                guestDetailsDTO,
-                RepresentativeDetailsDTO.builder()
-                        .withFirstName(personalDetailsForm.getRepresentativeFirstName())
-                        .withLastName(personalDetailsForm.getRepresentativeLastName())
-                        .withStreet(personalDetailsForm.getRepresentativeStreet())
-                        .withZip(personalDetailsForm.getRepresentativeZip())
-                        .withCity(personalDetailsForm.getRepresentativeCity())
-                        .withCountry(personalDetailsForm.getRepresentativeCountry())
-                        .withEmail(personalDetailsForm.getRepresentativeMail())
-                        .withPhone(personalDetailsForm.getRepresentativePhone())
-                        .build()
+                guest, rep
         );
 
         response.sendRedirect("/booking/bookingOverview");

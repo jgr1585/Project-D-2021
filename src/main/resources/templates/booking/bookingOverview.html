@@ -38,7 +38,7 @@
                     <div class="float-left">
                         <div>
                             <span>Booking by&nbsp;</span>
-                            <span th:text="${booking.representativeName()}"></span>
+                            <span th:text="${booking.representative()}"></span>
                         </div>
 
                         <div>
@@ -90,7 +90,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representativeName()}" disabled/>
+                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representative()}" disabled/>
                                 <label th:for="*{id() + '-name'}">Name</label>
                             </div>
                         </div>

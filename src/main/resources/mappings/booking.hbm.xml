@@ -16,12 +16,12 @@
         <property name="checkInDate" column="check_in" type="java.time.LocalDateTime"/>
         <property name="checkOutDate" column="check_out" type="java.time.LocalDateTime"/>
 
-        <component name="guest" class="fhv.teamd.hotel.domain.GuestInfo">
+        <component name="guest" class="fhv.teamd.hotel.domain.contactInfo.GuestDetails">
             <property name="name" column="guest_name" type="string"/>
             <property name="address" column="guest_address" type="string"/>
         </component>
 
-        <component name="contact" class="fhv.teamd.hotel.domain.ContactInfo">
+        <component name="contact" class="fhv.teamd.hotel.domain.representativeDetails.RepresentativeDetails">
             <property name="name" column="representative_name" type="string"/>
             <property name="email" column="representative_email" type="string"/>
             <property name="address" column="representative_address" type="string"/>

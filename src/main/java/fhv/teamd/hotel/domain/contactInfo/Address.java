@@ -1,4 +1,4 @@
-package fhv.teamd.hotel.domain;
+package fhv.teamd.hotel.domain.contactInfo;
 
 import java.util.Objects;
 

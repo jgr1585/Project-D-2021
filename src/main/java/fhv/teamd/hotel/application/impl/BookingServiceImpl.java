@@ -3,6 +3,9 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.domain.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -30,7 +33,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
-                     GuestDetailsDTO guest, RepresentativeDetailsDTO rep) {
+                     GuestDetails guest, RepresentativeDetails rep) {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
@@ -53,20 +56,9 @@ public class BookingServiceImpl implements BookingService {
             categoriesAndAmounts.put(cat, count);
         }
 
-        GuestInfo guestInfo = new GuestInfo(
-                String.join(" ", guest.firstName(), guest.lastName()),
-                new Address(guest.street(), guest.zip(), guest.city(), guest.country()));
-
-        ContactInfo contactInfo = new ContactInfo(
-                String.join(" ", rep.firstName(), rep.lastName()),
-                rep.email(),
-                new Address(rep.street(), rep.zip(), rep.city(), rep.country()),
-                rep.phone()
-        );
-
         Booking newBooking = new Booking(
                 this.bookingRepository.nextIdentity(),
-                from, until, categoriesAndAmounts, contactInfo, guestInfo);
+                from, until, categoriesAndAmounts, rep, guest);
 
         this.bookingRepository.put(newBooking);
     }
