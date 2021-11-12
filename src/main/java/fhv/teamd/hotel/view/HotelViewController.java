@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -135,8 +136,37 @@ public class HotelViewController {
         return new ModelAndView("/booking/personalDetails");
     }
 
+
+    @GetMapping("/booking/bookingSummary")
+    public ModelAndView bookingSummary(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) throws IOException {
+
+        List<CategoryDTO> categories = new ArrayList<CategoryDTO>();
+
+        for (String categoryId : chooseCategoriesForm.getCategorySelection().keySet()) {
+            categories.add(this.categoryService.findCategoryById(categoryId).get());
+        }
+
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/booking/bookingSummary");
+    }
+
     @PostMapping("/booking/submitPersonalDetails")
-    public void submitPersonalDetails(
+    public ModelAndView submitPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) throws IOException {
+
+        return this.bookingSummary(chooseCategoriesForm, personalDetailsForm, model, response);
+    }
+
+    @PostMapping("/booking/submit")
+    public void submit(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
@@ -173,4 +203,5 @@ public class HotelViewController {
 
         response.sendRedirect("/booking/bookingOverview");
     }
+
 }
