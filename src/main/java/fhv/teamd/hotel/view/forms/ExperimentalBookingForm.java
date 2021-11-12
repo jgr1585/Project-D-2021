@@ -1,6 +1,5 @@
 package fhv.teamd.hotel.view.forms;
 
-import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

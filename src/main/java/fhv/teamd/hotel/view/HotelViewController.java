@@ -9,7 +9,6 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
-import fhv.teamd.hotel.view.forms.ExperimentalBookingForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -56,40 +54,18 @@ public class HotelViewController {
         return new ModelAndView("/booking/bookingOverview");
     }
 
-    @GetMapping("/booking/experimental")
-    public ModelAndView experimentalForm(
-            @ModelAttribute ExperimentalBookingForm form,
-            Model model) {
-
-        LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
-        LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
-
-        form.setFromDate(defaultStartDate);
-        form.setUntilDate(defaultEndDate);
-
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
-                defaultStartDate.atStartOfDay(),
-                defaultEndDate.atStartOfDay());
-
-        model.addAttribute("form", form);
-        model.addAttribute("categories", categories);
-
-        return new ModelAndView("/booking/experimentalBookingForm");
-    }
-
-
     @GetMapping("/booking/chooseCategories")
-    public ModelAndView createBooking(Model model) {
+    public ModelAndView bookingChooseCategories(Model model) {
 
         LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
         LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
 
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
+        List<AvailableCategoryDTO> categories = this.categoryService.getAvailableCategories(
                 defaultStartDate.atStartOfDay(),
                 defaultEndDate.atStartOfDay());
 
         Map<String, Integer> defaultValues
-                = categories.stream().collect(Collectors.toMap(BookableCategoryDTO::categoryId, cat -> 0));
+                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
 
         ChooseCategoriesForm chooseCategoriesForm
                 = new ChooseCategoriesForm(defaultStartDate, defaultEndDate, defaultValues);
@@ -102,7 +78,7 @@ public class HotelViewController {
     }
 
     @PostMapping("/booking/chooseCategories")
-    public ModelAndView submitCategories(
+    public ModelAndView bookingSubmitCategories(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             Model model,
             HttpServletResponse response) throws IOException {
@@ -121,11 +97,13 @@ public class HotelViewController {
             response.sendRedirect("/booking/chooseCategories");
         }
 
-        return this.personalDetails(chooseCategoriesForm, model);
+
+
+        return this.bookingPersonalDetails(chooseCategoriesForm, model);
     }
 
     @GetMapping("/booking/personalDetails")
-    public ModelAndView personalDetails(
+    public ModelAndView bookingPersonalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
             Model model) {
 
@@ -136,22 +114,23 @@ public class HotelViewController {
         return new ModelAndView("/booking/personalDetails");
     }
 
-
     @GetMapping("/booking/bookingSummary")
     public ModelAndView bookingSummary(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
-            HttpServletResponse response) throws IOException {
+            HttpServletResponse response) {
 
-        List<CategoryDTO> categories = new ArrayList<CategoryDTO>();
+        List<CategoryDTO> categories = new ArrayList<>();
 
         for (Map.Entry<String, Integer> entry : chooseCategoriesForm.getCategorySelection().entrySet()) {
             String categoryId = entry.getKey();
             Integer amount = entry.getValue();
 
-            if(amount > 0) {
-                categories.add(this.categoryService.findCategoryById(categoryId).get());
+            Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
+
+            if(amount > 0 && result.isPresent()) {
+                categories.add(result.get());
             }
         }
 
@@ -165,13 +144,13 @@ public class HotelViewController {
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
-            HttpServletResponse response) throws IOException {
+            HttpServletResponse response) {
 
         return this.bookingSummary(chooseCategoriesForm, personalDetailsForm, model, response);
     }
 
     @PostMapping("/booking/submit")
-    public void submit(
+    public void submitBooking(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
@@ -208,5 +187,34 @@ public class HotelViewController {
 
         response.sendRedirect("/booking/bookingOverview");
     }
+
+
+
+
+    @GetMapping("/checkIn/chooseCategories")
+    public ModelAndView checkInChooseCategories(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            Model model) {
+
+        LocalDate defaultCheckIn = LocalDate.now();
+        LocalDate defaultCheckOut = defaultCheckIn.plus(defaultStayDuration);
+
+        List<AvailableCategoryDTO> categories
+                = this.categoryService.getAvailableCategories(
+                    defaultCheckIn.atStartOfDay(),
+                    defaultCheckOut.atStartOfDay());
+
+        Map<String, Integer> defaultValues
+                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
+
+        chooseCategoriesForm.setFrom(defaultCheckIn);
+        chooseCategoriesForm.setUntil(defaultCheckOut);
+        chooseCategoriesForm.setCategorySelection(defaultValues);
+
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/checkIn/chooseCategories");
+    }
+
 
 }

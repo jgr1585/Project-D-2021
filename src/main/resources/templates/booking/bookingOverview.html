@@ -33,18 +33,18 @@
         <!-- Booking Table -->
 
         <ul class="collapsible popout">
-            <li th:each="booking: ${bookings}" th:id="${booking.id() + '-li'}">
+            <li th:each="booking: ${bookings}" th:id="${booking.id + '-li'}">
                 <div class="collapsible-header">
                     <div class="float-left">
                         <div>
-                            <span>Booking by</span>
-                            <span th:text="${booking.representative().firstName() + ' ' + booking.representative().lastName()}"></span>
+                            <span>Booking for</span>
+                            <span th:text="${booking.guest.firstName + ' ' + booking.guest.lastName}"></span>
                         </div>
 
                         <div>
-                            <span th:text="${booking.fromDate()}"></span>
+                            <span th:text="${booking.fromDate}"></span>
                             <span> until </span>
-                            <span th:text="${booking.untilDate()}"></span>
+                            <span th:text="${booking.untilDate}"></span>
                         </div>
                     </div>
 
@@ -66,50 +66,31 @@
                 <div class="collapsible-body" th:object="${booking}">
                     <!-- representative data -->
                     <div class="section">
-                        <div class="row">
-
-                            <div class="section col s6">
-                                <h5>Address</h5>
-                            </div>
-
-
-
-<!--                            <div class="input-field col s6">-->
-<!--                                <i class="material-icons prefix">date_range</i>-->
-<!--                                <input th:id="*{id() + '-fromDate'}" type="date" th:value="*{fromDate()}" disabled/>-->
-<!--                                <label th:for="*{id() + '-fromDate'}">From</label>-->
-<!--                            </div>-->
-<!--                            <div class="input-field col s6">-->
-<!--                                <i class="material-icons prefix">date_range</i>-->
-<!--                                <input th:id="*{id() + '-toDate'}" type="date" th:value="*{untilDate()}" disabled/>-->
-<!--                                <label th:for="*{id() + '-fromDate'}">Until</label>-->
-<!--                            </div>-->
-                        </div>
 
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representative().firstName() + ' ' + representative().lastName()}" disabled/>
-                                <label th:for="*{id() + '-name'}">Name</label>
+                                <input th:id="*{id + '-name'}" type="text" th:value="*{representative.firstName + ' ' + representative.lastName}" disabled/>
+                                <label th:for="*{id + '-name'}">Name</label>
                             </div>
                         </div>
 
-                        <div class="row" th:object="${booking.representative().address()}">
+                        <div class="row" th:object="${booking.representative.address}">
                             <div class="input-field col s3">
                                 <i class="material-icons prefix">location_city</i>
-                                <input id="representativeStreet" type="text" th:value="*{street()}" disabled/>
+                                <input id="representativeStreet" type="text" th:value="*{street}" disabled/>
                                 <label for="representativeStreet">Street</label>
                             </div>
                             <div class="input-field col s3">
-                                <input id="representativeZip" type="text" th:value="*{zip()}" disabled/>
+                                <input id="representativeZip" type="text" th:value="*{zip}" disabled/>
                                 <label for="representativeZip">Zip</label>
                             </div>
                             <div class="input-field col s3">
-                                <input id="representativeCity" type="text" th:value="*{city()}" disabled/>
+                                <input id="representativeCity" type="text" th:value="*{city}" disabled/>
                                 <label for="representativeCity">City/Town</label>
                             </div>
                             <div class="input-field col s3">
-                                <input id="representativeCountry" type="text" th:value="*{country()}" disabled/>
+                                <input id="representativeCountry" type="text" th:value="*{country}" disabled/>
                                 <label for="representativeCountry">Country</label>
                             </div>
                         </div>
@@ -118,12 +99,12 @@
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">email</i>
-                                <input class="validate" id="representativeMail" type="email" th:value="*{representative().email()}" disabled/>
+                                <input class="validate" id="representativeMail" type="email" th:value="*{representative.email}" disabled/>
                                 <label for="representativeMail">Email</label>
                             </div>
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">phone</i>
-                                <input class="validate" id="representativePhone" type="tel" th:value="*{representative().phone()}" disabled/>
+                                <input class="validate" id="representativePhone" type="tel" th:value="*{representative.phone}" disabled/>
                                 <label for="representativePhone">Phone</label>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.CategoryService;
-import fhv.teamd.hotel.application.dto.BookableCategoryDTO;
+import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.ids.CategoryId;
@@ -34,14 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<BookableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
-        List<BookableCategoryDTO> result = new ArrayList<>();
+    public List<AvailableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
+        List<AvailableCategoryDTO> result = new ArrayList<>();
 
         for (Category cat : this.categoryRepository.getAll()) {
 
             // todo magic number xd
             int count = 99;
-            result.add(new BookableCategoryDTO(
+            result.add(new AvailableCategoryDTO(
                     cat.categoryId().toString(),
                     cat.title(),
                     count));
