@@ -1,6 +1,34 @@
 drop table if exists booking_for_category;
-drop table if exists booking;
 drop table if exists category;
+drop table if exists booking;
+drop table if exists stay;
+
+create table stay
+(
+    id                        int auto_increment not null,
+
+    check_in                  datetime           not null,
+    check_out                 datetime           not null,
+
+    guest_first_name          varchar            not null,
+    guest_last_name           varchar            not null,
+    guest_street              varchar            not null,
+    guest_zip                 varchar            not null,
+    guest_city                varchar            not null,
+    guest_country             varchar            not null,
+
+    representative_first_name varchar            not null,
+    representative_last_name  varchar            not null,
+    representative_street     varchar            not null,
+    representative_zip        varchar            not null,
+    representative_city       varchar            not null,
+    representative_country    varchar            not null,
+    representative_email      varchar            not null,
+    representative_phone      varchar            not null,
+
+    primary key (id),
+    check check_in < check_out
+);
 
 create table booking
 (
