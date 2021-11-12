@@ -37,13 +37,13 @@
                 <div class="collapsible-header">
                     <div class="float-left">
                         <div>
-                            <span>Booking by&nbsp;</span>
-                            <span th:text="${booking.representative()}"></span>
+                            <span>Booking by</span>
+                            <span th:text="${booking.representative().firstName() + ' ' + booking.representative().lastName()}"></span>
                         </div>
 
                         <div>
                             <span th:text="${booking.fromDate()}"></span>
-                            <span> / </span>
+                            <span> until </span>
                             <span th:text="${booking.untilDate()}"></span>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     <!--Right Table Buttons -->
                     <div class="float-right valign-wrapper">
                         <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Check-In" onclick="alert('Checked-in');">
-                            <i class="material-icons green-text no-margin center-context">assignment_turned_in</i>
+                            <i class="material-icons green-text no-margin center-context">check_in</i>
                         </div>
                         <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow" data-position="top" data-tooltip="Edit" onclick="alert('Edit');">
                             <i class="material-icons blue-grey-text no-margin center-context">edit</i>
@@ -70,7 +70,6 @@
 
                             <div class="section col s6">
                                 <h5>Address</h5>
-                                <p th:text="${booking}"></p>
                             </div>
 
 
@@ -90,44 +89,41 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representative()}" disabled/>
+                                <input th:id="*{id() + '-name'}" type="text" th:value="*{representative().firstName() + ' ' + representative().lastName()}" disabled/>
                                 <label th:for="*{id() + '-name'}">Name</label>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="input-field col s4">
+                        <div class="row" th:object="${booking.representative().address()}">
+                            <div class="input-field col s3">
                                 <i class="material-icons prefix">location_city</i>
-                                <input id="representativeStreet" type="text" disabled/>
+                                <input id="representativeStreet" type="text" th:value="*{street()}" disabled/>
                                 <label for="representativeStreet">Street</label>
                             </div>
-                            <div class="input-field col s4">
-                                <input id="representativeCity" type="text" disabled/>
+                            <div class="input-field col s3">
+                                <input id="representativeZip" type="text" th:value="*{zip()}" disabled/>
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                            <div class="input-field col s3">
+                                <input id="representativeCity" type="text" th:value="*{city()}" disabled/>
                                 <label for="representativeCity">City/Town</label>
                             </div>
-                            <div class="input-field col s4">
-                                <input id="representativeCountry" type="text" disabled/>
+                            <div class="input-field col s3">
+                                <input id="representativeCountry" type="text" th:value="*{country()}" disabled/>
                                 <label for="representativeCountry">Country</label>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="input-field col s4">
-                                <i class="material-icons prefix">location_city</i>
-                                <input id="representativeZip" type="text" disabled/>
-                                <label for="representativeZip">Zip</label>
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">email</i>
-                                <input class="validate" id="representativeMail" type="email" disabled/>
+                                <input class="validate" id="representativeMail" type="email" th:value="*{representative().email()}" disabled/>
                                 <label for="representativeMail">Email</label>
                             </div>
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">phone</i>
-                                <input class="validate" id="representativePhone" type="tel" disabled/>
+                                <input class="validate" id="representativePhone" type="tel" th:value="*{representative().phone()}" disabled/>
                                 <label for="representativePhone">Phone</label>
                             </div>
                         </div>
@@ -135,7 +131,7 @@
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">payment</i>
                                 <select id="payment" disabled>
-                                    <option disabled selected value="">Select payment method</option>
+                                    <option disabled selected value="">TODO</option>
                                     <option value="cash">Cash</option>
                                     <option value="creditCard">Credit Card</option>
                                 </select>

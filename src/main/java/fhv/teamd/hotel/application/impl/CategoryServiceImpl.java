@@ -70,11 +70,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = result.get();
 
-        return Optional.of(CategoryDTO.builder()
-                .withId(category.categoryId().toString())
-                .withTitle(category.title())
-                .withDescription(category.description())
-                .withPrice(category.pricePerNight())
-                .build());
+        return Optional.of(CategoryDTO.fromCategory(category));
     }
 }

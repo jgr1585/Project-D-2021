@@ -146,8 +146,13 @@ public class HotelViewController {
 
         List<CategoryDTO> categories = new ArrayList<CategoryDTO>();
 
-        for (String categoryId : chooseCategoriesForm.getCategorySelection().keySet()) {
-            categories.add(this.categoryService.findCategoryById(categoryId).get());
+        for (Map.Entry<String, Integer> entry : chooseCategoriesForm.getCategorySelection().entrySet()) {
+            String categoryId = entry.getKey();
+            Integer amount = entry.getValue();
+
+            if(amount > 0) {
+                categories.add(this.categoryService.findCategoryById(categoryId).get());
+            }
         }
 
         model.addAttribute("categories", categories);
