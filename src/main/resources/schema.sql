@@ -108,6 +108,7 @@ create table stay_in_room
     stay_id int not null,
     room_id int not null,
 
+    primary key (stay_id, room_id),
     foreign key (stay_id) references stay(id) on delete cascade,
     foreign key (room_id) references room(id) on delete restrict
 );
