@@ -16,7 +16,7 @@ public class RoomDTO {
 
     public static RoomDTO fromRoom(Room room) {
         return new RoomDTO(
-                room.id().toString(),
+                room.roomId().toString(),
                 room.category().categoryId().toString());
     }
 
