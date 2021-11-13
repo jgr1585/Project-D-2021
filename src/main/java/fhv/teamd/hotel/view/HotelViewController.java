@@ -51,6 +51,8 @@ public class HotelViewController {
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
+        model.addAttribute("stays", this.frontDeskService.getAllHotelStays());
+
         return new ModelAndView("index");
     }
 
