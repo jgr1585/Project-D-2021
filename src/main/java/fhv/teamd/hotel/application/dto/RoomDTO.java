@@ -1,11 +1,24 @@
 package fhv.teamd.hotel.application.dto;
 
+import fhv.teamd.hotel.domain.Room;
+
 import java.util.Objects;
 
 public class RoomDTO {
 
-    private String id;
-    private String categoryId;
+    private final String id;
+    private final String categoryId;
+
+    public RoomDTO(String id, String categoryId) {
+        this.id = id;
+        this.categoryId = categoryId;
+    }
+
+    public static RoomDTO fromRoom(Room room) {
+        return new RoomDTO(
+                room.id().toString(),
+                room.category().categoryId().toString());
+    }
 
     public String id() {
         return this.id;

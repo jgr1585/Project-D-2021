@@ -16,4 +16,11 @@ public class Room {
     }
 
 
+    public RoomId id() {
+        return this.roomId;
+    }
+
+    public Category category() {
+        return this.category;
+    }
 }
