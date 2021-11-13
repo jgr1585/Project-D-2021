@@ -20,56 +20,105 @@
 
         <div class="section">
 
-            <div th:each="category: ${categories}" class="row">
+            <!-- hidden fields for chooseCategoriesForm -->
+            <div class="hide">
+                <input id="from" type="hidden"
+                       th:field="${chooseCategoriesForm.from}"
+                       th:value="${chooseCategoriesForm.from}"
+                       required/>
+                <input id="until" type="hidden"
+                       th:field="${chooseCategoriesForm.until}"
+                       th:value="${chooseCategoriesForm.until}"
+                       required/>
+                <div th:each="entry: ${chooseCategoriesForm.categorySelection}">
+                    <input th:id="*{entry.key}"
+                           th:field="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                           th:value="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
+                           type="hidden"/>
+                </div>
+            </div>
 
-                <div class="col s2" th:text="${category.title()}"></div>
+            <!-- hidden fields from personal details form -->
+            <div class="hide">
+            <input id="privateGuestFirstName" type="hidden"
+                   th:field="${personalDetailsForm.guestFirstName}"
+                   th:value="${personalDetailsForm.guestFirstName}"
+                   required/>
+            <input id="privateGuestLastName" type="hidden"
+                   th:field="${personalDetailsForm.guestLastName}"
+                   th:value="${personalDetailsForm.guestLastName}"
+                   required/>
+            <input id="guestStreet" type="hidden"
+                   th:field="${personalDetailsForm.guestStreet}"
+                   th:value="${personalDetailsForm.guestStreet}"
+                   required/>
+            <input id="guestCity" type="hidden"
+                   th:field="${personalDetailsForm.guestCity}"
+                   th:value="${personalDetailsForm.guestCity}"
+                   required/>
+            <input id="guestCountry" type="hidden"
+                   th:field="${personalDetailsForm.guestCountry}"
+                   th:value="${personalDetailsForm.guestCountry}"
+                   required/>
+            <input id="guestZip" type="hidden"
+                   th:field="${personalDetailsForm.guestZip}"
+                   th:value="${personalDetailsForm.guestZip}"
+                   required/>
+
+            <input id="representativeFirstName" type="hidden"
+                   th:field="${personalDetailsForm.representativeFirstName}"
+                   th:value="${personalDetailsForm.representativeFirstName}"
+                   required/>
+            <input id="representativeLastName" type="hidden"
+                   th:field="${personalDetailsForm.representativeLastName}"
+                   th:value="${personalDetailsForm.representativeLastName}"
+                   required/>
+            <input id="representativeStreet" type="hidden"
+                   th:field="${personalDetailsForm.representativeStreet}"
+                   th:value="${personalDetailsForm.representativeStreet}"
+                   required/>
+            <input id="representativeCity" type="hidden"
+                   th:field="${personalDetailsForm.representativeCity}"
+                   th:value="${personalDetailsForm.representativeCity}"
+                   required/>
+            <input id="representativeCountry" type="hidden"
+                   th:field="${personalDetailsForm.representativeCountry}"
+                   th:value="${personalDetailsForm.representativeCountry}"
+                   required/>
+            <input id="representativeZip" type="hidden"
+                   th:field="${personalDetailsForm.representativeZip}"
+                   th:value="${personalDetailsForm.representativeZip}"
+                   required/>
+            <input id="representativeMail" type="hidden"
+                   th:field="${personalDetailsForm.representativeMail}"
+                   th:value="${personalDetailsForm.representativeMail}"
+                   required/>
+            <input id="representativePhone" type="hidden"
+                   th:field="${personalDetailsForm.representativePhone}"
+                   th:value="${personalDetailsForm.representativePhone}"
+                   required/>
+            </div>
+
+            <div th:each="category: ${categories}" class="row valign-wrapper">
+
+                <div class="col s2 no-margin" th:text="${category.title()}"></div>
 
 
-                <div th:each="roomNumber, stat: ${roomAssignmentForm.categoriesAndRooms.get(category.id())}"
-                     class="input-field col s1">
 
-                    <label th:for="${category.id() + '-' + stat.count}" hidden></label>
-                    <input th:id="${category.id() + '-' + stat.count}" type="text"
-                           th:value="${roomNumber}"
-                           th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.count}__']}"
+                <div th:each="room, stat: ${suggestedAssignments.get(category.id())}"
+                     class="input-field col s1 no-margin">
+
+                    <label th:for="${category.id() + '-' + stat.index}" hidden></label>
+                    <!--<input th:id="${category.id() + '-' + stat.index}" type="text"
+                           th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.index}__']}"
+                           readonly disabled>-->
+                    <input th:id="${category.id() + '-' + stat.index}" type="text"
+                           th:field="${roomAssignmentForm.mapping['__${category.id() + '|' + stat.index}__']}"
                            readonly disabled>
 
                 </div>
 
             </div>
-
-<!--
-            <div class="row">
-
-                <div class="col s2">Single Bed (preview)</div>
-
-                <div class="input-field col s1">
-                    <label for="single-bed-room-1" hidden></label>
-                    <input id="single-bed-room-1" type="text" value="R111" readonly disabled>
-                </div>
-                <div class="input-field col s1">
-                    <label for="single-bed-room-2" hidden></label>
-                    <input id="single-bed-room-2" type="text" value="R222" readonly disabled>
-                </div>
-
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="row">
-
-                <div class="col s2">Single Bed (preview)</div>
-
-                <div class="input-field col s1">
-                    <label for="double-bed-room-1" hidden></label>
-                    <input id="double-bed-room-1" type="text" value="R111" readonly disabled>
-                </div>
-                <div class="input-field col s1">
-                    <label for="double-bed-room-2" hidden></label>
-                    <input id="double-bed-room-2" type="text" value="R222" readonly disabled>
-                </div>
-            </div>
-            -->
 
         </div>
 

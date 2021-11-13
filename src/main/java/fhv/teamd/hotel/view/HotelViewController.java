@@ -2,8 +2,10 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.RoomAssignmentService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -41,6 +44,9 @@ public class HotelViewController {
 
     @Autowired
     private RoomAssignmentService roomAssignmentService;
+
+    @Autowired
+    private FrontDeskService frontDeskService;
 
     @GetMapping("/")
     public ModelAndView index(Model model) {
@@ -261,8 +267,9 @@ public class HotelViewController {
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model) {
 
-        RoomAssignmentForm assignmentForm = new RoomAssignmentForm();
+        RoomAssignmentForm roomAssignmentForm = new RoomAssignmentForm();
         List<CategoryDTO> categories = new ArrayList<>();
+        Map<String, List<RoomDTO>> suggestedAssignments = new HashMap<>();
 
         for(Map.Entry<String, Integer> entry: chooseCategoriesForm.getCategorySelection().entrySet()) {
 
@@ -274,7 +281,16 @@ public class HotelViewController {
                 List<RoomDTO> rooms = this.roomAssignmentService.findSuitableRooms(categoryId, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
-                assignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
+                roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
+
+                int i = 0;
+                for(RoomDTO room: rooms) {
+                    roomAssignmentForm.getMapping().put(categoryId + '|' + i, room.id());
+                    i++;
+                }
+
+                suggestedAssignments.put(categoryId, rooms);
+
 
                 categories.add(this.categoryService.findCategoryById(categoryId).get());
             }
@@ -282,9 +298,56 @@ public class HotelViewController {
         }
 
 
-        model.addAttribute("roomAssignmentForm", assignmentForm);
+        model.addAttribute("roomAssignmentForm", roomAssignmentForm);
+        model.addAttribute("suggestedAssignments", suggestedAssignments);
         model.addAttribute("categories", categories);
 
         return new ModelAndView("/checkIn/roomAssignment");
+    }
+
+    @PostMapping("/checkIn/submitRoomAssignment")
+    public ModelAndView checkInSubmitRoomAssignment(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
+            Model model) {
+
+        List<String> roomIds = new ArrayList<>();
+
+        Collection<List<String>> roomGroups = roomAssignmentForm.getCategoriesAndRooms().values();
+        for(List<String> roomGroup: roomGroups) {
+            roomIds.addAll(roomGroup);
+        }
+
+        Duration duration = Duration.between(
+                chooseCategoriesForm.getFrom().atStartOfDay(),
+                chooseCategoriesForm.getUntil().atStartOfDay());
+
+        GuestDetails guest = new GuestDetails(
+                personalDetailsForm.getGuestFirstName(),
+                personalDetailsForm.getGuestLastName(),
+                new Address(
+                        personalDetailsForm.getGuestStreet(),
+                        personalDetailsForm.getGuestZip(),
+                        personalDetailsForm.getGuestCity(),
+                        personalDetailsForm.getGuestCountry()
+                )
+        );
+
+        RepresentativeDetails representative = new RepresentativeDetails(
+                personalDetailsForm.getRepresentativeFirstName(),
+                personalDetailsForm.getRepresentativeLastName(),
+                personalDetailsForm.getRepresentativeMail(),
+                new Address(
+                        personalDetailsForm.getRepresentativeStreet(),
+                        personalDetailsForm.getRepresentativeZip(),
+                        personalDetailsForm.getRepresentativeCity(),
+                        personalDetailsForm.getRepresentativeCountry()),
+                personalDetailsForm.getRepresentativePhone()
+        );
+
+        this.frontDeskService.checkIn(roomIds, duration, guest, representative);
+
+        return new ModelAndView("redirect:/");
     }
 }
