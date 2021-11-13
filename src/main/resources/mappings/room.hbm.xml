@@ -1,7 +1,15 @@
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Room">
+
         <id name="id" type="long" column="id">
             <generator class="native"/>
         </id>
+
+        <component name="roomId" class="fhv.teamd.hotel.domain.ids.RoomId">
+            <property name="id" type="string" column="room_id"/>
+        </component>
+
+        <many-to-one name="category" column="category_id"/>
+
     </class>
 </hibernate-mapping>

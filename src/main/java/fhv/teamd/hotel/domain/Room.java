@@ -11,12 +11,16 @@ public class Room {
     private Category category;
 
 
-    public Room() {
+    private Room() {
         // hibernate
     }
 
+    protected Long id() {
+        return this.id;
+    }
 
-    public RoomId id() {
+
+    public RoomId roomId() {
         return this.roomId;
     }
 
