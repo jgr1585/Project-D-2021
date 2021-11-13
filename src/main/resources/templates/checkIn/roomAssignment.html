@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="Check-In - Room Assignment">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+</head>
+
+<body>
+
+<header th:replace="fragments/main.html :: header"></header>
+
+<div class="container">
+    <h3>Check-In - Room Assignment</h3>
+
+    <form action="/checkIn/submitRoomAssignment" method="post" class="col s12">
+
+        <div class="section">
+
+            <div th:each="category: ${categories}" class="row">
+
+                <div class="col s2" th:text="${category.title()}"></div>
+
+
+                <div th:each="roomNumber, stat: ${roomAssignmentForm.categoriesAndRooms.get(category.id())}"
+                     class="input-field col s1">
+
+                    <label th:for="${category.id() + '-' + stat.count}" hidden></label>
+                    <input th:id="${category.id() + '-' + stat.count}" type="text"
+                           th:value="${roomNumber}"
+                           th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.count}__']}"
+                           readonly disabled>
+
+                </div>
+
+            </div>
+
+<!--
+            <div class="row">
+
+                <div class="col s2">Single Bed (preview)</div>
+
+                <div class="input-field col s1">
+                    <label for="single-bed-room-1" hidden></label>
+                    <input id="single-bed-room-1" type="text" value="R111" readonly disabled>
+                </div>
+                <div class="input-field col s1">
+                    <label for="single-bed-room-2" hidden></label>
+                    <input id="single-bed-room-2" type="text" value="R222" readonly disabled>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="row">
+
+                <div class="col s2">Single Bed (preview)</div>
+
+                <div class="input-field col s1">
+                    <label for="double-bed-room-1" hidden></label>
+                    <input id="double-bed-room-1" type="text" value="R111" readonly disabled>
+                </div>
+                <div class="input-field col s1">
+                    <label for="double-bed-room-2" hidden></label>
+                    <input id="double-bed-room-2" type="text" value="R222" readonly disabled>
+                </div>
+            </div>
+            -->
+
+        </div>
+
+
+
+        <div class="row right-align">
+            <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Next
+                <i class="material-icons right">navigate_next</i>
+            </button>
+            <button class="btn waves-effect waves-light disabled" type="submit">Back
+                <i class="material-icons left">navigate_before</i>
+            </button>
+            <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                <i class="material-icons right">cancel</i>
+            </a>
+        </div>
+    </form>
+
+</div>
+
+
+<footer th:replace="fragments/main.html :: footer"></footer>
+
+</body>
+</html>
