@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.application;
 
 
+import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
@@ -11,5 +12,7 @@ public interface FrontDeskService {
 
     void checkIn(List<String> roomIds, Duration expectedDuration,
                  GuestDetails guest, RepresentativeDetails representative);
+
+    List<StayDTO> getAllHotelStays();
 
 }

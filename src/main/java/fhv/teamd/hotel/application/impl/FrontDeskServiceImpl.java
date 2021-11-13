@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
@@ -16,6 +17,7 @@ import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class FrontDeskServiceImpl implements FrontDeskService {
@@ -52,5 +54,13 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         Stay newStay = new Stay(this.stayRepository.nextIdentity(), checkIn, checkOut, rooms, guest, representative);
 
         this.stayRepository.put(newStay);
+    }
+
+    @Override
+    public List<StayDTO> getAllHotelStays() {
+        return this.stayRepository.getAll()
+                .stream()
+                .map(StayDTO::fromStay)
+                .collect(Collectors.toList());
     }
 }
