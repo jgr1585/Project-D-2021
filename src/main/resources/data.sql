@@ -30,17 +30,17 @@ values (111, 111, 3),
        (222, 222, 1);
 
 insert into room (id, room_id, category_id)
-values (111, 'dom-id-room-111', 111),
-       (112, 'dom-id-room-112', 111),
-       (113, 'dom-id-room-113', 111),
-       (114, 'dom-id-room-114', 111),
-       (115, 'dom-id-room-115', 111),
+values (111, 'R111', 111),
+       (112, 'R112', 111),
+       (113, 'R113', 111),
+       (114, 'R114', 111),
+       (115, 'R115', 111),
 
-       (221, 'dom-id-room-221', 222),
-       (222, 'dom-id-room-222', 222),
-       (223, 'dom-id-room-223', 222),
-       (224, 'dom-id-room-224', 222),
-       (225, 'dom-id-room-225', 222);
+       (221, 'R221', 222),
+       (222, 'R222', 222),
+       (223, 'R223', 222),
+       (224, 'R224', 222),
+       (225, 'R225', 222);
 
 insert into stay (id, stay_id, check_in, check_out,
                   guest_first_name, guest_last_name, guest_street, guest_zip, guest_city, guest_country,
