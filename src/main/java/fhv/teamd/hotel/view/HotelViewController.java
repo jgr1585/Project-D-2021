@@ -2,6 +2,7 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.RoomAssignmentService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
@@ -9,6 +10,7 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
+import fhv.teamd.hotel.view.forms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,9 @@ public class HotelViewController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private RoomAssignmentService roomAssignmentService;
 
     @GetMapping("/")
     public ModelAndView index(Model model) {
@@ -236,5 +241,50 @@ public class HotelViewController {
         model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
 
         return new ModelAndView("/checkIn/personalDetails");
+    }
+
+    @PostMapping("/checkIn/submitPersonalDetails")
+    public RedirectView checkInSubmitPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            RedirectAttributes redirAttributes) {
+
+        redirAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+        redirAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
+
+        return new RedirectView("/checkIn/roomAssignment");
+    }
+
+    @GetMapping("/checkIn/roomAssignment")
+    public ModelAndView checkInRoomAssignment(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model) {
+
+        RoomAssignmentForm assignmentForm = new RoomAssignmentForm();
+        List<CategoryDTO> categories = new ArrayList<>();
+
+        for(Map.Entry<String, Integer> entry: chooseCategoriesForm.getCategorySelection().entrySet()) {
+
+            String categoryId = entry.getKey();
+            Integer amount = entry.getValue();
+
+            if(amount > 0) {
+
+                List<RoomDTO> rooms = this.roomAssignmentService.findSuitableRooms(categoryId, amount);
+                List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
+
+                assignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
+
+                categories.add(this.categoryService.findCategoryById(categoryId).get());
+            }
+
+        }
+
+
+        model.addAttribute("roomAssignmentForm", assignmentForm);
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/checkIn/roomAssignment");
     }
 }
