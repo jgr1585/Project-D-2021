@@ -7,47 +7,6 @@
 </head>
 <body>
 
-<div class="section" th:fragment="chooseCategories">
-
-    <h6>Select period</h6>
-    <div class="row">
-        <div class="input-field col s6">
-            <i class="material-icons prefix">date_range</i>
-            <input id="from" type="date"
-                   th:field="${chooseCategoriesForm.from}"
-                   th:value="${chooseCategoriesForm.from}"
-                   required/>
-            <label for="from">From</label>
-        </div>
-        <div class="input-field col s6">
-            <i class="material-icons prefix">date_range</i>
-            <input id="until" type="date"
-                   th:field="${chooseCategoriesForm.until}"
-                   th:value="${chooseCategoriesForm.until}"
-                   required/>
-            <label for="until">Until</label>
-        </div>
-    </div>
-
-    <h6>Select room categories</h6>
-    <div class="row">
-        <div th:each="category: ${categories}">
-            <div class="input-field col s3" >
-
-                <input th:id="${category.categoryId}"
-                       th:field="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
-                       th:value="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
-                       min="0" th:max="${category.numberAvailable}"
-                       type="number"/>
-
-                <label th:for="${category.categoryId}" type="number" th:text="${category.categoryName}">
-                    placeholder
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="section" th:fragment="personalDetails"><div th:object="${personalDetailsForm}">
 
     <!-- guest/group data -->
@@ -198,6 +157,66 @@
     </div>
 
 </div></div>
+
+<div th:fragment="personalDetailsHidden">
+        <input id="privateGuestFirstName" type="hidden"
+               th:field="${personalDetailsForm.guestFirstName}"
+               th:value="${personalDetailsForm.guestFirstName}"
+               required/>
+        <input id="privateGuestLastName" type="hidden"
+               th:field="${personalDetailsForm.guestLastName}"
+               th:value="${personalDetailsForm.guestLastName}"
+               required/>
+        <input id="guestStreet" type="hidden"
+               th:field="${personalDetailsForm.guestStreet}"
+               th:value="${personalDetailsForm.guestStreet}"
+               required/>
+        <input id="guestCity" type="hidden"
+               th:field="${personalDetailsForm.guestCity}"
+               th:value="${personalDetailsForm.guestCity}"
+               required/>
+        <input id="guestCountry" type="hidden"
+               th:field="${personalDetailsForm.guestCountry}"
+               th:value="${personalDetailsForm.guestCountry}"
+               required/>
+        <input id="guestZip" type="hidden"
+               th:field="${personalDetailsForm.guestZip}"
+               th:value="${personalDetailsForm.guestZip}"
+               required/>
+
+        <input id="representativeFirstName" type="hidden"
+               th:field="${personalDetailsForm.representativeFirstName}"
+               th:value="${personalDetailsForm.representativeFirstName}"
+               required/>
+        <input id="representativeLastName" type="hidden"
+               th:field="${personalDetailsForm.representativeLastName}"
+               th:value="${personalDetailsForm.representativeLastName}"
+               required/>
+        <input id="representativeStreet" type="hidden"
+               th:field="${personalDetailsForm.representativeStreet}"
+               th:value="${personalDetailsForm.representativeStreet}"
+               required/>
+        <input id="representativeCity" type="hidden"
+               th:field="${personalDetailsForm.representativeCity}"
+               th:value="${personalDetailsForm.representativeCity}"
+               required/>
+        <input id="representativeCountry" type="hidden"
+               th:field="${personalDetailsForm.representativeCountry}"
+               th:value="${personalDetailsForm.representativeCountry}"
+               required/>
+        <input id="representativeZip" type="hidden"
+               th:field="${personalDetailsForm.representativeZip}"
+               th:value="${personalDetailsForm.representativeZip}"
+               required/>
+        <input id="representativeMail" type="hidden"
+               th:field="${personalDetailsForm.representativeMail}"
+               th:value="${personalDetailsForm.representativeMail}"
+               required/>
+        <input id="representativePhone" type="hidden"
+               th:field="${personalDetailsForm.representativePhone}"
+               th:value="${personalDetailsForm.representativePhone}"
+               required/>
+</div>
 
 </body>
 </html>

@@ -11,7 +11,7 @@ import java.util.List;
 public interface FrontDeskService {
 
     void checkIn(List<String> roomIds, Duration expectedDuration,
-                 GuestDetails guest, RepresentativeDetails representative);
+                 GuestDetails guest, RepresentativeDetails representative) throws Exception;
 
     List<StayDTO> getAllHotelStays();
 

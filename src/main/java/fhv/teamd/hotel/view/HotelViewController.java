@@ -193,12 +193,17 @@ public class HotelViewController {
                     personalDetailsForm.getRepresentativeCountry()),
                 personalDetailsForm.getRepresentativePhone());
 
-        this.bookingService.book(
-                chooseCategoriesForm.getCategorySelection(),
-                chooseCategoriesForm.getFrom().atStartOfDay(),
-                chooseCategoriesForm.getUntil().atStartOfDay(),
-                guest, rep
-        );
+        try {
+            this.bookingService.book(
+                    chooseCategoriesForm.getCategorySelection(),
+                    chooseCategoriesForm.getFrom().atStartOfDay(),
+                    chooseCategoriesForm.getUntil().atStartOfDay(),
+                    guest, rep
+            );
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
+
 
         response.sendRedirect("/booking/bookingOverview");
     }
@@ -348,7 +353,11 @@ public class HotelViewController {
                 personalDetailsForm.getRepresentativePhone()
         );
 
-        this.frontDeskService.checkIn(roomIds, duration, guest, representative);
+        try {
+            this.frontDeskService.checkIn(roomIds, duration, guest, representative);
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
 
         return new ModelAndView("redirect:/");
     }

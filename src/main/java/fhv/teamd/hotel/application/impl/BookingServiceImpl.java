@@ -12,8 +12,9 @@ import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class BookingServiceImpl implements BookingService {
 
     @Autowired
@@ -30,10 +31,11 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Transactional
     @Override
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
-                     GuestDetails guest, RepresentativeDetails rep) {
+                     GuestDetails guest, RepresentativeDetails rep) throws Exception {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
@@ -48,7 +50,7 @@ public class BookingServiceImpl implements BookingService {
 
             Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
             if (result.isEmpty()) {
-                throw new EntityNotFoundException("no category with this id");
+                throw new Exception("no category with this id");
             }
 
             Category cat = result.get();
@@ -64,6 +66,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public List<BookingDTO> getAll() {
         return this.bookingRepository
                 .getAllBookings()
@@ -74,6 +77,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
         Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));

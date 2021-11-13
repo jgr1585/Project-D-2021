@@ -7,17 +7,20 @@ import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     @Autowired
     private RoomRepository roomRepository;
 
     @Override
+    @Transactional
     public List<RoomDTO> findSuitableRooms(String categoryId, int amount) {
 
         List<Room> rooms = this.roomRepository.getByCategory(new CategoryId(categoryId));

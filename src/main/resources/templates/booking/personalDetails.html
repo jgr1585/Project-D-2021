@@ -19,23 +19,9 @@
     <div class="row">
         <form action="/booking/submitPersonalDetails" method="post" class="col s12">
 
-            <!-- hidden fields for multipage form -->
-            <input id="from" type="hidden"
-                   th:field="${chooseCategoriesForm.from}"
-                   th:value="${chooseCategoriesForm.from}"
-                   required/>
-            <input id="until" type="hidden"
-                   th:field="${chooseCategoriesForm.until}"
-                   th:value="${chooseCategoriesForm.until}"
-                   required/>
-            <div th:each="entry: ${chooseCategoriesForm.categorySelection}">
-                <input th:id="*{entry.key}"
-                       th:field="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
-                       th:value="${chooseCategoriesForm.categorySelection['__${entry.key}__']}"
-                       type="hidden"/>
-            </div>
+            <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden"></div>
 
-            <div th:replace="fragments/forms :: personalDetails"></div>
+            <div th:replace="fragments/personalDetails :: personalDetails"></div>
 
             <!-- back/cancel/submit buttons -->
             <div class="row right-align">

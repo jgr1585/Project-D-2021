@@ -11,15 +11,15 @@ import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class FrontDeskServiceImpl implements FrontDeskService {
 
     @Autowired
@@ -31,7 +31,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional
     @Override
     public void checkIn(List<String> roomIds, Duration expectedDuration,
-                        GuestDetails guest, RepresentativeDetails representative) {
+                        GuestDetails guest, RepresentativeDetails representative) throws Exception {
 
         Set<Room> rooms = new HashSet<>();
 
@@ -40,7 +40,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             Optional<Room> result = this.roomRepository.getById(new RoomId(roomId));
 
             if(result.isEmpty()) {
-                throw new EntityNotFoundException("invalid room id");
+                throw new Exception("invalid room id");
             }
 
             rooms.add(result.get());
@@ -57,6 +57,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     }
 
     @Override
+    @Transactional
     public List<StayDTO> getAllHotelStays() {
         return this.stayRepository.getAll()
                 .stream()
