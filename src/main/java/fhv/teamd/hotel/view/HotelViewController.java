@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -216,5 +218,23 @@ public class HotelViewController {
         return new ModelAndView("/checkIn/chooseCategories");
     }
 
+    @PostMapping("/checkIn/chooseCategories")
+    public RedirectView checkInSubmitCategories(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            RedirectAttributes redirAttributes) {
 
+        redirAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+
+        return new RedirectView("/checkIn/personalDetails");
+    }
+
+    @GetMapping("/checkIn/personalDetails")
+    public ModelAndView checkInPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            Model model) {
+
+        model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
+
+        return new ModelAndView("/checkIn/personalDetails");
+    }
 }
