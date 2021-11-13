@@ -8,13 +8,13 @@
             <property name="id" column="stay_id" type="string"/>
         </component>
 
-        <property name="checkIn" column="check_in" type="timestamp"/>
-        <property name="expectedCheckOut" column="check_out" type="timestamp"/>
+        <property name="checkIn" column="check_in" type="java.time.LocalDateTime"/>
+        <property name="expectedCheckOut" column="check_out" type="java.time.LocalDateTime"/>
 
 
-        <set name="rooms">
-            <key foreign-key="stay_id"/>
-            <many-to-many foreign-key="room_id"
+        <set name="rooms" table="stay_in_room">
+            <key column="stay_id"/>
+            <many-to-many column="room_id"
                           class="fhv.teamd.hotel.domain.Room"/>
         </set>
 
