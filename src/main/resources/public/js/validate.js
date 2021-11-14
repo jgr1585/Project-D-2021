@@ -1,14 +1,10 @@
 //add html validation to Page
 
 //Add new Check for Date
-$.validator.addMethod("minDateToday", function(value, element) {
+$.validator.addMethod("minDateToday", function(value) {
     let curDate = new Date();
     let inputDate = new Date(value);
-    if (inputDate >= curDate) {
-        return true;
-    } else {
-        return false;
-    }
+    return inputDate >= curDate;
 }, "Invalid Date!");
 
 //Require at lest n in class
@@ -19,27 +15,46 @@ $.validator.addMethod("atLeastNInClass", function (value, element, param) {
             count += $(this).val();
     });
 
-    if (count >= param.min) {
-        return true;
-    } else {
-        return false;
-    }
+    return count >= param.min;
 
 }, "Values are below Minimum!");
 
 //Compare Date
-$.validator.addMethod("validateDate", function (value, element) {
+$.validator.addMethod("validateDate", function () {
     let from = new Date($("#from").val());
     let until = new Date($("#until").val());
 
 
-    if (from <= until) {
-        return true;
-    } else {
-        return false;
-    }
+    return from <= until;
 
 }, "From is after Until!");
+
+//Return true if the field value matches the given format RegExp
+$.validator.addMethod( "pattern", function( value, element, param ) {
+    if ( this.optional( element ) ) {
+        return true;
+    }
+    if ( typeof param === "string" ) {
+        param = new RegExp( "^(?:" + param + ")$" );
+    }
+    return param.test( value );
+}, "Invalid format." );
+
+
+//Check if Something is selected
+$.validator.addMethod( "checkSelectNotAllowed", function( value, element, param ) {
+
+    let returnValue = true;
+
+    param.forEach(test => {
+        if (test === $(element).val()) {
+            returnValue = false;
+        }
+    });
+
+    return returnValue;
+
+}, "Select Something else!" );
 
 
 $(document).ready(function () {
@@ -65,5 +80,26 @@ $(document).ready(function () {
             min: 1
         }
     });
+
+    //Require every Text input
+    $("input[type='text']").rules("add", {
+        required: true,
+        minlength: 3,
+        maxlength: 255
+    });
+
+    //Require E-Mail
+    $("input[type='email']").rules("add", {
+        required: true,
+    });
+
+    //Select a Payment
+    $("#payment").rules("add", {
+        checkSelectNotAllowed: [
+            "Select payment method"
+        ]
+    });
+
+
 
 });
