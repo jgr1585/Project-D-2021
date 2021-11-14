@@ -13,7 +13,7 @@ public interface BookingService {
 
     void book(Map<String, Integer> categoryIdsAndAmounts,
               LocalDateTime from, LocalDateTime until,
-              GuestDetails guest, RepresentativeDetails representative);
+              GuestDetails guest, RepresentativeDetails representative) throws Exception;
 
     List<BookingDTO> getAll();
 

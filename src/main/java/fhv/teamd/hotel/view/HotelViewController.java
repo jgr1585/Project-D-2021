@@ -2,26 +2,32 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.RoomAssignmentService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingListForm;
 import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
-import fhv.teamd.hotel.view.forms.ExperimentalBookingForm;
+import fhv.teamd.hotel.view.forms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,8 +42,16 @@ public class HotelViewController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private RoomAssignmentService roomAssignmentService;
+
+    @Autowired
+    private FrontDeskService frontDeskService;
+
     @GetMapping("/")
     public ModelAndView index(Model model) {
+
+        model.addAttribute("stays", this.frontDeskService.getAllHotelStays());
 
         return new ModelAndView("index");
     }
@@ -55,40 +69,18 @@ public class HotelViewController {
         return new ModelAndView("/booking/bookingOverview");
     }
 
-    @GetMapping("/booking/experimental")
-    public ModelAndView experimentalForm(
-            @ModelAttribute ExperimentalBookingForm form,
-            Model model) {
-
-        LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
-        LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
-
-        form.setFromDate(defaultStartDate);
-        form.setUntilDate(defaultEndDate);
-
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
-                defaultStartDate.atStartOfDay(),
-                defaultEndDate.atStartOfDay());
-
-        model.addAttribute("form", form);
-        model.addAttribute("categories", categories);
-
-        return new ModelAndView("/booking/experimentalBookingForm");
-    }
-
-
     @GetMapping("/booking/chooseCategories")
-    public ModelAndView createBooking(Model model) {
+    public ModelAndView bookingChooseCategories(Model model) {
 
         LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
         LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
 
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
+        List<AvailableCategoryDTO> categories = this.categoryService.getAvailableCategories(
                 defaultStartDate.atStartOfDay(),
                 defaultEndDate.atStartOfDay());
 
         Map<String, Integer> defaultValues
-                = categories.stream().collect(Collectors.toMap(BookableCategoryDTO::categoryId, cat -> 0));
+                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
 
         ChooseCategoriesForm chooseCategoriesForm
                 = new ChooseCategoriesForm(defaultStartDate, defaultEndDate, defaultValues);
@@ -101,7 +93,7 @@ public class HotelViewController {
     }
 
     @PostMapping("/booking/chooseCategories")
-    public ModelAndView submitCategories(
+    public ModelAndView bookingSubmitCategories(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             Model model,
             HttpServletResponse response) throws IOException {
@@ -120,11 +112,13 @@ public class HotelViewController {
             response.sendRedirect("/booking/chooseCategories");
         }
 
-        return this.personalDetails(chooseCategoriesForm, model);
+
+
+        return this.bookingPersonalDetails(chooseCategoriesForm, model);
     }
 
     @GetMapping("/booking/personalDetails")
-    public ModelAndView personalDetails(
+    public ModelAndView bookingPersonalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
             Model model) {
 
@@ -135,8 +129,43 @@ public class HotelViewController {
         return new ModelAndView("/booking/personalDetails");
     }
 
+    @GetMapping("/booking/bookingSummary")
+    public ModelAndView bookingSummary(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) {
+
+        List<CategoryDTO> categories = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : chooseCategoriesForm.getCategorySelection().entrySet()) {
+            String categoryId = entry.getKey();
+            Integer amount = entry.getValue();
+
+            Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
+
+            if(amount > 0 && result.isPresent()) {
+                categories.add(result.get());
+            }
+        }
+
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/booking/bookingSummary");
+    }
+
     @PostMapping("/booking/submitPersonalDetails")
-    public void submitPersonalDetails(
+    public ModelAndView submitPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model,
+            HttpServletResponse response) {
+
+        return this.bookingSummary(chooseCategoriesForm, personalDetailsForm, model, response);
+    }
+
+    @PostMapping("/booking/submit")
+    public void submitBooking(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
@@ -164,13 +193,172 @@ public class HotelViewController {
                     personalDetailsForm.getRepresentativeCountry()),
                 personalDetailsForm.getRepresentativePhone());
 
-        this.bookingService.book(
-                chooseCategoriesForm.getCategorySelection(),
-                chooseCategoriesForm.getFrom().atStartOfDay(),
-                chooseCategoriesForm.getUntil().atStartOfDay(),
-                guest, rep
-        );
+        try {
+            this.bookingService.book(
+                    chooseCategoriesForm.getCategorySelection(),
+                    chooseCategoriesForm.getFrom().atStartOfDay(),
+                    chooseCategoriesForm.getUntil().atStartOfDay(),
+                    guest, rep
+            );
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
+
 
         response.sendRedirect("/booking/bookingOverview");
+    }
+
+
+
+
+    @GetMapping("/checkIn/chooseCategories")
+    public ModelAndView checkInChooseCategories(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            Model model) {
+
+        LocalDate defaultCheckIn = LocalDate.now();
+        LocalDate defaultCheckOut = defaultCheckIn.plus(defaultStayDuration);
+
+        List<AvailableCategoryDTO> categories
+                = this.categoryService.getAvailableCategories(
+                    defaultCheckIn.atStartOfDay(),
+                    defaultCheckOut.atStartOfDay());
+
+        Map<String, Integer> defaultValues
+                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
+
+        chooseCategoriesForm.setFrom(defaultCheckIn);
+        chooseCategoriesForm.setUntil(defaultCheckOut);
+        chooseCategoriesForm.setCategorySelection(defaultValues);
+
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/checkIn/chooseCategories");
+    }
+
+    @PostMapping("/checkIn/chooseCategories")
+    public RedirectView checkInSubmitCategories(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            RedirectAttributes redirAttributes) {
+
+        redirAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+
+        return new RedirectView("/checkIn/personalDetails");
+    }
+
+    @GetMapping("/checkIn/personalDetails")
+    public ModelAndView checkInPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            Model model) {
+
+        model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
+
+        return new ModelAndView("/checkIn/personalDetails");
+    }
+
+    @PostMapping("/checkIn/submitPersonalDetails")
+    public RedirectView checkInSubmitPersonalDetails(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            RedirectAttributes redirAttributes) {
+
+        redirAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+        redirAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
+
+        return new RedirectView("/checkIn/roomAssignment");
+    }
+
+    @GetMapping("/checkIn/roomAssignment")
+    public ModelAndView checkInRoomAssignment(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            Model model) {
+
+        RoomAssignmentForm roomAssignmentForm = new RoomAssignmentForm();
+        List<CategoryDTO> categories = new ArrayList<>();
+        Map<String, List<RoomDTO>> suggestedAssignments = new HashMap<>();
+
+        for(Map.Entry<String, Integer> entry: chooseCategoriesForm.getCategorySelection().entrySet()) {
+
+            String categoryId = entry.getKey();
+            Integer amount = entry.getValue();
+
+            if(amount > 0) {
+
+                List<RoomDTO> rooms = this.roomAssignmentService.findSuitableRooms(categoryId, amount);
+                List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
+
+                roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
+
+                int i = 0;
+                for(RoomDTO room: rooms) {
+                    roomAssignmentForm.getMapping().put(categoryId + '|' + i, room.id());
+                    i++;
+                }
+
+                suggestedAssignments.put(categoryId, rooms);
+
+
+                categories.add(this.categoryService.findCategoryById(categoryId).get());
+            }
+
+        }
+
+
+        model.addAttribute("roomAssignmentForm", roomAssignmentForm);
+        model.addAttribute("suggestedAssignments", suggestedAssignments);
+        model.addAttribute("categories", categories);
+
+        return new ModelAndView("/checkIn/roomAssignment");
+    }
+
+    @PostMapping("/checkIn/submitRoomAssignment")
+    public ModelAndView checkInSubmitRoomAssignment(
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
+            @ModelAttribute PersonalDetailsForm personalDetailsForm,
+            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
+            Model model) {
+
+        List<String> roomIds = new ArrayList<>();
+
+        Collection<List<String>> roomGroups = roomAssignmentForm.getCategoriesAndRooms().values();
+        for(List<String> roomGroup: roomGroups) {
+            roomIds.addAll(roomGroup);
+        }
+
+        Duration duration = Duration.between(
+                chooseCategoriesForm.getFrom().atStartOfDay(),
+                chooseCategoriesForm.getUntil().atStartOfDay());
+
+        GuestDetails guest = new GuestDetails(
+                personalDetailsForm.getGuestFirstName(),
+                personalDetailsForm.getGuestLastName(),
+                new Address(
+                        personalDetailsForm.getGuestStreet(),
+                        personalDetailsForm.getGuestZip(),
+                        personalDetailsForm.getGuestCity(),
+                        personalDetailsForm.getGuestCountry()
+                )
+        );
+
+        RepresentativeDetails representative = new RepresentativeDetails(
+                personalDetailsForm.getRepresentativeFirstName(),
+                personalDetailsForm.getRepresentativeLastName(),
+                personalDetailsForm.getRepresentativeMail(),
+                new Address(
+                        personalDetailsForm.getRepresentativeStreet(),
+                        personalDetailsForm.getRepresentativeZip(),
+                        personalDetailsForm.getRepresentativeCity(),
+                        personalDetailsForm.getRepresentativeCountry()),
+                personalDetailsForm.getRepresentativePhone()
+        );
+
+        try {
+            this.frontDeskService.checkIn(roomIds, duration, guest, representative);
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
+
+        return new ModelAndView("redirect:/");
     }
 }

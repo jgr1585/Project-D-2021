@@ -12,7 +12,7 @@ public class Category {
     private String description;
     private double pricePerNight;
 
-    private Category() {
+    protected Category() {
         // hibernate
     }
 

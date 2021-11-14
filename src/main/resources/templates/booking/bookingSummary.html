@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<!--suppress HtmlUnknownTarget -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="CreateBooking">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+</head>
+<body>
+<header th:replace="fragments/main.html :: header"></header>
+
+<div class="container">
+    <h3>Room Booking - Summary</h3>
+
+    <form action="/booking/submit" method="post">
+
+        <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden"></div>
+        <div th:replace="fragments/personalDetails :: personalDetailsHidden"></div>
+
+        <!-- selected time period -->
+        <h6>Time Period</h6><br>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">From</span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.from}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Until</span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.until}"></span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- selected categories -->
+        <h6>Categories</h6><br>
+        <div class="header"></div>
+        <div class="row" th:each="category: ${categories}">
+            <!-- todo: foreach category -->
+            <div class="col s3">
+                <span style="font-weight: bold" th:text="${category.title}"></span>
+            </div>
+            <div class="col s9">
+                <span th:text="${chooseCategoriesForm.categorySelection['__${category.id}__']}"></span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- selected guest/group data -->
+        <h6>Guest or Group Data</h6><br>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Name</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.guestFirstName} + ' ' +
+                    *{personalDetailsForm.guestLastName}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Address</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.guestStreet} + ', ' +
+                        *{personalDetailsForm.guestZip} + ' ' + *{personalDetailsForm.guestCity} + ', ' +
+                        *{personalDetailsForm.guestCountry}"></span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- selected representative data -->
+        <h6>Representative Data</h6><br>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Name</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeFirstName} + ' ' +
+                    *{personalDetailsForm.representativeLastName}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Address</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeStreet} + ', ' +
+                    *{personalDetailsForm.representativeZip} + ' ' + *{personalDetailsForm.representativeCity} + ', ' +
+                    *{personalDetailsForm.representativeCountry}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Email</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativeMail}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Phone</span>
+            </div>
+            <div class="col s9">
+                <span th:text="*{personalDetailsForm.representativePhone}"></span>
+            </div>
+        </div>
+
+        <!-- todo: payment -->
+        <div class="row">
+            <div class="col s3">
+                <span style="font-weight: bold">Payment</span>
+            </div>
+            <div class="col s9">
+                <span>Missing (todo)</span>
+            </div>
+        </div>
+
+        <!-- create booking -->
+        <div class="row right-align">
+            <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Create Booking
+                <i class="material-icons right">done</i>
+            </button>
+
+            <!-- todo: back button to previous page -->
+            <a class="btn waves-effect waves-light" href="chooseCategories">Back
+                <i class="material-icons left">navigate_before</i>
+            </a>
+            <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                <i class="material-icons right">cancel</i>
+            </a>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="fragments/main.html :: footer"></footer>
+</body>
+</html>

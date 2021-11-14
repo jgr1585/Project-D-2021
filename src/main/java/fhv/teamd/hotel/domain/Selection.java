@@ -4,6 +4,11 @@ import java.security.InvalidParameterException;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * unused so far
+ * can later be extended: booking by category(-ies) AND/OR specific room(s)
+ */
+
 public class Selection {
 
     private final Map<Category, Integer> categories;

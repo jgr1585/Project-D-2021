@@ -23,6 +23,5 @@ $(document).ready(function () {
     M.Tooltip.init(elems, {});
 
     //Disable click Event for Underlying Element in Class: disableClickThrow
-    $('.disableClickThrow').click( (event) => event.stopPropagation());
+    $('.disableClickThrow').click((event) => event.stopPropagation());
 });
-

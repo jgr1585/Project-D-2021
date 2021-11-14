@@ -2,13 +2,13 @@ package fhv.teamd.hotel.application.dto;
 
 import java.util.Objects;
 
-public class BookableCategoryDTO {
+public class AvailableCategoryDTO {
 
     private final String categoryId;
     private final String categoryName;
     private final int numberAvailable;
 
-    public BookableCategoryDTO(String categoryId, String categoryName, int numberAvailable) {
+    public AvailableCategoryDTO(String categoryId, String categoryName, int numberAvailable) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.numberAvailable = numberAvailable;
@@ -34,7 +34,7 @@ public class BookableCategoryDTO {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        final BookableCategoryDTO that = (BookableCategoryDTO) o;
+        final AvailableCategoryDTO that = (AvailableCategoryDTO) o;
         return this.numberAvailable == that.numberAvailable && Objects.equals(this.categoryId, that.categoryId) && Objects.equals(this.categoryName, that.categoryName);
     }
 

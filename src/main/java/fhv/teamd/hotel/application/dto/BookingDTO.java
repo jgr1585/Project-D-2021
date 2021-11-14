@@ -32,7 +32,7 @@ public final class BookingDTO {
         return this.representative;
     }
 
-    public GuestDetails guestDetailsDTO() {
+    public GuestDetails guest() {
         return this.guest;
     }
 
