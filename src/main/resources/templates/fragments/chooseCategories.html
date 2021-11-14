@@ -36,6 +36,7 @@
                 <input th:id="${category.categoryId}"
                        th:field="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
                        th:value="${chooseCategoriesForm.categorySelection['__${category.categoryId}__']}"
+                       class="roomCat"
                        min="0" th:max="${category.numberAvailable}"
                        type="number"/>
 
