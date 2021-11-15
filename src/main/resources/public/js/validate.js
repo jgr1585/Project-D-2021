@@ -85,7 +85,8 @@ $(document).ready(function () {
     $("input[type='text']").rules("add", {
         required: true,
         minlength: 3,
-        maxlength: 255
+        maxlength: 255,
+        pattern: "[a-zA-Z]"
     });
 
     //Require E-Mail
