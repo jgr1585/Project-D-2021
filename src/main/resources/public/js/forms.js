@@ -7,6 +7,7 @@ $(document).ready(function () {
            cloneLine();
        } else {
            $("input[type='text']").off("change");
+           $(".repData").val("");
        }
        
     });
