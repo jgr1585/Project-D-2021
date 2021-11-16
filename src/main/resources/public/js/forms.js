@@ -10,8 +10,7 @@ $(document).ready(function () {
         } else {
 
             $("input[type='text']").off("change");
-            $(".guestData").val("");
-            $(".guestData").prop("readonly", false);
+            $(".guestData").val("").prop("readonly", false);
 
         }
     });
