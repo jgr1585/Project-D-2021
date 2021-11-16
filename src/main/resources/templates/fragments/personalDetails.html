@@ -11,102 +11,18 @@
     <!--/*@thymesVar id="personalDetailsForm" type="fhv.teamd.hotel.view.forms.PersonalDetailsForm"*/-->
     <div th:object="${personalDetailsForm}">
 
-        <!-- guest/group data -->
-        <div class="section">
-            <h6>Guest or Group Data</h6>
-            <div class="row">
-                <div class="input-field col s12">
-                    <p>
-                        <label for="private">
-                            <input checked id="private" name="guestType" onchange="swapForm(this)"
-                                   type="radio" value="private"/>
-                            <span>Private Guest</span>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="companyOrTravelAgency">
-                            <input id="companyOrTravelAgency" name="guestType" onchange="swapForm(this)"
-                                   type="radio" disabled value="companyOrTravelAgency"/>
-                            <span>Company or Travel Agency</span>
-                        </label>
-                    </p>
-                </div>
-            </div>
-
-            <!-- form for private guest -->
-            <div class="row" id="privateForm">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}"/>
-                    <label for="privateGuestFirstName">First Name</label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="privateGuestLastName" type="text" th:field="*{guestLastName}"/>
-                    <label for="privateGuestLastName">Last Name</label>
-                </div>
-            </div>
-
-            <!-- form for company/travel agency -->
-            <div class="row" id="companyOrTravelAgencyForm" style="display: none">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">group</i>
-                    <input id="guestFirstName" type="text"/>
-                    <label for="guestFirstName">Company or Travel Agency Name</label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s4">
-                    <i class="material-icons prefix">location_city</i>
-                    <input id="guestStreet" type="text" th:field="*{guestStreet}"/>
-                    <label for="guestStreet">Street</label>
-                </div>
-                <div class="input-field col s4">
-                    <input id="guestCity" type="text" th:field="*{guestCity}"/>
-                    <label for="guestCity">City/Town</label>
-                </div>
-                <div class="input-field col s4">
-                    <input id="guestZip" type="text" th:field="*{guestZip}"/>
-                    <label for="guestZip">Zip</label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s4">
-                    <i class="material-icons prefix">location_city</i>
-                    <input id="guestCountry" type="text" th:field="*{guestCountry}"/>
-                    <label for="guestCountry">Country</label>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="input-field col s12">
-                <p>
-                    <label for="RepresentativeCheck">
-                        <input checked id="RepresentativeCheck" name="RepresentativeCheck"
-                               type="checkbox" th:checked="false" value="Representative"/>
-                        <span>Representative is same Person</span>
-                    </label>
-                </p>
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
         <!-- representative data -->
         <div class="section">
             <h6>Representative Data</h6>
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="representativeFirstName" type="text" class="repData"
+                    <input id="representativeFirstName" type="text" 
                            th:field="*{representativeFirstName}"/>
                     <label for="representativeFirstName">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="representativeLastName" type="text" class="repData"
+                    <input id="representativeLastName" type="text" 
                            th:field="*{representativeLastName}"/>
                     <label for="representativeLastName">Last Name</label>
                 </div>
@@ -115,22 +31,20 @@
             <div class="row">
                 <div class="input-field col s4">
                     <i class="material-icons prefix">location_city</i>
-                    <input id="representativeStreet" type="text" class="repData" th:field="*{representativeStreet}"/>
+                    <input id="representativeStreet" type="text" th:field="*{representativeStreet}"/>
                     <label for="representativeStreet">Street</label>
                 </div>
-                <div class="input-field col s4">
-                    <input id="representativeCity" type="text" class="repData" th:field="*{representativeCity}"/>
-                    <label for="representativeCity">City/Town</label>
-                </div>
-                <div class="input-field col s4">
-                    <input id="representativeZip" type="text" class="repData" th:field="*{representativeZip}"/>
+                <div class="input-field col s2">
+                    <input id="representativeZip" type="text" th:field="*{representativeZip}"
+                    />
                     <label for="representativeZip">Zip</label>
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s4">
-                    <i class="material-icons prefix">location_city</i>
-                    <input id="representativeCountry" type="text" class="repData" th:field="*{representativeCountry}"/>
+                <div class="input-field col s3">
+                    <input id="representativeCity" type="text" th:field="*{representativeCity}"/>
+                    <label for="representativeCity">City/Town</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="representativeCountry" type="text" th:field="*{representativeCountry}"/>
                     <label for="representativeCountry">Country</label>
                 </div>
             </div>
@@ -160,55 +74,108 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="input-field col s12">
+                <p>
+                    <label for="RepresentativeCheck">
+                        <input checked id="RepresentativeCheck" name="RepresentativeCheck"
+                               type="checkbox" th:checked="false" value="Representative"/>
+                        <span>Representative is same Person</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- guest/group data -->
+        <div class="section">
+            <h6>Guest or Group Data</h6>
+            <div class="row">
+                <div class="input-field col s12">
+                    <p>
+                        <label for="private">
+                            <input checked id="private" name="guestType" onchange="swapForm(this)"
+                                   type="radio" value="private"/>
+                            <span>Private Guest</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="companyOrTravelAgency">
+                            <input id="companyOrTravelAgency" name="guestType" onchange="swapForm(this)"
+                                   type="radio" disabled value="companyOrTravelAgency"/>
+                            <span>Company or Travel Agency</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+
+            <!-- form for private guest -->
+            <div class="row" id="privateForm">
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}" class="guestData"/>
+                    <label for="privateGuestFirstName">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="privateGuestLastName" type="text" th:field="*{guestLastName}" class="guestData"/>
+                    <label for="privateGuestLastName">Last Name</label>
+                </div>
+            </div>
+
+            <!-- form for company/travel agency -->
+            <div class="row" id="companyOrTravelAgencyForm" style="display: none">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">group</i>
+                    <input id="guestFirstName" type="text"/>
+                    <label for="guestFirstName">Company or Travel Agency Name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">location_city</i>
+                    <input id="guestStreet" type="text" th:field="*{guestStreet}" class="guestData"/>
+                    <label for="guestStreet">Street</label>
+                </div>
+                <div class="input-field col s2">
+                    <input id="guestZip" type="text" th:field="*{guestZip}" class="guestData"/>
+                    <label for="guestZip">Zip</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="guestCity" type="text" th:field="*{guestCity}" class="guestData"/>
+                    <label for="guestCity">City/Town</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="guestCountry" type="text" th:field="*{guestCountry}" class="guestData"/>
+                    <label for="guestCountry">Country</label>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div th:fragment="personalDetailsHidden">
     <!--/*@thymesVar id="personalDetailsForm" type="fhv.teamd.hotel.view.forms.PersonalDetailsForm"*/-->
     <div th:object="${personalDetailsForm}">
-        <input id="privateGuestFirstName" type="hidden"
-               th:field="*{guestFirstName}"
-               required/>
-        <input id="privateGuestLastName" type="hidden"
-               th:field="*{guestLastName}"
-               required/>
-        <input id="guestStreet" type="hidden"
-               th:field="*{guestStreet}"
-               required/>
-        <input id="guestCity" type="hidden"
-               th:field="*{guestCity}"
-               required/>
-        <input id="guestCountry" type="hidden"
-               th:field="*{guestCountry}"
-               required/>
-        <input id="guestZip" type="hidden"
-               th:field="*{guestZip}"
-               required/>
+        <input th:field="*{guestFirstName}" type="hidden"/>
+        <input th:field="*{guestLastName}" type="hidden"/>
 
-        <input id="representativeFirstName" type="hidden"
-               th:field="*{representativeFirstName}"
-               required/>
-        <input id="representativeLastName" type="hidden"
-               th:field="*{representativeLastName}"
-               required/>
-        <input id="representativeStreet" type="hidden"
-               th:field="*{representativeStreet}"
-               required/>
-        <input id="representativeCity" type="hidden"
-               th:field="*{representativeCity}"
-               required/>
-        <input id="representativeCountry" type="hidden"
-               th:field="*{representativeCountry}"
-               required/>
-        <input id="representativeZip" type="hidden"
-               th:field="*{representativeZip}"
-               required/>
-        <input id="representativeMail" type="hidden"
-               th:field="*{representativeMail}"
-               required/>
-        <input id="representativePhone" type="hidden"
-               th:field="*{representativePhone}"
-               required/>
+        <input th:field="*{guestStreet}" type="hidden"/>
+        <input th:field="*{guestZip}" type="hidden"/>
+        <input th:field="*{guestCity}" type="hidden"/>
+        <input th:field="*{guestCountry}" type="hidden"/>
+
+        <input th:field="*{representativeFirstName}" type="hidden"/>
+        <input th:field="*{representativeLastName}" type="hidden"/>
+
+        <input th:field="*{representativeStreet}" type="hidden"/>
+        <input th:field="*{representativeZip}" type="hidden"/>
+        <input th:field="*{representativeCity}" type="hidden"/>
+        <input th:field="*{representativeCountry}" type="hidden"/>
+
+        <input th:field="*{representativeMail}" type="hidden"/>
+        <input th:field="*{representativePhone}" type="hidden"/>
     </div>
 </div>
 

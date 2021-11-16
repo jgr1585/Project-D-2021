@@ -44,15 +44,13 @@ $.validator.addMethod( "pattern", function( value, element, param ) {
 //Check if Something is selected
 $.validator.addMethod( "checkSelectNotAllowed", function( value, element, param ) {
 
-    let returnValue = true;
-
-    param.forEach(test => {
-        if (test === $(element).val()) {
-            returnValue = false;
+    for(let notAllowed of param) {
+        if (notAllowed === $(element).val()) {
+            return false;
         }
-    });
+    }
 
-    return returnValue;
+    return true;
 
 }, "Select Something else!" );
 
@@ -86,7 +84,7 @@ $(document).ready(function () {
         required: true,
         minlength: 3,
         maxlength: 255,
-        pattern: "[a-zA-Z]"
+        pattern: "[a-zA-Z\s]+"
     });
 
     //Require E-Mail
