@@ -7,11 +7,11 @@
 </head>
 <body>
 
-<div class="section" th:fragment="personalDetails">
-    <!--/*@thymesVar id="personalDetailsForm" type="fhv.teamd.hotel.view.forms.PersonalDetailsForm"*/-->
-    <div th:object="${personalDetailsForm}">
+<div class="section" th:fragment="personalDetails(personalDetailsForm)">
 
-        <!-- representative data -->
+    <div th:object="${__${personalDetailsForm}__}">
+
+        <!-- guest/group data -->
         <div class="section">
             <h6>Representative Data</h6>
             <div class="row">
@@ -155,9 +155,9 @@
     </div>
 </div>
 
-<div th:fragment="personalDetailsHidden">
-    <!--/*@thymesVar id="personalDetailsForm" type="fhv.teamd.hotel.view.forms.PersonalDetailsForm"*/-->
-    <div th:object="${personalDetailsForm}">
+<div th:fragment="personalDetailsHidden(personalDetailsForm)">
+
+    <div th:object="${__${personalDetailsForm}__}">
         <input th:field="*{guestFirstName}" type="hidden"/>
         <input th:field="*{guestLastName}" type="hidden"/>
 

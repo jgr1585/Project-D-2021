@@ -1,4 +1,4 @@
-package fhv.teamd.hotel.view.forms;
+package fhv.teamd.hotel.view.forms.subForms;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,8 +15,8 @@ public class ChooseCategoriesForm {
 
     private Map<String, Integer> categorySelection;
 
+    // required by spring/thymeleaf
     public ChooseCategoriesForm() {
-        // required by spring/thymeleaf
         this.categorySelection = new HashMap<>();
     }
 

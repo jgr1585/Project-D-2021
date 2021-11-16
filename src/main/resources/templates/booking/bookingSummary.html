@@ -14,13 +14,12 @@
     <h3>Room Booking - Summary</h3>
 
     <form action="/booking/summary" method="post">
+        <!--/*@thymesVar id="bookingForm" type="fhv.teamd.hotel.view.forms.BookingForm"*/-->
 
+        <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden(chooseCategoriesForm = 'bookingForm.chooseCategoriesForm')"></div>
+        <div th:replace="fragments/personalDetails :: personalDetails(personalDetailsForm = 'bookingForm.personalDetailsForm')"></div>
 
-        <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden"></div>
-        <div th:replace="fragments/personalDetails :: personalDetailsHidden"></div>
-
-
-        <div th:object="${chooseCategoriesForm}">
+        <div th:object="${bookingForm.chooseCategoriesForm}">
             <!-- selected time period -->
             <h6>Time Period</h6><br>
             <div class="row">
@@ -59,7 +58,7 @@
         <div class="divider"></div>
 
 
-        <div th:object="${personalDetailsForm}">
+        <div th:object="${bookingForm.personalDetailsForm}">
             <!-- selected guest/group data -->
             <h6>Guest or Group Data</h6><br>
             <div class="row">

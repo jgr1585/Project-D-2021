@@ -1,19 +1,17 @@
 package fhv.teamd.hotel.view;
 
-import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.RoomAssignmentService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
-import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
-import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
-import fhv.teamd.hotel.view.forms.RoomAssignmentForm;
+import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
+import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
+import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

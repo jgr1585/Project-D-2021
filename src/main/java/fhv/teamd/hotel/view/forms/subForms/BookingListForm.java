@@ -1,4 +1,4 @@
-package fhv.teamd.hotel.view.forms;
+package fhv.teamd.hotel.view.forms.subForms;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,6 +13,7 @@ public class BookingListForm {
 
     private String representativeLastName;
 
+    // required by spring/thymeleaf
     public BookingListForm() {
     }
 

@@ -8,7 +8,7 @@
 
 <div class="section" th:fragment="roomAssignment">
 
-    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.RoomAssignmentForm"*/-->
+    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm"*/-->
     <!--/*@thymesVar id="categories" type="java.util.List<fhv.teamd.hotel.application.dto.CategoryDTO>"*/-->
     <!--/*@thymesVar id="category" type="fhv.teamd.hotel.application.dto.CategoryDTO"*/-->
 
@@ -35,7 +35,7 @@
 
 <div th:fragment="roomAssignmentHidden">
 
-    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.RoomAssignmentForm"*/-->
+    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm"*/-->
     <!--/*@thymesVar id="entry" type="java.util.Map.Entry<String, List<String>>"*/-->
 
     <div th:each="entry: ${roomAssignmentForm.categoriesAndRooms.entrySet()}">

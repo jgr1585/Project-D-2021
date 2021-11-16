@@ -1,4 +1,4 @@
-package fhv.teamd.hotel.view.forms;
+package fhv.teamd.hotel.view.forms.subForms;
 
 public class PersonalDetailsForm {
     private String guestFirstName;

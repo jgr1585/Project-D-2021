@@ -6,14 +6,11 @@
 </head>
 <body>
 
-<div class="section" th:fragment="chooseCategories">
-    <!--/*@thymesVar id="chooseCategoriesForm" type="fhv.teamd.hotel.view.forms.ChooseCategoriesForm"*/-->
+<div class="section" th:fragment="chooseCategories(chooseCategoriesForm)">
     <!--/*@thymesVar id="categories" type="java.util.List<fhv.teamd.hotel.application.dto.AvailableCategoryDTO>"*/-->
     <!--/*@thymesVar id="category" type="fhv.teamd.hotel.application.dto.AvailableCategoryDTO"*/-->
 
-
-    <div th:object="${chooseCategoriesForm}">
-
+    <div th:object="${__${chooseCategoriesForm}__}">
         <h6>Select period</h6>
         <div class="row">
             <div class="input-field col s6">
@@ -52,9 +49,9 @@
     </div>
 </div>
 
-<div th:fragment="chooseCategoriesHidden">
-    <!--/*@thymesVar id="chooseCategoriesForm" type="fhv.teamd.hotel.view.forms.ChooseCategoriesForm"*/-->
-    <div th:object="${chooseCategoriesForm}">
+<div th:fragment="chooseCategoriesHidden(chooseCategoriesForm)">
+
+    <div th:object="${__${chooseCategoriesForm}__}">
         <input id="from-hidden" type="hidden"
                th:field="*{from}"
                required/>

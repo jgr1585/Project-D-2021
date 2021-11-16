@@ -1,4 +1,4 @@
-package fhv.teamd.hotel.view.forms;
+package fhv.teamd.hotel.view.forms.subForms;
 
 import java.util.HashMap;
 import java.util.List;
