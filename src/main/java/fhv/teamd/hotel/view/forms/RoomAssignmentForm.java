@@ -10,11 +10,9 @@ public class RoomAssignmentForm {
     // = list of assigned rooms for each booked category.
 
     private Map<String, List<String>> categoriesAndRooms;
-    private Map<String, String> mapping;
 
     public RoomAssignmentForm() {
         this.categoriesAndRooms = new HashMap<>();
-        this.mapping = new HashMap<>();
     }
 
     public Map<String, List<String>> getCategoriesAndRooms() {
@@ -25,11 +23,4 @@ public class RoomAssignmentForm {
         this.categoriesAndRooms = categoriesAndRooms;
     }
 
-    public Map<String, String> getMapping() {
-        return this.mapping;
-    }
-
-    public void setMapping(Map<String, String> mapping) {
-        this.mapping = mapping;
-    }
 }

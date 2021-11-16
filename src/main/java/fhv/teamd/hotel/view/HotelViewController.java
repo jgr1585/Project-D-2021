@@ -290,12 +290,6 @@ public class HotelViewController {
 
                 roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
 
-                int i = 0;
-                for(RoomDTO room: rooms) {
-                    roomAssignmentForm.getMapping().put(categoryId + '|' + i, room.id());
-                    i++;
-                }
-
                 suggestedAssignments.put(categoryId, rooms);
 
 

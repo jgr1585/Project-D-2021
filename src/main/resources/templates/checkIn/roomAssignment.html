@@ -34,12 +34,9 @@
                      class="input-field col s1 no-margin">
 
                     <label th:for="${category.id() + '-' + stat.index}" hidden></label>
-                    <!--<input th:id="${category.id() + '-' + stat.index}" type="text"
-                           th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.index}__']}"
-                           readonly disabled>-->
                     <input th:id="${category.id() + '-' + stat.index}" type="text"
-                           th:field="${roomAssignmentForm.mapping['__${category.id() + '|' + stat.index}__']}"
-                           readonly disabled>
+                           th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.index}__']}"
+                           readonly>
 
                 </div>
 
