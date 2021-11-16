@@ -95,7 +95,7 @@ public class CreateBookingController {
 
     @GetMapping("personalDetails")
     public ModelAndView personalDetails(
-            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
+            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             Model model) {
 
         model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
@@ -124,16 +124,14 @@ public class CreateBookingController {
 
         List<CategoryDTO> categories = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : chooseCategoriesForm.getCategorySelection().entrySet()) {
-            String categoryId = entry.getKey();
-            Integer amount = entry.getValue();
+        chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
 
-            Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
-
-            if(amount > 0 && result.isPresent()) {
-                categories.add(result.get());
+            if(amount > 0) {
+                Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
+                result.ifPresent(categories::add);
             }
-        }
+
+        });
 
         model.addAttribute("chooseCategoriesForm", chooseCategoriesForm);
         model.addAttribute("personalDetailsForm", personalDetailsForm);
@@ -179,7 +177,7 @@ public class CreateBookingController {
             );
         } catch (Exception x) {
             x.printStackTrace();
-            return new RedirectView("/booking/summary");
+            return new RedirectView("summary");
         }
 
         return new RedirectView("/booking/overview");
