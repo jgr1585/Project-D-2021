@@ -31,19 +31,13 @@ public class HibernateRoomRepository implements RoomRepository {
 
     @Override
     public List<Room> getByCategory(CategoryId categoryId) {
-/*
+
         TypedQuery<Room> q = this.entityManager
-                .createQuery("select r from Room r where r.categoryId=:catId", Room.class);
+                .createQuery("select r from Room r where r.category.categoryId=:catId", Room.class);
 
         q.setParameter("catId", categoryId);
 
         return q.getResultList();
-
- */
-
-        return this.getAll().stream()
-                .filter(r -> r.category().categoryId().equals(categoryId))
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -53,10 +47,6 @@ public class HibernateRoomRepository implements RoomRepository {
 
         q.setParameter("id", roomId);
 
-        try {
-            return Optional.ofNullable(q.getSingleResult());
-        } catch (NoResultException x) {
-            return Optional.empty();
-        }
+        return q.getResultStream().findFirst();
     }
 }

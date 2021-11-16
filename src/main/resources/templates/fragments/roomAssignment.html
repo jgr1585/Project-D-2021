@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Assignment Fragments</title>
+</head>
+<body>
+
+<div class="section" th:fragment="roomAssignment">
+
+    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.RoomAssignmentForm"*/-->
+    <!--/*@thymesVar id="categories" type="java.util.List<fhv.teamd.hotel.application.dto.CategoryDTO>"*/-->
+    <!--/*@thymesVar id="category" type="fhv.teamd.hotel.application.dto.CategoryDTO"*/-->
+
+
+    <div th:each="category: ${categories}" class="row valign-wrapper">
+
+        <div class="col s2 no-margin" th:text="${category.title()}"></div>
+
+
+        <div th:each="assignedRoom, stat: ${roomAssignmentForm.categoriesAndRooms.get(category.id())}"
+             class="input-field col s1 no-margin">
+
+            <label th:for="${category.id() + '-' + stat.index}" hidden></label>
+            <input th:id="${category.id() + '-' + stat.index}" type="text"
+                   th:field="${roomAssignmentForm.categoriesAndRooms['__${category.id()}__']['__${stat.index}__']}"
+                   readonly>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div th:fragment="roomAssignmentHidden">
+
+    <!--/*@thymesVar id="roomAssignmentForm" type="fhv.teamd.hotel.view.forms.RoomAssignmentForm"*/-->
+    <!--/*@thymesVar id="entry" type="java.util.Map.Entry<String, List<String>>"*/-->
+
+    <div th:each="entry: ${roomAssignmentForm.categoriesAndRooms.entrySet()}">
+
+
+        <div th:each="assignedRoom, stat: ${entry.getValue()}">
+
+            <label th:for="${entry.getKey() + '-' + stat.index}" hidden></label>
+            <input th:id="${entry.getKey() + '-' + stat.index}" type="hidden"
+                   th:field="${roomAssignmentForm.categoriesAndRooms['__${entry.getKey()}__']['__${stat.index}__']}">
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

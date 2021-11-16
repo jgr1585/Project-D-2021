@@ -33,11 +33,6 @@ public class HibernateCategoryRepository implements CategoryRepository {
 
         q.setParameter("id", id);
 
-        try {
-            return Optional.ofNullable(q.getSingleResult());
-        } catch (NoResultException x) {
-            return Optional.empty();
-        }
-
+        return q.getResultStream().findFirst();
     }
 }

@@ -13,7 +13,7 @@
 <div class="container">
     <h3>Room Booking - Summary</h3>
 
-    <form action="/booking/submit" method="post">
+    <form action="/booking/summary" method="post">
 
 
         <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden"></div>
@@ -139,15 +139,20 @@
 
         <!-- create booking -->
         <div class="row right-align">
-            <button class="btn waves-effect waves-light blue accent-2" name="submit" type="submit">Create Booking
+            <button class="btn waves-effect waves-light blue accent-2"
+                    type="submit" name="action" value="next">
+                Create Booking
                 <i class="material-icons right">done</i>
             </button>
 
-            <!-- todo: back button to previous page -->
-            <a class="btn waves-effect waves-light" href="chooseCategories">Back
+            <button class="btn waves-effect waves-light"
+                    type="submit" name="action" value="prev">
                 <i class="material-icons left">navigate_before</i>
-            </a>
-            <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                Back
+            </button>
+
+            <a class="btn waves-effect waves-light red accent-2" href="/">
+                Cancel
                 <i class="material-icons right">cancel</i>
             </a>
         </div>

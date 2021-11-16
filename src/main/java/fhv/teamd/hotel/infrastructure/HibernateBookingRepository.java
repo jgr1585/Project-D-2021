@@ -38,11 +38,7 @@ public class HibernateBookingRepository implements BookingRepository {
 
         q.setParameter("id", bookingId);
 
-        try {
-            return Optional.of(q.getSingleResult());
-        } catch (NoResultException x) {
-            return Optional.empty();
-        }
+        return q.getResultStream().findFirst();
     }
 
     @Override
