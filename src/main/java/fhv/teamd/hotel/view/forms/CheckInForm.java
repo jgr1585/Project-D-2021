@@ -5,9 +5,9 @@ import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
 import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 
 public class CheckInForm {
-    private ChooseCategoriesForm chooseCategoriesForm;
-    private PersonalDetailsForm personalDetailsForm;
-    private RoomAssignmentForm roomAssignmentForm;
+    private ChooseCategoriesForm chooseCategoriesForm = new ChooseCategoriesForm();
+    private PersonalDetailsForm personalDetailsForm = new PersonalDetailsForm();
+    private RoomAssignmentForm roomAssignmentForm = new RoomAssignmentForm();
 
     // required by spring/thymeleaf
     public CheckInForm() {

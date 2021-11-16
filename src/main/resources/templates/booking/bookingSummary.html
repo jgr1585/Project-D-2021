@@ -17,7 +17,7 @@
         <!--/*@thymesVar id="bookingForm" type="fhv.teamd.hotel.view.forms.BookingForm"*/-->
 
         <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden(chooseCategoriesForm = 'bookingForm.chooseCategoriesForm')"></div>
-        <div th:replace="fragments/personalDetails :: personalDetails(personalDetailsForm = 'bookingForm.personalDetailsForm')"></div>
+        <div th:replace="fragments/personalDetails :: personalDetailsHidden(personalDetailsForm = 'bookingForm.personalDetailsForm')"></div>
 
         <div th:object="${bookingForm.chooseCategoriesForm}">
             <!-- selected time period -->

@@ -19,7 +19,7 @@
       <!--/*@thymesVar id="checkInForm" type="fhv.teamd.hotel.view.forms.CheckInForm"*/-->
 
       <div th:replace="fragments/chooseCategories :: chooseCategories(chooseCategoriesForm = 'checkInForm.chooseCategoriesForm')"></div>
-      <div th:replace="fragments/personalDetails :: personalDetailsHidden"></div>
+      <div th:replace="fragments/personalDetails :: personalDetailsHidden(personalDetailsForm = 'checkInForm.personalDetailsForm')"></div>
       <div th:replace="fragments/roomAssignment :: roomAssignmentHidden"></div>
 
       <!-- back/cancel/submit buttons -->

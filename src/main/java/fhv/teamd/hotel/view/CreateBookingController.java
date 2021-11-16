@@ -10,7 +10,6 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
-import fhv.teamd.hotel.view.forms.GlobalForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,7 +95,6 @@ public class CreateBookingController {
             @ModelAttribute BookingForm bookingForm,
             Model model) {
 
-        bookingForm.setPersonalDetailsForm(new PersonalDetailsForm());
         model.addAttribute("bookingForm", bookingForm);
 
         return new ModelAndView("/booking/personalDetails");
@@ -142,9 +140,6 @@ public class CreateBookingController {
     public RedirectView submitBooking(
             @RequestParam String action,
             @ModelAttribute BookingForm bookingForm,
-
-//            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-//            @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model) {
 
         if (action.equals("prev")) {
