@@ -63,10 +63,12 @@ $(document).ready(function () {
     });
 
     //Date not Null
-    $("input[type='date']").rules("add", {
-        minDateToday: true,
-        required: true,
-        validateDate: true
+    $("input[type='date']").each(function () {
+        $(this).rules("add", {
+            minDateToday: true,
+            required: true,
+            validateDate: true
+        });
     });
 
     //Require at lest one Category
@@ -80,11 +82,13 @@ $(document).ready(function () {
     });
 
     //Require every Text input
-    $("input[type='text']").rules("add", {
-        required: true,
-        minlength: 3,
-        maxlength: 255,
-        pattern: "[a-zA-Z\s]+"
+    $("input[type='text']").each(function () {
+        $(this).rules("add", {
+            required: true,
+            minlength: 3,
+            maxlength: 255,
+            pattern: "[a-zA-Z\s]+"
+        });
     });
 
     //Require E-Mail
