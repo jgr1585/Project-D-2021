@@ -112,31 +112,23 @@ public class CheckInController {
 
         RoomAssignmentForm roomAssignmentForm = new RoomAssignmentForm();
         List<CategoryDTO> categories = new ArrayList<>();
-        Map<String, List<RoomDTO>> suggestedAssignments = new HashMap<>();
 
-        for(Map.Entry<String, Integer> entry: chooseCategoriesForm.getCategorySelection().entrySet()) {
+        chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
 
-            String categoryId = entry.getKey();
-            Integer amount = entry.getValue();
-
-            if(amount > 0) {
+            if (amount > 0) {
 
                 List<RoomDTO> rooms = this.roomAssignmentService.findSuitableRooms(categoryId, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
                 roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
-
-                suggestedAssignments.put(categoryId, rooms);
-
-
                 categories.add(this.categoryService.findCategoryById(categoryId).get());
+
             }
 
-        }
+        });
 
 
         model.addAttribute("roomAssignmentForm", roomAssignmentForm);
-        model.addAttribute("suggestedAssignments", suggestedAssignments);
         model.addAttribute("categories", categories);
 
         return new ModelAndView("/checkIn/roomAssignment");

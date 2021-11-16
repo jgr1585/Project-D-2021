@@ -29,7 +29,7 @@
 
 
 
-                <div th:each="room, stat: ${suggestedAssignments.get(category.id())}"
+                <div th:each="assignedRoom, stat: ${roomAssignmentForm.categoriesAndRooms.get(category.id())}"
                      class="input-field col s1 no-margin">
 
                     <label th:for="${category.id() + '-' + stat.index}" hidden></label>
