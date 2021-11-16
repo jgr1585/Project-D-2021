@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class CreateBookingController {
     private BookingService bookingService;
 
     @GetMapping("chooseCategories")
-    public ModelAndView bookingChooseCategories(Model model) {
+    public ModelAndView chooseCategories(Model model) {
 
         LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
         LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
@@ -66,58 +68,59 @@ public class CreateBookingController {
     }
 
     @PostMapping("chooseCategories")
-    public ModelAndView bookingSubmitCategories(
+    public RedirectView submitCategories(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             Model model,
-            HttpServletResponse response) throws IOException {
+            RedirectAttributes redirectAttributes) {
 
-        // todo: check availability and other validations
-        // todo: validation should be elsewhere
+        // todo: check availability with application service
+        // todo: basic validation goes into form obj with annotations
 
         LocalDate from = chooseCategoriesForm.getFrom();
         LocalDate until = chooseCategoriesForm.getUntil();
 
         boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
 
+        redirectAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+
 
         if (!valid) {
-            // todo add an error message obj to the model and render it with thymeleaf
-            response.sendRedirect("/booking/chooseCategories");
+            // add an error message here
+
+            return new RedirectView("/booking/chooseCategories");
         }
 
-
-
-        return this.bookingPersonalDetails(chooseCategoriesForm, model);
+        return new RedirectView("personalDetails");
     }
 
     @GetMapping("personalDetails")
-    public ModelAndView bookingPersonalDetails(
+    public ModelAndView personalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
             Model model) {
 
-
         model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
-
 
         return new ModelAndView("/booking/personalDetails");
     }
 
     @PostMapping("personalDetails")
-    public ModelAndView submitPersonalDetails(
+    public RedirectView submitPersonalDetails(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
             Model model,
-            HttpServletResponse response) {
+            RedirectAttributes redirectAttributes) {
 
-        return this.bookingSummary(chooseCategoriesForm, personalDetailsForm, model, response);
+        redirectAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
+        redirectAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
+
+        return new RedirectView("summary");
     }
 
-    @GetMapping("bookingSummary")
+    @GetMapping("summary")
     public ModelAndView bookingSummary(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
-            Model model,
-            HttpServletResponse response) {
+            Model model) {
 
         List<CategoryDTO> categories = new ArrayList<>();
 
@@ -140,11 +143,10 @@ public class CreateBookingController {
     }
 
     @PostMapping("submit")
-    public void submitBooking(
+    public RedirectView submitBooking(
             @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
             @ModelAttribute PersonalDetailsForm personalDetailsForm,
-            Model model,
-            HttpServletResponse response) throws IOException {
+            Model model) {
 
         GuestDetails guest = new GuestDetails(
                 personalDetailsForm.getGuestFirstName(),
@@ -177,9 +179,9 @@ public class CreateBookingController {
             );
         } catch (Exception x) {
             x.printStackTrace();
+            return new RedirectView("/booking/summary");
         }
 
-
-        response.sendRedirect("/booking/bookingOverview");
+        return new RedirectView("/booking/overview");
     }
 }
