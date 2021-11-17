@@ -116,6 +116,7 @@ public class CreateBookingController {
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
         if (action.equals("prev")) {
+            redirectAttributes.addAttribute("action", "prev");
             return new RedirectView("chooseCategories");
         }
 
