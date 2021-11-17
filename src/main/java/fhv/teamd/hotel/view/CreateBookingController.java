@@ -43,19 +43,28 @@ public class CreateBookingController {
     @GetMapping("chooseCategories")
     public ModelAndView chooseCategories(
             @ModelAttribute BookingForm bookingForm,
+            @RequestParam(required = false) String action,
             Model model) {
 
-        LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
-        LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
+        ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
 
-        List<AvailableCategoryDTO> categories = this.categoryService.getAvailableCategories(
-                defaultStartDate.atStartOfDay(),
-                defaultEndDate.atStartOfDay());
+        if (!"prev".equals(action)) {
+            LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
+            LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
 
-        Map<String, Integer> defaultValues
-                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
+            chooseCategoriesForm.setFrom(defaultStartDate);
+            chooseCategoriesForm.setUntil(defaultEndDate);
+        }
 
-        bookingForm.setChooseCategoriesForm(new ChooseCategoriesForm(defaultStartDate, defaultEndDate, defaultValues));
+        List<AvailableCategoryDTO> categories
+                = this.categoryService.getAvailableCategories(
+                chooseCategoriesForm.getFrom().atStartOfDay(),
+                chooseCategoriesForm.getUntil().atStartOfDay());
+
+//        Map<String, Integer> defaultValues
+//                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
+
+        bookingForm.setChooseCategoriesForm(chooseCategoriesForm);
 
         model.addAttribute("categories", categories);
         model.addAttribute("bookingForm", bookingForm);
@@ -66,26 +75,26 @@ public class CreateBookingController {
     @PostMapping("chooseCategories")
     public RedirectView submitCategories(
             @ModelAttribute BookingForm bookingForm,
-            Model model,
             RedirectAttributes redirectAttributes) {
 
         // todo: check availability with application service
         // todo: basic validation goes into form obj with annotations
 
-        ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
-
-        LocalDate from = chooseCategoriesForm.getFrom();
-        LocalDate until = chooseCategoriesForm.getUntil();
-
-        boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
+//        ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
+//
+//        LocalDate from = chooseCategoriesForm.getFrom();
+//        LocalDate until = chooseCategoriesForm.getUntil();
+//
+//        boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
+//
+//        redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
+//
+//        if (!valid) {
+//            // todo: add an error message here
+//            return new RedirectView("/booking/chooseCategories");
+//        }
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
-
-        if (!valid) {
-            // add an error message here
-
-            return new RedirectView("/booking/chooseCategories");
-        }
 
         return new RedirectView("personalDetails");
     }
@@ -102,9 +111,8 @@ public class CreateBookingController {
 
     @PostMapping("personalDetails")
     public RedirectView submitPersonalDetails(
-            @RequestParam String action,
             @ModelAttribute BookingForm bookingForm,
-            Model model,
+            @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
@@ -124,23 +132,29 @@ public class CreateBookingController {
         List<CategoryDTO> categories = new ArrayList<>();
 
         bookingForm.getChooseCategoriesForm().getCategorySelection().forEach((categoryId, amount) -> {
-            if (amount > 0) {
+
+            if (amount != null && amount > 0) {
+
                 Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
                 result.ifPresent(categories::add);
+
             }
+
         });
 
-        model.addAttribute("bookingForm", bookingForm);
         model.addAttribute("categories", categories);
+        model.addAttribute("bookingForm", bookingForm);
 
         return new ModelAndView("/booking/bookingSummary");
     }
 
     @PostMapping("summary")
     public RedirectView submitBooking(
-            @RequestParam String action,
             @ModelAttribute BookingForm bookingForm,
-            Model model) {
+            @RequestParam String action,
+            RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
         if (action.equals("prev")) {
             return new RedirectView("personalDetails");
