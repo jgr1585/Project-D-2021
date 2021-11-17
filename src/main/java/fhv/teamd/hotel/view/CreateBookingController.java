@@ -64,8 +64,6 @@ public class CreateBookingController {
 //        Map<String, Integer> defaultValues
 //                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
 
-        bookingForm.setChooseCategoriesForm(chooseCategoriesForm);
-
         model.addAttribute("categories", categories);
         model.addAttribute("bookingForm", bookingForm);
 

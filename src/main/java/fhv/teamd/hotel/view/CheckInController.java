@@ -66,8 +66,6 @@ public class CheckInController {
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
-        checkInForm.setChooseCategoriesForm(chooseCategoriesForm);
-
         model.addAttribute("categories", categories);
         model.addAttribute("checkInForm", checkInForm);
 
@@ -77,16 +75,9 @@ public class CheckInController {
     @PostMapping("chooseCategories")
     public RedirectView submitCategories(
             @ModelAttribute CheckInForm checkInForm,
-
-//            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-//            @ModelAttribute PersonalDetailsForm personalDetailsForm,
-//            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
-//        redirectAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
-//        redirectAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
-//        redirectAttributes.addFlashAttribute("roomAssignmentForm", roomAssignmentForm);
 
         return new RedirectView("personalDetails");
     }
@@ -105,18 +96,14 @@ public class CheckInController {
     @PostMapping("personalDetails")
     public RedirectView submitPersonalDetails(
             @ModelAttribute CheckInForm checkInForm,
-//            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-//            @ModelAttribute PersonalDetailsForm personalDetailsForm,
-//            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
-//        redirectAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
-//        redirectAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
-//        redirectAttributes.addFlashAttribute("roomAssignmentForm", roomAssignmentForm);
 
         if(action.equals("prev")) {
+            // getMapping uses this too
+            redirectAttributes.addAttribute("action", "prev");
             return new RedirectView("chooseCategories");
         }
 
@@ -126,8 +113,6 @@ public class CheckInController {
     @GetMapping("roomAssignment")
     public ModelAndView roomAssignment(
             @ModelAttribute CheckInForm checkInForm,
-//            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-//            @ModelAttribute PersonalDetailsForm personalDetailsForm,
             @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             Model model) {
 
@@ -158,16 +143,11 @@ public class CheckInController {
     @PostMapping("roomAssignment")
     public RedirectView submitRoomAssignment(
             @ModelAttribute CheckInForm checkInForm,
-//            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-//            @ModelAttribute PersonalDetailsForm personalDetailsForm,
             @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
-//        redirectAttributes.addFlashAttribute("chooseCategoriesForm", chooseCategoriesForm);
-//        redirectAttributes.addFlashAttribute("personalDetailsForm", personalDetailsForm);
-//        redirectAttributes.addFlashAttribute("roomAssignmentForm", roomAssignmentForm);
 
         if(action.equals("prev")) {
             return new RedirectView("personalDetails");
