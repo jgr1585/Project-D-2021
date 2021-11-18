@@ -59,7 +59,10 @@ $(document).ready(function () {
 
     //Init Form
     $('form').each(function() {
-        $(this).validate();
+        $(this).validate({
+            errorElement : 'span',
+            errorClass: 'helper-text'
+        });
     });
 
     //Date not Null
@@ -86,17 +89,28 @@ $(document).ready(function () {
         $(this).rules("add", {
             required: true,
             minlength: 3,
-            maxlength: 255,
-            pattern: "[a-zA-Z\s]+"
+            maxlength: 255
         });
     });
 
+    //Phone Number Validation
     $("input[id='representativePhone']").each(function (){
         $(this).rules("add",{
             required: true,
             pattern:"[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$"
         });
     });
+
+    //Zip Code Validation
+    $("#representativeZip").rules("add", {
+        required: true,
+        digits: true
+    });
+
+    $("#guestZip").rules("add", {
+        required: true,
+        digits: true
+    })
 
     //Require E-Mail
     $("input[type='email']").rules("add", {
