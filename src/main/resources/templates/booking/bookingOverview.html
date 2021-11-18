@@ -49,16 +49,18 @@
 
                     <!--Right Table Buttons -->
                     <div class="float-right valign-wrapper">
+                        <a th:href="@{/booking/performCheckIn(id=${booking.id})}">
+                            <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                                 data-position="top" data-tooltip="Check-In">
+                                <i class="material-icons green-text no-margin center-context">check_in</i>
+                            </div>
+                        </a>
                         <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                             data-position="top" data-tooltip="Check-In" onclick="alert('Checked-in');">
-                            <i class="material-icons green-text no-margin center-context">check_in</i>
-                        </div>
-                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                             data-position="top" data-tooltip="Edit" onclick="alert('Edit');">
+                             data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">
                             <i class="material-icons blue-grey-text no-margin center-context">edit</i>
                         </div>
                         <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                             data-position="top" data-tooltip="Delete" onclick="alert('Delete');">
+                             data-position="top" data-tooltip="Delete" onclick="alert('todo Delete');">
                             <i class="material-icons red-text no-margin center-context">delete_forever</i>
                         </div>
                     </div>
