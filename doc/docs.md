@@ -12,3 +12,5 @@
   * Center the context of an Element horizontal and vertical.
 * .disableClickThrow
   * Blocks the onclick function of the underlying Element
+* .cancel 
+  * Skip validation in forms (Used in Submit Button)
