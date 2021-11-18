@@ -4,6 +4,8 @@
 $.validator.addMethod("minDateToday", function(value) {
     let curDate = new Date();
     let inputDate = new Date(value);
+    curDate.setHours(0,0,0,0);
+    inputDate.setHours(0,0,0,0);
     return inputDate >= curDate;
 }, "Invalid Date!");
 
