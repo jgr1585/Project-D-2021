@@ -20,6 +20,7 @@
             <!--/*@thymesVar id="bookingForm" type="fhv.teamd.hotel.view.forms.BookingForm"*/-->
 
             <div th:replace="fragments/chooseCategories :: chooseCategories(chooseCategoriesForm = 'bookingForm.chooseCategoriesForm')"></div>
+            <div th:replace="fragments/personalDetails :: personalDetailsHidden(personalDetailsForm = 'bookingForm.personalDetailsForm')"></div>
 
             <!-- back/cancel/submit buttons -->
             <div class="row right-align">
