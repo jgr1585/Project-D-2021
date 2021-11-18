@@ -91,6 +91,13 @@ $(document).ready(function () {
         });
     });
 
+    $("input[id='representativePhone']").each(function (){
+        $(this).rules("add",{
+            required: true,
+            pattern:"[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$"
+        });
+    });
+
     //Require E-Mail
     $("input[type='email']").rules("add", {
         required: true,
