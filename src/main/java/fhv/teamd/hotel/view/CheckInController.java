@@ -53,11 +53,13 @@ public class CheckInController {
 
         ChooseCategoriesForm chooseCategoriesForm = checkInForm.getChooseCategoriesForm();
 
-        if(!"prev".equals(action)) {
-            LocalDate defaultCheckIn = LocalDate.now();
-            LocalDate defaultCheckOut = defaultCheckIn.plus(defaultStayDuration);
+        if(chooseCategoriesForm.getFrom() == null) {
+            chooseCategoriesForm.setFrom(LocalDate.now());
+        }
 
-            chooseCategoriesForm.setFrom(defaultCheckIn);
+        if(chooseCategoriesForm.getUntil() == null) {
+            LocalDate defaultCheckOut
+                    = chooseCategoriesForm.getFrom().plus(defaultStayDuration);
             chooseCategoriesForm.setUntil(defaultCheckOut);
         }
 
