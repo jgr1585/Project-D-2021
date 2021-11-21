@@ -2,7 +2,7 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.FrontDeskService;
-import fhv.teamd.hotel.application.RoomAssignmentService;
+import fhv.teamd.hotel.application.RoomSuggestionService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
@@ -24,6 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class CheckInController {
     private CategoryService categoryService;
 
     @Autowired
-    private RoomAssignmentService roomAssignmentService;
+    private RoomSuggestionService roomSuggestionService;
 
     @Autowired
     private FrontDeskService frontDeskService;
@@ -121,11 +122,18 @@ public class CheckInController {
 
         List<CategoryDTO> categories = new ArrayList<>();
 
-        checkInForm.getChooseCategoriesForm().getCategorySelection().forEach((categoryId, amount) -> {
+        ChooseCategoriesForm chooseCategoriesForm = checkInForm.getChooseCategoriesForm();
+
+        LocalDateTime from = chooseCategoriesForm.getFrom().atStartOfDay();
+        // at end of check out day
+        LocalDateTime until = chooseCategoriesForm.getUntil().atStartOfDay().plus(Period.ofDays(1));
+
+
+        chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
 
             if (amount != null && amount > 0) {
 
-                List<RoomDTO> rooms = this.roomAssignmentService.findSuitableRooms(categoryId, amount);
+                List<RoomDTO> rooms = this.roomSuggestionService.findSuitableRooms(categoryId, from, until, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
                 roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);

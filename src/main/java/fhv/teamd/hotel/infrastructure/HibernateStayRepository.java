@@ -3,12 +3,12 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +28,19 @@ public class HibernateStayRepository implements StayRepository {
 
         TypedQuery<Stay> q
                 = this.entityManager.createQuery("select s from Stay s", Stay.class);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Stay> staysInTimeFrameInclusive(LocalDateTime from, LocalDateTime until) {
+
+        TypedQuery<Stay> q = this.entityManager.createQuery(
+                "select s from Stay s where (s.checkIn<:until and s.expectedCheckOut>:from)",
+                Stay.class);
+
+        q.setParameter("from", from);
+        q.setParameter("until", until);
 
         return q.getResultList();
     }

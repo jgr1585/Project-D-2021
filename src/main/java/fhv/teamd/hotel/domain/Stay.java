@@ -13,11 +13,9 @@ import java.util.Set;
 public class Stay {
 
     private Long id;
-
     private StayId stayId;
 
     private LocalDateTime checkIn;
-
     private LocalDateTime expectedCheckOut;
 
     private Set<Room> rooms;
@@ -68,15 +66,15 @@ public class Stay {
         return this.expectedCheckOut;
     }
 
-    public Set<Room> getRooms() {
+    public Set<Room> rooms() {
         return Collections.unmodifiableSet(this.rooms);
     }
 
-    public GuestDetails getGuestDetails() {
+    public GuestDetails guestDetails() {
         return this.guestDetails;
     }
 
-    public RepresentativeDetails getRepresentativeDetails() {
+    public RepresentativeDetails representativeDetails() {
         return this.representativeDetails;
     }
 

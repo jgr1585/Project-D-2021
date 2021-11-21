@@ -13,10 +13,13 @@ import java.util.stream.Collectors;
 public class StayDTO {
 
     private final String id;
+
     private final LocalDateTime checkIn;
     private final LocalDateTime expectedCheckOut;
+
     private final RepresentativeDetails representative;
     private final GuestDetails guest;
+
     private final List<RoomDTO> rooms;
 
     public StayDTO(String id, LocalDateTime checkIn, LocalDateTime expectedCheckOut, RepresentativeDetails representative, GuestDetails guest, List<RoomDTO> rooms) {
@@ -33,9 +36,9 @@ public class StayDTO {
                 stay.stayId().toString(),
                 stay.checkIn(),
                 stay.checkOut(),
-                stay.getRepresentativeDetails(),
-                stay.getGuestDetails(),
-                stay.getRooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList())
+                stay.representativeDetails(),
+                stay.guestDetails(),
+                stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList())
         );
     }
 

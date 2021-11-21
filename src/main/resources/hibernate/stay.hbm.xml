@@ -12,6 +12,7 @@
         <property name="expectedCheckOut" column="check_out" type="java.time.LocalDateTime"/>
 
 
+        <!-- Set<Room> rooms; -->
         <set name="rooms" table="stay_in_room">
             <key column="stay_id"/>
             <many-to-many column="room_id"
