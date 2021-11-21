@@ -1,5 +1,7 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 
 import java.time.LocalDateTime;
@@ -17,15 +19,15 @@ public class Booking {
 
     private Map<Category, Integer> categories;
 
-    private ContactInfo contact;
-    private GuestInfo guest;
+    private RepresentativeDetails contact;
+    private GuestDetails guest;
 
     private Booking() {
         // hibernate
     }
 
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
-                   ContactInfo contact, GuestInfo guest) {
+                   RepresentativeDetails contact, GuestDetails guest) {
 
         this.bookingId = id;
         this.checkInDate = checkIn;
@@ -55,11 +57,11 @@ public class Booking {
         return Collections.unmodifiableMap(this.categories);
     }
 
-    public ContactInfo contactInfo() {
+    public RepresentativeDetails representativeDetails() {
         return this.contact;
     }
 
-    public GuestInfo guestInfo() {
+    public GuestDetails guestDetails() {
         return this.guest;
     }
 

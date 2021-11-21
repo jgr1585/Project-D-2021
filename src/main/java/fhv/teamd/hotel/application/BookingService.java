@@ -1,6 +1,8 @@
 package fhv.teamd.hotel.application;
 
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,10 +13,9 @@ public interface BookingService {
 
     void book(Map<String, Integer> categoryIdsAndAmounts,
               LocalDateTime from, LocalDateTime until,
-              GuestDetailsDTO guest, RepresentativeDetailsDTO representative);
+              GuestDetails guest, RepresentativeDetails representative) throws Exception;
 
     List<BookingDTO> getAll();
 
     Optional<DetailedBookingDTO> getDetails(String bookingId);
-
 }

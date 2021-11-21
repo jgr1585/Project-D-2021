@@ -1,0 +1,49 @@
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Stay">
+        <id name="id" type="long" column="id">
+            <generator class="native"/>
+        </id>
+        
+        <component name="stayId" class="fhv.teamd.hotel.domain.ids.StayId">
+            <property name="id" column="stay_id" type="string"/>
+        </component>
+
+        <property name="checkIn" column="check_in" type="java.time.LocalDateTime"/>
+        <property name="expectedCheckOut" column="check_out" type="java.time.LocalDateTime"/>
+
+
+        <!-- Set<Room> rooms; -->
+        <set name="rooms" table="stay_in_room">
+            <key column="stay_id"/>
+            <many-to-many column="room_id"
+                          class="fhv.teamd.hotel.domain.Room"/>
+        </set>
+
+        <component name="guestDetails" class="fhv.teamd.hotel.domain.contactInfo.GuestDetails">
+            <property name="firstName" column="guest_first_name" type="string"/>
+            <property name="lastName" column="guest_last_name" type="string"/>
+
+            <component name="address" class="fhv.teamd.hotel.domain.contactInfo.Address">
+                <property name="street" column="guest_street" type="string"/>
+                <property name="zip" column="guest_zip" type="string"/>
+                <property name="city" column="guest_city" type="string"/>
+                <property name="country" column="guest_country" type="string"/>
+            </component>
+        </component>
+
+        <component name="representativeDetails" class="fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails">
+            <property name="firstName" column="representative_first_name" type="string"/>
+            <property name="lastName" column="representative_last_name" type="string"/>
+            <property name="email" column="representative_email" type="string"/>
+
+            <component name="address" class="fhv.teamd.hotel.domain.contactInfo.Address">
+                <property name="street" column="representative_street" type="string"/>
+                <property name="zip" column="representative_zip" type="string"/>
+                <property name="city" column="representative_city" type="string"/>
+                <property name="country" column="representative_country" type="string"/>
+            </component>
+
+            <property name="phone" column="representative_phone" type="string"/>
+        </component>
+    </class>
+</hibernate-mapping>

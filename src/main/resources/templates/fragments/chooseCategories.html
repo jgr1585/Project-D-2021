@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Categories Fragments</title>
+</head>
+<body>
+
+<div class="section" th:fragment="chooseCategories(chooseCategoriesForm)">
+    <!--/*@thymesVar id="categories" type="java.util.List<fhv.teamd.hotel.application.dto.AvailableCategoryDTO>"*/-->
+    <!--/*@thymesVar id="category" type="fhv.teamd.hotel.application.dto.AvailableCategoryDTO"*/-->
+
+    <div th:object="${__${chooseCategoriesForm}__}">
+        <h6>Select period</h6>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">date_range</i>
+                <input id="from" type="date"
+                       th:field="*{from}"
+                       required/>
+                <label for="from">From</label>
+            </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix">date_range</i>
+                <input id="until" type="date"
+                       th:field="*{until}"
+                       required/>
+                <label for="until">Until</label>
+            </div>
+        </div>
+
+        <h6>Select room categories</h6>
+        <div class="row">
+            <div th:each="category: ${categories}">
+                <div class="input-field col s3">
+
+                    <input th:id="${category.categoryId}"
+                           th:field="*{categorySelection['__${category.categoryId}__']}"
+                           class="roomCat"
+                           min="0" th:max="${category.numberAvailable}"
+                           type="number"/>
+
+                    <label th:for="${category.categoryId}" type="number" th:text="${category.categoryName}">
+                        placeholder
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="chooseCategoriesHidden(chooseCategoriesForm)">
+
+    <div th:object="${__${chooseCategoriesForm}__}">
+        <input id="from-hidden" type="hidden"
+               th:field="*{from}"
+               required/>
+        <input id="until-hidden" type="hidden"
+               th:field="*{until}"
+               required/>
+        <div th:each="entry: *{categorySelection}">
+            <input th:id="${entry.key}"
+                   th:field="*{categorySelection['__${entry.key}__']}"
+                   type="hidden"/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

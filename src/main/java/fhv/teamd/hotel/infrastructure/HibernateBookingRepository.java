@@ -3,13 +3,9 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import javax.swing.text.html.Option;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class HibernateBookingRepository implements BookingRepository {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -39,7 +35,7 @@ public class HibernateBookingRepository implements BookingRepository {
 
         q.setParameter("id", bookingId);
 
-        return Optional.ofNullable(q.getSingleResult());
+        return q.getResultStream().findFirst();
     }
 
     @Override
@@ -57,11 +53,21 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public void put(Booking booking) {
 
-        EntityTransaction t = this.entityManager.getTransaction();
-        t.begin();
-
         this.entityManager.persist(booking);
 
-        t.commit();
+    }
+
+    @Override
+    public void remove(BookingId bookingId) throws EntityNotFoundException {
+
+        Query q = this.entityManager.createQuery(
+                "DELETE FROM Booking b WHERE b.bookingId = :id");
+
+        q.setParameter("id", bookingId);
+
+        if(q.executeUpdate() != 1) {
+            throw new EntityNotFoundException();
+        }
+
     }
 }

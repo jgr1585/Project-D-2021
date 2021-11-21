@@ -1,16 +1,62 @@
-insert into booking (id, booking_id, check_in, check_out, guest_name, guest_address,
-                     representative_name, representative_email, representative_address, representative_phone)
-values (1, 'dom-id-book-1', '2021-12-26 10:00:00', '2021-12-30 10:00:00', 'Max Mustermann', 'Musterstraße 5, Musterstadt 1234',
-        'Max Mustermann', 'mustermann@mustermail.com', 'Musterstraße 5, Musterstadt 1234', '123456789'),
-       (2, 'dom-id-book-2', '2022-01-05 15:00:00', '2022-01-15 10:00:00', 'Miriam Musterfrau', 'Mustergasse 16, Musterdorf 4321',
-        'Miriam Musterfrau', 'musterfrau@mustermail.com', 'Mustergasse 16, Musterdorf 4321', '987654321');
+-- noinspection SqlWithoutWhereForFile
+
+delete from stay_in_room;
+delete from stay;
+delete from room;
+
+delete from booking_for_category;
+delete from booking;
+delete from category;
+
+insert into booking (id, booking_id, check_in, check_out, guest_first_name, guest_last_name, guest_street, guest_zip,
+                     guest_city, guest_country, representative_first_name, representative_last_name,
+                     representative_street, representative_zip, representative_city, representative_country,
+                     representative_email, representative_phone)
+values (111, 'dom-id-book-111', '2021-12-26 10:00:00', '2021-12-30 10:00:00', 'Max', 'Mustermann', 'Musterstraße 5',
+        '1234', 'Dornbirn', 'Austria', 'Max', 'Mustermann', 'Musterstraße 5',
+        '1234', 'Dornbirn', 'Austria', 'mustermann@mustermail.com', '123456789'),
+       (222, 'dom-id-book-222', '2022-12-26 10:00:00', '2022-12-30 10:00:00', 'Julia', 'Musterfrau', 'Mustergasse 5',
+        '1234', 'Feldkirch', 'Austria', 'Max', 'Musterfrau', 'Musterstraße 5',
+        '1234', 'Dornbirn', 'Austria', 'mustermann@mustermail.com', '123456789');
 
 
 insert into category (id, category_id, title, description, price_per_night)
-values (1, 'dom-id-cat-1', 'Single Bed', 'hier könnte ihre werbung stehen', 50),
-       (2, 'dom-id-cat-2', 'Double Bed', '........', 75);
+values (111, 'dom-id-cat-111', 'Single Bed', 'hier könnte ihre werbung stehen', 50),
+       (222, 'dom-id-cat-222', 'Double Bed', '........', 75);
 
 insert into booking_for_category (booking_id, category_id, number_of_rooms)
-values (1, 1, 3),
-       (2, 1, 2),
-       (2, 2, 1)
+values (111, 111, 3),
+       (222, 111, 2),
+       (222, 222, 1);
+
+insert into room (id, room_id, category_id)
+values (111, 'R111', 111),
+       (112, 'R112', 111),
+       (113, 'R113', 111),
+       (114, 'R114', 111),
+       (115, 'R115', 111),
+
+       (221, 'R221', 222),
+       (222, 'R222', 222),
+       (223, 'R223', 222),
+       (224, 'R224', 222),
+       (225, 'R225', 222);
+
+insert into stay (id, stay_id, check_in, check_out,
+                  guest_first_name, guest_last_name, guest_street, guest_zip, guest_city, guest_country,
+                  representative_first_name, representative_last_name,
+                  representative_street, representative_zip, representative_city, representative_country,
+                  representative_email, representative_phone)
+values (111, 'dom-id-stay-111', '2021-11-13 10:00:00', '2021-11-20 10:00:00',
+        'John', 'Thompson', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
+        'John', 'Thompson', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
+        'j.thompson@randatmail.com', '137-3936-04'),
+       (222, 'dom-id-stay-222', '2021-11-10 10:00:00', '2021-11-15 10:00:00',
+        'Emma', 'Ross', 'Gösting 13b', '9542', 'Linz', 'Austria',
+        'Emma', 'Ross', 'Gösting 13b', '9542', 'Linz', 'Austria',
+        'e.ross@randatmail.com', '559-1716-40');
+
+insert into stay_in_room (stay_id, room_id)
+values (111, 114),
+       (111, 115),
+       (222, 223);

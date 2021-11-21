@@ -1,45 +1,46 @@
 package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
-import fhv.teamd.hotel.application.CategoryService;
-import fhv.teamd.hotel.application.dto.*;
-import fhv.teamd.hotel.view.forms.BookingListForm;
-import fhv.teamd.hotel.view.forms.ChooseCategoriesForm;
-import fhv.teamd.hotel.view.forms.PersonalDetailsForm;
-import fhv.teamd.hotel.view.forms.ExperimentalBookingForm;
+import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.dto.BookingDTO;
+import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
+import fhv.teamd.hotel.view.forms.CheckInForm;
+import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
+import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
+import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
+import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 public class HotelViewController {
 
-    private static final Period defaultBookingLeadTime = Period.ofWeeks(2);
-    private static final Period defaultStayDuration = Period.ofWeeks(1);
-
-    @Autowired
-    private CategoryService categoryService;
-
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private FrontDeskService frontDeskService;
 
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
+        model.addAttribute("stays", this.frontDeskService.getAllHotelStays());
+
         return new ModelAndView("index");
     }
 
-    @GetMapping("/booking/bookingOverview")
+    @GetMapping("/booking/overview")
     public ModelAndView bookingOverview(
             @ModelAttribute BookingListForm form,
             Model model) {
@@ -52,154 +53,55 @@ public class HotelViewController {
         return new ModelAndView("/booking/bookingOverview");
     }
 
-    @GetMapping("/booking/experimental")
-    public ModelAndView experimentalForm(
-            @ModelAttribute ExperimentalBookingForm form,
-            Model model) {
+    @RequestMapping("/booking/performCheckIn")
+    public RedirectView performCheckIn(
+            @RequestParam String id,
+            RedirectAttributes redirectAttributes) {
 
-        LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
-        LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
+        Optional<DetailedBookingDTO> result = this.bookingService.getDetails(id);
 
-        form.setFromDate(defaultStartDate);
-        form.setUntilDate(defaultEndDate);
-
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
-                defaultStartDate.atStartOfDay(),
-                defaultEndDate.atStartOfDay());
-
-        model.addAttribute("form", form);
-        model.addAttribute("categories", categories);
-
-        return new ModelAndView("/booking/experimentalBookingForm");
-    }
-
-    @PostMapping("/booking/experimental")
-    public void experimentalSubmit(
-            @ModelAttribute ExperimentalBookingForm form,
-            Model model,
-            HttpServletResponse response) throws IOException {
-
-        this.bookingService.book(
-                form.getCategorySelection(),
-                form.getFromDate().atStartOfDay(),
-                form.getUntilDate().atStartOfDay(),
-                GuestDetailsDTO.builder()
-                        .withFirstName(form.getGuestFirstName())
-                        .withLastName(form.getGuestLastName())
-                        .withStreet(form.getGuestStreet())
-                        .withZip(form.getGuestZip())
-                        .withCity(form.getGuestCity())
-                        .withCountry(form.getGuestCountry())
-                        .build(),
-                RepresentativeDetailsDTO.builder()
-                        .withFirstName(form.getRepresentativeFirstName())
-                        .withLastName(form.getRepresentativeLastName())
-                        .withStreet(form.getRepresentativeStreet())
-                        .withZip(form.getRepresentativeZip())
-                        .withCity(form.getRepresentativeCity())
-                        .withCountry(form.getRepresentativeCountry())
-                        .withEmail(form.getRepresentativeMail())
-                        .withPhone(form.getRepresentativePhone())
-                        .build()
-        );
-
-        response.sendRedirect("/");
-
-
-    }
-
-
-
-    @GetMapping("/booking/chooseCategories")
-    public ModelAndView createBooking(Model model) {
-
-        LocalDate defaultStartDate = LocalDate.now().plus(defaultBookingLeadTime);
-        LocalDate defaultEndDate = defaultStartDate.plus(defaultStayDuration);
-
-        List<BookableCategoryDTO> categories = this.categoryService.getAvailableCategories(
-                defaultStartDate.atStartOfDay(),
-                defaultEndDate.atStartOfDay());
-
-        Map<String, Integer> defaultValues
-                = categories.stream().collect(Collectors.toMap(BookableCategoryDTO::categoryId, cat -> 0));
-
-        ChooseCategoriesForm chooseCategoriesForm
-                = new ChooseCategoriesForm(defaultStartDate, defaultEndDate, defaultValues);
-
-        model.addAttribute("categories", categories);
-        model.addAttribute("chooseCategoriesForm", chooseCategoriesForm);
-
-        return new ModelAndView("/booking/chooseCategories");
-
-    }
-
-    @PostMapping("/booking/chooseCategories")
-    public ModelAndView submitCategories(
-            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-            Model model,
-            HttpServletResponse response) throws IOException {
-
-        // todo: check availability and other validations
-        // todo: validation should be elsewhere
-
-        LocalDate from = chooseCategoriesForm.getFrom();
-        LocalDate until = chooseCategoriesForm.getUntil();
-
-        boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
-
-
-
-        if(!valid) {
-            // todo add an error message obj to the model
-            response.sendRedirect("/booking/chooseCategories");
+        if(result.isEmpty()) {
+            // should not happen normally
+            return new RedirectView("/");
         }
 
-        return this.personalDetails(chooseCategoriesForm, model);
-    }
+        BookingDTO booking = result.get().basicInfo();
+        Map<CategoryDTO, Integer> categories = result.get().details();
 
-    @GetMapping("/booking/personalDetails")
-    public ModelAndView personalDetails(
-            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm, // keep first step of the 2-part form
-            Model model) {
-
-
-        model.addAttribute("personalDetailsForm", new PersonalDetailsForm());
-
-
-        return new ModelAndView("/booking/personalDetails");
-    }
-
-    @PostMapping("/booking/submitPersonalDetails")
-    public void submitPersonalDetails(
-            @ModelAttribute ChooseCategoriesForm chooseCategoriesForm,
-            @ModelAttribute PersonalDetailsForm personalDetailsForm,
-            Model model,
-            HttpServletResponse response) throws IOException {
-
-        this.bookingService.book(
-                chooseCategoriesForm.getCategorySelection(),
-                chooseCategoriesForm.getFrom().atStartOfDay(),
-                chooseCategoriesForm.getUntil().atStartOfDay(),
-                GuestDetailsDTO.builder()
-                        .withFirstName(personalDetailsForm.getGuestFirstName())
-                        .withLastName(personalDetailsForm.getGuestLastName())
-                        .withStreet(personalDetailsForm.getGuestStreet())
-                        .withZip(personalDetailsForm.getGuestZip())
-                        .withCity(personalDetailsForm.getGuestCity())
-                        .withCountry(personalDetailsForm.getGuestCountry())
-                        .build(),
-                RepresentativeDetailsDTO.builder()
-                        .withFirstName(personalDetailsForm.getRepresentativeFirstName())
-                        .withLastName(personalDetailsForm.getRepresentativeLastName())
-                        .withStreet(personalDetailsForm.getRepresentativeStreet())
-                        .withZip(personalDetailsForm.getRepresentativeZip())
-                        .withCity(personalDetailsForm.getRepresentativeCity())
-                        .withCountry(personalDetailsForm.getRepresentativeCountry())
-                        .withEmail(personalDetailsForm.getRepresentativeMail())
-                        .withPhone(personalDetailsForm.getRepresentativePhone())
-                        .build()
+        Map<String, Integer> categoryIds = categories.entrySet().stream().collect(
+                Collectors.toMap(
+                        entry -> entry.getKey().id(),
+                        Map.Entry::getValue
+                )
         );
 
-        response.sendRedirect("/booking/bookingOverview");
+        LocalDate checkIn = LocalDate.now();
+        LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
+
+        redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
+                id,
+                new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
+                new PersonalDetailsForm(
+                        booking.guest().firstName(),
+                        booking.guest().lastName(),
+                        booking.guest().address().street(),
+                        booking.guest().address().zip(),
+                        booking.guest().address().city(),
+                        booking.guest().address().country(),
+
+                        booking.representative().firstName(),
+                        booking.representative().lastName(),
+                        booking.representative().address().street(),
+                        booking.representative().address().zip(),
+                        booking.representative().address().city(),
+                        booking.representative().address().country(),
+                        booking.representative().email(),
+                        booking.representative().phone()
+                ),
+                new RoomAssignmentForm()
+        ));
+
+        return new RedirectView("/checkIn/chooseCategories");
+
     }
 }
