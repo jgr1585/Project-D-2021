@@ -6,6 +6,7 @@ import fhv.teamd.hotel.application.RoomAssignmentService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -192,9 +193,25 @@ public class CheckInController {
                 personalDetailsForm.getRepresentativePhone()
         );
 
+        String bookingId = checkInForm.getBookingId();
+
         try {
-            this.frontDeskService.checkIn(roomIds, duration, guest, representative);
-        } catch (Exception x) {
+
+            if(bookingId == null) {
+                this.frontDeskService.checkInWalkInGuest(
+                        roomIds,
+                        duration,
+                        guest,
+                        representative);
+            }
+            else {
+                this.frontDeskService.checkInWithBooking(
+                        roomIds, duration,
+                        guest, representative,
+                        bookingId);
+            }
+
+        } catch (InvalidIdException x) {
             x.printStackTrace();
         }
 

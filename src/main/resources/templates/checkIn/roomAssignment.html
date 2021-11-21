@@ -18,6 +18,7 @@
     <form action="/checkIn/roomAssignment" method="post" class="col s12">
         <!--/*@thymesVar id="checkInForm" type="fhv.teamd.hotel.view.forms.CheckInForm"*/-->
 
+        <input id="bookingId" type="hidden" th:field="${checkInForm.bookingId}">
         <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden(chooseCategoriesForm = 'checkInForm.chooseCategoriesForm')"></div>
         <div th:replace="fragments/personalDetails :: personalDetailsHidden(personalDetailsForm = 'checkInForm.personalDetailsForm')"></div>
         <div th:replace="fragments/roomAssignment :: roomAssignment"></div>

@@ -59,4 +59,18 @@ public class HibernateBookingRepository implements BookingRepository {
         this.entityManager.persist(booking);
 
     }
+
+    @Override
+    public void remove(BookingId bookingId) throws EntityNotFoundException {
+
+        Query q = this.entityManager.createQuery(
+                "DELETE FROM Booking b WHERE b.bookingId = :id");
+
+        q.setParameter("id", bookingId);
+
+        if(q.executeUpdate() != 1) {
+            throw new EntityNotFoundException();
+        }
+
+    }
 }

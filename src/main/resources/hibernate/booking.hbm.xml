@@ -45,7 +45,7 @@
 
         <!-- Map<Category, Integer> categories; -->
         <map name="categories" table="booking_for_category">
-            <key column="booking_id"/>
+            <key column="booking_id" on-delete="cascade"/>
             <index-many-to-many class="fhv.teamd.hotel.domain.Category" column="category_id"/>
             <element column="number_of_rooms" type="int"/>
         </map>

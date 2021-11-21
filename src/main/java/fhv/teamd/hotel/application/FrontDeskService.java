@@ -2,16 +2,22 @@ package fhv.teamd.hotel.application;
 
 
 import fhv.teamd.hotel.application.dto.StayDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 public interface FrontDeskService {
 
-    void checkIn(List<String> roomIds, Duration expectedDuration,
-                 GuestDetails guest, RepresentativeDetails representative) throws Exception;
+    void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
+                 GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException;
+
+    void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
+                            GuestDetails guest, RepresentativeDetails representative,
+                            String bookingId) throws InvalidIdException;
 
     List<StayDTO> getAllHotelStays();
 

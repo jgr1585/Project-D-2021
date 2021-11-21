@@ -74,6 +74,7 @@ public class HotelViewController {
         );
 
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
+                id,
                 new ChooseCategoriesForm(booking.fromDate(), booking.untilDate(), categoryIds),
                 new PersonalDetailsForm(
                         booking.guest().firstName(),
