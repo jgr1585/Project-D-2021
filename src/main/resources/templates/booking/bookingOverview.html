@@ -5,8 +5,7 @@
     <title>Hotel Management</title>
     <meta name="page" content="BookingOverview">
     <placeholder th:replace="fragments/main.html :: head"></placeholder>
-
-    <!--<script src="/js/filter.js"></script>-->
+    <script src="/js/filter.js"></script>
 </head>
 <body>
     <header th:replace="fragments/main.html :: header"></header>
@@ -20,12 +19,12 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">date_range</i>
-                    <input id="from" type="date" disabled th:field="*{fromDate}"/>
+                    <input id="from" type="text" class="datepicker dpOverview" th:field="*{fromDate}"/>
                     <label for="from">From</label>
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">date_range</i>
-                    <input id="until" type="date" disabled th:field="*{untilDate}"/>
+                    <input id="until" type="text" class="datepicker dpOverview" th:field="*{untilDate}"/>
                     <label for="until">Until</label>
                 </div>
             </div>
@@ -33,7 +32,7 @@
 
         <!-- Booking Table -->
 
-        <ul class="collapsible popout">
+        <ul id="overview" class="collapsible popout">
             <li th:each="booking: ${bookings}" th:id="${booking.id + '-li'}">
                 <div class="collapsible-header">
                     <div class="float-left">

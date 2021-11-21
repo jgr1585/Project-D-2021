@@ -1,3 +1,7 @@
+/**
+ * Created by TeamD
+ */
+
 $(document).ready(function () {
     $("#RepresentativeCheck").change(function () {
 
@@ -8,7 +12,7 @@ $(document).ready(function () {
             $(".guestData").prop("readonly", true);
 
         } else {
-//this is good with jquery
+
             $("input[type='text']").off("change");
             $(".guestData").val("").prop("readonly", false);
 
