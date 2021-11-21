@@ -25,8 +25,14 @@ function handleDatePickers() {
             defaultDate: todayDate,
             setDefaultDate: true,
             autoClose: true,
-            onClose: function (e) {
-                console.log("close!");
+            onClose: function () {
+                let $li = $("#overview").find("li[id$='li']");
+
+                if (this.$el.attr("id") === "from") {
+                    filterCollapsible($li, this.date, M.Datepicker.getInstance($("#until")).date);
+                } else {
+                    filterCollapsible($li, M.Datepicker.getInstance($("#from")).date, this.date);
+                }
             },
         });
     }

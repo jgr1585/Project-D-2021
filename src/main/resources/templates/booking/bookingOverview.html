@@ -41,10 +41,10 @@
                             <span th:text="${booking.guest.firstName + ' ' + booking.guest.lastName}"></span>
                         </div>
 
-                        <div>
-                            <span th:text="${booking.fromDate}"></span>
+                        <div class="timeRange">
+                            <span class="from" th:text="${booking.fromDate}"></span>
                             <span> until </span>
-                            <span th:text="${booking.untilDate}"></span>
+                            <span class="to" th:text="${booking.untilDate}"></span>
                         </div>
                     </div>
 
