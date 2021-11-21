@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,9 +75,12 @@ public class HotelViewController {
                 )
         );
 
+        LocalDate checkIn = LocalDate.now();
+        LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
+
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,
-                new ChooseCategoriesForm(booking.fromDate(), booking.untilDate(), categoryIds),
+                new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
                 new PersonalDetailsForm(
                         booking.guest().firstName(),
                         booking.guest().lastName(),

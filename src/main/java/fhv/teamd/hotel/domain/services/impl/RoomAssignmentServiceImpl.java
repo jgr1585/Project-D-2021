@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.domain.services.impl;
 
 import fhv.teamd.hotel.domain.Room;
+import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -28,8 +29,10 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
-        Set<Room> occupiedRooms = this.stayRepository
-                .staysInTimeFrameInclusive(from, until)
+        List<Stay> overlappingStays = this.stayRepository
+                .staysWithOverlappingDuration(from, until);
+
+        Set<Room> occupiedRooms = overlappingStays
                 .stream()
                 .flatMap(stay -> stay.rooms().stream())
                 .collect(Collectors.toSet());

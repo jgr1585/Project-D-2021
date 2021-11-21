@@ -205,7 +205,7 @@ public class CheckInController {
 
         try {
 
-            if(bookingId == null) {
+            if(bookingId == null || bookingId.length() == 0) {
                 this.frontDeskService.checkInWalkInGuest(
                         roomIds,
                         duration,

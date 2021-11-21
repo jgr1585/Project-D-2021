@@ -33,7 +33,7 @@ public class HibernateStayRepository implements StayRepository {
     }
 
     @Override
-    public List<Stay> staysInTimeFrameInclusive(LocalDateTime from, LocalDateTime until) {
+    public List<Stay> staysWithOverlappingDuration(LocalDateTime from, LocalDateTime until) {
 
         TypedQuery<Stay> q = this.entityManager.createQuery(
                 "select s from Stay s where (s.checkIn<:until and s.expectedCheckOut>:from)",

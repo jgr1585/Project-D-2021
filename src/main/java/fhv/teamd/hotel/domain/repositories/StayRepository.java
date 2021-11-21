@@ -12,7 +12,7 @@ public interface StayRepository {
 
     List<Stay> getAll();
 
-    List<Stay> staysInTimeFrameInclusive(LocalDateTime from, LocalDateTime until);
+    List<Stay> staysWithOverlappingDuration(LocalDateTime from, LocalDateTime until);
 
     void put(Stay stay);
 

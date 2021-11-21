@@ -34,6 +34,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Autowired
     private StayRepository stayRepository;
 
+    @Transactional
     @Override
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
                                    GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException {
