@@ -28,11 +28,24 @@ function handleDatePickers() {
             onClose: function () {
                 let $li = $("#overview").find("li[id$='li']");
 
+                let fromPicker, untilPicker;
                 if (this.$el.attr("id") === "from") {
-                    filterCollapsible($li, this.date, M.Datepicker.getInstance($("#until")).date);
+                    fromPicker = this;
+                    untilPicker = M.Datepicker.getInstance($("#until"));
+
+                    if (fromPicker.date > untilPicker.date) {
+                        syncDate(fromPicker, untilPicker);
+                    }
                 } else {
-                    filterCollapsible($li, M.Datepicker.getInstance($("#from")).date, this.date);
+                    fromPicker = M.Datepicker.getInstance($("#from"));
+                    untilPicker = this;
+
+                    if (untilPicker.date < fromPicker.date) {
+                        syncDate(untilPicker, fromPicker);
+                    }
                 }
+
+                filterCollapsible($li, fromPicker.date, untilPicker.date);
             },
         });
     }
@@ -41,6 +54,13 @@ function handleDatePickers() {
     // TODO set default options for create booking and Check in pickers
     // initDatePicker($('.dpOverview'), {});
     // initDatePicker($('.dpOverview'), {});
+}
+
+function syncDate(picker, pickerToSync) {
+    if (picker != null && pickerToSync != null) {
+        pickerToSync.setDate(picker.date)
+        pickerToSync.$el.val(picker.toString());
+    }
 }
 
 function initDatePicker(elems, options) {
