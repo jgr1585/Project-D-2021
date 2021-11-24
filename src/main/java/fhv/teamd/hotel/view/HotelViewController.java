@@ -104,4 +104,16 @@ public class HotelViewController {
         return new RedirectView("/checkIn/chooseCategories");
 
     }
+
+    @RequestMapping("/stay/performCheckOut")
+    public RedirectView performCheckOut(
+            @RequestParam String id,
+            RedirectAttributes redirectAttributes) {
+
+        // todo call app service
+        // hier könnte ihr check out stehen
+
+        return new RedirectView("/");
+
+    }
 }
