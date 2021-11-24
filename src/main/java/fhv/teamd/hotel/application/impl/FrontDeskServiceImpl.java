@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
@@ -12,6 +13,7 @@ import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
+import fhv.teamd.hotel.domain.services.RoomAssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +36,15 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Autowired
     private StayRepository stayRepository;
 
+    @Autowired
+    private RoomAssignmentService roomAssignmentService;
+
     @Transactional
     @Override
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
-                                   GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException {
+                                   GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException, OccupiedRoomException {
 
-        Set<Room> rooms = new HashSet<>();
+        List<Room> rooms = new ArrayList<>();
 
         for(String roomId: roomIds) {
 
@@ -52,10 +57,12 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             rooms.add(result.get());
         }
 
-
         LocalDateTime checkIn = LocalDateTime.now();
         LocalDateTime checkOut = checkIn.plus(expectedDuration);
 
+        if (!this.roomAssignmentService.areAvailable(rooms, checkIn, checkOut)) {
+            throw new OccupiedRoomException("occupied room");
+        }
 
         Stay newStay = new Stay(this.stayRepository.nextIdentity(), checkIn, checkOut, rooms, guest, representative);
 
@@ -67,7 +74,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Override
     public void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
                         GuestDetails guest, RepresentativeDetails representative,
-                        String bookingId) throws InvalidIdException {
+                        String bookingId) throws InvalidIdException, OccupiedRoomException {
 
         this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
 

@@ -6,9 +6,7 @@ import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Stay {
 
@@ -28,7 +26,7 @@ public class Stay {
     }
 
     public Stay(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
-                Set<Room> rooms,
+                List<Room> rooms,
                 GuestDetails guest, RepresentativeDetails representative) {
 
         this.stayId = stayId;
@@ -44,7 +42,7 @@ public class Stay {
             throw new InvalidParameterException("no rooms");
         }
 
-        this.rooms = rooms;
+        this.rooms = new HashSet<>(rooms);
 
         this.guestDetails = guest;
         this.representativeDetails = representative;

@@ -46,7 +46,23 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public boolean areAvailable(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
-        throw new NotYetImplementedException();
+        List<Stay> overlappingStays = this.stayRepository
+                .staysWithOverlappingDuration(from, until);
+
+        Set<Room> occupiedRooms = overlappingStays
+                .stream()
+                .flatMap(stay -> stay.rooms().stream())
+                .collect(Collectors.toSet());
+
+        for (Room room : rooms) {
+            for (Room occupiedRoom : occupiedRooms) {
+                if (room.equals(occupiedRoom)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
 
     }
 }
