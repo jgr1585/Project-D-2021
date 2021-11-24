@@ -23,13 +23,15 @@ public class Stay {
     private GuestDetails guestDetails;
     private RepresentativeDetails representativeDetails;
 
+    private StayingState stayingState;
+
     protected Stay() {
         // hibernate
     }
 
     public Stay(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                 Set<Room> rooms,
-                GuestDetails guest, RepresentativeDetails representative) {
+                GuestDetails guest, RepresentativeDetails representative, StayingState stayingState) {
 
         this.stayId = stayId;
 
@@ -48,6 +50,8 @@ public class Stay {
 
         this.guestDetails = guest;
         this.representativeDetails = representative;
+
+        this.stayingState = stayingState;
     }
 
     protected Long id() {
@@ -76,6 +80,10 @@ public class Stay {
 
     public RepresentativeDetails representativeDetails() {
         return this.representativeDetails;
+    }
+
+    public StayingState getStayingState() {
+        return this.stayingState;
     }
 
     @Override

@@ -30,6 +30,8 @@ create table booking
     representative_email      varchar            not null,
     representative_phone      varchar            not null,
 
+    staying_state             varchar            not null,
+
     primary key (id),
     unique (booking_id),
     check check_in < check_out

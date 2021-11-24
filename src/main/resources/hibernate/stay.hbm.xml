@@ -45,5 +45,14 @@
 
             <property name="phone" column="representative_phone" type="string"/>
         </component>
+
+        <property name="stayingState" column="staying_state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">fhv.teamd.hotel.domain.StayingState</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+
+
     </class>
 </hibernate-mapping>

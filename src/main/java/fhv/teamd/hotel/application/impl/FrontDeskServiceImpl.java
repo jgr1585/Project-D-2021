@@ -5,6 +5,7 @@ import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
+import fhv.teamd.hotel.domain.StayingState;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
@@ -52,12 +53,12 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             rooms.add(result.get());
         }
 
-
         LocalDateTime checkIn = LocalDateTime.now();
         LocalDateTime checkOut = checkIn.plus(expectedDuration);
 
+        StayingState stayingState = StayingState.CheckedIn;
 
-        Stay newStay = new Stay(this.stayRepository.nextIdentity(), checkIn, checkOut, rooms, guest, representative);
+        Stay newStay = new Stay(this.stayRepository.nextIdentity(), checkIn, checkOut, rooms, guest, representative, stayingState);
 
         this.stayRepository.put(newStay);
 
