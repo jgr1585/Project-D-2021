@@ -20,14 +20,43 @@
     <ul class="collapsible popout">
         <li th:each="stay: ${stays}">
             <div class="collapsible-header">
-                <span th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></span>
+
+                <div class="float-left">
+
+                    <span th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></span>
+
+                    <div class="timeRange">
+                        <span class="from" th:text="${stay.checkIn}"></span>
+                        <span> until </span>
+                        <span class="to" th:text="${stay.expectedCheckOut}"></span>
+                    </div>
+                </div>
+
+                <div class="float-right valign-wrapper">
+                    <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                         data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">
+                        <i class="material-icons blue-grey-text no-margin center-context">edit</i>
+                    </div>
+                    <a th:href="@{/stay/performCheckOut(id=${stay.id})}">
+                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                             data-position="top" data-tooltip="Check-Out">
+                            <i class="material-icons blue-text no-margin center-context">logout</i>
+                        </div>
+                    </a>
+                </div>
+
             </div>
 
             <div class="collapsible-body s12">
                 <div class="row">
-                    <div class="card col s1" th:each="room: ${stay.rooms()}">
-                        <p th:text="${room.id()}"></p>
+                    <div class="card col s1" th:each="room: ${stay.rooms()}" style="margin-right: 10px">
+                        <p class="center-align" th:text="${room.id()}"></p>
                     </div>
+                </div>
+
+                <div class="row">
+                    <p th:text="${stay.guest}"></p>
+                    <p th:text="${stay.representative}"></p>
                 </div>
             </div>
         </li>
