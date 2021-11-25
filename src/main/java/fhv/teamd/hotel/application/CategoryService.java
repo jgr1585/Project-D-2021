@@ -14,7 +14,9 @@ public interface CategoryService {
 
     List<AvailableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until);
 
-    boolean isAvailable(Map<String, Integer> categoryIdsAndAmounts,
+    List<AvailableCategoryDTO> getAvailableCategoriesTest(LocalDateTime from, LocalDateTime until);
+
+    boolean isAvailable(Map.Entry<String, Integer> categoryIdsAndAmounts,
                         LocalDateTime from, LocalDateTime until);
 
     Optional<CategoryDTO> findCategoryById(String categoryId);

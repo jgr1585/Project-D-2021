@@ -3,8 +3,10 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryAvailabilityService categoryAvailabilityService;
 
     @Override
     public List<CategoryDTO> getAll() {
@@ -52,11 +57,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean isAvailable(Map<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until) {
+    public boolean isAvailable(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until) {
 
         // todo implement (out of sprint 1 scope)
 
-        throw new NotYetImplementedException();
+        // get all booked rooms with their specific category id and their amount
+
+        // Entry<categoriename, anzahl>
+
+
+
+        /*
+            select sum(number_of_rooms) from booking_for_category bfc
+            where bfc.category_id = categoryId booking_id in (
+                select id from booking b
+                where b.check_in <= '2021-12-26 10:00:00' and b.check_out >= '2021-12-26 10:00:00'
+            );
+         */
+        
+
+
+        return true;
     }
 
     @Override
@@ -65,7 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryId id = new CategoryId(categoryId);
 
         Optional<Category> result = this.categoryRepository.findById(id);
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             return Optional.empty();
         }
 

@@ -65,7 +65,7 @@ public class HibernateBookingRepository implements BookingRepository {
 
         q.setParameter("id", bookingId);
 
-        if(q.executeUpdate() != 1) {
+        if (q.executeUpdate() != 1) {
             throw new EntityNotFoundException();
         }
 

@@ -1,7 +1,9 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
+import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -31,7 +33,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Transactional
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
@@ -51,6 +55,10 @@ public class BookingServiceImpl implements BookingService {
             Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
             if (result.isEmpty()) {
                 throw new Exception("no category with this id");
+            }
+
+            if (!this.categoryService.isAvailable(entry, from, until)) {
+                throw new CategoryNotAvailableException("category not available");
             }
 
             Category cat = result.get();

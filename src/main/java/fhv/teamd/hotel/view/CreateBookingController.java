@@ -23,9 +23,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("booking")
@@ -33,6 +31,7 @@ public class CreateBookingController {
 
     private static final Period defaultBookingLeadTime = Period.ofWeeks(2);
     private static final Period defaultStayDuration = Period.ofWeeks(1);
+
 
     @Autowired
     private CategoryService categoryService;

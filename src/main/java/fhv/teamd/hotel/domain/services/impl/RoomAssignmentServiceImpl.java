@@ -40,7 +40,6 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
         rooms.removeAll(occupiedRooms);
 
         return rooms.stream().limit(maxAmount).collect(Collectors.toList());
-
     }
 
     @Override
@@ -63,6 +62,5 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
         }
 
         return true;
-
     }
 }
