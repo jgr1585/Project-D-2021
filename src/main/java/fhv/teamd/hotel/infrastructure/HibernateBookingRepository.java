@@ -3,7 +3,9 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
+import fhv.teamd.hotel.domain.Category;
 import org.springframework.stereotype.Repository;
+import java.util.Map;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -48,6 +50,33 @@ public class HibernateBookingRepository implements BookingRepository {
         q.setParameter("until", until);
 
         return q.getResultList();
+    }
+
+    @Override
+    public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+
+        int numberOfRooms = 0;
+
+        for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
+
+            for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
+
+                if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
+
+                    numberOfRooms += categoryIntegerEntry.getValue();
+                }
+            }
+        }
+
+        return numberOfRooms;
+
+        //return this.getBookingsByCheckInDate(from, until)
+        //        .stream().flatMap(booking -> booking.selection().entrySet().stream())
+        //        .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+        //        .map(Map.Entry::getValue)
+        //        .reduce(Integer::sum)
+        //        .orElse(0);
+
     }
 
     @Override
