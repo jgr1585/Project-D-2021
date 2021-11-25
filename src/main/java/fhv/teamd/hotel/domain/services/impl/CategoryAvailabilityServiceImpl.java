@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class CategoryAvailabiltyServiceImpl implements CategoryAvailabilityService {
+public class CategoryAvailabilityServiceImpl implements CategoryAvailabilityService {
 
     @Autowired
     private CategoryRepository categoryRepository;

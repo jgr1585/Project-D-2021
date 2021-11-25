@@ -56,20 +56,27 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-        int numberOfRooms = 0;
+        return this.entityManager.createQuery(
+                "select sum(value(s)) from Booking b" +
+                        "join b.selection s" +
+                        "where b.checkIn < :until and b.checkOut > :from" +
+                        "and key(s).categoryId = :catId",
+                        Integer.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("catId", categoryId)
+                .getSingleResult();
 
-        for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
 
-            for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
-
-                if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
-
-                    numberOfRooms += categoryIntegerEntry.getValue();
-                }
-            }
-        }
-
-        return numberOfRooms;
+        //int numberOfRooms = 0;
+        //for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
+        //    for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
+        //        if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
+        //            numberOfRooms += categoryIntegerEntry.getValue();
+        //        }
+        //    }
+        //}
+        //return numberOfRooms;
 
         //return this.getBookingsByCheckInDate(from, until)
         //        .stream().flatMap(booking -> booking.selection().entrySet().stream())
