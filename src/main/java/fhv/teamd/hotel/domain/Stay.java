@@ -82,8 +82,8 @@ public class Stay {
         return this.representativeDetails;
     }
 
-    public StayingState getStayingState() {
-        return this.stayingState;
+    public boolean isActive() {
+        return this.stayingState.equals(StayingState.CheckedIn);
     }
 
     @Override
