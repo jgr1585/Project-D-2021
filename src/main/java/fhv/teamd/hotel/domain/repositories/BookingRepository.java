@@ -19,6 +19,8 @@ public interface BookingRepository {
 
     List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
 
+    int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
+
     void put(Booking booking);
 
     void remove(BookingId bookingId) throws EntityNotFoundException;

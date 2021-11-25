@@ -37,6 +37,7 @@ public class BookingServiceImpl implements BookingService {
     private CategoryService categoryService;
 
     @Override
+    @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
                      GuestDetails guest, RepresentativeDetails rep) throws Exception {

@@ -60,6 +60,11 @@ public class CreateBookingController {
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
+        List<AvailableCategoryDTO> categoriesTest
+                = this.categoryService.getAvailableCategoriesTest(
+                chooseCategoriesForm.getFrom().atStartOfDay(),
+                chooseCategoriesForm.getUntil().atStartOfDay());
+
 //        Map<String, Integer> defaultValues
 //                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
 
