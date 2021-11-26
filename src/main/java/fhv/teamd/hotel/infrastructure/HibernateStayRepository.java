@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.infrastructure;
 
+import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -50,5 +52,15 @@ public class HibernateStayRepository implements StayRepository {
 
         this.entityManager.persist(stay);
 
+    }
+
+    @Override
+    public Optional<Stay> find(StayId stayId) {
+        TypedQuery<Stay> q = this.entityManager
+                .createQuery("SELECT s FROM Stay s WHERE s.stayId = :id", Stay.class);
+
+        q.setParameter("id", stayId);
+
+        return q.getResultStream().findFirst();
     }
 }

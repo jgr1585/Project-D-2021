@@ -5,6 +5,7 @@ import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface StayRepository {
 
@@ -16,4 +17,5 @@ public interface StayRepository {
 
     void put(Stay stay);
 
+    Optional<Stay> find(StayId stayId);
 }

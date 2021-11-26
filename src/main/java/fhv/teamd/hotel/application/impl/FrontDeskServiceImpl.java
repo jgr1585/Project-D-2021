@@ -8,8 +8,10 @@ import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.StayingState;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.RoomId;
+import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -49,7 +51,6 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             if(result.isEmpty()) {
                 throw new InvalidIdException("room id");
             }
-
             rooms.add(result.get());
         }
 
@@ -88,5 +89,19 @@ public class FrontDeskServiceImpl implements FrontDeskService {
                 .stream()
                 .map(StayDTO::fromStay)
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional
+    public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
+        Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
+        if (result.isEmpty()){
+            throw new InvalidIdException("Invalid Stay-ID");
+        }
+        Stay stay = result.get();
+
+        stay.checkOut();
+
     }
 }

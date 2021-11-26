@@ -2,6 +2,7 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.security.InvalidParameterException;
@@ -66,7 +67,7 @@ public class Stay {
         return this.checkIn;
     }
 
-    public LocalDateTime checkOut() {
+    public LocalDateTime expectedCheckOut() {
         return this.expectedCheckOut;
     }
 
@@ -86,6 +87,15 @@ public class Stay {
         return this.stayingState.equals(StayingState.CheckedIn);
     }
 
+
+    public void checkOut() throws AlreadyCheckedOutException {
+        if (this.stayingState.equals(StayingState.CheckedOut)){
+            throw new AlreadyCheckedOutException();
+        }
+        this.stayingState = StayingState.CheckedOut;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -102,4 +112,5 @@ public class Stay {
     public int hashCode() {
         return Objects.hash(this.id, this.stayId);
     }
+
 }
