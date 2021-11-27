@@ -16,7 +16,7 @@ import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
-import fhv.teamd.hotel.domain.services.RoomAssignmentService;
+import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +43,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     private StayRepository stayRepository;
 
     @Autowired
-    private RoomAssignmentService roomAssignmentService;
+    private AvailabilityService availabilityService;
 
     @Transactional
     @Override
@@ -65,7 +65,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         LocalDateTime checkIn = LocalDateTime.now();
         LocalDateTime checkOut = checkIn.plus(expectedDuration);
 
-        if (!this.roomAssignmentService.areAvailableRooms(rooms, checkIn, checkOut)) {
+        if (!this.availabilityService.areAvailableRooms(rooms, checkIn, checkOut)) {
             throw new OccupiedRoomException("occupied room");
         }
 

@@ -7,7 +7,8 @@ import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
-import fhv.teamd.hotel.domain.services.RoomAssignmentService;
+import fhv.teamd.hotel.domain.services.AvailabilityService;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class RoomAssignmentServiceImpl implements RoomAssignmentService {
+public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -64,8 +65,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount) {
 
-
-        return false;
+        throw new NotYetImplementedException();
     }
 
     @Override

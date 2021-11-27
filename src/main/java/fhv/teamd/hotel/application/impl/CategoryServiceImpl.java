@@ -6,7 +6,7 @@ import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
-import fhv.teamd.hotel.domain.services.RoomAssignmentService;
+import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private RoomAssignmentService roomAssignmentService;
+    private AvailabilityService availabilityService;
 
     @Override
     public List<CategoryDTO> getAll() {
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
         for (Category cat : this.categoryRepository.getAll()) {
-            int count = this.roomAssignmentService.getAmountOfAvailableCategory(cat.categoryId(), from, until);
+            int count = this.availabilityService.getAmountOfAvailableCategory(cat.categoryId(), from, until);
 
             result.add(new AvailableCategoryDTO(
                     cat.categoryId().toString(),

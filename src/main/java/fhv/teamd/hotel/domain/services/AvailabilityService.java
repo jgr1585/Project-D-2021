@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface RoomAssignmentService {
+public interface AvailabilityService {
 
     int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
