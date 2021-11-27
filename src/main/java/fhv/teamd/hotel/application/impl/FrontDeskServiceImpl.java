@@ -69,12 +69,13 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         if (!this.roomAssignmentService.areAvailableRooms(rooms, checkIn, checkOut)) {
             throw new OccupiedRoomException("occupied room");
         }
-        StayingState stayingState = StayingState.CheckedIn;
 
-        Stay newStay = new Stay(this.stayRepository.nextIdentity(), checkIn, checkOut, rooms, guest, representative, stayingState);
-
-        this.stayRepository.put(newStay);
-
+        this.stayRepository.put(new Stay(
+                this.stayRepository.nextIdentity(),
+                checkIn, checkOut, rooms,
+                guest, representative,
+                StayingState.CheckedIn
+        ));
     }
 
     @Transactional
