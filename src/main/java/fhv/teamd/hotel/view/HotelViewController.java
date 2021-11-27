@@ -5,6 +5,8 @@ import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.BookingDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -112,8 +114,11 @@ public class HotelViewController {
             @RequestParam String id,
             RedirectAttributes redirectAttributes) {
 
-        // todo call app service
-        // hier könnte ihr check out stehen
+        try {
+            this.frontDeskService.checkOut(id);
+        } catch (InvalidIdException | AlreadyCheckedOutException e) {
+            e.printStackTrace();
+        }
 
         return new RedirectView("/");
 
