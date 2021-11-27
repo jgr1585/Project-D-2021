@@ -44,7 +44,7 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
         TypedQuery<Booking> q = this.entityManager.createQuery(
-                "SELECT b FROM Booking b WHERE b.checkInDate > :from AND b.checkOutDate < :until",
+                "SELECT b FROM Booking b WHERE b.checkInDate >= :from AND b.checkOutDate <= :until",
                 Booking.class);
 
         q.setParameter("from", from);

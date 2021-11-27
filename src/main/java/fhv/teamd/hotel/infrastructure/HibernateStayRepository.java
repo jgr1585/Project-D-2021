@@ -39,7 +39,7 @@ public class HibernateStayRepository implements StayRepository {
     public List<Stay> staysWithOverlappingDuration(LocalDateTime from, LocalDateTime until) {
 
         TypedQuery<Stay> q = this.entityManager.createQuery(
-                "select s from Stay s where (s.checkIn<:until and s.expectedCheckOut>:from)",
+                "select s from Stay s where (s.checkIn < : until and s.expectedCheckOut > :from)",
                 Stay.class);
 
         q.setParameter("from", from);
