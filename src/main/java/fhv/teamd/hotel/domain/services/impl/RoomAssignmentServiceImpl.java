@@ -69,7 +69,7 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     }
 
     @Override
-    public boolean areAvailableRooms(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
+    public boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
         List<Stay> overlappingStays = this.stayRepository
                 .staysWithOverlappingDuration(from, until);

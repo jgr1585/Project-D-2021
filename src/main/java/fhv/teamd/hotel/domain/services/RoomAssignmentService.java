@@ -7,6 +7,7 @@ import fhv.teamd.hotel.domain.ids.CategoryId;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface RoomAssignmentService {
 
@@ -16,6 +17,6 @@ public interface RoomAssignmentService {
 
     boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount);
 
-    boolean areAvailableRooms(List<Room> rooms, LocalDateTime from, LocalDateTime until);
+    boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
 
 }

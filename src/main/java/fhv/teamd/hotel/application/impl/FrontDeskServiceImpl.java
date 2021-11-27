@@ -24,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,13 +50,14 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
                                    GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException, OccupiedRoomException {
 
-        List<Room> rooms = new ArrayList<>();
+        // todo: why is Set used when we use List everywhere else?
+        Set<Room> rooms = new HashSet<>();
 
-        for(String roomId: roomIds) {
+        for (String roomId : roomIds) {
 
             Optional<Room> result = this.roomRepository.getById(new RoomId(roomId));
 
-            if(result.isEmpty()) {
+            if (result.isEmpty()) {
                 throw new InvalidIdException("room id");
             }
             rooms.add(result.get());
@@ -76,8 +80,8 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional
     @Override
     public void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
-                        GuestDetails guest, RepresentativeDetails representative,
-                        String bookingId) throws InvalidIdException, OccupiedRoomException {
+                                   GuestDetails guest, RepresentativeDetails representative,
+                                   String bookingId) throws InvalidIdException, OccupiedRoomException {
 
         this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
 
@@ -102,7 +106,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional
     public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
         Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
-        if (result.isEmpty()){
+        if (result.isEmpty()) {
             throw new InvalidIdException("Invalid Stay-ID");
         }
         Stay stay = result.get();
