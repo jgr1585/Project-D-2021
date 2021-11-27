@@ -50,7 +50,6 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
                                    GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException, OccupiedRoomException {
 
-        // todo: why is Set used when we use List everywhere else?
         Set<Room> rooms = new HashSet<>();
 
         for (String roomId : roomIds) {
