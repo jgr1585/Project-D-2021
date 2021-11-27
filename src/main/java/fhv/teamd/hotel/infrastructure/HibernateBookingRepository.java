@@ -57,6 +57,7 @@ public class HibernateBookingRepository implements BookingRepository {
     public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         int numberOfRooms = 0;
+
         for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
             for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
                 if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {

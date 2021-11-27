@@ -1,6 +1,5 @@
 package fhv.teamd.hotel.domain.services.impl;
 
-import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
@@ -9,14 +8,12 @@ import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.RoomAssignmentService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,13 +35,12 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     @Override
     public int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-        Optional<Category> categories = this.categoryRepository.findById(categoryId);
+        List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
         int amountBookedRooms = this.bookingRepository.getNumberOfBookedRoomsByCategory(categoryId, from, until);
         int amountStayRooms = this.stayRepository.getNumberOfStayRoomsByCategory(categoryId, from, until);
 
-
-        return 0;
+        return rooms.size() - (amountBookedRooms + amountStayRooms);
     }
 
     @Override
