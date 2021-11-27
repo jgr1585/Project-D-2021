@@ -2,16 +2,16 @@ package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.domain.*;
-import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
+import fhv.teamd.hotel.domain.services.RoomAssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +31,12 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Transactional
+    @Autowired
+    private RoomAssignmentService roomAssignmentService;
+
+
     @Override
+    @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
                      GuestDetails guest, RepresentativeDetails rep) throws Exception {
@@ -52,6 +56,10 @@ public class BookingServiceImpl implements BookingService {
             if (result.isEmpty()) {
                 throw new Exception("no category with this id");
             }
+
+//            if (!this.roomAssignmentService.isAvailableCategory(entry, from, until, count)) {
+//                throw new CategoryNotAvailableException("category not available");
+//            }
 
             Category cat = result.get();
 

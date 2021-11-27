@@ -3,15 +3,17 @@ package fhv.teamd.hotel.domain.services.impl;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.repositories.BookingRepository;
+import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.RoomAssignmentService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,27 @@ import java.util.stream.Collectors;
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
     private StayRepository stayRepository;
+
+    @Override
+    public int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+
+        List<Room> rooms = this.roomRepository.getByCategory(categoryId);
+
+        int amountBookedRooms = this.bookingRepository.getNumberOfBookedRoomsByCategory(categoryId, from, until);
+        int amountStayRooms = this.stayRepository.getNumberOfStayRoomsByCategory(categoryId, from, until);
+
+        return rooms.size() - (amountBookedRooms + amountStayRooms);
+    }
 
     @Override
     public List<Room> findSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
@@ -40,13 +59,34 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
         rooms.removeAll(occupiedRooms);
 
         return rooms.stream().limit(maxAmount).collect(Collectors.toList());
-
     }
 
     @Override
-    public boolean areAvailable(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
+    public boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount) {
 
-        throw new NotYetImplementedException();
 
+        return false;
+    }
+
+    @Override
+    public boolean areAvailableRooms(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
+
+        List<Stay> overlappingStays = this.stayRepository
+                .staysWithOverlappingDuration(from, until);
+
+        Set<Room> occupiedRooms = overlappingStays
+                .stream()
+                .flatMap(stay -> stay.rooms().stream())
+                .collect(Collectors.toSet());
+
+        for (Room room : rooms) {
+            for (Room occupiedRoom : occupiedRooms) {
+                if (room.equals(occupiedRoom)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -7,6 +7,7 @@ import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -79,6 +80,7 @@ public class CheckInController {
     @PostMapping("chooseCategories")
     public RedirectView submitCategories(
             @ModelAttribute CheckInForm checkInForm,
+            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
@@ -100,6 +102,7 @@ public class CheckInController {
     @PostMapping("personalDetails")
     public RedirectView submitPersonalDetails(
             @ModelAttribute CheckInForm checkInForm,
+            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
@@ -221,6 +224,9 @@ public class CheckInController {
 
         } catch (InvalidIdException x) {
             x.printStackTrace();
+        } catch (OccupiedRoomException x) {
+            redirectAttributes.addFlashAttribute("error", "Occupied Rooms");
+            return new RedirectView("roomAssignment");
         }
 
         return new RedirectView("/");
