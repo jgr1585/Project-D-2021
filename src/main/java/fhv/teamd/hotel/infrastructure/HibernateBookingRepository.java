@@ -44,7 +44,7 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
         TypedQuery<Booking> q = this.entityManager.createQuery(
-                "SELECT b FROM Booking b WHERE b.checkIn > :from AND b.checkOut < :until",
+                "SELECT b FROM Booking b WHERE b.checkInDate > :from AND b.checkOutDate < :until",
                 Booking.class);
 
         q.setParameter("from", from);
@@ -65,27 +65,29 @@ public class HibernateBookingRepository implements BookingRepository {
                 }
             }
         }
+
         return numberOfRooms;
 
+        //#region other options
 //        return this.entityManager.createQuery(
 //                "select sum(value(s)) from Booking b" +
 //                        "join b.selection s" +
-//                        "where b.checkIn < :until and b.checkOut > :from" +
+//                        "where b.checkInDate < :until and b.checkOutDate > :from" +
 //                        "and key(s).categoryId = :catId",
 //                        Integer.class)
 //                .setParameter("from", from)
 //                .setParameter("until", until)
 //                .setParameter("catId", categoryId)
 //                .getSingleResult();
-
-
+//
+//
 //        return this.getBookingsByCheckInDate(from, until)
 //                .stream().flatMap(booking -> booking.selection().entrySet().stream())
 //                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
 //                .map(Map.Entry::getValue)
 //                .reduce(Integer::sum)
 //                .orElse(0);
-
+        //#endregion
     }
 
     @Override

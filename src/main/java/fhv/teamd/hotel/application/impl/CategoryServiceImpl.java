@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<AvailableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
+
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
         for (Category cat : this.categoryRepository.getAll()) {
