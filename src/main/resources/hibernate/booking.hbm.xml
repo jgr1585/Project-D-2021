@@ -50,5 +50,12 @@
             <element column="number_of_rooms" type="int"/>
         </map>
 
+        <property name="bookingState" column="booking_state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">fhv.teamd.hotel.domain.BookingState</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+
     </class>
 </hibernate-mapping>

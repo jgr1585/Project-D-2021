@@ -2,6 +2,8 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
+import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ public class Booking {
 
     private RepresentativeDetails contact;
     private GuestDetails guest;
+    private BookingState bookingState;
 
     private Booking() {
         // hibernate
@@ -35,6 +38,7 @@ public class Booking {
         this.categories = categories;
         this.contact = contact;
         this.guest = guest;
+        this.bookingState = BookingState.booked;
     }
 
     protected Long id() {
@@ -63,6 +67,26 @@ public class Booking {
 
     public GuestDetails guestDetails() {
         return this.guest;
+    }
+
+    public BookingState bookingState() {
+        return this.bookingState;
+    }
+
+    public void cancelBooking() throws CannotCancelException {
+        if(this.bookingState.equals(BookingState.booked)) {
+            this.bookingState = BookingState.cancelled;
+        } else {
+            throw new CannotCancelException();
+        }
+    }
+
+    public void notifyOfCheckin() throws CannotCheckinException {
+        if(this.bookingState.equals(BookingState.booked)) {
+            this.bookingState = BookingState.checkedIn;
+        } else {
+            throw new CannotCheckinException();
+        }
     }
 
     @Override
