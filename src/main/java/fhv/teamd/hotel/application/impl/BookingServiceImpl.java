@@ -1,19 +1,17 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
-import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.domain.*;
-import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
+import fhv.teamd.hotel.domain.services.RoomAssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +32,8 @@ public class BookingServiceImpl implements BookingService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryService categoryService;
+    private RoomAssignmentService roomAssignmentService;
+
 
     @Override
     @Transactional
@@ -58,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
                 throw new Exception("no category with this id");
             }
 
-            if (!this.categoryService.isAvailable(entry, from, until)) {
+            if (!this.roomAssignmentService.isAvailableCategory(entry, from, until, count)) {
                 throw new CategoryNotAvailableException("category not available");
             }
 

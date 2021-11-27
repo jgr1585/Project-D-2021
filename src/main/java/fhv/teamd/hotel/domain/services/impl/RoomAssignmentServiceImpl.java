@@ -1,8 +1,11 @@
 package fhv.teamd.hotel.domain.services.impl;
 
+import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.repositories.BookingRepository;
+import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.RoomAssignmentService;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,10 +24,28 @@ import java.util.stream.Collectors;
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
     private StayRepository stayRepository;
+
+    @Override
+    public int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+
+        Optional<Category> categories = this.categoryRepository.findById(categoryId);
+
+        int amountBookedRooms = this.bookingRepository.getNumberOfBookedRoomsByCategory(categoryId, from, until);
+        int amountStayRooms = this.stayRepository.getNumberOfStayRoomsByCategory(categoryId, from, until);
+
+
+        return 0;
+    }
 
     @Override
     public List<Room> findSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
@@ -43,7 +66,14 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
     }
 
     @Override
-    public boolean areAvailable(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
+    public boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount) {
+
+
+        return false;
+    }
+
+    @Override
+    public boolean areAvailableRooms(List<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
         List<Stay> overlappingStays = this.stayRepository
                 .staysWithOverlappingDuration(from, until);

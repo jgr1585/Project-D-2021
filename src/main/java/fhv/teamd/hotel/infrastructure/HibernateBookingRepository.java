@@ -56,34 +56,34 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-        return this.entityManager.createQuery(
-                "select sum(value(s)) from Booking b" +
-                        "join b.selection s" +
-                        "where b.checkIn < :until and b.checkOut > :from" +
-                        "and key(s).categoryId = :catId",
-                        Integer.class)
-                .setParameter("from", from)
-                .setParameter("until", until)
-                .setParameter("catId", categoryId)
-                .getSingleResult();
+        int numberOfRooms = 0;
+        for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
+            for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
+                if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
+                    numberOfRooms += categoryIntegerEntry.getValue();
+                }
+            }
+        }
+        return numberOfRooms;
+
+//        return this.entityManager.createQuery(
+//                "select sum(value(s)) from Booking b" +
+//                        "join b.selection s" +
+//                        "where b.checkIn < :until and b.checkOut > :from" +
+//                        "and key(s).categoryId = :catId",
+//                        Integer.class)
+//                .setParameter("from", from)
+//                .setParameter("until", until)
+//                .setParameter("catId", categoryId)
+//                .getSingleResult();
 
 
-        //int numberOfRooms = 0;
-        //for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
-        //    for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
-        //        if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
-        //            numberOfRooms += categoryIntegerEntry.getValue();
-        //        }
-        //    }
-        //}
-        //return numberOfRooms;
-
-        //return this.getBookingsByCheckInDate(from, until)
-        //        .stream().flatMap(booking -> booking.selection().entrySet().stream())
-        //        .filter(entry -> entry.getKey().categoryId().equals(categoryId))
-        //        .map(Map.Entry::getValue)
-        //        .reduce(Integer::sum)
-        //        .orElse(0);
+//        return this.getBookingsByCheckInDate(from, until)
+//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
+//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+//                .map(Map.Entry::getValue)
+//                .reduce(Integer::sum)
+//                .orElse(0);
 
     }
 

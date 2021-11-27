@@ -60,7 +60,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         LocalDateTime checkIn = LocalDateTime.now();
         LocalDateTime checkOut = checkIn.plus(expectedDuration);
 
-        if (!this.roomAssignmentService.areAvailable(rooms, checkIn, checkOut)) {
+        if (!this.roomAssignmentService.areAvailableRooms(rooms, checkIn, checkOut)) {
             throw new OccupiedRoomException("occupied room");
         }
 
@@ -84,8 +84,6 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             throw new InvalidIdException("bookingId", x);
         }
     }
-
-
 
     @Override
     @Transactional
