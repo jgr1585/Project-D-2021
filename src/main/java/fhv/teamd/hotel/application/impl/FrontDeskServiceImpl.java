@@ -4,12 +4,14 @@ import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
+import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.StayingState;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
@@ -81,21 +83,23 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Override
     public void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
                                    GuestDetails guest, RepresentativeDetails representative,
-                                   String bookingId) throws InvalidIdException, OccupiedRoomException {
+                                   String bookingId) throws InvalidIdException, OccupiedRoomException, CannotCheckinException {
 
         this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
 
-        try {
-            this.bookingRepository.remove(new BookingId(bookingId));
-        } catch (EntityNotFoundException x) {
-            throw new InvalidIdException("bookingId", x);
+        Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
+        if (result.isEmpty()) {
+            throw new InvalidIdException(bookingId);
         }
+
+        Booking booking = result.get();
+        booking.notifyOfCheckin();
     }
 
     @Override
     @Transactional
-    public List<StayDTO> getAllHotelStays() {
-        return this.stayRepository.getAll()
+    public List<StayDTO> getActiveStays() {
+        return this.stayRepository.getActiveStays()
                 .stream()
                 .map(StayDTO::fromStay)
                 .collect(Collectors.toList());

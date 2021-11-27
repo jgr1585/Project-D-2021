@@ -50,7 +50,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
         List<Stay> overlappingStays = this.stayRepository
-                .staysWithOverlappingDuration(from, until);
+                .activeStaysWithOverlappingDuration(from, until);
 
         Set<Room> occupiedRooms = overlappingStays
                 .stream()
@@ -72,7 +72,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     public boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
         List<Stay> overlappingStays = this.stayRepository
-                .staysWithOverlappingDuration(from, until);
+                .activeStaysWithOverlappingDuration(from, until);
 
         Set<Room> occupiedRooms = overlappingStays
                 .stream()

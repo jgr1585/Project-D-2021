@@ -7,6 +7,7 @@ import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 
 import java.time.Duration;
 import java.util.List;
@@ -19,9 +20,9 @@ public interface FrontDeskService {
 
     void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
                             GuestDetails guest, RepresentativeDetails representative,
-                            String bookingId) throws InvalidIdException, OccupiedRoomException;
+                            String bookingId) throws InvalidIdException, OccupiedRoomException, CannotCheckinException;
 
-    List<StayDTO> getAllHotelStays();
+    List<StayDTO> getActiveStays();
 
     void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
 

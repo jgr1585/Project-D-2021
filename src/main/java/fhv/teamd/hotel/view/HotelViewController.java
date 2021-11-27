@@ -35,7 +35,7 @@ public class HotelViewController {
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
-        model.addAttribute("stays", this.frontDeskService.getAllHotelStays());
+        model.addAttribute("stays", this.frontDeskService.getActiveStays());
 
         return new ModelAndView("index");
     }
@@ -45,7 +45,7 @@ public class HotelViewController {
             @ModelAttribute BookingListForm form,
             Model model) {
 
-        List<BookingDTO> bookings = this.bookingService.getAll();
+        List<BookingDTO> bookings = this.bookingService.getActiveBookings();
 
         model.addAttribute("form", form);
         model.addAttribute("bookings", bookings);

@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.Booking;
+import fhv.teamd.hotel.domain.BookingState;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -28,6 +29,14 @@ public class HibernateBookingRepository implements BookingRepository {
     public List<Booking> getAllBookings() {
         return this.entityManager
                 .createQuery("SELECT b FROM Booking b", Booking.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<Booking> getActiveBookings() {
+        return this.entityManager
+                .createQuery("SELECT b FROM Booking b where b.bookingState = :state", Booking.class)
+                .setParameter("state", BookingState.booked)
                 .getResultList();
     }
 

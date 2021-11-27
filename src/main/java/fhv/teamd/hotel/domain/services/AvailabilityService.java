@@ -19,4 +19,5 @@ public interface AvailabilityService {
 
     boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
 
+
 }

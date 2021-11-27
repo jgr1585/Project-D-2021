@@ -1,8 +1,6 @@
 package fhv.teamd.hotel.infrastructure;
 
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.Room;
-import fhv.teamd.hotel.domain.Stay;
+import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -38,14 +36,23 @@ public class HibernateStayRepository implements StayRepository {
     }
 
     @Override
-    public List<Stay> staysWithOverlappingDuration(LocalDateTime from, LocalDateTime until) {
+    public List<Stay> getActiveStays() {
+        return this.entityManager
+                .createQuery("SELECT s FROM Stay s where s.stayingState = :state", Stay.class)
+                .setParameter("state", StayingState.CheckedIn)
+                .getResultList();
+    }
+
+    @Override
+    public List<Stay> activeStaysWithOverlappingDuration(LocalDateTime from, LocalDateTime until) {
 
         TypedQuery<Stay> q = this.entityManager.createQuery(
-                "select s from Stay s where (s.checkIn < : until and s.expectedCheckOut > :from)",
+                "select s from Stay s where (s.checkIn < : until and s.expectedCheckOut > :from and s.stayingState = :state)",
                 Stay.class);
 
         q.setParameter("from", from);
         q.setParameter("until", until);
+        q.setParameter("state", StayingState.CheckedIn);
 
         return q.getResultList();
     }
@@ -54,7 +61,7 @@ public class HibernateStayRepository implements StayRepository {
     public int getNumberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
         int numberOfRooms = 0;
 
-        for (Stay stay : this.staysWithOverlappingDuration(from, until)) {
+        for (Stay stay : this.activeStaysWithOverlappingDuration(from, until)) {
             Set<Room> rooms = stay.rooms();
             for (Room room : rooms) {
                 if (room.category().categoryId().equals(categoryId)) {

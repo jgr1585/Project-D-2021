@@ -15,7 +15,7 @@ public interface BookingService {
               LocalDateTime from, LocalDateTime until,
               GuestDetails guest, RepresentativeDetails representative) throws Exception;
 
-    List<BookingDTO> getAll();
+    List<BookingDTO> getActiveBookings();
 
     Optional<DetailedBookingDTO> getDetails(String bookingId);
 }

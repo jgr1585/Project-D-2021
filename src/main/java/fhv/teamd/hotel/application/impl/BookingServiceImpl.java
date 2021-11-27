@@ -74,9 +74,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public List<BookingDTO> getAll() {
+    public List<BookingDTO> getActiveBookings() {
         return this.bookingRepository
-                .getAllBookings()
+                .getActiveBookings()
                 .stream()
                 .map(BookingDTO::fromBooking)
                 .collect(Collectors.toUnmodifiableList());

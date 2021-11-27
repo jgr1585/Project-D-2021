@@ -36,7 +36,7 @@ public class BookingServiceTests {
     void given_emptyRepository_when_getAll_returnsEmpty() {
 
         Mockito.when(this.bookingRepository.getAllBookings()).thenReturn(Collections.emptyList());
-        Assertions.assertEquals(0, this.bookingService.getAll().size());
+        Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
 
     }
 
@@ -70,7 +70,7 @@ public class BookingServiceTests {
 
         Mockito.when(this.bookingRepository.getAllBookings()).thenReturn(allBookings);
 
-        final List<BookingDTO> actual = this.bookingService.getAll();
+        final List<BookingDTO> actual = this.bookingService.getActiveBookings();
 
         final List<BookingDTO> expected
                 = allBookings.stream().map(BookingDTO::fromBooking).collect(Collectors.toList());
