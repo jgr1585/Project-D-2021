@@ -57,9 +57,9 @@ public class BookingServiceImpl implements BookingService {
                 throw new Exception("no category with this id");
             }
 
-            if (!this.roomAssignmentService.isAvailableCategory(entry, from, until, count)) {
-                throw new CategoryNotAvailableException("category not available");
-            }
+//            if (!this.roomAssignmentService.isAvailableCategory(entry, from, until, count)) {
+//                throw new CategoryNotAvailableException("category not available");
+//            }
 
             Category cat = result.get();
 
