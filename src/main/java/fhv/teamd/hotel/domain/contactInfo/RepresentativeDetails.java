@@ -10,16 +10,21 @@ public class RepresentativeDetails {
     private final Address address;
     private final String phone;
 
+    private final String creditCardNumber;
+    private final PaymentMethod paymentMethod;
+
     private RepresentativeDetails() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null, null);
     }
 
-    public RepresentativeDetails(String firstName, String lastName, String email, Address address, String phone) {
+    public RepresentativeDetails(String firstName, String lastName, String email, Address address, String phone, String creditCardNumber, PaymentMethod paymentMethod) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.phone = phone;
+        this.creditCardNumber = creditCardNumber;
+        this.paymentMethod = paymentMethod;
     }
 
     public String firstName() {
@@ -40,6 +45,14 @@ public class RepresentativeDetails {
 
     public String phone() {
         return this.phone;
+    }
+
+    public String creditCardNumber() {
+        return this.creditCardNumber;
+    }
+
+    public PaymentMethod paymentMethod() {
+        return this.paymentMethod;
     }
 
     @Override

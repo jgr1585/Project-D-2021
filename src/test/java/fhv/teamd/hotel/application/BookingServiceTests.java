@@ -5,6 +5,7 @@ import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -56,8 +57,8 @@ public class BookingServiceTests {
 
 
         final RepresentativeDetails rep = new RepresentativeDetails(
-                "max","muster","m@mail.com", addr,"123456"
-        );
+                "max","muster","m@mail.com", addr,"123456",
+                "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
         final GuestDetails guest = new GuestDetails("max", "muster", addr);
 

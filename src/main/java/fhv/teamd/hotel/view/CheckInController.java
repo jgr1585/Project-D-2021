@@ -201,8 +201,9 @@ public class CheckInController {
                         personalDetailsForm.getRepresentativeZip(),
                         personalDetailsForm.getRepresentativeCity(),
                         personalDetailsForm.getRepresentativeCountry()),
-                personalDetailsForm.getRepresentativePhone()
-        );
+                personalDetailsForm.getRepresentativePhone(),
+                personalDetailsForm.getRepresentativeCreditCardNumber(),
+                personalDetailsForm.getRepresentativePaymentMethod());
 
         String bookingId = checkInForm.getBookingId();
 

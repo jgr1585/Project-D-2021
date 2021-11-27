@@ -178,7 +178,9 @@ public class CreateBookingController {
                         personalDetailsForm.getRepresentativeZip(),
                         personalDetailsForm.getRepresentativeCity(),
                         personalDetailsForm.getRepresentativeCountry()),
-                personalDetailsForm.getRepresentativePhone());
+                personalDetailsForm.getRepresentativePhone(),
+                personalDetailsForm.getRepresentativeCreditCardNumber(),
+                personalDetailsForm.getRepresentativePaymentMethod());
 
         try {
             this.bookingService.book(

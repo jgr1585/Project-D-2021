@@ -1,5 +1,7 @@
 package fhv.teamd.hotel.view.forms.subForms;
 
+import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
+
 public class PersonalDetailsForm {
     private String guestFirstName;
     private String guestLastName;
@@ -7,7 +9,6 @@ public class PersonalDetailsForm {
     private String guestZip;
     private String guestCity;
     private String guestCountry;
-
 
     private String representativeFirstName;
     private String representativeLastName;
@@ -18,13 +19,17 @@ public class PersonalDetailsForm {
     private String representativeMail;
     private String representativePhone;
 
+    private String representativeCreditCardNumber;
+    private PaymentMethod representativePaymentMethod;
+
     // required by spring/thymeleaf
     public PersonalDetailsForm() {
     }
 
     public PersonalDetailsForm(String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity,
                                String guestCountry, String representativeFirstName, String representativeLastName, String representativeStreet,
-                               String representativeZip, String representativeCity, String representativeCountry, String representativeMail, String representativePhone) {
+                               String representativeZip, String representativeCity, String representativeCountry, String representativeMail,
+                               String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
         this.guestFirstName = guestFirstName;
         this.guestLastName = guestLastName;
         this.guestStreet = guestStreet;
@@ -40,6 +45,8 @@ public class PersonalDetailsForm {
         this.representativeCountry = representativeCountry;
         this.representativeMail = representativeMail;
         this.representativePhone = representativePhone;
+        this.representativeCreditCardNumber = representativeCreditCardNumber;
+        this.representativePaymentMethod = representativePaymentMethod;
     }
 
     public String getGuestFirstName() {
@@ -152,5 +159,21 @@ public class PersonalDetailsForm {
 
     public void setRepresentativePhone(String representativePhone) {
         this.representativePhone = representativePhone;
+    }
+
+    public String getRepresentativeCreditCardNumber() {
+        return this.representativeCreditCardNumber;
+    }
+
+    public void setRepresentativeCreditCardNumber(String representativeCreditCardNumber) {
+        this.representativeCreditCardNumber = representativeCreditCardNumber;
+    }
+
+    public PaymentMethod getRepresentativePaymentMethod() {
+        return this.representativePaymentMethod;
+    }
+
+    public void setRepresentativePaymentMethod(PaymentMethod representativePaymentMethod) {
+        this.representativePaymentMethod = representativePaymentMethod;
     }
 }

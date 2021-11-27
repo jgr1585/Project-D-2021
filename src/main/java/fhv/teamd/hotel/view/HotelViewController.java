@@ -96,7 +96,9 @@ public class HotelViewController {
                         booking.representative().address().city(),
                         booking.representative().address().country(),
                         booking.representative().email(),
-                        booking.representative().phone()
+                        booking.representative().phone(),
+                        booking.representative().creditCardNumber(),
+                        booking.representative().paymentMethod()
                 ),
                 new RoomAssignmentForm()
         ));
