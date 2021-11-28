@@ -10,7 +10,6 @@ import fhv.teamd.hotel.domain.ids.BookingId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -21,7 +20,6 @@ import java.util.Map;
 @SpringBootTest
 public class BookingTests {
 
-    @Mock
     private Booking booking1;
     private Booking booking2;
     private Booking booking3;
