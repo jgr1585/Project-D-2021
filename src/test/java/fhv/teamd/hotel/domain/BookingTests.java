@@ -10,6 +10,7 @@ import fhv.teamd.hotel.domain.ids.BookingId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -32,7 +33,7 @@ public class BookingTests {
         final Period duration = Period.ofWeeks(1);
 
         final Map<Category, Integer> categories = Map.of(
-                new Category("category-abc", "halo", 99),
+                ReflectionUtils.newInstance(Category.class),
                 3
         );
 

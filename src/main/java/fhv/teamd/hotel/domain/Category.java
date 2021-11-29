@@ -16,12 +16,6 @@ public class Category {
         // hibernate
     }
 
-    public Category(String title, String description, double price) {
-        this.title = title;
-        this.description = description;
-        this.pricePerNight = price;
-    }
-
     protected Long id() {
         return this.id;
     }
