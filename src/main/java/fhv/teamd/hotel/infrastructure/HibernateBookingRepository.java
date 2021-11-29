@@ -51,7 +51,7 @@ public class HibernateBookingRepository implements BookingRepository {
     }
 
     @Override
-    public List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
+    public List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
         TypedQuery<Booking> q = this.entityManager.createQuery(
                 "SELECT b FROM Booking b WHERE b.checkInDate >= :from AND b.checkOutDate <= :until",
                 Booking.class);
@@ -63,7 +63,7 @@ public class HibernateBookingRepository implements BookingRepository {
     }
 
     @Override
-    public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+    public int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         return this.entityManager.createQuery(
                         "select sum(value(s)) from Booking b" +
@@ -107,17 +107,4 @@ public class HibernateBookingRepository implements BookingRepository {
 
     }
 
-    @Override
-    public void remove(BookingId bookingId) throws EntityNotFoundException {
-
-        Query q = this.entityManager.createQuery(
-                "DELETE FROM Booking b WHERE b.bookingId = :id");
-
-        q.setParameter("id", bookingId);
-
-        if (q.executeUpdate() != 1) {
-            throw new EntityNotFoundException();
-        }
-
-    }
 }

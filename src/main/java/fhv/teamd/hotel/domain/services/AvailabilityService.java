@@ -11,13 +11,13 @@ import java.util.Set;
 
 public interface AvailabilityService {
 
-    int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
+    int numberOfSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
-    List<Room> findSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount);
+    List<Room> suitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount);
 
-    boolean isAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount);
+    boolean isAvailable(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount);
 
-    boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
+    boolean areAvailable(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
 
 
 }

@@ -58,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
                 throw new Exception("no category with this id");
             }
 
-            if (!this.availabilityService.isAvailableCategory(categoryId, from, until, amount)) {
+            if (!this.availabilityService.isAvailable(categoryId, from, until, amount)) {
                 throw new CategoryNotAvailableException("category not available");
             }
 

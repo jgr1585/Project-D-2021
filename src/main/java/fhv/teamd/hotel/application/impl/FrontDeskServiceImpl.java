@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -67,7 +66,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         LocalDateTime checkIn = LocalDateTime.now();
         LocalDateTime checkOut = checkIn.plus(expectedDuration);
 
-        if (!this.availabilityService.areAvailableRooms(rooms, checkIn, checkOut)) {
+        if (!this.availabilityService.areAvailable(rooms, checkIn, checkOut)) {
             throw new OccupiedRoomException("occupied room");
         }
 

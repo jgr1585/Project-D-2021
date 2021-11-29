@@ -28,18 +28,18 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     private StayRepository stayRepository;
 
     @Override
-    public int getAmountOfAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+    public int numberOfSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
-        int amountBookedRooms = this.bookingRepository.getNumberOfBookedRoomsByCategory(categoryId, from, until);
+        int amountBookedRooms = this.bookingRepository.numberOfBookedRoomsByCategory(categoryId, from, until);
         int amountStayRooms = this.stayRepository.getNumberOfStayRoomsByCategory(categoryId, from, until);
 
         return rooms.size() - (amountBookedRooms + amountStayRooms);
     }
 
     @Override
-    public List<Room> findSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
+    public List<Room> suitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
 
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
@@ -57,13 +57,13 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public boolean isAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount) {
+    public boolean isAvailable(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount) {
 
-        return this.getAmountOfAvailableCategory(categoryId, from, until) >= amount;
+        return this.numberOfSuitableRooms(categoryId, from, until) >= amount;
     }
 
     @Override
-    public boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
+    public boolean areAvailable(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
         List<Stay> overlappingStays = this.stayRepository
                 .activeStaysWithOverlappingDuration(from, until);

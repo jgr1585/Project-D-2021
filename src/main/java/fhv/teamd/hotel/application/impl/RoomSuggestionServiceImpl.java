@@ -23,7 +23,7 @@ public class RoomSuggestionServiceImpl implements RoomSuggestionService {
     public List<RoomDTO> findSuitableRooms(String categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
 
         return this.availabilityService
-                .findSuitableRooms(new CategoryId(categoryId), from, until, maxAmount)
+                .suitableRooms(new CategoryId(categoryId), from, until, maxAmount)
                 .stream()
                 .map(RoomDTO::fromRoom)
                 .collect(Collectors.toList());

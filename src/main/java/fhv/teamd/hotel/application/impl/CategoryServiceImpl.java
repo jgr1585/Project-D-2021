@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
         for (Category cat : this.categoryRepository.getAll()) {
-            int count = this.availabilityService.getAmountOfAvailableCategory(cat.categoryId(), from, until);
+            int count = this.availabilityService.numberOfSuitableRooms(cat.categoryId(), from, until);
 
             result.add(new AvailableCategoryDTO(
                     cat.categoryId().toString(),
