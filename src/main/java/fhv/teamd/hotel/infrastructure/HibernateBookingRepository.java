@@ -65,38 +65,39 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public int getNumberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-        int numberOfRooms = 0;
+        return this.entityManager.createQuery(
+                        "select sum(value(s)) from Booking b" +
+                                "join b.selection s" +
+                                "where b.checkInDate < :until and b.checkOutDate > :from" +
+                                "and key(s).categoryId = :catId",
+                        Integer.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("catId", categoryId)
+                .getSingleResult();
 
-        for (Booking booking : this.getBookingsByCheckInDate(from, until)) {
-            for (Map.Entry<Category, Integer> categoryIntegerEntry : booking.selection().entrySet()) {
-                if (categoryIntegerEntry.getKey().categoryId().equals(categoryId)) {
-                    numberOfRooms += categoryIntegerEntry.getValue();
-                }
-            }
-        }
 
-        return numberOfRooms;
-
-        //#region other options
-//        return this.entityManager.createQuery(
-//                "select sum(value(s)) from Booking b" +
-//                        "join b.selection s" +
-//                        "where b.checkInDate < :until and b.checkOutDate > :from" +
-//                        "and key(s).categoryId = :catId",
-//                        Integer.class)
-//                .setParameter("from", from)
-//                .setParameter("until", until)
-//                .setParameter("catId", categoryId)
-//                .getSingleResult();
-//
-//
-//        return this.getBookingsByCheckInDate(from, until)
-//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
-//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
-//                .map(Map.Entry::getValue)
-//                .reduce(Integer::sum)
-//                .orElse(0);
-        //#endregion
+        // equivalent:
+        /*
+        return this.entityManager.createQuery(
+                "select sum(value(s)) from Booking b" +
+                        "join b.selection s" +
+                        "where b.checkInDate < :until and b.checkOutDate > :from" +
+                        "and key(s).categoryId = :catId",
+                        Integer.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("catId", categoryId)
+                .getSingleResult();
+         */
+        /*
+        return this.getBookingsByCheckInDate(from, until)
+                .stream().flatMap(booking -> booking.selection().entrySet().stream())
+                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+                .map(Map.Entry::getValue)
+                .reduce(Integer::sum)
+                .orElse(0);
+         */
     }
 
     @Override
