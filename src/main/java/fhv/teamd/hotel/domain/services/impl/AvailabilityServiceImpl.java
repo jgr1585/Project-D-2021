@@ -4,25 +4,19 @@ import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class AvailabilityServiceImpl implements AvailabilityService {
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -63,9 +57,9 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount) {
+    public boolean isAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount) {
 
-        throw new NotYetImplementedException();
+        return this.getAmountOfAvailableCategory(categoryId, from, until) >= amount;
     }
 
     @Override

@@ -2,6 +2,7 @@ package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
@@ -45,24 +46,25 @@ public class BookingServiceImpl implements BookingService {
         for (Map.Entry<String, Integer> entry : categoryIdsAndAmounts.entrySet()) {
 
             String id = entry.getKey();
-            Integer count = entry.getValue();
+            Integer amount = entry.getValue();
 
-            if (count == null || count == 0) {
+            if (amount == null || amount == 0) {
                 continue;
             }
 
-            Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
+            CategoryId categoryId = new CategoryId(id);
+            Optional<Category> result = this.categoryRepository.findById(categoryId);
             if (result.isEmpty()) {
                 throw new Exception("no category with this id");
             }
 
-//            if (!this.roomAssignmentService.isAvailableCategory(entry, from, until, count)) {
-//                throw new CategoryNotAvailableException("category not available");
-//            }
+            if (!this.availabilityService.isAvailableCategory(categoryId, from, until, amount)) {
+                throw new CategoryNotAvailableException("category not available");
+            }
 
             Category cat = result.get();
 
-            categoriesAndAmounts.put(cat, count);
+            categoriesAndAmounts.put(cat, amount);
         }
 
         Booking newBooking = new Booking(
