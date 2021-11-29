@@ -1,9 +1,12 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @SpringBootTest
 public class CategoryTests {
@@ -14,8 +17,15 @@ public class CategoryTests {
 
     @BeforeEach
     public void init() {
-        this.cat1 = new Category("Category 1", "Category 1", 20);
-        this.cat2 = new Category("Category 2", "Category 2", 30);
+        this.cat1 = ReflectionUtils.newInstance(Category.class);
+        this.cat2 = ReflectionUtils.newInstance(Category.class);
+
+        ReflectionTestUtils.setField(this.cat1, "categoryId", new CategoryId("Cat 1"));
+        ReflectionTestUtils.setField(this.cat2, "categoryId", new CategoryId("Cat 2"));
+
+        ReflectionTestUtils.setField(this.cat1, "id", 1L);
+        ReflectionTestUtils.setField(this.cat2, "id", 2L);
+
     }
 
     @SuppressWarnings({ "SimplifiableAssertion", "EqualsWithItself", "ConstantConditions", "EqualsBetweenInconvertibleTypes" })
