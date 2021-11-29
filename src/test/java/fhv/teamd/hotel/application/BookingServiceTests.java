@@ -36,6 +36,7 @@ public class BookingServiceTests {
     void given_emptyRepository_when_getAll_returnsEmpty() {
 
         Mockito.when(this.bookingRepository.getAllBookings()).thenReturn(Collections.emptyList());
+        Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
         Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
 
     }

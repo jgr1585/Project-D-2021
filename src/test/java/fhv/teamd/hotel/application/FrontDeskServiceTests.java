@@ -36,6 +36,7 @@ public class FrontDeskServiceTests {
     @Test
     void given_emptyRepository_when_getAll_returnsEmpty() {
         Mockito.when(this.stayRepository.getActiveStays()).thenReturn(Collections.emptyList());
+        Assertions.assertNotEquals(null, this.frontDeskService.getActiveStays());
         Assertions.assertEquals(0, this.frontDeskService.getActiveStays().size());
     }
 
