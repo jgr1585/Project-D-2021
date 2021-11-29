@@ -54,6 +54,7 @@ public class BookingServiceTests {
                 3
         );
 
+        @SuppressWarnings("SpellCheckingInspection")
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
 
 

@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.application;
 
 import fhv.teamd.hotel.application.dto.StayDTO;
-import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.StayingState;
 import fhv.teamd.hotel.domain.contactInfo.Address;
@@ -40,11 +39,13 @@ public class FrontDeskServiceTests {
         Assertions.assertEquals(0, this.frontDeskService.getActiveStays().size());
     }
 
+    @Test
     void given_emptyRepository_when_getAll_returnsAll() {
         final LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
 
+        @SuppressWarnings("SpellCheckingInspection")
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
 
         final GuestDetails guest = new GuestDetails("max", "muster", addr);
