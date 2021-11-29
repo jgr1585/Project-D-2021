@@ -15,7 +15,7 @@ public interface AvailabilityService {
 
     List<Room> findSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount);
 
-    boolean isAvailableCategory(Map.Entry<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until, int amount);
+    boolean isAvailableCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount);
 
     boolean areAvailableRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
 
