@@ -11,7 +11,6 @@ import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,7 +50,7 @@ public class BookingServiceTests {
         final Period duration = Period.ofWeeks(1);
 
         final Map<Category, Integer> categories = Map.of(
-                ReflectionUtils.newInstance(Category.class),
+                new Category("category-abc", "halo", 99),
                 3
         );
 
