@@ -15,16 +15,12 @@
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">date_range</i>
-                <input id="from" type="date"
-                       th:field="*{from}"
-                       required/>
+                <input id="from" type="text" class="datepicker dpChooseCategories" th:field="*{from}" required/>
                 <label for="from">From</label>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">date_range</i>
-                <input id="until" type="date"
-                       th:field="*{until}"
-                       required/>
+                <input id="until" type="text" class="datepicker dpChooseCategories" th:field="*{until}" required/>
                 <label for="until">Until</label>
             </div>
         </div>
