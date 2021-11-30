@@ -65,17 +65,22 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-        return this.entityManager.createQuery(
-                        "select sum(value(s)) from Booking b" +
-                                "join b.selection s" +
-                                "where b.checkInDate < :until and b.checkOutDate > :from" +
-                                "and key(s).categoryId = :catId",
-                        Integer.class)
-                .setParameter("from", from)
-                .setParameter("until", until)
-                .setParameter("catId", categoryId)
-                .getSingleResult();
+         Long l = this.entityManager.createQuery(
+                         "select sum(value(s)) from Booking b " +
+                                 "join b.categories s " +
+                                 "where b.checkInDate < :until and b.checkOutDate > :from " +
+                                 "and key(s).categoryId = :catId",
+                         Long.class)
+                 .setParameter("from", from)
+                 .setParameter("until", until)
+                 .setParameter("catId", categoryId)
+                 .getSingleResult();
 
+         if(l == null) {
+             return 0;
+         }
+
+         return l.intValue();
 
         // equivalent:
         /*
