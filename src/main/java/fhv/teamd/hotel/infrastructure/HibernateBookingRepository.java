@@ -7,6 +7,7 @@ import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.Category;
 import org.springframework.stereotype.Repository;
+
 import java.util.Map;
 
 import javax.persistence.*;
@@ -65,44 +66,31 @@ public class HibernateBookingRepository implements BookingRepository {
     @Override
     public int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
-         Long l = this.entityManager.createQuery(
-                         "select sum(value(s)) from Booking b " +
-                                 "join b.categories s " +
-                                 "where b.checkInDate < :until and b.checkOutDate > :from " +
-                                 "and key(s).categoryId = :catId",
-                         Long.class)
-                 .setParameter("from", from)
-                 .setParameter("until", until)
-                 .setParameter("catId", categoryId)
-                 .getSingleResult();
-
-         if(l == null) {
-             return 0;
-         }
-
-         return l.intValue();
-
-        // equivalent:
-        /*
-        return this.entityManager.createQuery(
-                "select sum(value(s)) from Booking b" +
-                        "join b.selection s" +
-                        "where b.checkInDate < :until and b.checkOutDate > :from" +
-                        "and key(s).categoryId = :catId",
-                        Integer.class)
+        Long l = this.entityManager.createQuery(
+                        "select sum(value(s)) from Booking b " +
+                                "join b.categories s " +
+                                "where b.checkInDate < :until and b.checkOutDate > :from " +
+                                "and key(s).categoryId = :catId",
+                        Long.class)
                 .setParameter("from", from)
                 .setParameter("until", until)
                 .setParameter("catId", categoryId)
                 .getSingleResult();
-         */
-        /*
-        return this.getBookingsByCheckInDate(from, until)
-                .stream().flatMap(booking -> booking.selection().entrySet().stream())
-                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
-                .map(Map.Entry::getValue)
-                .reduce(Integer::sum)
-                .orElse(0);
-         */
+
+        if (l == null) {
+            return 0;
+        }
+
+        return l.intValue();
+
+        //#region equivalent to
+//        return this.bookingsByCheckInDate(from, until)
+//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
+//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+//                .map(Map.Entry::getValue)
+//                .reduce(Integer::sum)
+//                .orElse(0);
+         //#endregion
     }
 
     @Override
