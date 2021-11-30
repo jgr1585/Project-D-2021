@@ -30,53 +30,39 @@ function handleDatePickers() {
             onClose: function () {
                 let $li = $("#overview").find("li[id$='li']");
 
-                let fromPicker, untilPicker;
-                if (this.$el.attr("id") === "from") {
-                    fromPicker = this;
-                    untilPicker = M.Datepicker.getInstance($("#until"));
-
-                    if (fromPicker.date > untilPicker.date) {
-                        syncDate(fromPicker, untilPicker);
-                    }
-                } else {
-                    fromPicker = M.Datepicker.getInstance($("#from"));
-                    untilPicker = this;
-
-                    if (untilPicker.date < fromPicker.date) {
-                        syncDate(untilPicker, fromPicker);
-                    }
+                let pickers = syncDatePicker(this, $("#until"), $("#from"));
+                if (pickers.from != null && pickers.until != null) {
+                    filterCollapsible($li, pickers.from.date, pickers.until.date);
                 }
-
-                filterCollapsible($li, fromPicker.date, untilPicker.date);
             },
         });
     }
 
     $elems = $(".dpChooseCategories");
     if ($elems.length > 0) {
-        if ($elems.closest("form").attr("action").includes("checkIn")) {
-            let $fromEl = $("#from");
-            let $untilEl = $("#until");
+        let $fromEl = $("#from");
+        let $untilEl = $("#until");
 
-            initDatePicker($fromEl, {
-                format: DATE_FORMAT,
-            });
+        let options = {
+            format: DATE_FORMAT,
+            firstDay: 1,
+            minDate: todayDate,
+            setDefaultDate: true,
+            autoClose: true,
+            onClose: function () {
+                syncDatePicker(this, $("#until"), $("#from"));
+            }
+        };
+
+        initDatePicker($fromEl, options);
+
+        if ($elems.closest("form").attr("action").includes("checkIn")) {
             $fromEl.prop("disabled", true);
 
-            initDatePicker($untilEl, {
-                format: DATE_FORMAT,
-                firstDay: 1,
-                minDate: M.Datepicker.getInstance($fromEl).date,
-                setDefaultDate: true,
-                autoClose: true,
-            });
+            options.minDate = M.Datepicker.getInstance($fromEl).date;
+            initDatePicker($untilEl, options);
         } else {
-            initDatePicker($elems, {
-                format: DATE_FORMAT,
-                firstDay: 1,
-                setDefaultDate: true,
-                autoClose: true,
-            });
+            initDatePicker($untilEl, options);
         }
     }
 
@@ -90,6 +76,33 @@ function syncDate(picker, pickerToSync) {
     if (picker != null && pickerToSync != null) {
         pickerToSync.setDate(picker.date)
         pickerToSync.$el.val(picker.toString());
+    }
+}
+
+function syncDatePicker(_this, $until, $from) {
+    let fromPicker, untilPicker;
+
+    if (_this != null && $until != null && $from != null) {
+        if (_this.$el.attr("id") === "from") {
+            fromPicker = _this;
+            untilPicker = M.Datepicker.getInstance($until);
+
+            if (fromPicker.date > untilPicker.date) {
+                syncDate(fromPicker, untilPicker);
+            }
+        } else {
+            fromPicker = M.Datepicker.getInstance($from);
+            untilPicker = _this;
+
+            if (untilPicker.date < fromPicker.date) {
+                syncDate(untilPicker, fromPicker);
+            }
+        }
+    }
+
+    return {
+        from: fromPicker,
+        until: untilPicker,
     }
 }
 
