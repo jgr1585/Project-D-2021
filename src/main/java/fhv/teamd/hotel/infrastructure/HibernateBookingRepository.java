@@ -77,11 +77,7 @@ public class HibernateBookingRepository implements BookingRepository {
                 .setParameter("catId", categoryId)
                 .getSingleResult();
 
-        if (l == null) {
-            return 0;
-        }
-
-        return l.intValue();
+        return l == null ? 0 : l.intValue();
 
         //#region equivalent to
 //        return this.bookingsByCheckInDate(from, until)
