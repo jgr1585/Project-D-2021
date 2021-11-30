@@ -2,6 +2,8 @@
  * Created by TeamD
  */
 
+const DATE_FORMAT = "yyyy-mm-dd";
+
 function swapForm(x) {
     let radioName = document.getElementsByName(x.name);
     for (let i = 0; i < radioName.length; i++) {
@@ -13,13 +15,13 @@ function swapForm(x) {
 function handleDatePickers() {
     let todayDate = new Date();
 
-    let $elems = $('.dpOverview');
+    let $elems = $(".dpOverview");
     if ($elems.length > 0) {
         let $li = $("#overview").find("li[id$='li']");
         filterCollapsible($li, todayDate, todayDate);
 
         initDatePicker($elems, {
-            format: "dd/mm/yyyy",
+            format: DATE_FORMAT,
             firstDay: 1,
             minDate: todayDate,
             defaultDate: todayDate,
@@ -48,6 +50,34 @@ function handleDatePickers() {
                 filterCollapsible($li, fromPicker.date, untilPicker.date);
             },
         });
+    }
+
+    $elems = $(".dpChooseCategories");
+    if ($elems.length > 0) {
+        if ($elems.closest("form").attr("action").includes("checkIn")) {
+            let $fromEl = $("#from");
+            let $untilEl = $("#until");
+
+            initDatePicker($fromEl, {
+                format: DATE_FORMAT,
+            });
+            $fromEl.prop("disabled", true);
+
+            initDatePicker($untilEl, {
+                format: DATE_FORMAT,
+                firstDay: 1,
+                minDate: M.Datepicker.getInstance($fromEl).date,
+                setDefaultDate: true,
+                autoClose: true,
+            });
+        } else {
+            initDatePicker($elems, {
+                format: DATE_FORMAT,
+                firstDay: 1,
+                setDefaultDate: true,
+                autoClose: true,
+            });
+        }
     }
 
 
