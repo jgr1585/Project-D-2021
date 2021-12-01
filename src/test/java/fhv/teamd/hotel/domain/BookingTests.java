@@ -7,6 +7,7 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,8 +32,9 @@ public class BookingTests {
         final LocalDateTime future = LocalDateTime.now().plus(Period.ofYears(1));
         final Period duration = Period.ofWeeks(1);
 
+        //noinspection deprecation
         final Map<Category, Integer> categories = Map.of(
-                new Category("category-abc", "halo", 99),
+                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
                 3
         );
 

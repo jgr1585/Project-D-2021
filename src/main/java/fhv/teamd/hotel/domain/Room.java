@@ -17,6 +17,14 @@ public class Room {
         // hibernate
     }
 
+    //Only for Test
+    @Deprecated
+    public Room(Long id, RoomId roomId, Category category) {
+        this.id = id;
+        this.roomId = roomId;
+        this.category = category;
+    }
+
     protected Long id() {
         return this.id;
     }

@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,11 @@ public class CategoryTests {
     private Category cat2;
 
 
+    @SuppressWarnings("deprecation")
     @BeforeEach
     public void init() {
-        this.cat1 = new Category("Category 1", "Category 1", 20);
-        this.cat2 = new Category("Category 2", "Category 2", 30);
+        this.cat1 = new Category(1L, new CategoryId("Category 1"), "Category 1", "Category 1", 20);
+        this.cat2 = new Category(2L, new CategoryId("Category 2"),"Category 2", "Category 2", 30);
     }
 
     @SuppressWarnings({ "SimplifiableAssertion", "EqualsWithItself", "ConstantConditions", "EqualsBetweenInconvertibleTypes" })

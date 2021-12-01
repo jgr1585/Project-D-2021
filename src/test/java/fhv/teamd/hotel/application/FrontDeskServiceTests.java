@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.application;
 
 import fhv.teamd.hotel.application.dto.StayDTO;
+import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.StayingState;
@@ -8,11 +9,12 @@ import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,11 +59,18 @@ public class FrontDeskServiceTests {
                 "max","muster","m@mail.com", addr,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
-        final Room room1 = ReflectionUtils.newInstance(Room.class);
+        //noinspection deprecation
+        final Category cat1 = new Category(1L, new CategoryId("Cat 1"), "Cat 1", "Cat 1", 20);
+        //noinspection deprecation
+        final Category cat2 = new Category(2L, new CategoryId("Cat 2"), "Cat 2", "Cat 2", 40);
+
+        //noinspection deprecation
+        final Room room1 = new Room(1L, new RoomId("Room 1"), cat1);
         final Set<Room> rooms1 = new HashSet<>();
         rooms1.add(room1);
 
-        final Room room2 = ReflectionUtils.newInstance(Room.class);
+        //noinspection deprecation
+        final Room room2 = new Room(2L, new RoomId("Room 2"), cat2);
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 

@@ -8,6 +8,7 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,9 @@ public class BookingServiceTests {
         final LocalDateTime future = LocalDateTime.now().plus(Period.ofYears(1));
         final Period duration = Period.ofWeeks(1);
 
+        //noinspection deprecation
         final Map<Category, Integer> categories = Map.of(
-                new Category("category-abc", "halo", 99),
+                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
                 3
         );
 
@@ -70,7 +72,7 @@ public class BookingServiceTests {
                 new Booking(new BookingId("booking-ghi"), past, future.plus(duration), categories, rep, guest)
         );
 
-        Mockito.when(this.bookingRepository.getAllBookings()).thenReturn(allBookings);
+        Mockito.when(this.bookingRepository.getActiveBookings()).thenReturn(allBookings);
 
         final List<BookingDTO> actual = this.bookingService.getActiveBookings();
 
