@@ -227,7 +227,7 @@ public class CheckInController {
         } catch (InvalidIdException | CannotCheckinException x) {
             x.printStackTrace();
         } catch (OccupiedRoomException x) {
-            redirectAttributes.addFlashAttribute("error", "Occupied Rooms");
+            redirectAttributes.addFlashAttribute("error", x.getMessage());
             return new RedirectView("roomAssignment");
         }
 

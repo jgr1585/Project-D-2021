@@ -191,6 +191,8 @@ public class CreateBookingController {
             );
         } catch (Exception x) {
             x.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", x.getMessage());
+
             return new RedirectView("summary");
         }
 

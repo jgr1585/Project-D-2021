@@ -16,6 +16,8 @@
 <div class="container">
     <h3>Room Booking - Personal Details</h3>
 
+    <div th:replace="fragments/errorMessage"></div>
+
     <div class="row">
         <form action="/booking/personalDetails" method="post" class="col s12">
             <!--/*@thymesVar id="bookingForm" type="fhv.teamd.hotel.view.forms.BookingForm"*/-->

@@ -12,9 +12,10 @@
 <body>
 <header th:replace="fragments/main.html :: header"></header>
 
-
 <div class="container">
   <h3>Check In - Choose Categories</h3>
+
+  <div th:replace="fragments/errorMessage"></div>
 
   <div class="row">
     <form action="/checkIn/chooseCategories" method="post" class="col s12">

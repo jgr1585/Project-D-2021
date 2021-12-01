@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Message Fragments</title>
+</head>
+<body>
+<div class="section" th:fragment="errorMessage" th:if="*{error}">
+    <div class="row">
+        <div class="col s12">
+            <div class="card red">
+                <div class="card-content white-text">
+                    <span class="card-title">Error</span>
+                    <p th:if="*{error.contains('category not available')}">
+                        There are not enough rooms for this category available (anymore). Please choose a new quantity or another category.
+                    </p>
+                    <p th:if="*{error.contains('occupied rooms')}">
+                        The selected rooms are already occupied. Please choose other rooms.
+                    </p>
+                </div>
+                <div class="card-action">
+                    <a href="#">Fix</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

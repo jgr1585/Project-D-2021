@@ -16,6 +16,8 @@
 <div class="container">
     <h3>Check-In - Personal Details</h3>
 
+    <div th:replace="fragments/errorMessage"></div>
+
     <div class="row">
         <form action="/checkIn/personalDetails" method="post" class="col s12">
             <!--/*@thymesVar id="checkInForm" type="fhv.teamd.hotel.view.forms.CheckInForm"*/-->
