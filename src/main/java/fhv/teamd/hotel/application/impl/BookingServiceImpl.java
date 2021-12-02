@@ -90,18 +90,7 @@ public class BookingServiceImpl implements BookingService {
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
         Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
 
-        Booking booking = result.get();
-
-        HashMap<CategoryDTO, Integer> categories = new HashMap<>();
-
-        for (Map.Entry<Category, Integer> entry : booking.selection().entrySet()) {
-            categories.put(CategoryDTO.fromCategory(entry.getKey()), entry.getValue());
-        }
-
-        return Optional.of(new DetailedBookingDTO(BookingDTO.fromBooking(booking), categories));
+        return result.map(DetailedBookingDTO::fromBooking);
     }
 }

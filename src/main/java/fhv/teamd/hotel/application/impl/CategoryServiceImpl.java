@@ -40,14 +40,15 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
-        for (Category cat : this.categoryRepository.getAll()) {
-            int count = this.availabilityService.numberOfSuitableRooms(cat.categoryId(), from, until);
+        // todo optimize with query
 
+        this.categoryRepository.getAll().forEach(cat -> {
+            int count = this.availabilityService.numberOfSuitableRooms(cat.categoryId(), from, until);
             result.add(new AvailableCategoryDTO(
                     cat.categoryId().toString(),
                     cat.title(),
                     count));
-        }
+        });
 
         return result;
     }
@@ -55,15 +56,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<CategoryDTO> findCategoryById(String categoryId) {
 
-        CategoryId id = new CategoryId(categoryId);
+        Optional<Category> result = this.categoryRepository.findById(new CategoryId(categoryId));
 
-        Optional<Category> result = this.categoryRepository.findById(id);
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Category category = result.get();
-
-        return Optional.of(CategoryDTO.fromCategory(category));
+        return result.map(CategoryDTO::fromCategory);
     }
 }

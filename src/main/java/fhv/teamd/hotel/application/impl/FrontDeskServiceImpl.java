@@ -87,11 +87,9 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
 
         Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
-        if (result.isEmpty()) {
-            throw new InvalidIdException(bookingId);
-        }
 
-        Booking booking = result.get();
+        Booking booking = result.orElseThrow(() -> new InvalidIdException(bookingId));
+
         booking.notifyOfCheckin();
     }
 
@@ -109,12 +107,9 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional
     public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
         Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
-        if (result.isEmpty()) {
-            throw new InvalidIdException("Invalid Stay-ID");
-        }
-        Stay stay = result.get();
+
+        Stay stay = result.orElseThrow(() -> new InvalidIdException("stay id"));
 
         stay.checkOut();
-
     }
 }
