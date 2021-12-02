@@ -28,11 +28,8 @@ public class HibernateStayRepository implements StayRepository {
 
     @Override
     public List<Stay> getAll() {
-
-        TypedQuery<Stay> q
-                = this.entityManager.createQuery("select s from Stay s", Stay.class);
-
-        return q.getResultList();
+        return this.entityManager.createQuery("select s from Stay s", Stay.class)
+                .getResultList();
     }
 
     @Override
@@ -46,31 +43,31 @@ public class HibernateStayRepository implements StayRepository {
     @Override
     public List<Stay> activeStaysWithOverlappingDuration(LocalDateTime from, LocalDateTime until) {
 
-        TypedQuery<Stay> q = this.entityManager.createQuery(
+        return this.entityManager.createQuery(
                 "select s from Stay s where (s.checkIn < : until and s.expectedCheckOut > :from and s.stayingState = :state)",
-                Stay.class);
-
-        q.setParameter("from", from);
-        q.setParameter("until", until);
-        q.setParameter("state", StayingState.CheckedIn);
-
-        return q.getResultList();
+                Stay.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("state", StayingState.CheckedIn)
+                .getResultList();
     }
 
     @Override
     public int getNumberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
-        int numberOfRooms = 0;
 
-        for (Stay stay : this.activeStaysWithOverlappingDuration(from, until)) {
-            Set<Room> rooms = stay.rooms();
-            for (Room room : rooms) {
-                if (room.category().categoryId().equals(categoryId)) {
-                    numberOfRooms++;
-                }
-            }
-        }
+        Long l = this.entityManager.createQuery(
+                        "select count(r) from Stay s " +
+                                "join s.rooms r " +
+                                "where s.checkIn < :until and s.expectedCheckOut > :from " +
+                                "and r.category.categoryId = :catId",
+                        Long.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("catId", categoryId)
+                .getSingleResult();
 
-        return numberOfRooms;
+        return Optional.ofNullable(l).map(Long::intValue).orElse(0);
+
     }
 
     @Override
@@ -82,11 +79,10 @@ public class HibernateStayRepository implements StayRepository {
 
     @Override
     public Optional<Stay> find(StayId stayId) {
-        TypedQuery<Stay> q = this.entityManager
-                .createQuery("SELECT s FROM Stay s WHERE s.stayId = :id", Stay.class);
-
-        q.setParameter("id", stayId);
-
-        return q.getResultStream().findFirst();
+        return this.entityManager
+                .createQuery("SELECT s FROM Stay s WHERE s.stayId = :id", Stay.class)
+                .setParameter("id", stayId)
+                .getResultStream()
+                .findFirst();
     }
 }

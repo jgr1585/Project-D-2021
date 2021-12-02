@@ -43,24 +43,21 @@ public class HibernateBookingRepository implements BookingRepository {
 
     @Override
     public Optional<Booking> findByBookingId(BookingId bookingId) {
-        TypedQuery<Booking> q = this.entityManager
-                .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class);
-
-        q.setParameter("id", bookingId);
-
-        return q.getResultStream().findFirst();
+        return this.entityManager
+                .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class)
+                .setParameter("id", bookingId)
+                .getResultStream()
+                .findFirst();
     }
 
     @Override
     public List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
-        TypedQuery<Booking> q = this.entityManager.createQuery(
+        return this.entityManager.createQuery(
                 "SELECT b FROM Booking b WHERE b.checkInDate >= :from AND b.checkOutDate <= :until",
-                Booking.class);
-
-        q.setParameter("from", from);
-        q.setParameter("until", until);
-
-        return q.getResultList();
+                Booking.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .getResultList();
     }
 
     @Override
