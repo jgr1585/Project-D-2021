@@ -57,7 +57,8 @@ function handleDatePickers() {
         initDatePicker($fromEl, options);
 
         if ($elems.closest("form").attr("action").includes("checkIn")) {
-            $fromEl.prop("disabled", true);
+            $fromEl.addClass("disabledPicker")
+                .parent().addClass("disabledPicker");
 
             options.minDate = M.Datepicker.getInstance($fromEl).date;
             initDatePicker($untilEl, options);
@@ -65,11 +66,6 @@ function handleDatePickers() {
             initDatePicker($untilEl, options);
         }
     }
-
-
-    // TODO set default options for create booking and Check in pickers
-    // initDatePicker($('.dpOverview'), {});
-    // initDatePicker($('.dpOverview'), {});
 }
 
 function syncDate(picker, pickerToSync) {

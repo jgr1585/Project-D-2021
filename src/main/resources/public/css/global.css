@@ -50,3 +50,8 @@
 .displayNone {
     display: none;
 }
+
+.disabledPicker {
+    color: grey;
+    pointer-events: none;
+}
