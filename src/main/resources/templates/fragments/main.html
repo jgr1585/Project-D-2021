@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-    <head th:fragment="head">
-        <meta charset="UTF-8">
+<head th:fragment="head">
+    <meta charset="UTF-8">
 
-        <meta content="true" name="HandheldFriendly"/>
-        <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="true" name="HandheldFriendly"/>
+    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 
-        <meta content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software."
-              name="description">
+    <meta content="Create bookings and handle new walk-in guests in only a few clicks with this simple hotel management software."
+          name="description">
 
-        <title>Hotel Management</title>
+    <title>Hotel Management</title>
 
-        <!-- ############ import css files ########################################################################################################################### -->
+    <!-- ############ import css files ########################################################################################################################### -->
 
-        <link href="/css/materialize.min.css" rel="stylesheet">
-        <link href="/css/global.css" rel="stylesheet">
+    <link href="/css/materialize.min.css" rel="stylesheet">
+    <link href="/css/global.css" rel="stylesheet">
 
-        <!-- ############ import js lib files ######################################################################################################################## -->
+    <!-- ############ import js lib files ######################################################################################################################## -->
 
-        <script src="/js/materialize.min.js"></script>
-        <script src="/js/jquery-3.6.0.min.js"></script>
-        <script src="/js/main.js"></script>
+    <script src="/js/materialize.min.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
 
-    </head>
-    <body>
-        <header th:fragment="header">
-            <nav>
-                <div class="nav-wrapper blue">
-                    <ul class="left hide-on-med-and-down">
-                        <li id="navHome"><a href="/">Home</a></li>
-                        <li id="navCreateBooking"><a href="/booking/chooseCategories">Create Booking</a></li>
-                        <li id="navBookingOverview"><a href="/booking/overview">Booking Overview</a></li>
-                        <li id="navCheckin"><a href="/checkIn/chooseCategories">Check-In</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+</head>
 
-        <footer th:fragment="footer">
-        </footer>
-    </body>
+<body>
+<header th:fragment="header">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper blue">
+                <a class="sidenav-trigger" data-target="mobileView" href="#"><i class="material-icons">menu</i></a>
+                <ul class="left hide-on-med-and-down">
+                    <li class="navHome"><a href="/">Home</a></li>
+                    <li class="navCreateBooking"><a href="/booking/chooseCategories">Create Booking</a></li>
+                    <li class="navBookingOverview"><a href="/booking/overview">Booking Overview</a></li>
+                    <li class="navCheckin"><a href="/checkIn/chooseCategories">Check-In</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <ul class="sidenav" id="mobileView">
+        <li class="navHome"><a href="/">Home</a></li>
+        <li class="navCreateBooking"><a href="/booking/chooseCategories">Create Booking</a></li>
+        <li class="navBookingOverview"><a href="/booking/overview">Booking Overview</a></li>
+        <li class="navCheckin"><a href="/checkIn/chooseCategories">Check-In</a></li>
+    </ul>
+</header>
+
+<footer th:fragment="footer">
+</footer>
+</body>
 </html>

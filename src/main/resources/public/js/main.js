@@ -111,7 +111,7 @@ function initDatePicker(elems, options) {
 $(document).ready(function () {
     // select Active Page in Navbar
     let page = document.querySelector('meta[name="page"]').content;
-    $("#nav" + page).addClass("active");
+    $(".nav" + page).addClass("active");
 
     let elems = $('select');
     M.FormSelect.init(elems, {});
@@ -129,4 +129,8 @@ $(document).ready(function () {
 
     // disable click Event for Underlying Element in Class: disableClickThrow
     $('.disableClickThrow').click((event) => event.stopPropagation());
+
+    // enable
+    elems = $('.sidenav');
+    M.Sidenav.init(elems, {});
 });
