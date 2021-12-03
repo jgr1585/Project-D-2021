@@ -57,11 +57,11 @@ public class CheckInController {
 
         ChooseCategoriesForm chooseCategoriesForm = checkInForm.getChooseCategoriesForm();
 
-        if(chooseCategoriesForm.getFrom() == null) {
+        if (chooseCategoriesForm.getFrom() == null) {
             chooseCategoriesForm.setFrom(LocalDate.now());
         }
 
-        if(chooseCategoriesForm.getUntil() == null) {
+        if (chooseCategoriesForm.getUntil() == null) {
             LocalDate defaultCheckOut
                     = chooseCategoriesForm.getFrom().plus(defaultStayDuration);
             chooseCategoriesForm.setUntil(defaultCheckOut);
@@ -109,7 +109,7 @@ public class CheckInController {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
 
-        if(action.equals("prev")) {
+        if (action.equals("prev")) {
             // getMapping uses this too
             redirectAttributes.addAttribute("action", "prev");
             return new RedirectView("chooseCategories");
@@ -164,7 +164,7 @@ public class CheckInController {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
 
-        if(action.equals("prev")) {
+        if (action.equals("prev")) {
             return new RedirectView("personalDetails");
         }
 
@@ -174,7 +174,7 @@ public class CheckInController {
         List<String> roomIds = new ArrayList<>();
 
         Collection<List<String>> roomGroups = roomAssignmentForm.getCategoriesAndRooms().values();
-        for(List<String> roomGroup: roomGroups) {
+        for (List<String> roomGroup : roomGroups) {
             roomIds.addAll(roomGroup);
         }
 
@@ -210,14 +210,13 @@ public class CheckInController {
 
         try {
 
-            if(bookingId == null || bookingId.length() == 0) {
+            if (bookingId == null || bookingId.length() == 0) {
                 this.frontDeskService.checkInWalkInGuest(
                         roomIds,
                         duration,
                         guest,
                         representative);
-            }
-            else {
+            } else {
                 this.frontDeskService.checkInWithBooking(
                         roomIds, duration,
                         guest, representative,
