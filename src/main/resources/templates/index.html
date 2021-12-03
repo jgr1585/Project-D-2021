@@ -4,7 +4,7 @@
 
 <head>
     <title>Home</title>
-    <meta name="page" content="Home">
+    <meta content="Home" name="page">
     <placeholder th:replace="fragments/main.html :: head"></placeholder>
 </head>
 
@@ -16,64 +16,55 @@
 
     <h3>Hotel Overview</h3>
 
-
     <div class="row">
-        <div class="col s8">
-    <ul class="collapsible popout">
-        <li th:each="stay: ${stays}">
-            <div class="collapsible-header">
+        <div class="col s12">
+            <ul class="collapsible popout">
+                <li th:each="stay: ${stays}">
+                    <div class="collapsible-header">
 
-                <div class="float-left">
+                        <div class="float-left">
 
-                    <h6 th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></h6>
+                            <h6 th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></h6>
 
-                    <div class="timeRange">
-                        <span class="from" th:text="${stay.checkIn}"></span>
-                        <span> until </span>
-                        <span class="to" th:text="${stay.expectedCheckOut}"></span>
-                    </div>
-                </div>
-
-                <div class="float-right valign-wrapper">
-                    <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                         data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">
-                        <i class="material-icons blue-grey-text no-margin center-context">edit</i>
-                    </div>
-                    <a th:href="@{/stay/performCheckOut(id=${stay.id})}">
-                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                             data-position="top" data-tooltip="Check-Out">
-                            <i class="material-icons blue-text no-margin center-context">logout</i>
+                            <div class="timeRange">
+                                <span class="from" th:text="${stay.checkIn}"></span>
+                                <span> until </span>
+                                <span class="to" th:text="${stay.expectedCheckOut}"></span>
+                            </div>
                         </div>
-                    </a>
-                </div>
 
-            </div>
+                        <div class="float-right valign-wrapper">
+<!--                            <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"-->
+<!--                                 data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">-->
+<!--                                <i class="material-icons blue-grey-text no-margin center-context">edit</i>-->
+<!--                            </div>-->
+                            <a th:href="@{/stay/invoiceOverview(id=${stay.id})}">
+                                <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                                     data-position="top" data-tooltip="Create-Invoice">
+                                    <i class="material-icons blue-grey-text no-margin center-context">receipt</i>
+                                </div>
+                            </a>
+                            <a th:href="@{/stay/performCheckOut(id=${stay.id})}">
+                                <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                                     data-position="top" data-tooltip="Check-Out">
+                                    <i class="material-icons blue-text no-margin center-context">logout</i>
+                                </div>
+                            </a>
+                        </div>
 
-            <div class="collapsible-body s12">
-                <div class="row">
-                    <div class="card col" th:each="room: ${stay.rooms()}" style="margin-right: 10px">
-                        <p class="center-align" th:text="${room.id()}"></p>
-                    </div>
-                </div>
-
-                <div th:object="${stay}">
-
-                    <h6>Guest</h6>
-                    <div th:object="${stay.guest}">
-                        <p class="valign-wrapper">
-                            <i class="material-icons">account_circle</i>&nbsp
-                            <span th:text="*{firstName + ' ' + lastName}"></span>
-                        </p>
-                        <p class="valign-wrapper">
-                            <i class="material-icons">location_city</i>&nbsp
-                            <span th:text="*{address}"></span>
-                        </p>
                     </div>
 
-                    <h6>Representative</h6>
-                    <div th:object="${stay.representative}">
+                    <div class="collapsible-body s12">
                         <div class="row">
-                            <div class="col">
+                            <div class="card col" style="margin-right: 10px" th:each="room: ${stay.rooms()}">
+                                <p class="center-align" th:text="${room.id()}"></p>
+                            </div>
+                        </div>
+
+                        <div th:object="${stay}">
+
+                            <h6>Guest</h6>
+                            <div th:object="${stay.guest}">
                                 <p class="valign-wrapper">
                                     <i class="material-icons">account_circle</i>&nbsp
                                     <span th:text="*{firstName + ' ' + lastName}"></span>
@@ -82,34 +73,49 @@
                                     <i class="material-icons">location_city</i>&nbsp
                                     <span th:text="*{address}"></span>
                                 </p>
-                                <p class="valign-wrapper">
-                                    <i class="material-icons">euro_symbol</i>&nbsp
-                                    <span th:text="*{paymentMethod}"></span>
-                                </p>
                             </div>
-                            <div class="col">
-                                <p class="valign-wrapper">
-                                    <i class="material-icons">email</i>&nbsp
-                                    <span th:text="*{email}"></span>
-                                </p>
-                                <p class="valign-wrapper">
 
-                                    <i class="material-icons">phone</i>&nbsp
-                                    <span th:text="*{phone}"></span>
-                                </p>
-                                <p class="valign-wrapper">
-                                    <i class="material-icons">payment</i>&nbsp
-                                    <span th:text="*{creditCardNumber}"></span>
-                                </p>
+                            <h6>Representative</h6>
+                            <div th:object="${stay.representative}">
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">account_circle</i>&nbsp
+                                            <span th:text="*{firstName + ' ' + lastName}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">location_city</i>&nbsp
+                                            <span th:text="*{address}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">euro_symbol</i>&nbsp
+                                            <span th:text="*{paymentMethod}"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">email</i>&nbsp
+                                            <span th:text="*{email}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+
+                                            <i class="material-icons">phone</i>&nbsp
+                                            <span th:text="*{phone}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">payment</i>&nbsp
+                                            <span th:text="*{creditCardNumber}"></span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
-
-                </div>
-            </div>
-        </li>
-    </ul>
-            </div></div>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </div>
 

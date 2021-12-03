@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="Home">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+    <placeholder th:replace="fragments/scriptHead.html :: validate()"></placeholder>
+</head>
+
+<body>
+<header th:replace="fragments/main.html :: header"></header>
+
+<div class="container">
+    <h3>Invoice Overview</h3>
+
+<!--    <div th:replace="fragments/errorMessage"></div>-->
+
+    <div class="row">
+        <form action="/stay/createInvoice" method="post" class="col s12">
+            <!--/*@thymesVar id="checkInForm" type="fhv.teamd.hotel.view.forms.CheckInForm"*/-->
+
+            <p>
+                TODO::
+                <br>
+                Insert all persons which have a invoice
+            </p>
+
+
+
+            <!-- back/cancel/submit buttons -->
+            <div class="row right-align">
+                <button class="btn waves-effect waves-light blue accent-2"
+                        type="submit" name="action" value="next">Next
+                    <i class="material-icons right">navigate_next</i>
+                </button>
+                <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                    <i class="material-icons right">cancel</i>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="fragments/main.html :: footer"></footer>
+</body>
+
+</html>
