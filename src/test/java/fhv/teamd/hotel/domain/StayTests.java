@@ -5,6 +5,8 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,11 +41,20 @@ public class StayTests {
                 "max","muster","m@mail.com", addr,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
-        final Room room1 = ReflectionUtils.newInstance(Room.class);
+        @SuppressWarnings("deprecation")
+        final Room room1 = new Room(
+                123L,
+                new RoomId("R123"),
+                new Category(123L, new CategoryId("C123"), "test-kategorie", "asf", 123));
         final Set<Room> rooms1 = new HashSet<>();
         rooms1.add(room1);
 
-        final Room room2 = ReflectionUtils.newInstance(Room.class);
+
+        @SuppressWarnings("deprecation")
+        final Room room2 = new Room(
+                456L,
+                new RoomId("R456"),
+                new Category(456L, new CategoryId("C456"), "test-kategorie", "asf", 89));
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
