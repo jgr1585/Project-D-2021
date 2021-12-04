@@ -60,3 +60,12 @@ insert into stay_in_room (stay_id, room_id)
 values (111, 114),
        (111, 115),
        (222, 223);
+
+insert into bill (id, bill_id)
+values (111, 'dom-id-bill-111'),
+       (222, 'dom-id-bill-222');
+
+insert into bill_line (bill_id, index, cause, timestamp, amount)
+values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 30),
+       (111, 1, 'Kotzfleckenentfernung', '2021-11-17 07:00:00', 150),
+       (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 600);
