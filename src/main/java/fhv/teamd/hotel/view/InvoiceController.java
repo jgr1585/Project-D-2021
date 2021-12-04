@@ -27,7 +27,7 @@ public class InvoiceController {
 
         model.addAttribute("stayForm", stayForm);
 
-        return new ModelAndView("invoiceOverview");
+        return new ModelAndView("/stay/invoiceOverview");
     }
 
     @PostMapping("invoiceOverview")
