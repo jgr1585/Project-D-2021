@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.application;
 
 
+import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
@@ -24,6 +25,6 @@ public interface FrontDeskService {
 
     List<StayDTO> getActiveStays();
 
-    void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
+    BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
 
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -46,8 +47,11 @@ public class StayTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        this.stay1 = new Stay(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, StayingState.CheckedIn);
-        this.stay2 = new Stay(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, StayingState.CheckedOut);
+        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep);
+        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep);
+
+        ReflectionTestUtils.setField(this.stay2, "stayingState", StayingState.CheckedOut);
+
     }
 
     @Test

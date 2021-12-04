@@ -6,7 +6,11 @@ import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.security.InvalidParameterException;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -26,33 +30,41 @@ public class Stay {
 
     private StayingState stayingState;
 
+    private Bill intermediateBill;
+
     protected Stay() {
         // hibernate
     }
 
-    public Stay(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
+    public static Stay create(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                 Set<Room> rooms,
-                GuestDetails guest, RepresentativeDetails representative, StayingState stayingState) {
+                GuestDetails guest, RepresentativeDetails representative) {
 
-        this.stayId = stayId;
+        Stay stay = new Stay();
+
+        stay.stayId = stayId;
 
         if(checkIn.isAfter(expectedCheckOut)) {
             throw new InvalidParameterException("check in must be before check out");
         }
 
-        this.checkIn = checkIn;
-        this.expectedCheckOut = expectedCheckOut;
+        stay.checkIn = checkIn;
+        stay.expectedCheckOut = expectedCheckOut;
 
         if(rooms.size() == 0) {
             throw new InvalidParameterException("no rooms");
         }
 
-        this.rooms = rooms;
+        stay.rooms = rooms;
 
-        this.guestDetails = guest;
-        this.representativeDetails = representative;
+        stay.guestDetails = guest;
+        stay.representativeDetails = representative;
 
-        this.stayingState = stayingState;
+        stay.stayingState = StayingState.CheckedIn;
+
+        stay.intermediateBill = Bill.createEmpty();
+
+        return stay;
     }
 
     protected Long id() {
@@ -83,6 +95,10 @@ public class Stay {
         return this.representativeDetails;
     }
 
+    public Bill intermediateBill() {
+        return this.intermediateBill;
+    }
+
     public boolean isActive() {
         return this.stayingState.equals(StayingState.CheckedIn);
     }
@@ -93,6 +109,16 @@ public class Stay {
             throw new AlreadyCheckedOutException();
         }
         this.stayingState = StayingState.CheckedOut;
+
+
+        int nights = (int)Duration.between(this.checkIn, LocalDateTime.now()).toDays();
+
+        for (Room room: this.rooms) {
+
+            Category category = room.category();
+            this.intermediateBill.charge(nights + " in " + room, nights, category.pricePerNight());
+        }
+
     }
 
 
@@ -112,5 +138,6 @@ public class Stay {
     public int hashCode() {
         return Objects.hash(this.id, this.stayId);
     }
+
 
 }

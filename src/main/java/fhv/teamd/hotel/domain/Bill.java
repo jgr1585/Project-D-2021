@@ -15,18 +15,31 @@ public class Bill {
 
     private List<BillLine> lines;
 
-    public Bill() {
-        this.lines = new ArrayList<>();
+    private Bill() { }
+
+    public static Bill createEmpty() {
+
+        Bill bill = new Bill();
+        bill.lines = new ArrayList<>();
+        return bill;
     }
 
-    public void charge(String reason, double amount) {
+    public void charge(String reason, int amount, double unitPrice) {
 
-        this.lines.add(new BillLine(reason, LocalDateTime.now(), amount));
+        this.lines.add(new BillLine(reason, LocalDateTime.now(), amount, unitPrice));
     }
 
     public List<BillLine> lines() {
 
         return Collections.unmodifiableList(this.lines);
+    }
+
+    public double calculateTotal() {
+
+        return this.lines
+                .stream()
+                .map(BillLine::calculateSubTotal)
+                .reduce(0.0, Double::sum);
     }
 
 
@@ -46,4 +59,6 @@ public class Bill {
     public int hashCode() {
         return Objects.hash(this.id, this.billId);
     }
+
+
 }

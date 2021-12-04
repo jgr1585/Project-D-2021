@@ -1,13 +1,13 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
-import fhv.teamd.hotel.domain.StayingState;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
@@ -70,11 +70,10 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             throw new OccupiedRoomException("occupied room");
         }
 
-        this.stayRepository.put(new Stay(
+        this.stayRepository.put(Stay.create(
                 this.stayRepository.nextIdentity(),
                 checkIn, checkOut, rooms,
-                guest, representative,
-                StayingState.CheckedIn
+                guest, representative
         ));
     }
 
@@ -105,11 +104,14 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
     @Override
     @Transactional
-    public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
+    public BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
         Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
 
         Stay stay = result.orElseThrow(() -> new InvalidIdException("stay id"));
 
         stay.checkOut();
+
+        return BillDTO.fromBill(stay.intermediateBill());
+
     }
 }

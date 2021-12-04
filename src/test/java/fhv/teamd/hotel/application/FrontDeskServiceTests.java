@@ -1,31 +1,24 @@
 package fhv.teamd.hotel.application;
 
+import fhv.teamd.hotel.application.dto.BillDTO;
+import fhv.teamd.hotel.application.dto.BillEntryDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
-import fhv.teamd.hotel.domain.Category;
-import fhv.teamd.hotel.domain.Room;
-import fhv.teamd.hotel.domain.Stay;
-import fhv.teamd.hotel.domain.StayingState;
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.RoomId;
-import fhv.teamd.hotel.domain.ids.StayId;
+import fhv.teamd.hotel.domain.*;
+import fhv.teamd.hotel.domain.contactInfo.*;
+import fhv.teamd.hotel.domain.ids.*;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -37,15 +30,9 @@ public class FrontDeskServiceTests {
     @MockBean
     private StayRepository stayRepository;
 
-    @Test
-    void given_emptyRepository_when_getAll_returnsEmpty() {
-        Mockito.when(this.stayRepository.getActiveStays()).thenReturn(Collections.emptyList());
-        Assertions.assertNotEquals(null, this.frontDeskService.getActiveStays());
-        Assertions.assertEquals(0, this.frontDeskService.getActiveStays().size());
-    }
+    @BeforeEach
+    private void initMock() {
 
-    @Test
-    void given_emptyRepository_when_getAll_returnsAll() {
         final LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
@@ -74,19 +61,65 @@ public class FrontDeskServiceTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
+        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep);
+        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep);
 
-        List<Stay> allStays = List.of(
-            new Stay(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, StayingState.CheckedIn),
-            new Stay(new StayId("stay-1"), yesterday, now, rooms2, guest, rep, StayingState.CheckedOut)
-        );
+        ReflectionTestUtils.setField(stay2, "stayingState", StayingState.CheckedOut);
 
-        Mockito.when(this.stayRepository.getActiveStays()).thenReturn(allStays);
+        List<Stay> stays = new ArrayList<>(List.of(stay1, stay2));
+
+        Mockito.when(this.stayRepository.getAll()).thenReturn(stays);
+        Mockito.when(this.stayRepository.getActiveStays()).thenReturn(List.of(stay1));
+        Mockito.when(this.stayRepository.find(new StayId("stay-1"))).thenReturn(Optional.of(stay1));
+        Mockito.when(this.stayRepository.find(new StayId("stay-2"))).thenReturn(Optional.of(stay2));
+
+    }
+
+    @Test
+    void given_emptyRepository_when_getAll_returnsEmpty() {
+        Mockito.when(this.stayRepository.getActiveStays()).thenReturn(Collections.emptyList());
+        Assertions.assertNotEquals(null, this.frontDeskService.getActiveStays());
+        Assertions.assertEquals(0, this.frontDeskService.getActiveStays().size());
+    }
+
+    @Test
+    void given_emptyRepository_when_getAll_returnsAll() {
 
         final List<StayDTO> actual = this.frontDeskService.getActiveStays();
 
-        final List<StayDTO> expected = allStays.stream().map(StayDTO::fromStay).collect(Collectors.toList());
+        final List<StayDTO> expected = this.stayRepository.getActiveStays()
+                .stream()
+                .map(StayDTO::fromStay)
+                .collect(Collectors.toList());
 
         Assertions.assertTrue(actual.containsAll(expected) && expected.containsAll(actual));
+    }
+
+    @Test
+    void given_stay_when_checkOut_then_returnBill() {
+
+        StayDTO toCheckOut = this.frontDeskService.getActiveStays().get(0);
+
+        final BillDTO[] billWrapper = new BillDTO[1];
+
+        Assertions.assertDoesNotThrow(() -> {
+            billWrapper[0] = this.frontDeskService.checkOut(toCheckOut.getId());
+        });
+
+        BillDTO bill = billWrapper[0];
+
+        Assertions.assertEquals(20.0, bill.total());
+
+        List<BillEntryDTO> entries = bill.entries();
+
+        Assertions.assertEquals(1, entries.size());
+
+        BillEntryDTO forNights = entries.get(0);
+
+        Assertions.assertEquals(1, forNights.amount());
+        Assertions.assertEquals(20.0, forNights.unitPrice());
+        Assertions.assertEquals(20.0, forNights.subTotal());
+
     }
 
 }
