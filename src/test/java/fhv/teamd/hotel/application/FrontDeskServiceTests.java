@@ -119,6 +119,7 @@ public class FrontDeskServiceTests {
         Assertions.assertEquals(1, forNights.amount());
         Assertions.assertEquals(20.0, forNights.unitPrice());
         Assertions.assertEquals(20.0, forNights.subTotal());
+        Assertions.assertNotNull(forNights.description());
 
     }
 

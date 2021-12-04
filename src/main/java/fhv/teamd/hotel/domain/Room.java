@@ -55,4 +55,9 @@ public class Room {
     public int hashCode() {
         return Objects.hash(this.id, this.roomId);
     }
+
+    @Override
+    public String toString() {
+        return this.roomId.toString();
+    }
 }

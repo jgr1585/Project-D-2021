@@ -1,26 +1,32 @@
 package fhv.teamd.hotel.application.dto;
 
-import fhv.teamd.hotel.domain.BillLine;
+import fhv.teamd.hotel.domain.BillEntry;
 
 import java.util.Objects;
 
 public class BillEntryDTO {
 
+    private String description;
     private int amount;
     private double unitPrice;
     private double subTotal;
 
     private BillEntryDTO() { }
 
-    public static BillEntryDTO fromEntry(BillLine billLine) {
+    public static BillEntryDTO fromEntry(BillEntry billEntry) {
 
         BillEntryDTO dto = new BillEntryDTO();
 
-        dto.amount = billLine.amount();
-        dto.unitPrice = billLine.unitPrice();
-        dto.subTotal = billLine.calculateSubTotal();
+        dto.description = billEntry.description();
+        dto.amount = billEntry.amount();
+        dto.unitPrice = billEntry.unitPrice();
+        dto.subTotal = billEntry.calculateSubTotal();
 
         return dto;
+    }
+
+    public String description() {
+        return this.description;
     }
 
     public int amount() {
@@ -51,6 +57,7 @@ public class BillEntryDTO {
     public int hashCode() {
         return Objects.hash(this.amount, this.unitPrice, this.subTotal);
     }
+
 
 
 }

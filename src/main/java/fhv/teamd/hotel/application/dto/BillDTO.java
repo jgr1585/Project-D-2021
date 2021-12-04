@@ -19,7 +19,7 @@ public class BillDTO {
         BillDTO dto = new BillDTO();
 
         dto.total = bill.calculateTotal();
-        dto.entries = bill.lines().stream().map(BillEntryDTO::fromEntry).collect(Collectors.toUnmodifiableList());
+        dto.entries = bill.entries().stream().map(BillEntryDTO::fromEntry).collect(Collectors.toUnmodifiableList());
 
         return dto;
     }

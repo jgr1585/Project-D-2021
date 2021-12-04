@@ -65,7 +65,7 @@ insert into bill (id, bill_id)
 values (111, 'dom-id-bill-111'),
        (222, 'dom-id-bill-222');
 
-insert into bill_line (bill_id, index, cause, timestamp, amount)
-values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 30),
-       (111, 1, 'Kotzfleckenentfernung', '2021-11-17 07:00:00', 150),
-       (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 600);
+insert into bill_entry (bill_id, index, description, timestamp, amount, unit_price)
+values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 1, 30),
+       (111, 1, 'Kotzfleckenentfernung', '2021-11-17 07:00:00', 1, 150),
+       (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 12, 50);

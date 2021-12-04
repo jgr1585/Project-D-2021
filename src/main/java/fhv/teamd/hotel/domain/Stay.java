@@ -30,8 +30,6 @@ public class Stay {
 
     private StayingState stayingState;
 
-    private Bill intermediateBill;
-
     protected Stay() {
         // hibernate
     }
@@ -61,8 +59,6 @@ public class Stay {
         stay.representativeDetails = representative;
 
         stay.stayingState = StayingState.CheckedIn;
-
-        stay.intermediateBill = Bill.createEmpty();
 
         return stay;
     }
@@ -95,10 +91,6 @@ public class Stay {
         return this.representativeDetails;
     }
 
-    public Bill intermediateBill() {
-        return this.intermediateBill;
-    }
-
     public boolean isActive() {
         return this.stayingState.equals(StayingState.CheckedIn);
     }
@@ -109,16 +101,21 @@ public class Stay {
             throw new AlreadyCheckedOutException();
         }
         this.stayingState = StayingState.CheckedOut;
+    }
 
+    public Bill generateIntermediateBill() {
+
+        Bill bill = Bill.createEmpty();
 
         int nights = (int)Duration.between(this.checkIn, LocalDateTime.now()).toDays();
 
         for (Room room: this.rooms) {
 
             Category category = room.category();
-            this.intermediateBill.charge(nights + " in " + room, nights, category.pricePerNight());
+            bill.charge("Night(s) in " + room, nights, category.pricePerNight());
         }
 
+        return bill;
     }
 
 

@@ -38,13 +38,13 @@
 <!--                                 data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">-->
 <!--                                <i class="material-icons blue-grey-text no-margin center-context">edit</i>-->
 <!--                            </div>-->
-                            <a th:href="@{/stay/invoiceOverview(id=${stay.id})}">
+                            <a th:href="@{/intermediateBill(stayId=${stay.id})}">
                                 <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
                                      data-position="top" data-tooltip="Create-Invoice">
                                     <i class="material-icons blue-grey-text no-margin center-context">receipt</i>
                                 </div>
                             </a>
-                            <a th:href="@{/stay/performCheckOut(id=${stay.id})}">
+                            <a th:href="@{/checkOut/bill(stayId=${stay.id})}">
                                 <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
                                      data-position="top" data-tooltip="Check-Out">
                                     <i class="material-icons blue-text no-margin center-context">logout</i>

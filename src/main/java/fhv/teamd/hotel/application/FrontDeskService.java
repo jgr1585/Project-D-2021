@@ -12,7 +12,6 @@ import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 
 public interface FrontDeskService {
 
@@ -25,6 +24,7 @@ public interface FrontDeskService {
 
     List<StayDTO> getActiveStays();
 
-    BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
+    BillDTO intermediateBill(String stayId) throws InvalidIdException;
 
+    BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
 }

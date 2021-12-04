@@ -13,32 +13,32 @@ public class Bill {
     private Long id;
     private BillId billId;
 
-    private List<BillLine> lines;
+    private List<BillEntry> entries;
 
     private Bill() { }
 
     public static Bill createEmpty() {
 
         Bill bill = new Bill();
-        bill.lines = new ArrayList<>();
+        bill.entries = new ArrayList<>();
         return bill;
     }
 
     public void charge(String reason, int amount, double unitPrice) {
 
-        this.lines.add(new BillLine(reason, LocalDateTime.now(), amount, unitPrice));
+        this.entries.add(new BillEntry(reason, LocalDateTime.now(), amount, unitPrice));
     }
 
-    public List<BillLine> lines() {
+    public List<BillEntry> entries() {
 
-        return Collections.unmodifiableList(this.lines);
+        return Collections.unmodifiableList(this.entries);
     }
 
     public double calculateTotal() {
 
-        return this.lines
+        return this.entries
                 .stream()
-                .map(BillLine::calculateSubTotal)
+                .map(BillEntry::calculateSubTotal)
                 .reduce(0.0, Double::sum);
     }
 

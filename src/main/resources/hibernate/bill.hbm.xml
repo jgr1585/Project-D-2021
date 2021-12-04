@@ -13,14 +13,15 @@
             <property name="id" column="bill_id" type="string"/>
         </component>
 
-        <!-- List<BillLine> lines -->
-        <list name="lines" table="bill_line">
+        <!-- List<BillEntry> entries -->
+        <list name="entries" table="bill_entry">
             <key column="bill_id"/>
             <index column="index"/>
-            <composite-element class="fhv.teamd.hotel.domain.BillLine">
-                <property name="cause" column="cause" type="string"/>
+            <composite-element class="fhv.teamd.hotel.domain.BillEntry">
+                <property name="description" column="description" type="string"/>
                 <property name="timestamp" column="timestamp" type="timestamp"/>
-                <property name="amount" column="amount" type="double"/>
+                <property name="amount" column="amount" type="integer"/>
+                <property name="unitPrice" column="unit_price" type="double"/>
             </composite-element>
         </list>
     </class>

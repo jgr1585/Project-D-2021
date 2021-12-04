@@ -6,10 +6,7 @@ import fhv.teamd.hotel.application.dto.BookingDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
-import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
-import fhv.teamd.hotel.view.forms.BookingForm;
 import fhv.teamd.hotel.view.forms.CheckInForm;
-import fhv.teamd.hotel.view.forms.StayForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
@@ -55,6 +52,18 @@ public class HotelViewController {
         model.addAttribute("bookings", bookings);
 
         return new ModelAndView("/booking/bookingOverview");
+    }
+
+    @RequestMapping("/intermediateBill")
+    public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
+
+        try {
+            model.addAttribute("bill", this.frontDeskService.intermediateBill(stayId));
+        } catch (InvalidIdException e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("/intermediateBill");
     }
 
     @RequestMapping("/booking/performCheckIn")
@@ -111,18 +120,5 @@ public class HotelViewController {
 
     }
 
-    @RequestMapping("/stay/performCheckOut")
-    public RedirectView performCheckOut(
-            @RequestParam String id,
-            RedirectAttributes redirectAttributes) {
 
-        try {
-            this.frontDeskService.checkOut(id);
-        } catch (InvalidIdException | AlreadyCheckedOutException e) {
-            e.printStackTrace();
-        }
-
-        return new RedirectView("/");
-
-    }
 }
