@@ -30,6 +30,4 @@ public class BillLine {
     public double amount() {
         return this.amount;
     }
-
-
 }

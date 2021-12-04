@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Bill {
 
@@ -29,5 +30,20 @@ public class Bill {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final Bill bill = (Bill) o;
+        return Objects.equals(this.id, bill.id) && Objects.equals(this.billId, bill.billId);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.billId);
+    }
 }
