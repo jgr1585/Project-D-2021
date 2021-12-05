@@ -23,7 +23,7 @@
         <input id="bookingId" type="hidden" th:field="${checkInForm.bookingId}">
         <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden(chooseCategoriesForm = 'checkInForm.chooseCategoriesForm')"></div>
         <div th:replace="fragments/personalDetails :: personalDetailsHidden(personalDetailsForm = 'checkInForm.personalDetailsForm')"></div>
-        <div th:replace="fragments/roomAssignment :: roomAssignment"></div>
+        <div th:replace="fragments/roomAssignment :: roomAssignment(roomAssignmentForm = 'checkInForm.roomAssignmentForm')"></div>
 
         <div class="row right-align">
             <button class="btn waves-effect waves-light blue accent-2"

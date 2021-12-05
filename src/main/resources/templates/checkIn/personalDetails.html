@@ -25,7 +25,7 @@
             <input id="bookingId" type="hidden" th:field="${checkInForm.bookingId}">
             <div th:replace="fragments/chooseCategories :: chooseCategoriesHidden(chooseCategoriesForm = 'checkInForm.chooseCategoriesForm')"></div>
             <div th:replace="fragments/personalDetails :: personalDetails(personalDetailsForm = 'checkInForm.personalDetailsForm')"></div>
-            <div th:replace="fragments/roomAssignment :: roomAssignmentHidden"></div>
+            <div th:replace="fragments/roomAssignment :: roomAssignmentHidden(roomAssignmentForm = 'checkInForm.roomAssignmentForm')"></div>
 
             <!-- back/cancel/submit buttons -->
             <div class="row right-align">

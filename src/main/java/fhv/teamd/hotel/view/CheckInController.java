@@ -51,7 +51,6 @@ public class CheckInController {
     @GetMapping("chooseCategories")
     public ModelAndView chooseCategories(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam(required = false) String action,
             Model model) {
 
@@ -81,7 +80,6 @@ public class CheckInController {
     @PostMapping("chooseCategories")
     public RedirectView submitCategories(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
@@ -92,7 +90,6 @@ public class CheckInController {
     @GetMapping("personalDetails")
     public ModelAndView personalDetails(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             Model model) {
 
         model.addAttribute("checkInForm", checkInForm);
@@ -103,7 +100,6 @@ public class CheckInController {
     @PostMapping("personalDetails")
     public RedirectView submitPersonalDetails(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
@@ -121,12 +117,12 @@ public class CheckInController {
     @GetMapping("roomAssignment")
     public ModelAndView roomAssignment(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             Model model) {
 
         List<CategoryDTO> categories = new ArrayList<>();
 
         ChooseCategoriesForm chooseCategoriesForm = checkInForm.getChooseCategoriesForm();
+        RoomAssignmentForm roomAssignmentForm = checkInForm.getRoomAssignmentForm();
 
         LocalDateTime from = chooseCategoriesForm.getFrom().atStartOfDay();
         // at end of check out day
@@ -147,8 +143,6 @@ public class CheckInController {
 
         });
 
-        checkInForm.setRoomAssignmentForm(roomAssignmentForm);
-
         model.addAttribute("categories", categories);
         model.addAttribute("checkInForm", checkInForm);
 
@@ -158,7 +152,6 @@ public class CheckInController {
     @PostMapping("roomAssignment")
     public RedirectView submitRoomAssignment(
             @ModelAttribute CheckInForm checkInForm,
-            @ModelAttribute RoomAssignmentForm roomAssignmentForm,
             @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
@@ -170,6 +163,7 @@ public class CheckInController {
 
         ChooseCategoriesForm chooseCategoriesForm = checkInForm.getChooseCategoriesForm();
         PersonalDetailsForm personalDetailsForm = checkInForm.getPersonalDetailsForm();
+        RoomAssignmentForm roomAssignmentForm = checkInForm.getRoomAssignmentForm();
 
         List<String> roomIds = new ArrayList<>();
 
