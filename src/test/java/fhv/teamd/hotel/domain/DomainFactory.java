@@ -80,9 +80,13 @@ public class DomainFactory {
     }
 
     public static Room CreateRoom() {
+        return CreateRoomInCategory(CreateCategory());
+    }
+
+    public static Room CreateRoomInCategory(Category category) {
         int num = r.nextInt();
 
-        return new Room((long) num, CreateRoomId(num), CreateCategory());
+        return new Room((long) num, CreateRoomId(num), category);
     }
 
     public static StayId CreateStayId() {
