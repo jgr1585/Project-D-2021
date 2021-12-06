@@ -44,7 +44,10 @@ public class RoomSuggestionServiceTests {
                 .map(RoomDTO::fromRoom)
                 .collect(Collectors.toList())).thenReturn(expected);
 
-        Assertions.assertEquals(expected, this.roomSuggestionService.findSuitableRooms(cat.toString(), LocalDateTime.now(), later, 3));
+        List<RoomDTO> actual = this.roomSuggestionService
+                .findSuitableRooms(cat.toString(), LocalDateTime.now(), later, 3);
+
+        Assertions.assertEquals(expected, actual);
 
     }
 

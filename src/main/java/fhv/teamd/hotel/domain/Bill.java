@@ -13,15 +13,14 @@ public class Bill {
     private Long id;
     private BillId billId;
 
-    private List<BillEntry> entries;
+    private final List<BillEntry> entries;
 
-    private Bill() { }
+    private Bill() {
+        this.entries = new ArrayList<>();
+    }
 
     public static Bill createEmpty() {
-
-        Bill bill = new Bill();
-        bill.entries = new ArrayList<>();
-        return bill;
+        return new Bill();
     }
 
     public void charge(String reason, int amount, double unitPrice) {

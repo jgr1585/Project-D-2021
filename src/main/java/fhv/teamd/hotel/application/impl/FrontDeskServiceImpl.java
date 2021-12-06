@@ -106,7 +106,8 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional(readOnly = true)
     public BillDTO intermediateBill(String stayId) throws InvalidIdException {
 
-        return BillDTO.fromBill(this.stayRepository.find(new StayId(stayId))
+        return BillDTO.fromBill(
+                this.stayRepository.find(new StayId(stayId))
                 .orElseThrow(() -> new InvalidIdException("stay id"))
                 .generateIntermediateBill());
 

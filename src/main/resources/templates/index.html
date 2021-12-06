@@ -26,10 +26,11 @@
 
                             <h6 th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></h6>
 
-                            <div class="timeRange">
-                                <span class="from" th:text="${stay.checkIn}"></span>
+                            <div>
+                                <span th:text="${{stay.checkIn}}"></span>
                                 <span> until </span>
-                                <span class="to" th:text="${stay.expectedCheckOut}"></span>
+                                <span th:text="${{stay.expectedCheckOut}}"></span>
+
                             </div>
                         </div>
 

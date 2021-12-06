@@ -23,8 +23,8 @@
             <div th:object="${bill}">
                 <div th:each="entry: *{entries}" class="row">
                     <div class="col s6" th:text="${entry.description}"></div>
-                    <div class="col s3 center-align" th:text="${entry.amount()}"></div>
-                    <div class="col s3 right-align" th:text="${entry.subTotal()}"></div>
+                    <div class="col s3 center-align" th:text="${entry.amount}"></div>
+                    <div class="col s3 right-align" th:text="${entry.subTotal}"></div>
                 </div>
                 <hr>
                 <div class="row">

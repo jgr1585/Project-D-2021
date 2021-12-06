@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.dto;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -14,7 +15,9 @@ public class StayDTO {
 
     private final String id;
 
+    @DateTimeFormat
     private final LocalDateTime checkIn;
+    @DateTimeFormat
     private final LocalDateTime expectedCheckOut;
 
     private final RepresentativeDetails representative;
