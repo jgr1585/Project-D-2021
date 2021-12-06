@@ -17,6 +17,14 @@ public class Room {
         // hibernate
     }
 
+    //Only for Test
+    @Deprecated
+    public Room(Long id, RoomId roomId, Category category) {
+        this.id = id;
+        this.roomId = roomId;
+        this.category = category;
+    }
+
     protected Long id() {
         return this.id;
     }
@@ -46,5 +54,10 @@ public class Room {
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.roomId);
+    }
+
+    @Override
+    public String toString() {
+        return this.roomId.toString();
     }
 }

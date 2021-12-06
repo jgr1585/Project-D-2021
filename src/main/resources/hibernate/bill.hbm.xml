@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Bill" table="bill">
+        <id name="id" column="id" type="long">
+            <generator class="native"/>
+        </id>
+
+        <component name="billId" class="fhv.teamd.hotel.domain.ids.BillId">
+            <property name="id" column="bill_id" type="string"/>
+        </component>
+
+        <!-- List<BillEntry> entries -->
+        <list name="entries" table="bill_entry">
+            <key column="bill_id"/>
+            <index column="index"/>
+            <composite-element class="fhv.teamd.hotel.domain.BillEntry">
+                <property name="description" column="description" type="string"/>
+                <property name="timestamp" column="timestamp" type="timestamp"/>
+                <property name="amount" column="amount" type="integer"/>
+                <property name="unitPrice" column="unit_price" type="double"/>
+            </composite-element>
+        </list>
+    </class>
+</hibernate-mapping>

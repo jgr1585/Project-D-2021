@@ -16,10 +16,14 @@ public class Category {
         // hibernate
     }
 
-    public Category(String title, String description, double price) {
+    //Only for Test
+    @Deprecated
+    public Category(Long id, CategoryId categoryId, String title, String description, double pricePerNight) {
+        this.id = id;
+        this.categoryId = categoryId;
         this.title = title;
         this.description = description;
-        this.pricePerNight = price;
+        this.pricePerNight = pricePerNight;
     }
 
     protected Long id() {

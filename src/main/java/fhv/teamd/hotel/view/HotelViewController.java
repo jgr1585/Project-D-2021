@@ -5,6 +5,7 @@ import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.BookingDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -35,7 +36,7 @@ public class HotelViewController {
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
-        model.addAttribute("stays", this.frontDeskService.getAllHotelStays());
+        model.addAttribute("stays", this.frontDeskService.getActiveStays());
 
         return new ModelAndView("index");
     }
@@ -45,12 +46,24 @@ public class HotelViewController {
             @ModelAttribute BookingListForm form,
             Model model) {
 
-        List<BookingDTO> bookings = this.bookingService.getAll();
+        List<BookingDTO> bookings = this.bookingService.getActiveBookings();
 
         model.addAttribute("form", form);
         model.addAttribute("bookings", bookings);
 
         return new ModelAndView("/booking/bookingOverview");
+    }
+
+    @RequestMapping("/intermediateBill")
+    public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
+
+        try {
+            model.addAttribute("bill", this.frontDeskService.intermediateBill(stayId));
+        } catch (InvalidIdException e) {
+            e.printStackTrace();
+        }
+
+        return new ModelAndView("/intermediateBill");
     }
 
     @RequestMapping("/booking/performCheckIn")
@@ -96,7 +109,9 @@ public class HotelViewController {
                         booking.representative().address().city(),
                         booking.representative().address().country(),
                         booking.representative().email(),
-                        booking.representative().phone()
+                        booking.representative().phone(),
+                        booking.representative().creditCardNumber(),
+                        booking.representative().paymentMethod()
                 ),
                 new RoomAssignmentForm()
         ));
@@ -104,4 +119,6 @@ public class HotelViewController {
         return new RedirectView("/checkIn/chooseCategories");
 
     }
+
+
 }

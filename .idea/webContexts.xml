@@ -4,7 +4,9 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/resources/templates/booking/bookingOverview.html" value="file://$PROJECT_DIR$/src/main/resources/templates/booking" />
+        <entry key="file://$PROJECT_DIR$/src/main/resources/templates/booking/experimentalBookingForm.html" value="file://$PROJECT_DIR$/src/main/resources/templates/booking" />
         <entry key="file://$PROJECT_DIR$/src/main/resources/templates/fragments/forms.html" value="file://$PROJECT_DIR$/src/main/resources/templates/fragments" />
+        <entry key="file://$PROJECT_DIR$/src/main/resources/templates/fragments/personalDetails.html" value="file://$PROJECT_DIR$/src/main/resources/templates/fragments" />
       </map>
     </option>
   </component>

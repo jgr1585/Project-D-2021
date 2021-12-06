@@ -1,9 +1,14 @@
 package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.Booking;
+import fhv.teamd.hotel.domain.BookingState;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
+import fhv.teamd.hotel.domain.Category;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,25 +34,56 @@ public class HibernateBookingRepository implements BookingRepository {
     }
 
     @Override
-    public Optional<Booking> findByBookingId(BookingId bookingId) {
-        TypedQuery<Booking> q = this.entityManager
-                .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class);
-
-        q.setParameter("id", bookingId);
-
-        return q.getResultStream().findFirst();
+    public List<Booking> getActiveBookings() {
+        return this.entityManager
+                .createQuery("SELECT b FROM Booking b where b.bookingState = :state", Booking.class)
+                .setParameter("state", BookingState.booked)
+                .getResultList();
     }
 
     @Override
-    public List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
-        TypedQuery<Booking> q = this.entityManager.createQuery(
-                "SELECT b FROM Booking b WHERE b.checkIn > :from AND b.checkOut < :until",
-                Booking.class);
+    public Optional<Booking> findByBookingId(BookingId bookingId) {
+        return this.entityManager
+                .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class)
+                .setParameter("id", bookingId)
+                .getResultStream()
+                .findFirst();
+    }
 
-        q.setParameter("from", from);
-        q.setParameter("until", until);
+    @Override
+    public List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
+        return this.entityManager.createQuery(
+                "SELECT b FROM Booking b WHERE b.checkInDate >= :from AND b.checkOutDate <= :until",
+                Booking.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .getResultList();
+    }
 
-        return q.getResultList();
+    @Override
+    public int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+
+        Long l = this.entityManager.createQuery(
+                        "select sum(value(s)) from Booking b " +
+                                "join b.categories s " +
+                                "where b.checkInDate < :until and b.checkOutDate > :from " +
+                                "and key(s).categoryId = :catId",
+                        Long.class)
+                .setParameter("from", from)
+                .setParameter("until", until)
+                .setParameter("catId", categoryId)
+                .getSingleResult();
+
+        return Optional.ofNullable(l).map(Long::intValue).orElse(0);
+
+        //#region equivalent to
+//        return this.bookingsByCheckInDate(from, until)
+//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
+//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+//                .map(Map.Entry::getValue)
+//                .reduce(Integer::sum)
+//                .orElse(0);
+         //#endregion
     }
 
     @Override
@@ -57,17 +93,4 @@ public class HibernateBookingRepository implements BookingRepository {
 
     }
 
-    @Override
-    public void remove(BookingId bookingId) throws EntityNotFoundException {
-
-        Query q = this.entityManager.createQuery(
-                "DELETE FROM Booking b WHERE b.bookingId = :id");
-
-        q.setParameter("id", bookingId);
-
-        if(q.executeUpdate() != 1) {
-            throw new EntityNotFoundException();
-        }
-
-    }
 }

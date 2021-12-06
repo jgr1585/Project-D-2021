@@ -2,16 +2,16 @@ package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.domain.*;
-import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
+import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +31,12 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Transactional
+    @Autowired
+    private AvailabilityService availabilityService;
+
+
     @Override
+    @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
                      GuestDetails guest, RepresentativeDetails rep) throws Exception {
@@ -42,20 +46,25 @@ public class BookingServiceImpl implements BookingService {
         for (Map.Entry<String, Integer> entry : categoryIdsAndAmounts.entrySet()) {
 
             String id = entry.getKey();
-            Integer count = entry.getValue();
+            Integer amount = entry.getValue();
 
-            if (count == null || count == 0) {
+            if (amount == null || amount == 0) {
                 continue;
             }
 
-            Optional<Category> result = this.categoryRepository.findById(new CategoryId(id));
+            CategoryId categoryId = new CategoryId(id);
+            Optional<Category> result = this.categoryRepository.findById(categoryId);
             if (result.isEmpty()) {
                 throw new Exception("no category with this id");
             }
 
+            if (!this.availabilityService.isAvailable(categoryId, from, until, amount)) {
+                throw new CategoryNotAvailableException("category not available");
+            }
+
             Category cat = result.get();
 
-            categoriesAndAmounts.put(cat, count);
+            categoriesAndAmounts.put(cat, amount);
         }
 
         Booking newBooking = new Booking(
@@ -67,9 +76,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public List<BookingDTO> getAll() {
+    public List<BookingDTO> getActiveBookings() {
         return this.bookingRepository
-                .getAllBookings()
+                .getActiveBookings()
                 .stream()
                 .map(BookingDTO::fromBooking)
                 .collect(Collectors.toUnmodifiableList());
@@ -81,18 +90,7 @@ public class BookingServiceImpl implements BookingService {
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
         Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
 
-        Booking booking = result.get();
-
-        HashMap<CategoryDTO, Integer> categories = new HashMap<>();
-
-        for (Map.Entry<Category, Integer> entry : booking.selection().entrySet()) {
-            categories.put(CategoryDTO.fromCategory(entry.getKey()), entry.getValue());
-        }
-
-        return Optional.of(new DetailedBookingDTO(BookingDTO.fromBooking(booking), categories));
+        return result.map(DetailedBookingDTO::fromBooking);
     }
 }

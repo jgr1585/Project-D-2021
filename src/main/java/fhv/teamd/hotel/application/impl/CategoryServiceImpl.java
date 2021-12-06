@@ -6,15 +6,13 @@ import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
-import org.hibernate.cfg.NotYetImplementedException;
+import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,6 +20,9 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private AvailabilityService availabilityService;
 
     @Override
     public List<CategoryDTO> getAll() {
@@ -36,41 +37,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<AvailableCategoryDTO> getAvailableCategories(LocalDateTime from, LocalDateTime until) {
+
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
-        for (Category cat : this.categoryRepository.getAll()) {
+        // todo optimize with query
 
-            // todo magic number xd
-            int count = 99;
+        this.categoryRepository.getAll().forEach(cat -> {
+            int count = this.availabilityService.numberOfSuitableRooms(cat.categoryId(), from, until);
             result.add(new AvailableCategoryDTO(
                     cat.categoryId().toString(),
                     cat.title(),
                     count));
-        }
+        });
 
         return result;
     }
 
     @Override
-    public boolean isAvailable(Map<String, Integer> categoryIdsAndAmounts, LocalDateTime from, LocalDateTime until) {
-
-        // todo implement (out of sprint 1 scope)
-
-        throw new NotYetImplementedException();
-    }
-
-    @Override
     public Optional<CategoryDTO> findCategoryById(String categoryId) {
 
-        CategoryId id = new CategoryId(categoryId);
+        Optional<Category> result = this.categoryRepository.findById(new CategoryId(categoryId));
 
-        Optional<Category> result = this.categoryRepository.findById(id);
-        if(result.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Category category = result.get();
-
-        return Optional.of(CategoryDTO.fromCategory(category));
+        return result.map(CategoryDTO::fromCategory);
     }
 }

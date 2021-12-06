@@ -23,9 +23,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("booking")
@@ -33,6 +31,7 @@ public class CreateBookingController {
 
     private static final Period defaultBookingLeadTime = Period.ofWeeks(2);
     private static final Period defaultStayDuration = Period.ofWeeks(1);
+
 
     @Autowired
     private CategoryService categoryService;
@@ -60,9 +59,6 @@ public class CreateBookingController {
                 = this.categoryService.getAvailableCategories(
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay());
-
-//        Map<String, Integer> defaultValues
-//                = categories.stream().collect(Collectors.toMap(AvailableCategoryDTO::categoryId, cat -> 0));
 
         model.addAttribute("categories", categories);
         model.addAttribute("bookingForm", bookingForm);
@@ -182,7 +178,9 @@ public class CreateBookingController {
                         personalDetailsForm.getRepresentativeZip(),
                         personalDetailsForm.getRepresentativeCity(),
                         personalDetailsForm.getRepresentativeCountry()),
-                personalDetailsForm.getRepresentativePhone());
+                personalDetailsForm.getRepresentativePhone(),
+                personalDetailsForm.getRepresentativeCreditCardNumber(),
+                personalDetailsForm.getRepresentativePaymentMethod());
 
         try {
             this.bookingService.book(
@@ -193,6 +191,8 @@ public class CreateBookingController {
             );
         } catch (Exception x) {
             x.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", x.getMessage());
+
             return new RedirectView("summary");
         }
 

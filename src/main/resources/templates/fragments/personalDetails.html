@@ -17,12 +17,12 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="representativeFirstName" type="text" 
+                    <input id="representativeFirstName" type="text"
                            th:field="*{representativeFirstName}"/>
                     <label for="representativeFirstName">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="representativeLastName" type="text" 
+                    <input id="representativeLastName" type="text"
                            th:field="*{representativeLastName}"/>
                     <label for="representativeLastName">Last Name</label>
                 </div>
@@ -62,14 +62,23 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">payment</i>
-                    <select id="payment">
-                        <option disabled selected value="">Select payment method</option>
-                        <option value="cash">Cash</option>
-                        <option value="creditCard">Credit Card</option>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">euro_symbol</i>
+                    <select id="representativePaymentMethod" th:field="*{representativePaymentMethod}">
+                        <option th:each="paymentMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"
+                                th:value="${paymentMethod}"
+                                th:text="${paymentMethod.displayValue}"
+                                th:selected="${paymentMethod==representativePaymentMethod}"
+                        >
+                        </option>
                     </select>
-                    <label for="payment">Payment</label>
+                    <label for="representativePaymentMethod">Payment</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">payment</i>
+                    <input class="validate" id="representativeCreditCardNumber" type="text"
+                           th:field="*{representativeCreditCardNumber}"/>
+                    <label for="representativeCreditCardNumber">Credit Card Number</label>
                 </div>
             </div>
         </div>
@@ -176,6 +185,9 @@
 
         <input th:field="*{representativeMail}" type="hidden"/>
         <input th:field="*{representativePhone}" type="hidden"/>
+
+        <input th:field="*{representativePaymentMethod}" type="hidden"/>
+        <input th:field="*{representativeCreditCardNumber}" type="hidden"/>
     </div>
 </div>
 

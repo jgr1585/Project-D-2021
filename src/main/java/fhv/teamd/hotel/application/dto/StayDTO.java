@@ -35,7 +35,7 @@ public class StayDTO {
         return new StayDTO(
                 stay.stayId().toString(),
                 stay.checkIn(),
-                stay.checkOut(),
+                stay.expectedCheckOut(),
                 stay.representativeDetails(),
                 stay.guestDetails(),
                 stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList())

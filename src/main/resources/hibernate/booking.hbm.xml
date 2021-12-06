@@ -41,6 +41,15 @@
             </component>
 
             <property name="phone" column="representative_phone" type="string"/>
+
+            <property name="paymentMethod" column="representative_payment_method">
+                <type name="org.hibernate.type.EnumType">
+                    <param name="enumClass">fhv.teamd.hotel.domain.contactInfo.PaymentMethod</param>
+                    <param name="type">12</param>
+                </type>
+            </property>
+
+            <property name="creditCardNumber" column="representative_credit_card_number" type="string"/>
         </component>
 
         <!-- Map<Category, Integer> categories; -->
@@ -49,6 +58,13 @@
             <index-many-to-many class="fhv.teamd.hotel.domain.Category" column="category_id"/>
             <element column="number_of_rooms" type="int"/>
         </map>
+
+        <property name="bookingState" column="booking_state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">fhv.teamd.hotel.domain.BookingState</param>
+                <param name="type">12</param>
+            </type>
+        </property>
 
     </class>
 </hibernate-mapping>

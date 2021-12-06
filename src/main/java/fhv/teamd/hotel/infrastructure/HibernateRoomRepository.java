@@ -32,22 +32,19 @@ public class HibernateRoomRepository implements RoomRepository {
 
     @Override
     public List<Room> getByCategory(CategoryId categoryId, int max) {
-        TypedQuery<Room> q = this.entityManager
-                .createQuery("select r from Room r where r.category.categoryId=:catId", Room.class);
-
-        q.setParameter("catId", categoryId);
-        q.setMaxResults(max);
-
-        return q.getResultList();
+        return this.entityManager
+                .createQuery("select r from Room r where r.category.categoryId=:catId", Room.class)
+                .setParameter("catId", categoryId)
+                .setMaxResults(max)
+                .getResultList();
     }
 
     @Override
     public Optional<Room> getById(RoomId roomId) {
-        TypedQuery<Room> q = this.entityManager
-                .createQuery("select r from Room r where r.roomId=:id", Room.class);
-
-        q.setParameter("id", roomId);
-
-        return q.getResultStream().findFirst();
+        return this.entityManager
+                .createQuery("select r from Room r where r.roomId=:id", Room.class)
+                .setParameter("id", roomId)
+                .getResultStream()
+                .findFirst();
     }
 }

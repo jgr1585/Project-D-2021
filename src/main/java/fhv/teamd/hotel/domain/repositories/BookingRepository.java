@@ -2,6 +2,7 @@ package fhv.teamd.hotel.domain.repositories;
 
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.CategoryId;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -14,12 +15,14 @@ public interface BookingRepository {
 
     List<Booking> getAllBookings();
 
+    List<Booking> getActiveBookings();
+
     Optional<Booking> findByBookingId(BookingId bookingId);
 
-    List<Booking> getBookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
+    List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
+
+    int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
     void put(Booking booking);
-
-    void remove(BookingId bookingId) throws EntityNotFoundException;
 
 }
