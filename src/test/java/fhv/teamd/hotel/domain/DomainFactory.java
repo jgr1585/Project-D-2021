@@ -97,5 +97,4 @@ public class DomainFactory {
     private static long uuidToLong(UUID uuid) {
         return uuid.getMostSignificantBits();
     }
-
 }
