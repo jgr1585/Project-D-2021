@@ -29,11 +29,11 @@ public class RoomSuggestionServiceTests {
 
     @Test
     void given_Catygory_when_findSuitableRooms_find_rooms() {
-        final CategoryId cat = DomainFactory.CreateCategoryId();
+        final CategoryId cat = DomainFactory.createCategoryId();
         final List<Room> rooms = new LinkedList<>();
-        rooms.add(DomainFactory.CreateRoom());
-        rooms.add(DomainFactory.CreateRoom());
-        rooms.add(DomainFactory.CreateRoom());
+        rooms.add(DomainFactory.createRoom());
+        rooms.add(DomainFactory.createRoom());
+        rooms.add(DomainFactory.createRoom());
         final LocalDateTime later = LocalDateTime.now().plus(Period.ofDays(1));
 
         final List<RoomDTO> expected = rooms.stream().map(RoomDTO::fromRoom).collect(Collectors.toList());

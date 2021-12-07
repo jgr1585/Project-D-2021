@@ -34,16 +34,16 @@ public class AvailabilityServiceTest {
 
     @Test
     void given_room_when_numberOfSuitableRooms_return_Number_of_Rooms() {
-        final Category cat1 = DomainFactory.CreateCategory();
+        final Category cat1 = DomainFactory.createCategory();
         final LocalDateTime from = LocalDateTime.now();
         final LocalDateTime until = LocalDateTime.now().plus(Period.ofDays(1));
         final List<Room> rooms = new LinkedList<>();
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
-        rooms.add(DomainFactory.CreateRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
+        rooms.add(DomainFactory.createRoomInCategory(cat1));
 
 
         Mockito.when(this.roomRepository.getByCategory(cat1.categoryId())).thenReturn(rooms);

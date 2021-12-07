@@ -110,10 +110,10 @@ public class BookingServiceTests {
     @Test
     void given_newBooking_when_book_then_CreateBooking() {
         final Map<String, Integer> categoryIdsAndAmounts = new HashMap<>();
-        final Category cat1 = DomainFactory.CreateCategory();
-        final Category cat2 = DomainFactory.CreateCategory();
+        final Category cat1 = DomainFactory.createCategory();
+        final Category cat2 = DomainFactory.createCategory();
         final Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
-        final BookingId bookingId = DomainFactory.CreateBookingId();
+        final BookingId bookingId = DomainFactory.createBookingId();
 
         categoriesAndAmounts.put(cat1, 1);
 

@@ -10,7 +10,6 @@ import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +23,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -147,13 +144,13 @@ public class FrontDeskServiceTests {
 
     @Test
     void given_WalkInGuest_when_CheckIn_then_CreateStay() {
-        final RepresentativeDetails rep = DomainFactory.CreateRepresentativeDetails();
-        final GuestDetails guestDetails = DomainFactory.GetFromRepresentativeDetails(rep);
-        final Room room = DomainFactory.CreateRoom();
+        final RepresentativeDetails rep = DomainFactory.createRepresentativeDetails();
+        final GuestDetails guestDetails = DomainFactory.getFromRepresentativeDetails(rep);
+        final Room room = DomainFactory.createRoom();
         final List<String> rooms = new LinkedList<>();
         final LocalDateTime checkOutDate = LocalDateTime.now().plus(Period.ofDays(1));
         rooms.add(room.roomId().toString());
-        final StayId stayId = DomainFactory.CreateStayId();
+        final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
         final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep);
@@ -171,11 +168,11 @@ public class FrontDeskServiceTests {
 
     @Test
     void given_Booking_when_CheckIn_then_CreateStay() {
-        final Booking booking = DomainFactory.CreateBooking();
-        final Room room = DomainFactory.CreateRoom();
+        final Booking booking = DomainFactory.createBooking();
+        final Room room = DomainFactory.createRoom();
         final List<String> rooms = new LinkedList<>();
         rooms.add(room.roomId().toString());
-        final StayId stayId = DomainFactory.CreateStayId();
+        final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
         final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails());

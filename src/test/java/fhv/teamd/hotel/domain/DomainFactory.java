@@ -18,79 +18,79 @@ import java.util.UUID;
 @SuppressWarnings("deprecation")
 public class DomainFactory {
 
-    public static Address CreateAddress() {
+    public static Address createAddress() {
         UUID uuid = UUID.randomUUID();
 
         return new Address("Street" + uuid, uuid.toString(), "City" + uuid, "C" + uuid);
     }
 
-    public static CategoryId CreateCategoryId() {
-        return CreateCategoryId(UUID.randomUUID());
+    public static CategoryId createCategoryId() {
+        return createCategoryId(UUID.randomUUID());
     }
 
-    private static CategoryId CreateCategoryId(UUID uuid) {
+    private static CategoryId createCategoryId(UUID uuid) {
         return new CategoryId(uuid.toString());
     }
 
-    public static Category CreateCategory() {
+    public static Category createCategory() {
         UUID uuid = UUID.randomUUID();
 
-        return new Category(uuidToLong(uuid), CreateCategoryId(uuid), "Category " + uuid, "Category " + uuid, 20);
+        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, 20);
     }
 
-    public static BookingId CreateBookingId() {
-        return CreateBookingId(UUID.randomUUID());
+    public static BookingId createBookingId() {
+        return createBookingId(UUID.randomUUID());
     }
 
-    private static BookingId CreateBookingId(UUID uuid) {
+    private static BookingId createBookingId(UUID uuid) {
         return new BookingId(uuid.toString());
     }
 
-    public static Booking CreateBooking() {
+    public static Booking createBooking() {
         UUID uuid = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
-        RepresentativeDetails rep = CreateRepresentativeDetails();
+        RepresentativeDetails rep = createRepresentativeDetails();
 
         Map<Category, Integer> cats = new HashMap<>();
-        cats.put(CreateCategory(), 1);
+        cats.put(createCategory(), 1);
 
-        return new Booking(CreateBookingId(uuid), now, tomorrow, cats, rep, GetFromRepresentativeDetails(rep));
+        return new Booking(createBookingId(uuid), now, tomorrow, cats, rep, getFromRepresentativeDetails(rep));
     }
 
-    public static RepresentativeDetails CreateRepresentativeDetails() {
+    public static RepresentativeDetails createRepresentativeDetails() {
         UUID uuid = UUID.randomUUID();
 
-        return new RepresentativeDetails("John the " + uuid, "Doe", "john" + uuid + ".doe@mail.com", CreateAddress(),"0" + uuid, "1111 1111 1111 1111", PaymentMethod.CreditCard);
+        return new RepresentativeDetails("John the " + uuid, "Doe", "john" + uuid + ".doe@mail.com", createAddress(),"0" + uuid, "1111 1111 1111 1111", PaymentMethod.CreditCard);
     }
 
-    public static RoomId CreateRoomId() {
-        return CreateRoomId(UUID.randomUUID());
+    public static RoomId createRoomId() {
+        return createRoomId(UUID.randomUUID());
     }
 
-    private static RoomId CreateRoomId(UUID uuid) {
+    private static RoomId createRoomId(UUID uuid) {
         return new RoomId(uuid.toString());
     }
 
-    public static Room CreateRoom() {
-        return CreateRoomInCategory(CreateCategory());
+    public static Room createRoom() {
+        return createRoomInCategory(createCategory());
     }
 
-    public static Room CreateRoomInCategory(Category category) {
+    public static Room createRoomInCategory(Category category) {
         UUID uuid = UUID.randomUUID();
 
-        return new Room(uuidToLong(uuid), CreateRoomId(uuid), category);
+        return new Room(uuidToLong(uuid), createRoomId(uuid), category);
     }
 
-    public static StayId CreateStayId() {
-        return CreateStayId(UUID.randomUUID());
+    public static StayId createStayId() {
+        return createStayId(UUID.randomUUID());
     }
 
-    private static StayId CreateStayId(UUID uuid) {
+    private static StayId createStayId(UUID uuid) {
         return new StayId(uuid.toString());
     }
 
-    public static GuestDetails GetFromRepresentativeDetails(RepresentativeDetails rep) {
+    public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
         return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
     }
 
