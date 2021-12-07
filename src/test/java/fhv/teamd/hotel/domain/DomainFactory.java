@@ -13,47 +13,41 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class DomainFactory {
 
-    private static final Random r;
-
-    static {
-        r = new Random();
-    }
-
     public static Address CreateAddress() {
-        int num = r.nextInt();
+        UUID uuid = UUID.randomUUID();
 
-        return new Address("Street" + num, Integer.toString(num), "City" + num, "C" + num);
+        return new Address("Street" + uuid, uuid.toString(), "City" + uuid, "C" + uuid);
     }
 
     public static CategoryId CreateCategoryId() {
-        return CreateCategoryId(r.nextInt());
+        return CreateCategoryId(UUID.randomUUID());
     }
 
-    private static CategoryId CreateCategoryId(int i) {
-        return new CategoryId("Category " + i);
+    private static CategoryId CreateCategoryId(UUID uuid) {
+        return new CategoryId(uuid.toString());
     }
 
     public static Category CreateCategory() {
-        int num = r.nextInt();
+        UUID uuid = UUID.randomUUID();
 
-        return new Category((long) num, CreateCategoryId(num), "Category " + num, "Category " + num, 20);
+        return new Category(uuidToLong(uuid), CreateCategoryId(uuid), "Category " + uuid, "Category " + uuid, 20);
     }
 
     public static BookingId CreateBookingId() {
-        return CreateBookingId(r.nextInt());
+        return CreateBookingId(UUID.randomUUID());
     }
 
-    private static BookingId CreateBookingId(int i) {
-        return new BookingId("Category " + i);
+    private static BookingId CreateBookingId(UUID uuid) {
+        return new BookingId(uuid.toString());
     }
 
     public static Booking CreateBooking() {
-        int num = r.nextInt();
+        UUID uuid = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
         RepresentativeDetails rep = CreateRepresentativeDetails();
@@ -61,22 +55,22 @@ public class DomainFactory {
         Map<Category, Integer> cats = new HashMap<>();
         cats.put(CreateCategory(), 1);
 
-        return new Booking(CreateBookingId(num), now, tomorrow, cats, rep, GetFromRepresentativeDetails(rep));
+        return new Booking(CreateBookingId(uuid), now, tomorrow, cats, rep, GetFromRepresentativeDetails(rep));
     }
 
     public static RepresentativeDetails CreateRepresentativeDetails() {
-        int num = r.nextInt();
+        UUID uuid = UUID.randomUUID();
 
-        return new RepresentativeDetails("John the " + num + "th", "Doe", "john.doe" + num + "@mail.com", CreateAddress(),"0" + num, "1111 1111 1111 1111", PaymentMethod.CreditCard);
+        return new RepresentativeDetails("John the " + uuid, "Doe", "john" + uuid + ".doe@mail.com", CreateAddress(),"0" + uuid, "1111 1111 1111 1111", PaymentMethod.CreditCard);
     }
 
 
     public static RoomId CreateRoomId() {
-        return CreateRoomId(r.nextInt());
+        return CreateRoomId(UUID.randomUUID());
     }
 
-    private static RoomId CreateRoomId(int i) {
-        return new RoomId("Room " + i);
+    private static RoomId CreateRoomId(UUID uuid) {
+        return new RoomId(uuid.toString());
     }
 
     public static Room CreateRoom() {
@@ -84,22 +78,25 @@ public class DomainFactory {
     }
 
     public static Room CreateRoomInCategory(Category category) {
-        int num = r.nextInt();
+        UUID uuid = UUID.randomUUID();
 
-        return new Room((long) num, CreateRoomId(num), category);
+        return new Room(uuidToLong(uuid), CreateRoomId(uuid), category);
     }
 
     public static StayId CreateStayId() {
-        return CreateStayId(r.nextInt());
+        return CreateStayId(UUID.randomUUID());
     }
 
-    private static StayId CreateStayId(int i) {
-        return new StayId("Stay " + i);
+    private static StayId CreateStayId(UUID uuid) {
+        return new StayId(uuid.toString());
     }
 
     public static GuestDetails GetFromRepresentativeDetails(RepresentativeDetails rep) {
         return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
     }
 
+    private static long uuidToLong(UUID uuid) {
+        return uuid.getMostSignificantBits();
+    }
 
 }
