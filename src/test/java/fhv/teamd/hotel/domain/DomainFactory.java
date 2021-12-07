@@ -64,7 +64,6 @@ public class DomainFactory {
         return new RepresentativeDetails("John the " + uuid, "Doe", "john" + uuid + ".doe@mail.com", CreateAddress(),"0" + uuid, "1111 1111 1111 1111", PaymentMethod.CreditCard);
     }
 
-
     public static RoomId CreateRoomId() {
         return CreateRoomId(UUID.randomUUID());
     }
