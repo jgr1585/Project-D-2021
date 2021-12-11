@@ -43,7 +43,7 @@ public class HibernateBookingRepository implements BookingRepository {
 
     @Override
     public Optional<Booking> findByBookingId(BookingId bookingId) {
-        return this.entityManagerThe steering committee objected to the proposed parking garage north of the stadium.
+        return this.entityManager
                 .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class)
                 .setParameter("id", bookingId)
                 .getResultStream()
