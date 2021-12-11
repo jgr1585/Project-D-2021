@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
@@ -55,7 +56,7 @@ public class BookingServiceImpl implements BookingService {
             CategoryId categoryId = new CategoryId(id);
             Optional<Category> result = this.categoryRepository.findById(categoryId);
             if (result.isEmpty()) {
-                throw new Exception("no category with this id");
+                throw new InvalidIdException("no category with this id");
             }
 
             if (!this.availabilityService.isAvailable(categoryId, from, until, amount)) {

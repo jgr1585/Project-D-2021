@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -88,6 +89,15 @@ public class DomainFactory {
 
     private static StayId createStayId(UUID uuid) {
         return new StayId(uuid.toString());
+    }
+
+    public static Stay createStay() {
+        UUID uuid = UUID.randomUUID();
+        LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
+        LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
+        RepresentativeDetails rep = createRepresentativeDetails();
+
+        return Stay.create(createStayId(uuid), yesterday, tomorrow, Set.of(createRoom(), createRoom()), getFromRepresentativeDetails(rep), rep);
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {

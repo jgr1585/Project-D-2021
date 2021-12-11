@@ -1,6 +1,10 @@
 package fhv.teamd.hotel.application;
 
+import com.sun.source.tree.ModuleTree;
 import fhv.teamd.hotel.application.dto.BookingDTO;
+import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
+import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
@@ -135,10 +139,36 @@ public class BookingServiceTests {
 
         Assertions.assertDoesNotThrow(() -> this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep));
 
+        Assertions.assertThrows(CategoryNotAvailableException.class, () -> {
+            categoryIdsAndAmounts.put(cat2.categoryId().toString(), 2);
+            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep);
+        });
+
+        Assertions.assertThrows(InvalidIdException.class, () -> {
+            categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
+            categoryIdsAndAmounts.put(DomainFactory.createCategoryId().toString(), 2);
+            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep);
+        });
+
         Mockito.verify(this.bookingRepository).put(this.actualBooking.capture());
 
         Assertions.assertEquals(expected, this.actualBooking.getValue());
 
+    }
+
+    @Test
+    void give_booking_when_getDetails_then_getDetails() {
+        final Booking booking1 = DomainFactory.createBooking();
+        final Booking booking2 = DomainFactory.createBooking();
+        final BookingId nonExistingBooking = DomainFactory.createBookingId();
+
+        Mockito.when(this.bookingRepository.findByBookingId(booking1.bookingId())).thenReturn(Optional.of(booking1));
+        Mockito.when(this.bookingRepository.findByBookingId(booking2.bookingId())).thenReturn(Optional.of(booking2));
+
+        Assertions.assertEquals(Optional.of(booking1).map(DetailedBookingDTO::fromBooking), this.bookingService.getDetails(booking1.bookingId().toString()));
+        Assertions.assertEquals(Optional.of(booking2).map(DetailedBookingDTO::fromBooking), this.bookingService.getDetails(booking2.bookingId().toString()));
+
+        Assertions.assertEquals(Optional.empty(), this.bookingService.getDetails(nonExistingBooking.toString()));
     }
 
 }

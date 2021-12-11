@@ -4,6 +4,7 @@ import fhv.teamd.hotel.domain.Bill;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BillDTO {
@@ -32,5 +33,22 @@ public class BillDTO {
 
         return Collections.unmodifiableList(this.entries);
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        final BillDTO billDTO = (BillDTO) o;
+        return Double.compare(billDTO.total, this.total) == 0 && Objects.equals(this.entries, billDTO.entries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.total, this.entries);
     }
 }

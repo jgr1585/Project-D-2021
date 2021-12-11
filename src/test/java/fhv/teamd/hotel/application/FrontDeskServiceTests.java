@@ -3,6 +3,8 @@ package fhv.teamd.hotel.application;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.BillEntryDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.ids.*;
@@ -26,6 +28,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -161,6 +164,18 @@ public class FrontDeskServiceTests {
 
         Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep));
 
+        Assertions.assertThrows(OccupiedRoomException.class, () -> {
+            Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(false);
+            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep);
+        });
+
+        Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
+
+        Assertions.assertThrows(InvalidIdException.class, () -> {
+            rooms.add(DomainFactory.createRoomId().toString());
+            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep);
+        });
+
         Mockito.verify(this.stayRepository).put(this.actualStay.capture());
 
         Assertions.assertEquals(expected, this.actualStay.getValue());
@@ -191,6 +206,27 @@ public class FrontDeskServiceTests {
         Mockito.verify(this.stayRepository).put(this.actualStay.capture());
 
         Assertions.assertEquals(expected, this.actualStay.getValue());
+    }
+
+    @Test
+    void given_Booking_when_get_intermediateBill_then_return_intermediateBill() {
+        final Stay stay1 = DomainFactory.createStay();
+        final Stay stay2 = DomainFactory.createStay();
+
+        Mockito.when(this.stayRepository.find(stay1.stayId())).thenReturn(Optional.of(stay1));
+        Mockito.when(this.stayRepository.find(stay2.stayId())).thenReturn(Optional.of(stay2));
+
+        final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
+        final AtomicReference<BillDTO> bill2 = new AtomicReference<>();
+
+        Assertions.assertDoesNotThrow(() -> bill1.set(this.frontDeskService.intermediateBill(stay1.stayId().toString())));
+
+        Assertions.assertDoesNotThrow(() -> bill2.set(this.frontDeskService.intermediateBill(stay2.stayId().toString())));
+
+        Assertions.assertThrows(InvalidIdException.class, () -> this.frontDeskService.intermediateBill(DomainFactory.createStayId().toString()));
+
+        Assertions.assertEquals(BillDTO.fromBill(stay1.generateIntermediateBill()), bill1.get());
+        Assertions.assertEquals(BillDTO.fromBill(stay2.generateIntermediateBill()), bill2.get());
     }
 
 }
