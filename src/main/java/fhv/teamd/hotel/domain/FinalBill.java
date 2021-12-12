@@ -1,11 +1,16 @@
 package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.ids.FinalBillId;
 
 import java.util.List;
 import java.util.Objects;
 
 public class FinalBill {
+
+    private long id;
+
+    private FinalBillId finalBillId;
 
     private final RepresentativeDetails billingAddress;
 

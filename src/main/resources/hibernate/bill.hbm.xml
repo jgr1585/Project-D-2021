@@ -24,5 +24,12 @@
                 <property name="unitPrice" column="unit_price" type="double"/>
             </composite-element>
         </list>
+
+        <!-- List<FinalBill> finalBills -->
+        <list name="finalBills" table="bill_final_bill">
+            <key column="bill_id"/>
+            <index column="index"/>
+            <one-to-many class="fhv.teamd.hotel.domain.FinalBill"/>
+        </list>
     </class>
 </hibernate-mapping>
