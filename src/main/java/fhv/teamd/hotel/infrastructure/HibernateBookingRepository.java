@@ -16,21 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateBookingRepository implements BookingRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class HibernateBookingRepository extends HibernateBaseRepository<Booking> implements BookingRepository {
 
     @Override
     public BookingId nextIdentity() {
         return new BookingId(java.util.UUID.randomUUID().toString());
-    }
-
-    @Override
-    public List<Booking> getAllBookings() {
-        return this.entityManager
-                .createQuery("SELECT b FROM Booking b", Booking.class)
-                .getResultList();
     }
 
     @Override

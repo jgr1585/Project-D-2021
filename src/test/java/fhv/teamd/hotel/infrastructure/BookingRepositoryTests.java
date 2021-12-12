@@ -13,16 +13,13 @@ import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.LinkedList;
@@ -101,7 +98,7 @@ public class BookingRepositoryTests {
                         .getResultList())
                 .thenReturn(this.bookings);
 
-        List<Booking> actual = this.bookingRepository.getAllBookings();
+        List<Booking> actual = this.bookingRepository.getAll();
 
         Assertions.assertTrue(actual.containsAll(this.bookings) && this.bookings.containsAll(actual));
     }

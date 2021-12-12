@@ -13,17 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateRoomRepository implements RoomRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<Room> getAll() {
-        return this.entityManager
-                .createQuery("select r from Room r", Room.class)
-                .getResultList();
-    }
+public class HibernateRoomRepository extends HibernateBaseRepository<Room> implements RoomRepository {
 
     @Override
     public List<Room> getByCategory(CategoryId categoryId) {

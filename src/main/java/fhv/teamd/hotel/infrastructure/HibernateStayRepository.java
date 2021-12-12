@@ -16,20 +16,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public class HibernateStayRepository implements StayRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class HibernateStayRepository extends HibernateBaseRepository<Stay> implements StayRepository {
 
     @Override
     public StayId nextIdentity() {
         return new StayId(UUID.randomUUID().toString());
-    }
-
-    @Override
-    public List<Stay> getAll() {
-        return this.entityManager.createQuery("select s from Stay s", Stay.class)
-                .getResultList();
     }
 
     @Override

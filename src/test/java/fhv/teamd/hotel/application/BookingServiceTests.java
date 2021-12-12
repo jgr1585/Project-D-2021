@@ -1,6 +1,5 @@
 package fhv.teamd.hotel.application;
 
-import com.sun.source.tree.ModuleTree;
 import fhv.teamd.hotel.application.dto.BookingDTO;
 import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
 import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
@@ -68,7 +67,7 @@ public class BookingServiceTests {
     @Test
     void given_emptyRepository_when_getAll_returnsEmpty() {
 
-        Mockito.when(this.bookingRepository.getAllBookings()).thenReturn(Collections.emptyList());
+        Mockito.when(this.bookingRepository.getAll()).thenReturn(Collections.emptyList());
         Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
         Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
 
