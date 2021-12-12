@@ -11,10 +11,7 @@ import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class DomainFactory {
@@ -92,12 +89,18 @@ public class DomainFactory {
     }
 
     public static Stay createStay() {
-        UUID uuid = UUID.randomUUID();
         LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
+
+        return createStayInRooms(Set.of(createRoom(), createRoom()), yesterday, tomorrow);
+    }
+
+    public static Stay createStayInRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
+        UUID uuid = UUID.randomUUID();
+
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), yesterday, tomorrow, Set.of(createRoom(), createRoom()), getFromRepresentativeDetails(rep), rep);
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep);
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
