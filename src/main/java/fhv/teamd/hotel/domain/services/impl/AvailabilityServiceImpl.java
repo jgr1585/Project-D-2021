@@ -39,19 +39,20 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
+    public Set<Room> occupiedRooms(LocalDateTime from, LocalDateTime until) {
+        return this.stayRepository
+                .activeStaysWithOverlappingDuration(from, until)
+                .stream()
+                .flatMap(stay -> stay.rooms().stream())
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public List<Room> suitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount) {
 
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
-        List<Stay> overlappingStays = this.stayRepository
-                .activeStaysWithOverlappingDuration(from, until);
-
-        Set<Room> occupiedRooms = overlappingStays
-                .stream()
-                .flatMap(stay -> stay.rooms().stream())
-                .collect(Collectors.toSet());
-
-        rooms.removeAll(occupiedRooms);
+        rooms.removeAll(this.occupiedRooms(from, until));
 
         return rooms.stream().limit(maxAmount).collect(Collectors.toList());
     }
@@ -65,13 +66,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public boolean areAvailable(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
 
-        List<Stay> overlappingStays = this.stayRepository
-                .activeStaysWithOverlappingDuration(from, until);
-
-        Set<Room> occupiedRooms = overlappingStays
-                .stream()
-                .flatMap(stay -> stay.rooms().stream())
-                .collect(Collectors.toSet());
+        Set<Room> occupiedRooms = this.occupiedRooms(from, until);
 
         for (Room room : rooms) {
             for (Room occupiedRoom : occupiedRooms) {
