@@ -10,7 +10,7 @@ public class FinalBill {
 
     private long id;
 
-    private FinalBillId finalBillId;
+    private FinalBillId domainId;
 
     private final RepresentativeDetails billingAddress;
 

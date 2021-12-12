@@ -7,10 +7,7 @@ import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.security.InvalidParameterException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +15,7 @@ import java.util.Set;
 public class Stay {
 
     private Long id;
-    private StayId stayId;
+    private StayId domainId;
 
     private LocalDateTime checkIn;
     private LocalDateTime expectedCheckOut;
@@ -40,7 +37,7 @@ public class Stay {
 
         Stay stay = new Stay();
 
-        stay.stayId = stayId;
+        stay.domainId = stayId;
 
         if(checkIn.isAfter(expectedCheckOut)) {
             throw new InvalidParameterException("check in must be before check out");
@@ -68,7 +65,7 @@ public class Stay {
     }
 
     public StayId stayId() {
-        return this.stayId;
+        return this.domainId;
     }
 
     public LocalDateTime checkIn() {
@@ -128,12 +125,12 @@ public class Stay {
             return false;
         }
         final Stay stay = (Stay) o;
-        return Objects.equals(this.id, stay.id) && Objects.equals(this.stayId, stay.stayId);
+        return Objects.equals(this.id, stay.id) && Objects.equals(this.domainId, stay.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.stayId);
+        return Objects.hash(this.id, this.domainId);
     }
 
 

@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Booking {
 
     private Long id;
-    private BookingId bookingId;
+    private BookingId domainId;
 
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
@@ -32,7 +32,7 @@ public class Booking {
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
                    RepresentativeDetails contact, GuestDetails guest) {
 
-        this.bookingId = id;
+        this.domainId = id;
         this.checkInDate = checkIn;
         this.checkOutDate = checkOut;
         this.categories = categories;
@@ -46,7 +46,7 @@ public class Booking {
     }
 
     public BookingId bookingId() {
-        return this.bookingId;
+        return this.domainId;
     }
 
     public LocalDateTime checkInDate() {
@@ -98,11 +98,11 @@ public class Booking {
             return false;
         }
         final Booking booking = (Booking) o;
-        return Objects.equals(this.id, booking.id) && Objects.equals(this.bookingId, booking.bookingId);
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.bookingId);
+        return Objects.hash(this.id, this.domainId);
     }
 }

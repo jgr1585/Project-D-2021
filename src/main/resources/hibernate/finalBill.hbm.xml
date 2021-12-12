@@ -7,7 +7,7 @@
     <class name="fhv.teamd.hotel.domain.FinalBill" table="final_bill">
 
         <id name="id" column="id" type="long">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
 
         <component name="billingAddress" class="fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails">

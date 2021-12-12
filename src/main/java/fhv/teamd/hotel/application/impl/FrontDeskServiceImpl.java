@@ -55,7 +55,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
         for (String roomId : roomIds) {
 
-            Optional<Room> result = this.roomRepository.getById(new RoomId(roomId));
+            Optional<Room> result = this.roomRepository.findById(new RoomId(roomId));
 
             if (result.isEmpty()) {
                 throw new InvalidIdException("room id");
@@ -85,7 +85,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
         this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
 
-        Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
+        Optional<Booking> result = this.bookingRepository.findById(new BookingId(bookingId));
 
         Booking booking = result.orElseThrow(() -> new InvalidIdException(bookingId));
 
@@ -107,7 +107,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     public BillDTO intermediateBill(String stayId) throws InvalidIdException {
 
         return BillDTO.fromBill(
-                this.stayRepository.find(new StayId(stayId))
+                this.stayRepository.findById(new StayId(stayId))
                 .orElseThrow(() -> new InvalidIdException("stay id"))
                 .generateIntermediateBill());
 
@@ -116,7 +116,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Override
     @Transactional
     public BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
-        Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
+        Optional<Stay> result = this.stayRepository.findById(new StayId(stayID));
 
         Stay stay = result.orElseThrow(() -> new InvalidIdException("stay id"));
 

@@ -8,14 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class HibernateCategoryRepository extends HibernateBaseRepository<Category> implements CategoryRepository {
+public class HibernateCategoryRepository
+        extends HibernateBaseRepository<Category, CategoryId>
+        implements CategoryRepository {
 
-    @Override
-    public Optional<Category> findById(CategoryId id) {
-        return this.entityManager
-                .createQuery("select c from Category c where c.categoryId=:id", Category.class)
-                .setParameter("id", id)
-                .getResultStream()
-                .findFirst();
-    }
 }

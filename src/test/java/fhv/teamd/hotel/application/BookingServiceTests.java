@@ -161,8 +161,8 @@ public class BookingServiceTests {
         final Booking booking2 = DomainFactory.createBooking();
         final BookingId nonExistingBooking = DomainFactory.createBookingId();
 
-        Mockito.when(this.bookingRepository.findByBookingId(booking1.bookingId())).thenReturn(Optional.of(booking1));
-        Mockito.when(this.bookingRepository.findByBookingId(booking2.bookingId())).thenReturn(Optional.of(booking2));
+        Mockito.when(this.bookingRepository.findById(booking1.bookingId())).thenReturn(Optional.of(booking1));
+        Mockito.when(this.bookingRepository.findById(booking2.bookingId())).thenReturn(Optional.of(booking2));
 
         Assertions.assertEquals(Optional.of(booking1).map(DetailedBookingDTO::fromBooking), this.bookingService.getDetails(booking1.bookingId().toString()));
         Assertions.assertEquals(Optional.of(booking2).map(DetailedBookingDTO::fromBooking), this.bookingService.getDetails(booking2.bookingId().toString()));

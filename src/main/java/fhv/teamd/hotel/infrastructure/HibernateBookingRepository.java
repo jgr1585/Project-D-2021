@@ -4,24 +4,16 @@ import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.BookingState;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.DomainId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import fhv.teamd.hotel.domain.Category;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateBookingRepository extends HibernateBaseRepository<Booking> implements BookingRepository {
-
-    @Override
-    public BookingId nextIdentity() {
-        return new BookingId(java.util.UUID.randomUUID().toString());
-    }
+public class HibernateBookingRepository extends HibernateBaseRepository<Booking, BookingId> implements BookingRepository {
 
     @Override
     public List<Booking> getActiveBookings() {
@@ -29,15 +21,6 @@ public class HibernateBookingRepository extends HibernateBaseRepository<Booking>
                 .createQuery("SELECT b FROM Booking b where b.bookingState = :state", Booking.class)
                 .setParameter("state", BookingState.booked)
                 .getResultList();
-    }
-
-    @Override
-    public Optional<Booking> findByBookingId(BookingId bookingId) {
-        return this.entityManager
-                .createQuery("SELECT b FROM Booking b WHERE b.bookingId = :id", Booking.class)
-                .setParameter("id", bookingId)
-                .getResultStream()
-                .findFirst();
     }
 
     @Override
@@ -57,7 +40,7 @@ public class HibernateBookingRepository extends HibernateBaseRepository<Booking>
                         "select sum(value(s)) from Booking b " +
                                 "join b.categories s " +
                                 "where b.checkInDate < :until and b.checkOutDate > :from " +
-                                "and key(s).categoryId = :catId",
+                                "and key(s).domainId = :catId",
                         Long.class)
                 .setParameter("from", from)
                 .setParameter("until", until)

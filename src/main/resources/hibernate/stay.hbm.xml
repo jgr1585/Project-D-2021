@@ -4,7 +4,7 @@
             <generator class="increment"/>
         </id>
         
-        <component name="stayId" class="fhv.teamd.hotel.domain.ids.StayId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.StayId">
             <property name="id" column="stay_id" type="string"/>
         </component>
 

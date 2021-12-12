@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateRoomRepository extends HibernateBaseRepository<Room> implements RoomRepository {
+public class HibernateRoomRepository extends HibernateBaseRepository<Room, RoomId> implements RoomRepository {
 
     @Override
     public List<Room> getByCategory(CategoryId categoryId) {
@@ -23,18 +23,10 @@ public class HibernateRoomRepository extends HibernateBaseRepository<Room> imple
     @Override
     public List<Room> getByCategory(CategoryId categoryId, int max) {
         return this.entityManager
-                .createQuery("select r from Room r where r.category.categoryId=:catId", Room.class)
+                .createQuery("select r from Room r where r.category.domainId=:catId", Room.class)
                 .setParameter("catId", categoryId)
                 .setMaxResults(max)
                 .getResultList();
     }
 
-    @Override
-    public Optional<Room> getById(RoomId roomId) {
-        return this.entityManager
-                .createQuery("select r from Room r where r.roomId=:id", Room.class)
-                .setParameter("id", roomId)
-                .getResultStream()
-                .findFirst();
-    }
 }

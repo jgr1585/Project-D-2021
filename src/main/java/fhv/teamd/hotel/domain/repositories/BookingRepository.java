@@ -16,7 +16,7 @@ public interface BookingRepository {
 
     List<Booking> getActiveBookings();
 
-    Optional<Booking> findByBookingId(BookingId bookingId);
+    Optional<Booking> findById(BookingId bookingId);
 
     List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
 

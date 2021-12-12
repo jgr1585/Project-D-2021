@@ -2,6 +2,7 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
+import fhv.teamd.hotel.domain.ids.DomainId;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 public class Bill {
 
     private Long id;
-    private BillId billId;
+    private BillId domainId;
 
     private final List<BillEntry> intermediateEntries;
 
@@ -84,12 +85,12 @@ public class Bill {
             return false;
         }
         final Bill bill = (Bill) o;
-        return Objects.equals(this.id, bill.id) && Objects.equals(this.billId, bill.billId);
+        return Objects.equals(this.id, bill.id) && Objects.equals(this.domainId, bill.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.billId);
+        return Objects.hash(this.id, this.domainId);
     }
 
 

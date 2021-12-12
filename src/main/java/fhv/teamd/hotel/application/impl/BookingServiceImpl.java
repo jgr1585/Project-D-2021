@@ -90,7 +90,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
-        Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
+        Optional<Booking> result = this.bookingRepository.findById(new BookingId(bookingId));
 
         return result.map(DetailedBookingDTO::fromBooking);
     }

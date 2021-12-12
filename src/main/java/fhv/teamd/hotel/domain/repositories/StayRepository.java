@@ -22,5 +22,5 @@ public interface StayRepository {
 
     void put(Stay stay);
 
-    Optional<Stay> find(StayId stayId);
+    Optional<Stay> findById(StayId stayId);
 }

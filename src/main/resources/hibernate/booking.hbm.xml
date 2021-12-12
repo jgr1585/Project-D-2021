@@ -9,7 +9,7 @@
             <generator class="increment"/>
         </id>
 
-        <component name="bookingId" class="fhv.teamd.hotel.domain.ids.BookingId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.BookingId">
             <property name="id" column="booking_id" type="string"/>
         </component>
 

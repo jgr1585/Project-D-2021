@@ -8,7 +8,7 @@ public class Room {
 
     private Long id;
 
-    private RoomId roomId;
+    private RoomId domainId;
 
     private Category category;
 
@@ -21,7 +21,7 @@ public class Room {
     @Deprecated
     public Room(Long id, RoomId roomId, Category category) {
         this.id = id;
-        this.roomId = roomId;
+        this.domainId = roomId;
         this.category = category;
     }
 
@@ -31,7 +31,7 @@ public class Room {
 
 
     public RoomId roomId() {
-        return this.roomId;
+        return this.domainId;
     }
 
     public Category category() {
@@ -48,16 +48,16 @@ public class Room {
             return false;
         }
         final Room room = (Room) o;
-        return Objects.equals(this.id, room.id) && Objects.equals(this.roomId, room.roomId);
+        return Objects.equals(this.id, room.id) && Objects.equals(this.domainId, room.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.roomId);
+        return Objects.hash(this.id, this.domainId);
     }
 
     @Override
     public String toString() {
-        return this.roomId.toString();
+        return this.domainId.toString();
     }
 }

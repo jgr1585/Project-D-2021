@@ -15,7 +15,7 @@ public interface RoomRepository {
 
     List<Room> getByCategory(CategoryId categoryId, int max);
 
-    Optional<Room> getById(RoomId roomId);
+    Optional<Room> findById(RoomId roomId);
 
 
 

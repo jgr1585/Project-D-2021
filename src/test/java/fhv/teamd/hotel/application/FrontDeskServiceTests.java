@@ -92,8 +92,8 @@ public class FrontDeskServiceTests {
 
         Mockito.when(this.stayRepository.getAll()).thenReturn(stays);
         Mockito.when(this.stayRepository.getActiveStays()).thenReturn(List.of(stay1));
-        Mockito.when(this.stayRepository.find(new StayId("stay-1"))).thenReturn(Optional.of(stay1));
-        Mockito.when(this.stayRepository.find(new StayId("stay-2"))).thenReturn(Optional.of(stay2));
+        Mockito.when(this.stayRepository.findById(new StayId("stay-1"))).thenReturn(Optional.of(stay1));
+        Mockito.when(this.stayRepository.findById(new StayId("stay-2"))).thenReturn(Optional.of(stay2));
 
     }
 
@@ -159,7 +159,7 @@ public class FrontDeskServiceTests {
         final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep);
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
-        Mockito.when(this.roomRepository.getById(room.roomId())).thenReturn(Optional.of(room));
+        Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
 
         Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep));
@@ -193,8 +193,8 @@ public class FrontDeskServiceTests {
         final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails());
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
-        Mockito.when(this.roomRepository.getById(room.roomId())).thenReturn(Optional.of(room));
-        Mockito.when(this.bookingRepository.findByBookingId(booking.bookingId())).thenReturn(Optional.of(booking));
+        Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
+        Mockito.when(this.bookingRepository.findById(booking.bookingId())).thenReturn(Optional.of(booking));
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
 
         Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWithBooking(rooms, Duration.between(LocalDateTime.now(), booking.checkOutDate()),
@@ -213,8 +213,8 @@ public class FrontDeskServiceTests {
         final Stay stay1 = DomainFactory.createStay();
         final Stay stay2 = DomainFactory.createStay();
 
-        Mockito.when(this.stayRepository.find(stay1.stayId())).thenReturn(Optional.of(stay1));
-        Mockito.when(this.stayRepository.find(stay2.stayId())).thenReturn(Optional.of(stay2));
+        Mockito.when(this.stayRepository.findById(stay1.stayId())).thenReturn(Optional.of(stay1));
+        Mockito.when(this.stayRepository.findById(stay2.stayId())).thenReturn(Optional.of(stay2));
 
         final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
         final AtomicReference<BillDTO> bill2 = new AtomicReference<>();
