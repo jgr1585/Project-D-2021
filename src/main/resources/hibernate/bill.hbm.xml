@@ -13,8 +13,8 @@
             <property name="id" column="bill_id" type="string"/>
         </component>
 
-        <!-- List<BillEntry> entries -->
-        <list name="entries" table="bill_entry">
+        <!-- List<BillEntry> intermediateEntries -->
+        <list name="intermediateEntries" table="bill_entry">
             <key column="bill_id"/>
             <index column="index"/>
             <composite-element class="fhv.teamd.hotel.domain.BillEntry">
@@ -23,6 +23,13 @@
                 <property name="amount" column="amount" type="integer"/>
                 <property name="unitPrice" column="unit_price" type="double"/>
             </composite-element>
+        </list>
+
+        <!-- List<FinalBill> finalBills -->
+        <list name="finalBills" table="bill_final_bill">
+            <key column="bill_id"/>
+            <index column="index"/>
+            <one-to-many class="fhv.teamd.hotel.domain.FinalBill"/>
         </list>
     </class>
 </hibernate-mapping>
