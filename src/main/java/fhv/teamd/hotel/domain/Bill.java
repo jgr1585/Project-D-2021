@@ -1,46 +1,79 @@
 package fhv.teamd.hotel.domain;
 
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Bill {
 
     private Long id;
     private BillId billId;
 
-    private final List<BillEntry> entries;
+    private final List<BillEntry> intermediateEntries;
+
+    private final List<FinalBill> finalBills;
 
     private Bill() {
-        this.entries = new ArrayList<>();
+
+        this.intermediateEntries = new ArrayList<>();
+        this.finalBills = new ArrayList<>();
     }
 
     public static Bill createEmpty() {
         return new Bill();
     }
 
-    public void charge(String reason, int amount, double unitPrice) {
+    public void charge(String description, int amount, double unitPrice) {
 
-        this.entries.add(new BillEntry(reason, LocalDateTime.now(), amount, unitPrice));
+        Optional<BillEntry> matchingEntry = this.intermediateEntries.stream()
+                .filter(e -> e.description().equals(description) && e.unitPrice() == unitPrice)
+                .findFirst();
+
+        if(matchingEntry.isPresent()) {
+
+            this.intermediateEntries.remove(matchingEntry.get());
+            amount += matchingEntry.get().amount();
+        }
+
+        this.intermediateEntries.add(new BillEntry(description, LocalDateTime.now(), amount, unitPrice));
     }
 
-    public List<BillEntry> entries() {
+    public List<BillEntry> intermediateEntries() {
 
-        return Collections.unmodifiableList(this.entries);
+        return Collections.unmodifiableList(this.intermediateEntries);
+    }
+
+    public List<BillEntry> allEntries() {
+
+        Stream<BillEntry> finalEntries = this.finalBills.stream().flatMap(bill -> bill.entries().stream());
+        Stream<BillEntry> allEntries = Stream.concat(finalEntries, this.intermediateEntries.stream());
+        Stream<BillEntry> sortedEntries = allEntries.sorted(Comparator.comparing(BillEntry::timestamp));
+
+        return sortedEntries.collect(Collectors.toUnmodifiableList());
     }
 
     public double calculateTotal() {
 
-        return this.entries
+        return this.intermediateEntries
                 .stream()
                 .map(BillEntry::calculateSubTotal)
                 .reduce(0.0, Double::sum);
     }
 
+    public void assignResponsibility(RepresentativeDetails billingAddress, List<BillEntry> entries) {
+
+        if(!this.intermediateEntries.containsAll(entries)) {
+            throw new IllegalArgumentException();
+        }
+
+        this.intermediateEntries.removeAll(entries);
+
+        this.finalBills.add(new FinalBill(billingAddress, entries));
+    }
 
     @Override
     public boolean equals(Object o) {
