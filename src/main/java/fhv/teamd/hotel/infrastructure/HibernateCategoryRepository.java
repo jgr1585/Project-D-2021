@@ -5,24 +5,10 @@ import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class HibernateCategoryRepository implements CategoryRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<Category> getAll() {
-        return this.entityManager
-                .createQuery("select c from Category c", Category.class)
-                .getResultList();
-    }
+public class HibernateCategoryRepository extends HibernateBaseRepository<Category> implements CategoryRepository {
 
     @Override
     public Optional<Category> findById(CategoryId id) {

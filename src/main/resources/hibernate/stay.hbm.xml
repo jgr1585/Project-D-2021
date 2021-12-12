@@ -1,7 +1,7 @@
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Stay">
         <id name="id" type="long" column="id">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
         
         <component name="stayId" class="fhv.teamd.hotel.domain.ids.StayId">
