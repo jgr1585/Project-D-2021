@@ -1,6 +1,5 @@
 package fhv.teamd.hotel.domain.services;
 
-import com.sun.source.tree.ModuleTree;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Room;
@@ -17,11 +16,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 public class AvailabilityServiceTest {
@@ -53,7 +50,7 @@ public class AvailabilityServiceTest {
 
         Mockito.when(this.roomRepository.getByCategory(cat1.categoryId())).thenReturn(rooms);
         Mockito.when(this.bookingRepository.numberOfBookedRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(2);
-        Mockito.when(this.stayRepository.getNumberOfStayRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(3);
+        Mockito.when(this.stayRepository.numberOfStayRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(3);
 
         Assertions.assertEquals(1, this.availabilityService.numberOfSuitableRooms(cat1.categoryId(), from, until));
 
@@ -72,7 +69,7 @@ public class AvailabilityServiceTest {
 
         Mockito.when(this.roomRepository.getByCategory(cat1.categoryId())).thenReturn(rooms);
         Mockito.when(this.bookingRepository.numberOfBookedRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(2);
-        Mockito.when(this.stayRepository.getNumberOfStayRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(3);
+        Mockito.when(this.stayRepository.numberOfStayRoomsByCategory(cat1.categoryId(), from, until)).thenReturn(3);
 
         Assertions.assertTrue(this.availabilityService.isAvailable(cat1.categoryId(), from, until, 1));
         Assertions.assertTrue(this.availabilityService.isAvailable(cat1.categoryId(), from, until, 2));

@@ -53,7 +53,7 @@ public class HibernateStayRepository implements StayRepository {
     }
 
     @Override
-    public int getNumberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+    public int numberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         Long l = this.entityManager.createQuery(
                         "select count(r) from Stay s " +

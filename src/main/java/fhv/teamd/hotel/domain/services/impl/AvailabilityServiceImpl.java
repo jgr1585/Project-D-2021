@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.domain.services.impl;
 
 import fhv.teamd.hotel.domain.Room;
-import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
@@ -33,7 +32,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         List<Room> rooms = this.roomRepository.getByCategory(categoryId);
 
         int amountBookedRooms = this.bookingRepository.numberOfBookedRoomsByCategory(categoryId, from, until);
-        int amountStayRooms = this.stayRepository.getNumberOfStayRoomsByCategory(categoryId, from, until);
+        int amountStayRooms = this.stayRepository.numberOfStayRoomsByCategory(categoryId, from, until);
 
         return rooms.size() - (amountBookedRooms + amountStayRooms);
     }
