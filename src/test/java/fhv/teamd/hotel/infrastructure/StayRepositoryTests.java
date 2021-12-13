@@ -70,6 +70,11 @@ public class StayRepositoryTests {
     }
 
     @Test
+    void given_none_when_findById_return_EmptyOptional() {
+        Assertions.assertEquals(Optional.empty(), this.stayRepository.findById(DomainFactory.createStayId()));
+    }
+
+    @Test
     void given_stay_when_numberOfStayRoomsByCategory_return_getNumberOfAvailableRooms() {
         List<Stay> baseRepoStays = BaseRepositoryData.stays();
 

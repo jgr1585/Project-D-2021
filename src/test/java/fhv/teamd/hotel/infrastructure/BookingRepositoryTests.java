@@ -67,6 +67,11 @@ public class BookingRepositoryTests {
     }
 
     @Test
+    void given_none_when_findById_return_EmptyOptional() {
+        Assertions.assertEquals(Optional.empty(), this.bookingRepository.findById(DomainFactory.createBookingId()));
+    }
+
+    @Test
     void given_booking_when_numberOfBookedRoomsByCategory_return_getNumberOfAvailableRooms() {
         List<Booking> baseRepoBookings = BaseRepositoryData.bookings();
 
