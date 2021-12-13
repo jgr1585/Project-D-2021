@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 //TODO: Finish
-public class BaseRepositoryData {
+public abstract class BaseRepositoryData {
     private static final List<Booking> bookings;
     private static final List<Category> categories;
     private static final List<Room> rooms;

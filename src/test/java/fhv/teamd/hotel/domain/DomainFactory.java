@@ -14,7 +14,7 @@ import java.time.Period;
 import java.util.*;
 
 @SuppressWarnings("deprecation")
-public class DomainFactory {
+public abstract class DomainFactory {
 
     public static Address createAddress() {
         UUID uuid = UUID.randomUUID();
