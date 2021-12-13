@@ -18,9 +18,10 @@ public interface StayRepository {
 
     List<Stay> activeStaysWithOverlappingDuration(LocalDateTime from, LocalDateTime until);
 
+    Optional<Stay> findById(StayId stayId);
+
     int numberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
     void put(Stay stay);
 
-    Optional<Stay> findById(StayId stayId);
 }

@@ -18,8 +18,6 @@ public interface BookingRepository {
 
     Optional<Booking> findById(BookingId bookingId);
 
-    List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until);
-
     int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
     void put(Booking booking);

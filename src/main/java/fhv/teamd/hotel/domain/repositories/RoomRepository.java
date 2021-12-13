@@ -17,6 +17,4 @@ public interface RoomRepository {
 
     Optional<Room> findById(RoomId roomId);
 
-
-
 }

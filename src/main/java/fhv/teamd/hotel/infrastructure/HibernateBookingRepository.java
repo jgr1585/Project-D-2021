@@ -24,16 +24,6 @@ public class HibernateBookingRepository extends HibernateBaseRepository<Booking,
     }
 
     @Override
-    public List<Booking> bookingsByCheckInDate(LocalDateTime from, LocalDateTime until) {
-        return this.entityManager.createQuery(
-                "SELECT b FROM Booking b WHERE b.checkInDate >= :from AND b.checkOutDate <= :until",
-                Booking.class)
-                .setParameter("from", from)
-                .setParameter("until", until)
-                .getResultList();
-    }
-
-    @Override
     public int numberOfBookedRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         Long l = this.entityManager.createQuery(

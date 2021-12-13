@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,7 +61,7 @@ public abstract class HibernateBaseRepository<T, TId extends DomainId<T>> {
 
         return this.entityManager
                 .createQuery(criteriaQuery)
-                .getResultStream()
+                .getResultList().stream()
                 .findFirst();
     }
 }
