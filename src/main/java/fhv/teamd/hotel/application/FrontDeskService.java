@@ -24,7 +24,5 @@ public interface FrontDeskService {
 
     List<StayDTO> getActiveStays();
 
-    BillDTO intermediateBill(String stayId) throws InvalidIdException;
-
-    BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
+    void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException;
 }

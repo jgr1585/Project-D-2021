@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.application;
 
+import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.BillEntryDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -12,5 +13,7 @@ import java.util.function.Predicate;
 public interface BillingService {
 
     void assignPayments(String fromBillId, Predicate<BillEntryDTO> filter, RepresentativeDetails billingAddress) throws InvalidIdException;
+
+    BillDTO intermediateBill(String stayId) throws InvalidIdException;
 
 }

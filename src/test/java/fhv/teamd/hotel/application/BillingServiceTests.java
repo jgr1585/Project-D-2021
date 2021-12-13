@@ -1,12 +1,16 @@
 package fhv.teamd.hotel.application;
 
+import fhv.teamd.hotel.application.dto.BillDTO;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.Bill;
-import fhv.teamd.hotel.domain.BillEntry;
+import fhv.teamd.hotel.domain.DomainFactory;
+import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.repositories.BillRepository;
+import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @SpringBootTest
 public class BillingServiceTests {
@@ -23,11 +28,14 @@ public class BillingServiceTests {
     @MockBean
     private BillRepository billRepository;
 
+    @MockBean
+    private StayRepository stayRepository;
+
     @Autowired
     private BillingService billingService;
 
     @Test
-    public void given_intermediateBill_when_assignAllToRepresentative_then_works() throws ReflectiveOperationException {
+    void given_intermediateBill_when_assignAllToRepresentative_then_works() throws ReflectiveOperationException {
 
         Bill b = Bill.createEmpty();
 
@@ -62,6 +70,28 @@ public class BillingServiceTests {
         Assertions.assertEquals(2.0, b.finalBills().get(0).calculateTotal());
         Assertions.assertEquals(6.0, b.totalOfIntermediateEntries());
         Assertions.assertEquals(8.0, b.calculateTotal());
+    }
+
+
+    @Test
+    void given_Booking_when_get_intermediateBill_then_return_intermediateBill() {
+        final Stay stay1 = DomainFactory.createStay();
+        final Stay stay2 = DomainFactory.createStay();
+
+        Mockito.when(this.stayRepository.findById(stay1.stayId())).thenReturn(Optional.of(stay1));
+        Mockito.when(this.stayRepository.findById(stay2.stayId())).thenReturn(Optional.of(stay2));
+
+        final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
+        final AtomicReference<BillDTO> bill2 = new AtomicReference<>();
+
+        Assertions.assertDoesNotThrow(() -> bill1.set(this.billingService.intermediateBill(stay1.stayId().toString())));
+
+        Assertions.assertDoesNotThrow(() -> bill2.set(this.billingService.intermediateBill(stay2.stayId().toString())));
+
+        Assertions.assertThrows(InvalidIdException.class, () -> this.billingService.intermediateBill(DomainFactory.createStayId().toString()));
+
+        Assertions.assertEquals(BillDTO.fromBill(stay1.generateIntermediateBill()), bill1.get());
+        Assertions.assertEquals(BillDTO.fromBill(stay2.generateIntermediateBill()), bill2.get());
     }
 
 }

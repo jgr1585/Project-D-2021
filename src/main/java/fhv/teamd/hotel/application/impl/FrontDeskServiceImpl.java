@@ -102,27 +102,15 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     }
 
 
-    @Override
-    @Transactional(readOnly = true)
-    public BillDTO intermediateBill(String stayId) throws InvalidIdException {
 
-        return BillDTO.fromBill(
-                this.stayRepository.findById(new StayId(stayId))
-                .orElseThrow(() -> new InvalidIdException("stay id"))
-                .generateIntermediateBill());
-
-    }
 
     @Override
     @Transactional
-    public BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
+    public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
         Optional<Stay> result = this.stayRepository.findById(new StayId(stayID));
 
         Stay stay = result.orElseThrow(() -> new InvalidIdException("stay id"));
 
         stay.checkOut();
-
-        return BillDTO.fromBill(stay.generateIntermediateBill());
-
     }
 }

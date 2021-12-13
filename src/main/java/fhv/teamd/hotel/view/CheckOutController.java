@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
@@ -19,13 +20,15 @@ public class CheckOutController {
     @Autowired
     private FrontDeskService frontDeskService;
 
+    @Autowired
+    private BillingService billingService;
 
     @GetMapping("bill")
     public ModelAndView showBill(@RequestParam String stayId, Model model) {
 
         try {
 
-            BillDTO bill = this.frontDeskService.intermediateBill(stayId);
+            BillDTO bill = this.billingService.intermediateBill(stayId);
             model.addAttribute("bill", bill);
 
         } catch (InvalidIdException e) {

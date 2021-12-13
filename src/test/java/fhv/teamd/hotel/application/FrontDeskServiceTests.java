@@ -117,33 +117,7 @@ public class FrontDeskServiceTests {
         Assertions.assertTrue(actual.containsAll(expected) && expected.containsAll(actual));
     }
 
-    @Test
-    void given_stay_when_checkOut_then_returnBill() {
 
-        StayDTO toCheckOut = this.frontDeskService.getActiveStays().get(0);
-
-        final BillDTO[] billWrapper = new BillDTO[1];
-
-        Assertions.assertDoesNotThrow(() -> {
-            billWrapper[0] = this.frontDeskService.checkOut(toCheckOut.getId());
-        });
-
-        BillDTO bill = billWrapper[0];
-
-        Assertions.assertEquals(20.0, bill.total());
-
-        List<BillEntryDTO> entries = bill.entries();
-
-        Assertions.assertEquals(1, entries.size());
-
-        BillEntryDTO forNights = entries.get(0);
-
-        Assertions.assertEquals(1, forNights.amount());
-        Assertions.assertEquals(20.0, forNights.unitPrice());
-        Assertions.assertEquals(20.0, forNights.subTotal());
-        Assertions.assertNotNull(forNights.description());
-
-    }
 
     @Test
     void given_WalkInGuest_when_CheckIn_then_CreateStay() {
@@ -208,25 +182,6 @@ public class FrontDeskServiceTests {
         Assertions.assertEquals(expected, this.actualStay.getValue());
     }
 
-    @Test
-    void given_Booking_when_get_intermediateBill_then_return_intermediateBill() {
-        final Stay stay1 = DomainFactory.createStay();
-        final Stay stay2 = DomainFactory.createStay();
 
-        Mockito.when(this.stayRepository.findById(stay1.stayId())).thenReturn(Optional.of(stay1));
-        Mockito.when(this.stayRepository.findById(stay2.stayId())).thenReturn(Optional.of(stay2));
-
-        final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
-        final AtomicReference<BillDTO> bill2 = new AtomicReference<>();
-
-        Assertions.assertDoesNotThrow(() -> bill1.set(this.frontDeskService.intermediateBill(stay1.stayId().toString())));
-
-        Assertions.assertDoesNotThrow(() -> bill2.set(this.frontDeskService.intermediateBill(stay2.stayId().toString())));
-
-        Assertions.assertThrows(InvalidIdException.class, () -> this.frontDeskService.intermediateBill(DomainFactory.createStayId().toString()));
-
-        Assertions.assertEquals(BillDTO.fromBill(stay1.generateIntermediateBill()), bill1.get());
-        Assertions.assertEquals(BillDTO.fromBill(stay2.generateIntermediateBill()), bill2.get());
-    }
 
 }

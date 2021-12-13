@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.BookingDTO;
@@ -33,6 +34,9 @@ public class HotelViewController {
     @Autowired
     private FrontDeskService frontDeskService;
 
+    @Autowired
+    private BillingService billingService;
+
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
@@ -58,7 +62,7 @@ public class HotelViewController {
     public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
 
         try {
-            model.addAttribute("bill", this.frontDeskService.intermediateBill(stayId));
+            model.addAttribute("bill", this.billingService.intermediateBill(stayId));
         } catch (InvalidIdException e) {
             e.printStackTrace();
         }
