@@ -2,6 +2,7 @@ package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Category;
+import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
@@ -40,6 +41,11 @@ public class RoomRepositoryTests {
 
             Assertions.assertEquals(room, actual);
         });
+    }
+
+    @Test
+    void given_none_when_findById_return_EmptyOptional() {
+        Assertions.assertEquals(Optional.empty(), this.roomRepository.findById(DomainFactory.createRoomId()));
     }
 
     @Test
