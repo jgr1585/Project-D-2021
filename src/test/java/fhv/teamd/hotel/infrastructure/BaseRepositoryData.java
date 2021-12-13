@@ -49,8 +49,8 @@ public class BaseRepositoryData {
         final GuestDetails gust1 = new GuestDetails("Max", "Mustermann", addressGuest1);
         final GuestDetails gust2 = new GuestDetails("Julia", "Musterfrau", addressGuest2);
 
-        final Booking booking1 = new Booking(111L, new BookingId("dom-id-book-111"), LocalDateTime.parse("2021-12-26 10:00:00"), LocalDateTime.parse("2021-12-30 10:00:00"), Map.of(category1, 3), rep1, gust1);
-        final Booking booking2 = new Booking(222L, new BookingId("dom-id-book-222"), LocalDateTime.parse("2022-12-26 10:00:00"), LocalDateTime.parse("2022-12-30 10:00:00"), Map.of(category1, 2, category2, 1), rep2, gust2);
+        final Booking booking1 = new Booking(111L, new BookingId("dom-id-book-111"), LocalDateTime.parse("2021-12-26T10:00:00"), LocalDateTime.parse("2021-12-30T10:00:00"), Map.of(category1, 3), rep1, gust1);
+        final Booking booking2 = new Booking(222L, new BookingId("dom-id-book-222"), LocalDateTime.parse("2022-12-26T10:00:00"), LocalDateTime.parse("2022-12-30T10:00:00"), Map.of(category1, 2, category2, 1), rep2, gust2);
         bookings.addAll(List.of(booking1, booking2));
 
         final Room room1 = new Room(111L, new RoomId("R111"), category1);
@@ -76,8 +76,8 @@ public class BaseRepositoryData {
         final GuestDetails stayGust1 = new GuestDetails("John", "Thompson", stayAddressGuest1);
         final GuestDetails stayGust2 = new GuestDetails("Emma", "Ross", stayAddressGuest2);
 
-        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13 10:00:00"), LocalDateTime.parse("2021-11-20 10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn);
-        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10 10:00:00"), LocalDateTime.parse("2021-11-15 10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn);
+        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn);
+        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn);
         stays.addAll(List.of(stay1, stay2));
 
         //TODO: Data for Bill

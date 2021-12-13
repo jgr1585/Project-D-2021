@@ -50,14 +50,9 @@ public class BookingRepositoryTests {
 
     @Test
     void given_booking_when_getAll_return_all() {
-        //noinspection JpaQlInspection
-//        Mockito.when(this.entityManager
-//                .createQuery("SELECT b FROM Booking b", Booking.class)
-//                        .getResultList())
-//                .thenReturn(this.bookings);
-
+        List<Booking> expected = BaseRepositoryData.bookings();
         List<Booking> actual = this.bookingRepository.getAll();
 
-        //Assertions.assertTrue(actual.containsAll(this.bookings) && this.bookings.containsAll(actual));
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
     }
 }
