@@ -33,6 +33,12 @@ public class FinalBill {
         return this.entries;
     }
 
+    public double calculateTotal() {
+        return this.entries.stream()
+                .map(BillEntry::calculateSubTotal)
+                .reduce(0.0, Double::sum);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -57,4 +63,6 @@ public class FinalBill {
     public int hashCode() {
         return Objects.hash(this.billingAddress, this.entries);
     }
+
+
 }

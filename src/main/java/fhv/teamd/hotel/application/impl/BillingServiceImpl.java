@@ -9,12 +9,14 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Service
 public class BillingServiceImpl implements BillingService {
 
     @Autowired

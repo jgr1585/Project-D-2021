@@ -28,6 +28,10 @@ public class Bill {
         return new Bill();
     }
 
+    public BillId billId() {
+        return this.domainId;
+    }
+
     public void charge(String description, int amount, double unitPrice) {
 
         Optional<BillEntry> matchingEntry = this.intermediateEntries.stream()
@@ -57,12 +61,24 @@ public class Bill {
         return sortedEntries.collect(Collectors.toUnmodifiableList());
     }
 
-    public double calculateTotal() {
-
+    public double totalOfIntermediateEntries() {
         return this.intermediateEntries
                 .stream()
                 .map(BillEntry::calculateSubTotal)
                 .reduce(0.0, Double::sum);
+    }
+
+    public double calculateTotal() {
+
+        double totalOfFinalBills = this.finalBills
+                .stream().map(FinalBill::calculateTotal)
+                .reduce(0.0, Double::sum);
+
+        return totalOfFinalBills + this.totalOfIntermediateEntries();
+    }
+
+    public List<FinalBill> finalBills() {
+        return Collections.unmodifiableList(this.finalBills);
     }
 
     public void assignResponsibility(RepresentativeDetails billingAddress, List<BillEntry> entries) {
