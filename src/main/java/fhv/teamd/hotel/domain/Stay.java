@@ -31,9 +31,23 @@ public class Stay {
         // hibernate
     }
 
+    //Test only
+    @Deprecated
+    public Stay(Long id, StayId domainId, LocalDateTime checkIn, LocalDateTime expectedCheckOut, Set<Room> rooms,RepresentativeDetails representativeDetails, GuestDetails guestDetails, StayingState stayingState) {
+        this.id = id;
+        this.domainId = domainId;
+        this.checkIn = checkIn;
+        this.expectedCheckOut = expectedCheckOut;
+        this.rooms = rooms;
+        this.guestDetails = guestDetails;
+        this.representativeDetails = representativeDetails;
+        this.stayingState = stayingState;
+    }
+
+
     public static Stay create(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
-                Set<Room> rooms,
-                GuestDetails guest, RepresentativeDetails representative) {
+                              Set<Room> rooms,
+                              GuestDetails guest, RepresentativeDetails representative) {
 
         Stay stay = new Stay();
 

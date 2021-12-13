@@ -41,6 +41,13 @@ public class Booking {
         this.bookingState = BookingState.booked;
     }
 
+    //Test only
+    @Deprecated
+    public Booking(long id, BookingId domainId, LocalDateTime checkInDate, LocalDateTime checkOutDate, Map<Category, Integer> categories, RepresentativeDetails contact, GuestDetails guest) {
+        this(domainId, checkInDate, checkOutDate, categories, contact, guest);
+        this.id = id;
+    }
+
     protected Long id() {
         return this.id;
     }
