@@ -44,7 +44,7 @@ public class Booking {
 
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
                    RepresentativeDetails contact, Organization organization) {
-        // ...
+        // todo
     }
 
     //Test only

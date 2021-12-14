@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Organization" table="organization">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.OrganizationId">
+            <property name="id" column="organization_id" type="string"/>
+        </component>
+
+        <property name="organizationName" column="organization_name" type="string"/>
+
+        <component name="address" class="fhv.teamd.hotel.domain.contactInfo.Address">
+            <property name="street" column="organization_street" type="string"/>
+            <property name="zip" column="organization_zip" type="string"/>
+            <property name="city" column="organization_city" type="string"/>
+            <property name="country" column="organization_country" type="string"/>
+        </component>
+    </class>
+</hibernate-mapping>

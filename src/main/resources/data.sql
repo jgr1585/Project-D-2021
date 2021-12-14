@@ -69,3 +69,8 @@ insert into bill_entry (bill_id, index, description, timestamp, amount, unit_pri
 values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 1, 30),
        (111, 1, 'Kotzfleckenentfernung', '2021-11-17 07:00:00', 1, 150),
        (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 12, 50);
+
+insert into organization (id, organization_id, organization_name, organization_street, organization_zip, organization_city, organization_country)
+values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria'),
+       (222, 'dom-id-org-222', 'Doppelmayr/Garaventa Group', 'Konrad-Doppelmayr-Straße 1', '6922', 'Wolfurt', 'Austria'),
+       (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria')
