@@ -23,6 +23,7 @@ public class Booking {
 
     private RepresentativeDetails contact;
     private GuestDetails guest;
+    private Organization organization;
     private BookingState bookingState;
 
     private Booking() {
@@ -39,6 +40,11 @@ public class Booking {
         this.contact = contact;
         this.guest = guest;
         this.bookingState = BookingState.booked;
+    }
+
+    public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
+                   RepresentativeDetails contact, Organization organization) {
+        // ...
     }
 
     //Test only

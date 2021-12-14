@@ -97,9 +97,9 @@
 
         <div class="divider"></div>
 
-        <!-- guest/group data -->
+        <!-- guest/organization data -->
         <div class="section">
-            <h6>Guest or Group Data</h6>
+            <h6>Guest or Organization Data</h6>
             <div class="row">
                 <div class="input-field col s12">
                     <p>
@@ -110,10 +110,10 @@
                         </label>
                     </p>
                     <p>
-                        <label for="companyOrTravelAgency">
-                            <input id="companyOrTravelAgency" name="guestType" onchange="swapForm(this)"
-                                   type="radio" disabled value="companyOrTravelAgency"/>
-                            <span>Company or Travel Agency</span>
+                        <label for="organization">
+                            <input id="organization" name="guestType" onchange="swapForm(this)"
+                                   type="radio" value="organization"/>
+                            <span>Organization</span>
                         </label>
                     </p>
                 </div>
@@ -132,13 +132,32 @@
                 </div>
             </div>
 
-            <!-- form for company/travel agency -->
-            <div class="row" id="companyOrTravelAgencyForm" style="display: none">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">group</i>
-                    <input id="guestFirstName" type="text"/>
-                    <label for="guestFirstName">Company or Travel Agency Name</label>
+            <!-- form for organization -->
+            <div id="organizationForm" style="display: none">
+                <div class="row">
+                    <div class="input-field cols 12">
+                        <i class="material-icons prefix">business</i>
+                        <select id="alreadyExistingOrganization">
+                            <option>Organization 1</option>
+                            <option>Organization 2</option>
+                            <option>Organization 3</option>
+                        </select>
+                        <label for="alreadyExistingOrganization">Already Existing Organization</label>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="input-field col s9">
+                        <i class="material-icons prefix">group</i>
+                        <input id="organizationName" type="text"/>
+                        <label for="organizationName">Organization Name</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <i class="material-icons prefix">local_offer</i>
+                        <input id="organizationDiscount" type="number" min="0" max="100" value="0">
+                        <label for="organizationDiscount">Discount (%)</label>
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
