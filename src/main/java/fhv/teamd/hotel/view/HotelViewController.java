@@ -77,7 +77,7 @@ public class HotelViewController {
 
         Optional<DetailedBookingDTO> result = this.bookingService.getDetails(id);
 
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             // should not happen normally
             return new RedirectView("/");
         }

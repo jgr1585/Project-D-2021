@@ -27,17 +27,14 @@ public class CheckOutController {
     public ModelAndView showBill(@RequestParam String stayId, Model model) {
 
         try {
-
-            BillDTO bill = this.billingService.intermediateBill(stayId);
-            model.addAttribute("bill", bill);
-
+            model.addAttribute("bill", this.billingService.intermediateBill(stayId));
         } catch (InvalidIdException e) {
             e.printStackTrace();
         }
 
         model.addAttribute("stayId", stayId);
 
-        return new ModelAndView("/checkOut/bill");
+        return new ModelAndView("/checkOut/summary");
     }
 
     @RequestMapping("perform")
