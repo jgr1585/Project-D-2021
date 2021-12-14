@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.infrastructure;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Stay;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
@@ -53,6 +55,23 @@ public class StayRepositoryTests {
     void given_stay_when_getActiveStays_return_allActiveStays() {
         List<Stay> expected = BaseRepositoryData.stays();
         List<Stay> actual = this.stayRepository.getActiveStays();
+
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
+    @Test
+    void given_stay_when_activeStays_return_allStaysWithOverlappingDuration() {
+        List<Stay> baseRepoStays = BaseRepositoryData.stays();
+
+        LocalDateTime from = LocalDateTime.parse("2021-11-13T10:00:00");
+        LocalDateTime until = LocalDateTime.parse("2021-11-20T10:00:00");
+
+        List<Stay> expected = baseRepoStays
+                .stream()
+                .filter(stay -> stay.checkIn().isBefore(until) && stay.expectedCheckOut().isAfter(from))
+                .collect(Collectors.toList());
+
+        List<Stay> actual = this.stayRepository.activeStaysWithOverlappingDuration(from, until);
 
         Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
     }
@@ -100,6 +119,12 @@ public class StayRepositoryTests {
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));
         expected.addAll(BaseRepositoryData.stays());
+
+//        this.stayRepository.put(Stay.create(
+//                this.stayRepository.nextIdentity(),
+//                newStay.checkIn(), newStay.expectedCheckOut(), newStay.rooms(),
+//                newStay.guestDetails(), newStay.representativeDetails()
+//        ));
 
         this.stayRepository.put(newStay);
         this.entityManager.flush();
