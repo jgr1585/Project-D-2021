@@ -8,8 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class HibernateCategoryRepository
-        extends HibernateBaseRepository<Category, CategoryId>
-        implements CategoryRepository {
-
+public class HibernateCategoryRepository extends HibernateBaseRepository<Category, CategoryId> implements CategoryRepository {
 }

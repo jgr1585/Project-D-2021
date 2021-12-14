@@ -16,9 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public class HibernateStayRepository
-        extends HibernateBaseRepository<Stay, StayId>
-        implements StayRepository {
+public class HibernateStayRepository extends HibernateBaseRepository<Stay, StayId> implements StayRepository {
 
     @Override
     public List<Stay> getActiveStays() {
