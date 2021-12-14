@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.infrastructure;
 
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.DomainFactory;
+import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -95,7 +94,18 @@ public class BookingRepositoryTests {
 
     @Test
     void given_booking_when_putNewBooking_return_allBookings() {
-        Booking newBooking = DomainFactory.createBooking();
+        List<Category> categories = BaseRepositoryData.categories();
+        List<Booking> baseRepoBookings = BaseRepositoryData.bookings();
+
+        Booking firstBooking = baseRepoBookings.get(0);
+        Booking newBooking = new Booking(
+                this.bookingRepository.nextIdentity(),
+                firstBooking.checkInDate(),
+                firstBooking.checkOutDate(),
+                Map.of(categories.get(0), 1),
+                firstBooking.representativeDetails(),
+                firstBooking.guestDetails()
+        );
 
         List<Booking> expected = new ArrayList<>(List.of(newBooking));
         expected.addAll(BaseRepositoryData.bookings());

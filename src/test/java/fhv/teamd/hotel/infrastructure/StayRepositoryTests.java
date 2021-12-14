@@ -1,9 +1,7 @@
 package fhv.teamd.hotel.infrastructure;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.DomainFactory;
-import fhv.teamd.hotel.domain.Stay;
+import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.StayId;
@@ -115,16 +113,21 @@ public class StayRepositoryTests {
 
     @Test
     void given_stay_when_putNewStay_return_allStays() {
-        Stay newStay = DomainFactory.createStay();
+        List<Room> rooms = BaseRepositoryData.rooms();
+        List<Stay> baseRepoStays = BaseRepositoryData.stays();
+
+        Stay firstStay = baseRepoStays.get(0);
+        Stay newStay = Stay.create(
+                this.stayRepository.nextIdentity(),
+                firstStay.checkIn(),
+                firstStay.expectedCheckOut(),
+                Set.of(rooms.get(0)),
+                firstStay.guestDetails(),
+                firstStay.representativeDetails()
+        );
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));
         expected.addAll(BaseRepositoryData.stays());
-
-//        this.stayRepository.put(Stay.create(
-//                this.stayRepository.nextIdentity(),
-//                newStay.checkIn(), newStay.expectedCheckOut(), newStay.rooms(),
-//                newStay.guestDetails(), newStay.representativeDetails()
-//        ));
 
         this.stayRepository.put(newStay);
         this.entityManager.flush();
