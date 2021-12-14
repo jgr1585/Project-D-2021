@@ -17,10 +17,14 @@ public class FinalBill {
     private final List<BillEntry> entries;
 
 
-    public FinalBill(RepresentativeDetails billingAddress, List<BillEntry> entries) {
-
-        this.billingAddress = billingAddress;
+    public FinalBill(FinalBillId finalBillId, List<BillEntry> entries, RepresentativeDetails billingAddress) {
+        this.domainId = finalBillId;
         this.entries = List.copyOf(entries);
+        this.billingAddress = billingAddress;
+    }
+
+    public FinalBillId finalBillId() {
+        return this.domainId;
     }
 
     public RepresentativeDetails billingAddress() {
@@ -48,21 +52,11 @@ public class FinalBill {
             return false;
         }
         final FinalBill finalBill = (FinalBill) o;
-
-        boolean eq = Objects.equals(this.billingAddress, finalBill.billingAddress);
-
-        if(this.entries != null && finalBill.entries != null) {
-            eq &= this.entries.containsAll(finalBill.entries);
-            eq &= finalBill.entries.containsAll(this.entries);
-        }
-
-        return eq;
+        return this.id == finalBill.id && Objects.equals(this.domainId, finalBill.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.billingAddress, this.entries);
+        return Objects.hash(this.id, this.domainId);
     }
-
-
 }

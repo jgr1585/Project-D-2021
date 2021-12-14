@@ -2,10 +2,11 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
-import fhv.teamd.hotel.domain.ids.DomainId;
+import fhv.teamd.hotel.domain.ids.FinalBillId;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -81,7 +82,7 @@ public class Bill {
         return Collections.unmodifiableList(this.finalBills);
     }
 
-    public void assignResponsibility(RepresentativeDetails billingAddress, List<BillEntry> entries) {
+    public void assignResponsibility(List<BillEntry> entries, RepresentativeDetails assignTo, Supplier<FinalBillId> idSupplier) {
 
         if(!this.intermediateEntries.containsAll(entries)) {
             throw new IllegalArgumentException();
@@ -89,7 +90,7 @@ public class Bill {
 
         this.intermediateEntries.removeAll(entries);
 
-        this.finalBills.add(new FinalBill(billingAddress, entries));
+        this.finalBills.add(new FinalBill(idSupplier.get(), entries, assignTo));
     }
 
     @Override
