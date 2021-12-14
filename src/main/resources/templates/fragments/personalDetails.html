@@ -135,29 +135,12 @@
             <!-- form for organization -->
             <div id="organizationForm" style="display: none">
                 <div class="row">
-
-
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">euro_symbol</i>
-                        <select id="representativePaymentMethod" th:field="*{representativePaymentMethod}">
-                            <option th:each="paymentMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"
-                                    th:value="${paymentMethod}"
-                                    th:text="${paymentMethod.displayValue}"
-                                    th:selected="${paymentMethod==representativePaymentMethod}"
-                            >
-                            </option>
-                        </select>
-                        <label for="representativePaymentMethod">Payment</label>
-                    </div>
-
-
-
                     <div class="input-field cols 12">
                         <i class="material-icons prefix">business</i>
                         <select id="alreadyExistingOrganization">
-                            <option>Organization 1</option>
-                            <option>Organization 2</option>
-                            <option>Organization 3</option>
+                            <option value="">Test 1</option>
+                            <option value="">Test 2</option>
+                            <option value="">Test 3</option>
                         </select>
                         <label for="alreadyExistingOrganization">Already Existing Organization</label>
                     </div>

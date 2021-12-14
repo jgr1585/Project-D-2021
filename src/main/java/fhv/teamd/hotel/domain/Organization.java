@@ -45,6 +45,11 @@ public class Organization {
     }
 
     @Override
+    public String toString() {
+        return this.organizationName + "\r\n" + this.address;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
