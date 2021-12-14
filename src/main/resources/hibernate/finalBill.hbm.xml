@@ -40,7 +40,7 @@
             <index column="index"/>
             <composite-element class="fhv.teamd.hotel.domain.BillEntry">
                 <property name="description" column="description" type="string"/>
-                <property name="timestamp" column="timestamp" type="timestamp"/>
+                <property name="timestamp" column="timestamp" type="java.time.LocalDateTime"/>
                 <property name="amount" column="amount" type="integer"/>
                 <property name="unitPrice" column="unit_price" type="double"/>
             </composite-element>

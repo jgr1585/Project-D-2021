@@ -62,6 +62,6 @@
             </type>
         </property>
 
-        <one-to-one name="bill" class="fhv.teamd.hotel.domain.Bill"/>
+        <one-to-one name="bill" class="fhv.teamd.hotel.domain.Bill" cascade="all"/>
     </class>
 </hibernate-mapping>
