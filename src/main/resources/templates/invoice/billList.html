@@ -19,14 +19,28 @@
 
     <div class="row">
         <div class="col s6">
-            <form action="/checkOut/perform" method="post">
+
+            <form action="/invoice/billList" method="post">
 
                 <input type="hidden" name="stayId" th:value="${stayId}">
+
+                <div th:object="${bill}">
+                    <div th:each="entry: *{entries}" class="row">
+                        <div class="col s6" th:text="${entry.description}"></div>
+                        <div class="col s3 center-align" th:text="${entry.amount}"></div>
+                        <div class="col s3 right-align" th:text="${entry.subTotal}"></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col s9"></div>
+                        <div class="col s3 right-align" th:text="*{total}"></div>
+                    </div>
+                </div>
 
                 <!-- back/cancel/submit buttons -->
                 <div class="row right-align">
                     <button class="btn waves-effect waves-light blue accent-2"
-                            type="submit" name="action" value="next">Check Out
+                            type="submit" name="action" value="next">Create Invoice
                         <i class="material-icons right">done</i>
                     </button>
                     <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
@@ -36,6 +50,8 @@
             </form>
         </div>
     </div>
+
+
 </div>
 <footer th:replace="fragments/main.html :: footer"></footer>
 </body>

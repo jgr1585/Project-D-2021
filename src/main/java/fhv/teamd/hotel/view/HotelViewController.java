@@ -34,9 +34,6 @@ public class HotelViewController {
     @Autowired
     private FrontDeskService frontDeskService;
 
-    @Autowired
-    private BillingService billingService;
-
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
@@ -56,18 +53,6 @@ public class HotelViewController {
         model.addAttribute("bookings", bookings);
 
         return new ModelAndView("/booking/bookingOverview");
-    }
-
-    @RequestMapping("/intermediateBill")
-    public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
-
-        try {
-            model.addAttribute("bill", this.billingService.intermediateBill(stayId));
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("/intermediateBill");
     }
 
     @RequestMapping("/booking/performCheckIn")

@@ -23,7 +23,7 @@ public class CheckOutController {
     @Autowired
     private BillingService billingService;
 
-    @GetMapping("bill")
+    @GetMapping("summary")
     public ModelAndView showBill(@RequestParam String stayId, Model model) {
 
         try {
