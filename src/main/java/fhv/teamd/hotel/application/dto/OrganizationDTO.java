@@ -15,11 +15,29 @@ public class OrganizationDTO {
     private OrganizationDTO() {
     }
 
+    //Test only
+    @Deprecated
     public OrganizationDTO(String id, String organizationName, Address address, int discount) {
         this.id = id;
         this.organizationName = organizationName;
         this.address = address;
         this.discount = discount;
+    }
+
+    public String id() {
+        return this.id;
+    }
+
+    public String organizationName() {
+        return this.organizationName;
+    }
+
+    public Address address() {
+        return this.address;
+    }
+
+    public int discount() {
+        return this.discount;
     }
 
     public static OrganizationDTO fromOrganization(Organization organization) {

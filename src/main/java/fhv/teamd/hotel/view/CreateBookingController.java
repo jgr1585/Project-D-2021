@@ -6,6 +6,7 @@ import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -63,6 +64,7 @@ public class CreateBookingController {
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
+
         model.addAttribute("categories", categories);
         model.addAttribute("bookingForm", bookingForm);
 
@@ -77,19 +79,7 @@ public class CreateBookingController {
         // todo: check availability with application service
         // todo: basic validation goes into form obj with annotations
 
-//        ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
-//
-//        LocalDate from = chooseCategoriesForm.getFrom();
-//        LocalDate until = chooseCategoriesForm.getUntil();
-//
-//        boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
-//
-//        redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
-//
-//        if (!valid) {
-//            // todo: add an error message here
-//            return new RedirectView("/booking/chooseCategories");
-//        }
+
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
@@ -101,6 +91,9 @@ public class CreateBookingController {
             @ModelAttribute BookingForm bookingForm,
             Model model) {
 
+        List<OrganizationDTO> organizations = this.organizationService.getAll();
+
+        model.addAttribute("organizations", organizations);
         model.addAttribute("bookingForm", bookingForm);
 
         return new ModelAndView("/booking/personalDetails");
