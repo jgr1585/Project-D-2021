@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Hotel Management</title>
+    <meta name="page" content="Home">
+    <placeholder th:replace="fragments/main.html :: head"></placeholder>
+    <placeholder th:replace="fragments/scriptHead.html :: validate()"></placeholder>
+</head>
+
+<body>
+<header th:replace="fragments/main.html :: header"></header>
+
+<div class="container">
+    <h3>Invoice Summary</h3>
+
+    <!--    <div th:replace="fragments/errorMessage"></div>-->
+
+    <div class="row">
+        <div class="col s6">
+
+            <form action="/invoice/billEdit" method="post">
+
+                <input type="hidden" name="stayId" th:value="${stayId}">
+
+                <!-- back/cancel/submit buttons -->
+                <div class="row right-align">
+                    <button class="btn waves-effect waves-light blue accent-2"
+                            type="submit" name="action" value="next">Preview
+                        <i class="material-icons right">done</i>
+                    </button>
+                    <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                        <i class="material-icons right">cancel</i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<footer th:replace="fragments/main.html :: footer"></footer>
+</body>
+
+</html>

@@ -90,8 +90,8 @@ public class BillingServiceTests {
 
         Assertions.assertThrows(InvalidIdException.class, () -> this.billingService.intermediateBill(DomainFactory.createStayId().toString()));
 
-        Assertions.assertEquals(BillDTO.fromBill(stay1.generateIntermediateBill()), bill1.get());
-        Assertions.assertEquals(BillDTO.fromBill(stay2.generateIntermediateBill()), bill2.get());
+        Assertions.assertEquals(BillDTO.fromBill(stay1.bill()), bill1.get());
+        Assertions.assertEquals(BillDTO.fromBill(stay2.bill()), bill2.get());
     }
 
 }

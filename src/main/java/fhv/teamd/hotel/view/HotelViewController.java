@@ -34,9 +34,6 @@ public class HotelViewController {
     @Autowired
     private FrontDeskService frontDeskService;
 
-    @Autowired
-    private BillingService billingService;
-
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
@@ -58,18 +55,6 @@ public class HotelViewController {
         return new ModelAndView("/booking/bookingOverview");
     }
 
-    @RequestMapping("/intermediateBill")
-    public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
-
-        try {
-            model.addAttribute("bill", this.billingService.intermediateBill(stayId));
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("/intermediateBill");
-    }
-
     @RequestMapping("/booking/performCheckIn")
     public RedirectView performCheckIn(
             @RequestParam String id,
@@ -77,7 +62,7 @@ public class HotelViewController {
 
         Optional<DetailedBookingDTO> result = this.bookingService.getDetails(id);
 
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             // should not happen normally
             return new RedirectView("/");
         }

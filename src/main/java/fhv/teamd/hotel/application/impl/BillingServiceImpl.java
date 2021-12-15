@@ -10,6 +10,7 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BillRepository;
+import fhv.teamd.hotel.domain.repositories.FinalBillRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class BillingServiceImpl implements BillingService {
 
     @Autowired
     private BillRepository billRepository;
+
+    @Autowired
+    private FinalBillRepository finalBillRepository;
 
     @Autowired
     private StayRepository stayRepository;
@@ -43,7 +47,7 @@ public class BillingServiceImpl implements BillingService {
                 .filter(entry -> filter.test(BillEntryDTO.fromEntry(entry)))
                 .collect(Collectors.toList());
 
-        bill.assignResponsibility(billingAddress, selected);
+        bill.assignResponsibility(selected, billingAddress, this.finalBillRepository::nextIdentity);
 
     }
 
@@ -54,7 +58,7 @@ public class BillingServiceImpl implements BillingService {
         return BillDTO.fromBill(
                 this.stayRepository.findById(new StayId(stayId))
                         .orElseThrow(() -> new InvalidIdException("stay id"))
-                        .generateIntermediateBill());
+                        .bill());
 
     }
 }
