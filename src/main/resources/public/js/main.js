@@ -4,14 +4,6 @@
 
 const DATE_FORMAT = "yyyy-mm-dd";
 
-function swapForm(x) {
-    let radioName = document.getElementsByName(x.name);
-    for (let i = 0; i < radioName.length; i++) {
-        document.getElementById(radioName[i].id.concat("Form")).style.display = "none";
-    }
-    document.getElementById(x.id.concat("Form")).style.display = "initial";
-}
-
 function handleDatePickers() {
     let todayDate = new Date();
 

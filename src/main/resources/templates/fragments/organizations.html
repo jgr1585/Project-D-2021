@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Fragments</title>
+</head>
+<body>
+
+<div class="section" th:fragment="organizations">
+    <!--/*@thymesVar id="organization" type="fhv.teamd.hotel.application.dto.OrganizationDTO"*/-->
+    <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
+    <div th:each="organization: ${organizations}" th:class="${organization.id}">
+        <span class="organizationName"
+              th:value="${organization.organizationName}"
+              style="display: none"></span>
+        <span class="organizationStreet"
+              th:value="${organization.address.street}"
+              style="display: none"></span>
+        <span class="organizationZip"
+              th:value="${organization.address.zip}"
+              style="display: none"></span>
+        <span class="organizationCity"
+              th:value="${organization.address.city}"
+              style="display: none"></span>
+        <span class="organizationCountry"
+              th:value="${organization.address.country}"
+              style="display: none"></span>
+        <span class="organizationDiscount"
+              th:value="${organization.discount}"
+              style="display: none"></span>
+    </div>
+</div>
+
+</body>
+</html>

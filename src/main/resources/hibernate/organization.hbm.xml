@@ -21,5 +21,7 @@
             <property name="city" column="organization_city" type="string"/>
             <property name="country" column="organization_country" type="string"/>
         </component>
+
+        <property name="discount" column="discount" type="int"/>
     </class>
 </hibernate-mapping>
