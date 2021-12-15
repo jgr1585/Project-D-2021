@@ -84,11 +84,11 @@ public class BillingServiceTests {
         final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
         final AtomicReference<BillDTO> bill2 = new AtomicReference<>();
 
-        Assertions.assertDoesNotThrow(() -> bill1.set(this.billingService.intermediateBill(stay1.stayId().toString())));
+        Assertions.assertDoesNotThrow(() -> bill1.set(this.billingService.getBill(stay1.stayId().toString())));
 
-        Assertions.assertDoesNotThrow(() -> bill2.set(this.billingService.intermediateBill(stay2.stayId().toString())));
+        Assertions.assertDoesNotThrow(() -> bill2.set(this.billingService.getBill(stay2.stayId().toString())));
 
-        Assertions.assertThrows(InvalidIdException.class, () -> this.billingService.intermediateBill(DomainFactory.createStayId().toString()));
+        Assertions.assertThrows(InvalidIdException.class, () -> this.billingService.getBill(DomainFactory.createStayId().toString()));
 
         Assertions.assertEquals(BillDTO.fromBill(stay1.bill()), bill1.get());
         Assertions.assertEquals(BillDTO.fromBill(stay2.bill()), bill2.get());

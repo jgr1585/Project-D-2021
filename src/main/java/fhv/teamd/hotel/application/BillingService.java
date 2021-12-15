@@ -14,6 +14,6 @@ public interface BillingService {
 
     void assignPayments(String fromBillId, Predicate<BillEntryDTO> filter, RepresentativeDetails billingAddress) throws InvalidIdException;
 
-    BillDTO intermediateBill(String stayId) throws InvalidIdException;
+    BillDTO getBill(String stayId) throws InvalidIdException;
 
 }

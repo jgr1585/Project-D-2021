@@ -21,7 +21,7 @@ public class InvoiceController {
     public ModelAndView billList(@RequestParam(required = false) String stayId, Model model) {
 
         try {
-            model.addAttribute("bill", this.billingService.intermediateBill(stayId));
+            model.addAttribute("bill", this.billingService.getBill(stayId));
         } catch (InvalidIdException e) {
             e.printStackTrace();
         }

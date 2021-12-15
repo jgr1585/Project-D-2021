@@ -1,34 +1,28 @@
 package fhv.teamd.hotel.application.dto;
 
-import fhv.teamd.hotel.domain.Bill;
+import fhv.teamd.hotel.domain.FinalBill;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class BillDTO {
+public class FinalBillDTO {
 
     private double total;
     private List<BillEntryDTO> entries;
 
-    private List<FinalBillDTO> finalBills;
 
+    private FinalBillDTO() { }
 
-    private BillDTO() { }
+    public static FinalBillDTO fromFinalBill(FinalBill bill) {
 
-    public static BillDTO fromBill(Bill bill) {
-
-        BillDTO dto = new BillDTO();
+        FinalBillDTO dto = new FinalBillDTO();
 
         dto.total = bill.calculateTotal();
-        dto.entries = bill.intermediateEntries()
+        dto.entries = bill.entries()
                 .stream()
                 .map(BillEntryDTO::fromEntry)
-                .collect(Collectors.toUnmodifiableList());
-        dto.finalBills = bill.finalBills()
-                .stream()
-                .map(FinalBillDTO::fromFinalBill)
                 .collect(Collectors.toUnmodifiableList());
 
         return dto;
@@ -51,7 +45,7 @@ public class BillDTO {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        final BillDTO billDTO = (BillDTO) o;
+        final FinalBillDTO billDTO = (FinalBillDTO) o;
         return Double.compare(billDTO.total, this.total) == 0 && Objects.equals(this.entries, billDTO.entries);
     }
 

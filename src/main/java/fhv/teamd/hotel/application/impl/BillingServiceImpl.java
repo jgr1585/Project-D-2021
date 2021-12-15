@@ -53,7 +53,7 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     @Transactional(readOnly = true)
-    public BillDTO intermediateBill(String stayId) throws InvalidIdException {
+    public BillDTO getBill(String stayId) throws InvalidIdException {
 
         return BillDTO.fromBill(
                 this.stayRepository.findById(new StayId(stayId))
