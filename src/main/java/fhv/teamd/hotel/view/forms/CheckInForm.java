@@ -5,7 +5,9 @@ import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
 import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 
 public class CheckInForm {
+
     private String bookingId;
+
     private ChooseCategoriesForm chooseCategoriesForm = new ChooseCategoriesForm();
     private PersonalDetailsForm personalDetailsForm = new PersonalDetailsForm();
     private RoomAssignmentForm roomAssignmentForm = new RoomAssignmentForm();

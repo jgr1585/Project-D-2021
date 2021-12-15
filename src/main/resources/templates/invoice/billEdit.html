@@ -13,29 +13,103 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Invoice Summary</h3>
+    <h3>Invoice</h3>
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
     <div class="row">
-        <div class="col s6">
+        <form action="/invoice/billEdit" method="post" class="col s12">
+            <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
-            <form action="/invoice/billEdit" method="post">
+            <div th:object="${invoiceForm}">
+                <input th:field="*{stayId}" type="hidden">
 
-                <input type="hidden" name="stayId" th:value="${stayId}">
+                <!-- guest/group data -->
+                <div th:object="${invoiceForm.billAssignmentForm}">
+                    <div class="section">
+                        <h6>Representative Data</h6>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="representativeFirstName" type="text"
+                                       th:field="*{firstName}"/>
+                                <label for="representativeFirstName">First Name</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="representativeLastName" type="text"
+                                       th:field="*{lastName}"/>
+                                <label for="representativeLastName">Last Name</label>
+                            </div>
+                        </div>
 
-                <!-- back/cancel/submit buttons -->
-                <div class="row right-align">
-                    <button class="btn waves-effect waves-light blue accent-2"
-                            type="submit" name="action" value="next">Preview
-                        <i class="material-icons right">done</i>
-                    </button>
-                    <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
-                        <i class="material-icons right">cancel</i>
-                    </a>
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">location_city</i>
+                                <input id="representativeStreet" type="text" th:field="*{street}"/>
+                                <label for="representativeStreet">Street</label>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="representativeZip" type="text" th:field="*{zip}"
+                                />
+                                <label for="representativeZip">Zip</label>
+                            </div>
+                            <div class="input-field col s3">
+                                <input id="representativeCity" type="text" th:field="*{city}"/>
+                                <label for="representativeCity">City/Town</label>
+                            </div>
+                            <div class="input-field col s3">
+                                <input id="representativeCountry" type="text" th:field="*{country}"/>
+                                <label for="representativeCountry">Country</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input class="validate" id="representativeMail" type="email" th:field="*{mail}"/>
+                                <label for="representativeMail">Email</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input class="validate" id="representativePhone" type="tel" th:field="*{phone}"/>
+                                <label for="representativePhone">Phone</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">euro_symbol</i>
+                                <select id="representativePaymentMethod" th:field="*{paymentMethod}">
+                                    <option th:each="pMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"
+                                            th:value="${pMethod}"
+                                            th:text="${pMethod.displayValue}"
+                                            th:selected="${pMethod==paymentMethod}"
+                                    >
+                                    </option>
+                                </select>
+                                <label for="representativePaymentMethod">Payment</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">payment</i>
+                                <input class="validate" id="representativeCreditCardNumber" type="text"
+                                       th:field="*{creditCardNumber}"/>
+                                <label for="representativeCreditCardNumber">Credit Card Number</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <!-- back/cancel/submit buttons -->
+            <div class="row right-align">
+                <button class="btn waves-effect waves-light blue accent-2"
+                        type="submit" name="action" value="next">Preview
+                    <i class="material-icons right">done</i>
+                </button>
+                <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                    <i class="material-icons right">cancel</i>
+                </a>
+            </div>
+        </form>
     </div>
 
 
