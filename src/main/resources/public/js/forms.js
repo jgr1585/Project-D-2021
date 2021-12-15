@@ -51,15 +51,25 @@ function swapForm(x) {
 
         document.getElementById("RepresentativeCheck").disabled = false;
 
+        $('#organizationName').attr('disabled', false);
+        $('#organizationDiscount').attr('disabled', false);
+        $('#guestStreet').attr('disabled', false);
+        $('#guestZip').attr('disabled', false);
+        $('#guestCity').attr('disabled', false);
+        $('#guestCountry').attr('disabled', false);
+
         if (document.getElementById("RepresentativeCheck").checked) {
             copyFields(false);
+        } else {
+            copyFields(true);
         }
     } else {
         document.getElementById("privateForm").style.display = "none";
         document.getElementById("organizationForm").style.display = "block";
-
         document.getElementById("RepresentativeCheck").disabled = true;
+
         copyFields(true);
+        copyOrganizationFields();
     }
 }
 
