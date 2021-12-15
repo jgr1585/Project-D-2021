@@ -3,6 +3,7 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.domain.contactInfo.Address;
@@ -32,6 +33,8 @@ public class CreateBookingController {
     private static final Period defaultBookingLeadTime = Period.ofWeeks(2);
     private static final Period defaultStayDuration = Period.ofWeeks(1);
 
+    @Autowired
+    private OrganizationService organizationService;
 
     @Autowired
     private CategoryService categoryService;

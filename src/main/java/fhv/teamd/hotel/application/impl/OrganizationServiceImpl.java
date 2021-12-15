@@ -5,10 +5,12 @@ import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.domain.Organization;
 import fhv.teamd.hotel.domain.repositories.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
     private OrganizationRepository organizationRepository;
