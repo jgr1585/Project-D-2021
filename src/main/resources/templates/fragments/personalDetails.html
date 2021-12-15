@@ -138,9 +138,12 @@
                     <div class="input-field cols 12">
                         <i class="material-icons prefix">business</i>
                         <select id="alreadyExistingOrganization">
-                            <option value="">Test 1</option>
-                            <option value="">Test 2</option>
-                            <option value="">Test 3</option>
+                            <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
+                            <option th:each="organization: ${organizations}"
+                                    th:value="${organization.id}"
+                                    th:text="${organization.organizationName}"
+                            >
+                            </option>
                         </select>
                         <label for="alreadyExistingOrganization">Already Existing Organization</label>
                     </div>
