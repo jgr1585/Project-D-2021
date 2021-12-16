@@ -39,8 +39,11 @@ public class BillDTO {
     }
 
     public List<BillEntryDTO> entries() {
-
         return Collections.unmodifiableList(this.entries);
+    }
+
+    public List<FinalBillDTO> finalBills() {
+        return Collections.unmodifiableList(this.finalBills);
     }
 
     @Override

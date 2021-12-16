@@ -13,11 +13,11 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Invoice</h3>
+    <h4>Invoice</h4>
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
-    <div class="row">
+    <div class="section row">
         <form action="/invoice/billView" method="post" class="col s12">
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
@@ -41,7 +41,6 @@
             </div>
         </form>
     </div>
-
 
 </div>
 <footer th:replace="fragments/main.html :: footer"></footer>

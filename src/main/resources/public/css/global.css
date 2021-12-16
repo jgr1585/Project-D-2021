@@ -63,3 +63,21 @@
 .select-dropdown li img {
     float: left;
 }
+
+div .row .myHighlight {
+    padding-top: 7px;
+    margin-bottom: 0;
+
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease;
+}
+div .row .myHighlight:hover {
+    background-color: rgba(242, 242, 242, 0.5);
+
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease;
+}

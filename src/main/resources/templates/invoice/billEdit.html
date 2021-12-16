@@ -13,7 +13,7 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Invoice</h3>
+    <h4>Invoice</h4>
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
@@ -21,7 +21,7 @@
         <form action="/invoice/billEdit" method="post" class="col s12">
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
-            <div th:object="${invoiceForm}">
+            <div class="section" th:object="${invoiceForm}">
                 <input th:field="*{stayId}" type="hidden">
 
                 <!-- guest/group data -->
@@ -115,7 +115,6 @@
             </div>
         </form>
     </div>
-
 
 </div>
 <footer th:replace="fragments/main.html :: footer"></footer>

@@ -14,9 +14,9 @@
 
 <div class="container">
 
-    <h3>Hotel Overview</h3>
+    <h4>Hotel Overview</h4>
 
-    <div class="row">
+    <div class="section row">
         <div class="col s12">
             <ul class="collapsible popout">
                 <li th:each="stay: ${stays}">
@@ -35,10 +35,6 @@
                         </div>
 
                         <div class="float-right valign-wrapper">
-<!--                            <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"-->
-<!--                                 data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">-->
-<!--                                <i class="material-icons blue-grey-text no-margin center-context">edit</i>-->
-<!--                            </div>-->
                             <a th:href="@{/invoice/billList(stayId=${stay.id})}">
                                 <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
                                      data-position="top" data-tooltip="Create-Invoice">

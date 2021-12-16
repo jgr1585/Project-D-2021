@@ -13,7 +13,7 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Invoice List</h3>
+    <h4>Invoice List</h4>
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
@@ -25,16 +25,45 @@
                 <input th:field="*{stayId}" type="hidden">
             </div>
 
-            <div th:object="${bill}">
-                <div th:each="entry: *{entries}" class="row">
+            <div class="section" th:object="${bill}">
+                <div th:each="entry, iter: *{entries}" class="row myHighlight">
+                    <div class="col s1">
+                        <label th:for="'billEntry_' + ${iter.index}">
+                            <input checked
+                                   th:id="'billEntry_' + ${iter.index}"
+                                   th:name="'billEntry_' + ${iter.index}"
+                                   type="checkbox" th:checked="false" value="billEntry"/>
+                            <span></span>
+                        </label>
+                    </div>
+
                     <div class="col s6" th:text="${entry.description}"></div>
-                    <div class="col s3 center-align" th:text="${entry.amount}"></div>
-                    <div class="col s3 right-align" th:text="${entry.subTotal}"></div>
+
+                    <div class="col s2">OPEN</div>
+
+                    <div class="col s1 center-align" th:text="${entry.amount}"></div>
+                    <div class="col s2 right-align" th:text="${entry.subTotal}"></div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col s9"></div>
-                    <div class="col s3 right-align" th:text="*{total}"></div>
+
+                <div th:each="entry, iter: *{finalBills}" class="row">
+                    <div th:each="entryEn, iterEntry: *{entries}" class="row">
+                        <div class="col s1">
+                            <label th:for="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}">
+                                <input checked
+                                       th:id="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}"
+                                       th:name="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}"
+                                       type="checkbox" th:checked="false" value="finalBillEntry"/>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="col s6" th:text="${entryEn.description}"></div>
+
+                        <div class="col s2">PAID/PENDING</div>
+
+                        <div class="col s1 center-align" th:text="${entryEn.amount}"></div>
+                        <div class="col s2 right-align" th:text="${entryEn.subTotal}"></div>
+                    </div>
                 </div>
             </div>
 
@@ -54,7 +83,6 @@
             </div>
         </form>
     </div>
-
 
 </div>
 <footer th:replace="fragments/main.html :: footer"></footer>
