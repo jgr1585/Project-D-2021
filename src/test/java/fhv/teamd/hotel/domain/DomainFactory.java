@@ -1,9 +1,6 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.RoomId;
@@ -104,7 +101,7 @@ public abstract class DomainFactory {
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
-        return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
+        return new GuestDetails(false, GuestType.Private, "", 0, rep.firstName(), rep.lastName(), rep.address());
     }
 
     private static long uuidToLong(UUID uuid) {

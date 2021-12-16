@@ -14,6 +14,8 @@ $(document).ready(function () {
             copyFields(false);
             $(".guestData").prop("readonly", true);
 
+            $(".isSame")
+
         } else {
 
             $("input[type='text']").off("change");

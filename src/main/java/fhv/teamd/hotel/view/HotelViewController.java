@@ -84,6 +84,12 @@ public class HotelViewController {
                 id,
                 new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
                 new PersonalDetailsForm(
+                        booking.guest().isSamePerson(),
+                        booking.guest().guestType(),
+
+                        booking.guest().organizationName(),
+                        booking.guest().discount(),
+
                         booking.guest().firstName(),
                         booking.guest().lastName(),
                         booking.guest().address().street(),

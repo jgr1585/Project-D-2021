@@ -90,19 +90,19 @@
                 <div class="input-field col s12">
                     <p>
                         <label for="private">
-                            <input checked id="private" name="guestType" onchange="swapForm(this)"
+                            <input checked id="private" onchange="swapForm(this)"
                                    type="radio" value="private"/>
                             <span>Private Guest</span>
                         </label>
                         <label for="RepresentativeCheck" class="checkboxRepresentativeCheck">
-                            <input checked id="RepresentativeCheck" name="RepresentativeCheck"
-                                   type="checkbox" th:checked="false" value="Representative"/>
+                            <input checked id="RepresentativeCheck"
+                                   type="checkbox" value="Representative"/>
                             <span>Representative is same Person</span>
                         </label>
                     </p>
                     <p>
                         <label for="organization">
-                            <input id="organization" name="guestType" onchange="swapForm(this)"
+                            <input id="organization" onchange="swapForm(this)"
                                    type="radio" value="organization"/>
                             <span>Organization</span>
                         </label>
@@ -126,7 +126,7 @@
             <!-- form for organization -->
             <div id="organizationForm" style="display: none">
                 <div class="row">
-                    <div class="input-field cols 12">
+                    <div class="input-field col s12">
                         <i class="material-icons prefix">business</i>
                         <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()">
                             <option value="addNewOrganization" selected>+ New Organization</option>
@@ -143,12 +143,12 @@
                 <div class="row">
                     <div class="input-field col s9">
                         <i class="material-icons prefix">group</i>
-                        <input id="organizationName" type="text"/>
+                        <input id="organizationName" type="text" th:field="*{organizationName}"/>
                         <label for="organizationName">Organization Name</label>
                     </div>
                     <div class="input-field col s3">
                         <i class="material-icons prefix">local_offer</i>
-                        <input id="organizationDiscount" type="number" min="0" max="100" value="0">
+                        <input id="organizationDiscount" type="number"  th:field="*{discount}" min="0" max="100" value="0">
                         <label for="organizationDiscount">Discount (%)</label>
                     </div>
                 </div>
@@ -182,6 +182,14 @@
 <div th:fragment="personalDetailsHidden(personalDetailsForm)">
 
     <div th:object="${__${personalDetailsForm}__}">
+        <!--
+        <input th:field="*{isSamePerson}" type="hidden">
+        <input th:field="*{guestType}" type="hidden">
+        -->
+
+        <input th:field="*{organizationName}" type="hidden"/>
+        <input th:field="*{discount}" type="hidden"/>
+
         <input th:field="*{guestFirstName}" type="hidden"/>
         <input th:field="*{guestLastName}" type="hidden"/>
 

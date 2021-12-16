@@ -1,9 +1,6 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.RoomId;
@@ -35,7 +32,7 @@ public class StayTests {
         @SuppressWarnings("SpellCheckingInspection")
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
 
-        final GuestDetails guest = new GuestDetails("max", "muster", addr);
+        final GuestDetails guest = new GuestDetails(true, GuestType.Private, "", 0,"max", "muster", addr);
 
         final RepresentativeDetails rep = new RepresentativeDetails(
                 "max","muster","m@mail.com", addr,"123456",

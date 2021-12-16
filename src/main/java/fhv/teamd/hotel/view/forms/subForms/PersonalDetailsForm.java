@@ -1,8 +1,16 @@
 package fhv.teamd.hotel.view.forms.subForms;
 
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.GuestType;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 
 public class PersonalDetailsForm {
+    private boolean isSamePerson;
+    private GuestType guestType;
+
+    private String organizationName;
+    private int discount;
+
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
@@ -26,10 +34,16 @@ public class PersonalDetailsForm {
     public PersonalDetailsForm() {
     }
 
-    public PersonalDetailsForm(String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity,
-                               String guestCountry, String representativeFirstName, String representativeLastName, String representativeStreet,
-                               String representativeZip, String representativeCity, String representativeCountry, String representativeMail,
+    public PersonalDetailsForm(boolean isSamePerson, GuestType guestType, String organizationName, int discount, String guestFirstName, String guestLastName,
+                               String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName, String representativeLastName,
+                               String representativeStreet, String representativeZip, String representativeCity, String representativeCountry, String representativeMail,
                                String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
+        this.isSamePerson = isSamePerson;
+        this.guestType = guestType;
+
+        this.organizationName = organizationName;
+        this.discount = discount;
+
         this.guestFirstName = guestFirstName;
         this.guestLastName = guestLastName;
         this.guestStreet = guestStreet;
@@ -47,6 +61,38 @@ public class PersonalDetailsForm {
         this.representativePhone = representativePhone;
         this.representativeCreditCardNumber = representativeCreditCardNumber;
         this.representativePaymentMethod = representativePaymentMethod;
+    }
+
+    public boolean isSamePerson() {
+        return this.isSamePerson;
+    }
+
+    public void setSamePerson(boolean isSamePerson) {
+        this.isSamePerson = isSamePerson;
+    }
+
+    public GuestType getGuestType() {
+        return this.guestType;
+    }
+
+    public void setGuestType(GuestType guestType) {
+        this.guestType = guestType;
+    }
+
+    public String getOrganizationName() {
+        return this.organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public int getDiscount() {
+        return this.discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public String getGuestFirstName() {

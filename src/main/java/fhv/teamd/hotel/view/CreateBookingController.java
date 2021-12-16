@@ -155,6 +155,10 @@ public class CreateBookingController {
         ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
 
         GuestDetails guest = new GuestDetails(
+                personalDetailsForm.isSamePerson(),
+                personalDetailsForm.getGuestType(),
+                personalDetailsForm.getOrganizationName(),
+                personalDetailsForm.getDiscount(),
                 personalDetailsForm.getGuestFirstName(),
                 personalDetailsForm.getGuestLastName(),
                 new Address(

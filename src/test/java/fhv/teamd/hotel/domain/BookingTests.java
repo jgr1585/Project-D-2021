@@ -1,9 +1,6 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
@@ -45,7 +42,7 @@ public class BookingTests {
                 "max","muster","m@mail.com", addr,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
-        final GuestDetails guest = new GuestDetails("max", "muster", addr);
+        final GuestDetails guest = new GuestDetails(true, GuestType.Private, "", 0,"max", "muster", addr);
 
         this.booking1 = new Booking(new BookingId("booking-abc"), past, past.plus(duration), categories, rep, guest);
         this.booking2 = new Booking(new BookingId("booking-def"), past, ongoing.plus(duration), categories, rep, guest);

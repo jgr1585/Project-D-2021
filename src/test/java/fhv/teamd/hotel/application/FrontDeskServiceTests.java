@@ -62,7 +62,7 @@ public class FrontDeskServiceTests {
         @SuppressWarnings("SpellCheckingInspection")
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
 
-        final GuestDetails guest = new GuestDetails("max", "muster", addr);
+        final GuestDetails guest = new GuestDetails(true, GuestType.Private, "", 0,"max", "muster", addr);
 
         final RepresentativeDetails rep = new RepresentativeDetails(
                 "max","muster","m@mail.com", addr,"123456",
