@@ -17,12 +17,16 @@
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
-    <div class="section row">
+    <div class="row">
         <form action="/invoice/billView" method="post" class="col s12">
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div th:object="${invoiceForm}">
                 <input th:field="*{stayId}" type="hidden">
+
+                <div class="section" th:object="${invoiceForm.billAssignmentForm}">
+
+                </div>
             </div>
 
             <!-- back/cancel/submit buttons -->
