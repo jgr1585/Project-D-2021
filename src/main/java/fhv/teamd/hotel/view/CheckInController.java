@@ -2,9 +2,11 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.RoomSuggestionService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
@@ -39,6 +41,9 @@ public class CheckInController {
     private static final Period defaultStayDuration = Period.ofWeeks(1);
 
     @Autowired
+    private OrganizationService organizationService;
+
+    @Autowired
     private CategoryService categoryService;
 
     @Autowired
@@ -46,7 +51,6 @@ public class CheckInController {
 
     @Autowired
     private FrontDeskService frontDeskService;
-
 
     @GetMapping("chooseCategories")
     public ModelAndView chooseCategories(
@@ -92,6 +96,9 @@ public class CheckInController {
             @ModelAttribute CheckInForm checkInForm,
             Model model) {
 
+        List<OrganizationDTO> organizations = this.organizationService.getAll();
+
+        model.addAttribute("organizations", organizations);
         model.addAttribute("checkInForm", checkInForm);
 
         return new ModelAndView("/checkIn/personalDetails");
@@ -128,19 +135,14 @@ public class CheckInController {
         // at end of check out day
         LocalDateTime until = chooseCategoriesForm.getUntil().atStartOfDay().plus(Period.ofDays(1));
 
-
         chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
-
             if (amount != null && amount > 0) {
-
                 List<RoomDTO> rooms = this.roomSuggestionService.findSuitableRooms(categoryId, from, until, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
                 roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
                 categories.add(this.categoryService.findCategoryById(categoryId).get());
-
             }
-
         });
 
         model.addAttribute("categories", categories);

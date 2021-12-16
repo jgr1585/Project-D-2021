@@ -79,8 +79,6 @@ public class CreateBookingController {
         // todo: check availability with application service
         // todo: basic validation goes into form obj with annotations
 
-
-
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
         return new RedirectView("personalDetails");
@@ -123,14 +121,10 @@ public class CreateBookingController {
         List<CategoryDTO> categories = new ArrayList<>();
 
         bookingForm.getChooseCategoriesForm().getCategorySelection().forEach((categoryId, amount) -> {
-
             if (amount != null && amount > 0) {
-
                 Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
                 result.ifPresent(categories::add);
-
             }
-
         });
 
         model.addAttribute("categories", categories);
