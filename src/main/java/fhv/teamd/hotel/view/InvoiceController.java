@@ -38,7 +38,6 @@ public class InvoiceController {
     @PostMapping("billList")
     public RedirectView submitBillList(
             @ModelAttribute InvoiceForm invoiceForm,
-            Model model,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
@@ -59,10 +58,14 @@ public class InvoiceController {
     @PostMapping("billEdit")
     public RedirectView submitBillEdit(
             @ModelAttribute InvoiceForm invoiceForm,
-            Model model,
+            @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
+
+        if (action.equals("prev")) {
+            return new RedirectView("billList?stayId=" + invoiceForm.getStayId());
+        }
 
         return new RedirectView("billView");
     }
@@ -80,11 +83,15 @@ public class InvoiceController {
     @PostMapping("billView")
     public RedirectView submitBillView(
             @ModelAttribute InvoiceForm invoiceForm,
-            Model model,
+            @RequestParam String action,
             RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
 
-        return new RedirectView("/invoice/billList?stayId=" + invoiceForm.getStayId());
+        if (action.equals("prev")) {
+            return new RedirectView("billEdit");
+        }
+
+        return new RedirectView("billList?stayId=" + invoiceForm.getStayId());
     }
 }
