@@ -22,17 +22,35 @@
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div th:object="${invoiceForm}">
+                <!-- hidden fields -->
                 <input th:field="*{stayId}" type="hidden">
+
+                <input th:field="*{billAssignmentForm.firstName}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.lastName}" type="hidden"/>
+
+                <input th:field="*{billAssignmentForm.street}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.zip}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.city}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.country}" type="hidden"/>
+
+                <input th:field="*{billAssignmentForm.mail}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.phone}" type="hidden"/>
+
+                <input th:field="*{billAssignmentForm.paymentMethod}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.creditCardNumber}" type="hidden"/>
             </div>
 
             <div class="section" th:object="${bill}">
                 <div th:each="entry, iter: *{entries}" class="row myHighlight">
                     <div class="col s1">
                         <label th:for="'billEntry_' + ${iter.index}">
-                            <input checked
+                            <input type="hidden" name="_billEntryChecks" th:value="${invoiceForm.selectedBills['__${iter.index}__']}"/>
+                            <input type="checkbox"
+                                   name="billEntryChecks"
                                    th:id="'billEntry_' + ${iter.index}"
-                                   th:name="'billEntry_' + ${iter.index}"
-                                   type="checkbox" th:checked="false" value="billEntry"/>
+                                   th:checked="${invoiceForm.selectedBills['__${iter.index}__']}"
+                                   th:value="${iter.index}"
+                            />
                             <span></span>
                         </label>
                     </div>
@@ -49,10 +67,12 @@
                     <div th:each="entryEn, iterEntry: *{entries}" class="row">
                         <div class="col s1">
                             <label th:for="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}">
-                                <input checked
+                                <input type="checkbox"
+                                       name="finalBillEntryChecks"
                                        th:id="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}"
-                                       th:name="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}"
-                                       type="checkbox" th:checked="false" value="finalBillEntry"/>
+                                       th:checked="true"
+                                       th:value="${iterEntry.index}"
+                                />
                                 <span></span>
                             </label>
                         </div>

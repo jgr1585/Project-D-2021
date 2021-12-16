@@ -2,22 +2,22 @@ package fhv.teamd.hotel.view.forms;
 
 import fhv.teamd.hotel.view.forms.subForms.BillAssignmentForm;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InvoiceForm {
 
     private String stayId;
     private BillAssignmentForm billAssignmentForm = new BillAssignmentForm();
 
-    private Map<Integer, Boolean> selectedBills;
+    private List<Boolean> selectedBills;
 
     // required by spring/thymeleaf
     public InvoiceForm() {
-        this.selectedBills = new HashMap<>();
+        this.selectedBills = new ArrayList<>();
     }
 
-    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm, Map<Integer, Boolean> selectedBills) {
+    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm, List<Boolean> selectedBills) {
         this.stayId = stayId;
         this.billAssignmentForm = billAssignmentForm;
         this.selectedBills = selectedBills;
@@ -39,11 +39,11 @@ public class InvoiceForm {
         this.billAssignmentForm = billAssignmentForm;
     }
 
-    public Map<Integer, Boolean> getSelectedBills() {
+    public List<Boolean> getSelectedBills() {
         return this.selectedBills;
     }
 
-    public void setSelectedBills(Map<Integer, Boolean> selectedBills) {
+    public void setSelectedBills(List<Boolean> selectedBills) {
         this.selectedBills = selectedBills;
     }
 }

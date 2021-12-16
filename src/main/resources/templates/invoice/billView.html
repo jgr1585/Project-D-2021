@@ -22,10 +22,29 @@
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div th:object="${invoiceForm}">
+                <!-- hidden fields -->
                 <input th:field="*{stayId}" type="hidden">
 
-                <div class="section" th:object="${invoiceForm.billAssignmentForm}">
+                <input th:field="*{billAssignmentForm.firstName}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.lastName}" type="hidden"/>
 
+                <input th:field="*{billAssignmentForm.street}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.zip}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.city}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.country}" type="hidden"/>
+
+                <input th:field="*{billAssignmentForm.mail}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.phone}" type="hidden"/>
+
+                <input th:field="*{billAssignmentForm.paymentMethod}" type="hidden"/>
+                <input th:field="*{billAssignmentForm.creditCardNumber}" type="hidden"/>
+
+                <div th:each="entry, iter: *{selectedBills}" class="row myHighlight">
+                    <label th:for="'billEntry_' + ${iter.index}" hidden></label>
+                    <input th:id="'billEntry_' + ${iter.index}"
+                           th:field="${invoiceForm.selectedBills['__${iter.index}__']}"
+                           type="hidden"
+                    >
                 </div>
             </div>
 
