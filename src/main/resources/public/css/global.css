@@ -64,6 +64,23 @@
     float: left;
 }
 
+.margin-left {
+    margin-left: 10px;
+}
+
+.justify-content-between {
+    /* -webkit-box-pack: justify; */
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    /* justify-content: space-between; */
+}
+.display-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
 div .row .myHighlight {
     padding-top: 7px;
     margin-bottom: 0;

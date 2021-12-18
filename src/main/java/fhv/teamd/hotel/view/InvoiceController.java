@@ -4,7 +4,11 @@ import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.BillEntryDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.view.forms.InvoiceForm;
+import fhv.teamd.hotel.view.forms.subForms.BillAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,18 +27,17 @@ public class InvoiceController {
 
     @GetMapping("billList")
     public ModelAndView billList(
-            @RequestParam String stayId,
-            @RequestParam(required = false) String action,
             @ModelAttribute InvoiceForm invoiceForm,
+            @RequestParam(required = false) String action,
             Model model) throws InvalidIdException {
 
-        BillDTO billDTO = this.billingService.getBill(stayId);
+        BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
         model.addAttribute("bill", billDTO);
 
-        List<Boolean> selectedBills = invoiceForm.getSelectedBills();
+        List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
         if (action == null) {
             for (BillEntryDTO ignored : billDTO.entries()) {
-                selectedBills.add(false);
+                selectedCheckboxStates.add(false);
             }
         }
 
@@ -46,22 +49,25 @@ public class InvoiceController {
     @PostMapping("billList")
     public RedirectView submitBillList(
             @ModelAttribute InvoiceForm invoiceForm,
-            @RequestParam String stayId,
             @RequestParam(required = false) String action,
             @RequestParam(name = "billEntryChecks", required = false) List<Integer> billEntryChecks,
             RedirectAttributes redirectAttributes) throws InvalidIdException {
 
         if (action == null || action.equals("next")) {
-            BillDTO billDTO = this.billingService.getBill(stayId);
+            BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
 
-            List<Boolean> selectedBills = invoiceForm.getSelectedBills();
-            for (BillEntryDTO ignored : billDTO.entries()) {
-                selectedBills.add(false);
+            List<BillEntryDTO> billEntryDTOList = billDTO.entries();
+
+            List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
+            for (BillEntryDTO ignored : billEntryDTOList) {
+                selectedCheckboxStates.add(false);
             }
 
+//            List<BillEntryDTO> selectedBillEntries = invoiceForm.getSelectedBillEntries();
             if (billEntryChecks != null) {
                 for (Integer index: billEntryChecks) {
-                    selectedBills.set(index, true);
+//                    selectedBillEntries.add(billEntryDTOList.get(index));
+                    selectedCheckboxStates.set(index, true);
                 }
             }
         }
@@ -99,7 +105,27 @@ public class InvoiceController {
     @GetMapping("billView")
     public ModelAndView billView(
             @ModelAttribute InvoiceForm invoiceForm,
-            Model model) {
+            Model model) throws InvalidIdException {
+
+        BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
+        model.addAttribute("bill", billDTO);
+
+        List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
+        List<BillEntryDTO> billEntryDTOList = billDTO.entries();
+
+        double subTotal = 0;
+        for (int i = 0; i < billEntryDTOList.size(); i++) {
+            if (selectedCheckboxStates.get(i)) {
+                subTotal += billEntryDTOList.get(i).subTotal();
+            }
+        }
+
+        double discountTotal = (subTotal / 100) * 0;
+        double invoiceTotal = subTotal - discountTotal;
+
+        invoiceForm.setSubTotal(subTotal);
+        invoiceForm.setDiscount(discountTotal);
+        invoiceForm.setInvoiceTotal(invoiceTotal);
 
         model.addAttribute("invoiceForm", invoiceForm);
 
@@ -110,12 +136,41 @@ public class InvoiceController {
     public RedirectView submitBillView(
             @ModelAttribute InvoiceForm invoiceForm,
             @RequestParam String action,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) throws InvalidIdException {
 
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
 
         if (action.equals("prev")) {
             return new RedirectView("billEdit");
+        }
+
+        BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
+
+        List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
+        List<BillEntryDTO> billEntryDTOList = billDTO.entries();
+
+        for (int i = 0; i < billEntryDTOList.size(); i++) {
+            if (selectedCheckboxStates.get(i)) {
+                final String desc = billEntryDTOList.get(i).description();
+
+                BillAssignmentForm billAssignmentForm = invoiceForm.getBillAssignmentForm();
+                RepresentativeDetails representativeDetails = new RepresentativeDetails(
+                        billAssignmentForm.getFirstName(),
+                        billAssignmentForm.getLastName(),
+                        billAssignmentForm.getMail(),
+                        new Address(
+                                billAssignmentForm.getStreet(),
+                                billAssignmentForm.getZip(),
+                                billAssignmentForm.getCity(),
+                                billAssignmentForm.getCountry()
+                        ),
+                        billAssignmentForm.getPhone(),
+                        billAssignmentForm.getCreditCardNumber(),
+                        billAssignmentForm.getPaymentMethod()
+                );
+
+                this.billingService.assignPayments(billDTO.id(), e -> e.description().equals(desc), representativeDetails);
+            }
         }
 
         return new RedirectView("billList?stayId=" + invoiceForm.getStayId());

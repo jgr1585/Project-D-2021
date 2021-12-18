@@ -22,17 +22,6 @@
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div th:object="${invoiceForm}">
-                <!-- hidden fields -->
-                <input th:field="*{stayId}" type="hidden">
-
-                <div th:each="entry, iter: *{selectedBills}" class="row myHighlight">
-                    <label th:for="'billEntry_' + ${iter.index}" hidden></label>
-                    <input th:id="'billEntry_' + ${iter.index}"
-                           th:field="${invoiceForm.selectedBills['__${iter.index}__']}"
-                           type="hidden"
-                    >
-                </div>
-
                 <!-- guest/group data -->
                 <div class="section" th:object="${invoiceForm.billAssignmentForm}">
 
@@ -104,6 +93,18 @@
                             <label for="representativeCreditCardNumber">Credit Card Number</label>
                         </div>
                     </div>
+                </div>
+
+
+                <!-- hidden fields -->
+                <input th:field="*{stayId}" type="hidden">
+
+                <div th:each="entry, iter: *{checkboxStates}" class="row myHighlight">
+                    <label th:for="'billEntry_' + ${iter.index}" hidden></label>
+                    <input th:id="'billEntry_' + ${iter.index}"
+                           th:field="${invoiceForm.checkboxStates['__${iter.index}__']}"
+                           type="hidden"
+                    >
                 </div>
             </div>
 

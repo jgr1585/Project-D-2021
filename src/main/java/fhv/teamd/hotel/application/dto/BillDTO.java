@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.Bill;
+import fhv.teamd.hotel.domain.ids.BillId;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BillDTO {
+
+    private String id;
 
     private double total;
     private List<BillEntryDTO> entries;
@@ -21,6 +24,8 @@ public class BillDTO {
 
         BillDTO dto = new BillDTO();
 
+        dto.id = bill.billId().toString();
+
         dto.total = bill.calculateTotal();
         dto.entries = bill.intermediateEntries()
                 .stream()
@@ -32,6 +37,10 @@ public class BillDTO {
                 .collect(Collectors.toUnmodifiableList());
 
         return dto;
+    }
+
+    public String id() {
+        return this.id;
     }
 
     public double total() {

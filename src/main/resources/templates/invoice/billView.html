@@ -13,15 +13,132 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h4>Invoice</h4>
+    <h4>Invoice Preview</h4>
 
-    <!--    <div th:replace="fragments/errorMessage"></div>-->
+    <br><br>
 
     <div class="row">
         <form action="/invoice/billView" method="post" class="col s12">
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div th:object="${invoiceForm}">
+                <div class="card-content invoice-print-area">
+                    <h6>Hotel Stay</h6>
+
+                    <br>
+                    <div class="divider"></div>
+                    <br>
+
+                    <!-- invoice address and contact -->
+                    <div class="row invoice-info">
+                        <div class="col m6 s12">
+                            <h6 class="invoice-from">Bill From</h6>
+                            <div class="invoice-address">
+                                <span>Hotel Schwarz</span>
+                            </div>
+                            <div class="invoice-address">
+                                <span>Gösting 13b 9542 Linz Austria</span>
+                            </div>
+                            <div class="invoice-address">
+                                <span>schwarz.hotel@hotmail.com</span>
+                            </div>
+                            <div class="invoice-address">
+                                <span>+436648457321</span>
+                            </div>
+                        </div>
+
+                        <div class="col m6 s12">
+                            <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
+                            <h6 class="invoice-to">Bill To</h6>
+                            <div class="invoice-address">
+                                <span th:text="*{billAssignmentForm.firstName + ' ' + billAssignmentForm.lastName}"></span>
+                            </div>
+                            <div class="invoice-address">
+                                <span th:text="*{billAssignmentForm.street + ' ' + billAssignmentForm.zip + ' ' + billAssignmentForm.city + ' ' + billAssignmentForm.country}"></span>
+                            </div>
+                            <div class="invoice-address">
+                                <span th:text="*{billAssignmentForm.mail}"></span>
+                            </div>
+                            <div class="invoice-address">
+                                <span th:text="*{billAssignmentForm.phone}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="divider"></div>
+                    <br>
+
+                    <!-- product details table-->
+                    <div class="invoice-product-details">
+                        <table class="striped responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th class="right-align">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <th:block th:each="entry, iter: ${bill.entries}">
+                                <th:block th:if="${invoiceForm.checkboxStates['__${iter.index}__']}">
+                                    <tr>
+                                        <td th:text="${entry.description}"></td>
+                                        <td th:text="${entry.amount}"></td>
+                                        <td th:text="${'€' + entry.unitPrice}"></td>
+                                        <td class="indigo-text right-align" th:text="${'€' + entry.subTotal}"></td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+                    <div class="divider"></div>
+                    <br>
+
+                    <!-- invoice subtotal -->
+                    <div class="invoice-subtotal">
+                        <div class="row">
+                            <div class="col m5 s12">
+                                <p>
+                                    Thank you for visiting us at Hotel Schwarz.
+                                    <br>
+                                    I hope we achieved our goal of making your stay memorable by providing outstanding
+                                    service.
+                                </p>
+                            </div>
+                            <div class="col xl4 m7 s12 offset-xl3">
+                                <ul>
+                                    <li class="valign-wrapper display-flex justify-content-between">
+                                        <span class="invoice-subtotal-title">Subtotal</span>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'€' + subTotal}"></h6>
+                                    </li>
+                                    <li class="valign-wrapper display-flex justify-content-between">
+                                        <span class="invoice-subtotal-title">Discount</span>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'- €' + discount}"></h6>
+                                    </li>
+                                    <li class="valign-wrapper display-flex justify-content-between">
+                                        <span class="invoice-subtotal-title">Tax</span>
+                                        <h6 class="invoice-subtotal-value">20%</h6>
+                                    </li>
+
+                                    <li class="divider"></li>
+
+                                    <li class="valign-wrapper display-flex justify-content-between">
+                                        <span class="invoice-subtotal-title">Invoice Total</span>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'€' + invoiceTotal}"></h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- hidden fields -->
                 <input th:field="*{stayId}" type="hidden">
 
@@ -39,10 +156,10 @@
                 <input th:field="*{billAssignmentForm.paymentMethod}" type="hidden"/>
                 <input th:field="*{billAssignmentForm.creditCardNumber}" type="hidden"/>
 
-                <div th:each="entry, iter: *{selectedBills}" class="row myHighlight">
+                <div th:each="entry, iter: *{checkboxStates}">
                     <label th:for="'billEntry_' + ${iter.index}" hidden></label>
                     <input th:id="'billEntry_' + ${iter.index}"
-                           th:field="${invoiceForm.selectedBills['__${iter.index}__']}"
+                           th:field="${invoiceForm.checkboxStates['__${iter.index}__']}"
                            type="hidden"
                     >
                 </div>
