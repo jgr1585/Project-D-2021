@@ -10,12 +10,17 @@ public class FinalBill {
 
     private long id;
 
-    private FinalBillId domainId;
+    private final FinalBillId domainId;
 
     private final RepresentativeDetails billingAddress;
 
     private final List<BillEntry> entries;
 
+    private FinalBill() {
+        this.domainId = null;
+        this.billingAddress = null;
+        this.entries = null;
+    }
 
     public FinalBill(FinalBillId finalBillId, List<BillEntry> entries, RepresentativeDetails billingAddress) {
         this.domainId = finalBillId;

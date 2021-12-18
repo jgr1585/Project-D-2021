@@ -35,7 +35,7 @@
         </component>
 
         <!-- List<BillEntry> entries -->
-        <list name="entries" table="final_bill_entry">
+        <list name="entries" table="final_bill_entry" cascade="all">
             <key column="final_bill_id"/>
             <index column="index"/>
             <composite-element class="fhv.teamd.hotel.domain.BillEntry">

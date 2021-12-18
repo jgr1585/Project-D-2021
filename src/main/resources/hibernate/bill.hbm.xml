@@ -26,7 +26,7 @@
         </list>
 
         <!-- List<FinalBill> finalBills -->
-        <list name="finalBills" table="bill_final_bill">
+        <list name="finalBills" table="bill_final_bill" cascade="all">
             <key column="bill_id"/>
             <index column="index"/>
             <one-to-many class="fhv.teamd.hotel.domain.FinalBill"/>
