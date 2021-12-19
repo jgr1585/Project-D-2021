@@ -3,30 +3,22 @@
  */
 
 $(document).ready(function () {
-    $("#RepresentativeCheck").change(function () {
-
+    $("#representativeCheck").change(function () {
         if ($(this).is(':checked')) {
-
             $("input[type='text']").change(function() {
                 copyFields(false);
             });
 
             copyFields(false);
             $(".guestData").prop("readonly", true);
-
-            $(".isSame")
-
         } else {
-
             $("input[type='text']").off("change");
             $(".guestData").val("").prop("readonly", false);
-
         }
     });
 });
 
 function copyFields(clear) {
-
     if (clear) {
         $('#privateGuestFirstName').val("");
         $('#privateGuestLastName').val("");
@@ -50,8 +42,7 @@ function swapForm(x) {
     if (x.id === "private") {
         document.getElementById("organizationForm").style.display = "none";
         document.getElementById("privateForm").style.display = "block";
-
-        document.getElementById("RepresentativeCheck").disabled = false;
+        document.getElementById("representativeCheck").disabled = false;
 
         $('#organizationName').attr('disabled', false);
         $('#organizationDiscount').attr('disabled', false);
@@ -59,8 +50,9 @@ function swapForm(x) {
         $('#guestZip').attr('disabled', false);
         $('#guestCity').attr('disabled', false);
         $('#guestCountry').attr('disabled', false);
+        $(".guestData").prop("readonly", false);
 
-        if (document.getElementById("RepresentativeCheck").checked) {
+        if (document.getElementById("representativeCheck").checked) {
             copyFields(false);
         } else {
             copyFields(true);
@@ -68,7 +60,7 @@ function swapForm(x) {
     } else {
         document.getElementById("privateForm").style.display = "none";
         document.getElementById("organizationForm").style.display = "block";
-        document.getElementById("RepresentativeCheck").disabled = true;
+        document.getElementById("representativeCheck").disabled = true;
 
         copyFields(true);
         copyOrganizationFields();
@@ -83,50 +75,25 @@ function copyOrganizationFields() {
     }
 
     if (dropDownValue === "addNewOrganization") {
-        $('#organizationName')
-            .val("")
-            .attr('disabled', false);
+        $('#organizationName').val("");
+        $('#organizationDiscount').val("");
+        $('#guestStreet').val("");
+        $('#guestZip').val("");
+        $('#guestCity').val("");
+        $('#guestCountry').val("");
 
-        $('#organizationDiscount')
-            .val("")
-            .attr('disabled', false);
-
-        $('#guestStreet')
-            .val("")
-            .attr('disabled', false);
-
-        $('#guestZip')
-            .val("")
-            .attr('disabled', false);
-
-        $('#guestCity')
-            .val("")
-            .attr('disabled', false);
-
-        $('#guestCountry')
-            .val("")
-            .attr('disabled', false);
+        $(".guestData").prop("readonly", false);
     } else {
         let $organizationEl = $('.' + dropDownValue);
 
-        $('#organizationName')
-            .val($organizationEl.find('.organizationName').attr('value'))
-            .attr('disabled', true);
-        $('#organizationDiscount')
-            .val($organizationEl.find('.organizationDiscount').attr('value'))
-            .attr('disabled', true);
-        $('#guestStreet')
-            .val($organizationEl.find('.organizationStreet').attr('value'))
-            .attr('disabled', true);
-        $('#guestZip')
-            .val($organizationEl.find('.organizationZip').attr('value'))
-            .attr('disabled', true);
-        $('#guestCity')
-            .val($organizationEl.find('.organizationCity').attr('value'))
-            .attr('disabled', true);
-        $('#guestCountry')
-            .val($organizationEl.find('.organizationCountry').attr('value'))
-            .attr('disabled', true);
+        $('#organizationName').val($organizationEl.find('.organizationName').attr('value'));
+        $('#organizationDiscount').val($organizationEl.find('.organizationDiscount').attr('value'));
+        $('#guestStreet').val($organizationEl.find('.organizationStreet').attr('value'));
+        $('#guestZip').val($organizationEl.find('.organizationZip').attr('value'));
+        $('#guestCity').val($organizationEl.find('.organizationCity').attr('value'));
+        $('#guestCountry').val($organizationEl.find('.organizationCountry').attr('value'));
+
+        $(".guestData").prop("readonly", true);
     }
 
     M.updateTextFields();

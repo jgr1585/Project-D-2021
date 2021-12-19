@@ -68,8 +68,7 @@
                         <option th:each="paymentMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"
                                 th:value="${paymentMethod}"
                                 th:text="${paymentMethod.displayValue}"
-                                th:selected="${paymentMethod==representativePaymentMethod}"
-                        >
+                                th:selected="${paymentMethod==representativePaymentMethod}">
                         </option>
                     </select>
                     <label for="representativePaymentMethod">Payment</label>
@@ -94,9 +93,8 @@
                                    type="radio" value="private"/>
                             <span>Private Guest</span>
                         </label>
-                        <label for="RepresentativeCheck" class="checkboxRepresentativeCheck">
-                            <input checked id="RepresentativeCheck"
-                                   type="checkbox" value="Representative"/>
+                        <label for="representativeCheck" class="checkboxRepresentativeCheck">
+                            <input id="representativeCheck" type="checkbox" name="isSamePerson" th:checked="*{isSamePerson}"/>
                             <span>Representative is same Person</span>
                         </label>
                     </p>
@@ -128,13 +126,12 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">business</i>
-                        <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()">
+                        <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()" class="guestData">
                             <option value="addNewOrganization" selected>+ New Organization</option>
                             <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
                             <option th:each="organization: ${organizations}"
                                     th:value="${organization.id}"
-                                    th:text="${organization.organizationName}"
-                            >
+                                    th:text="${organization.organizationName}">
                             </option>
                         </select>
                         <label for="alreadyExistingOrganization">Select Organization</label>
@@ -143,12 +140,12 @@
                 <div class="row">
                     <div class="input-field col s9">
                         <i class="material-icons prefix">group</i>
-                        <input id="organizationName" type="text" th:field="*{organizationName}"/>
+                        <input id="organizationName" type="text" th:field="*{organizationName}" class="guestData"/>
                         <label for="organizationName">Organization Name</label>
                     </div>
                     <div class="input-field col s3">
                         <i class="material-icons prefix">local_offer</i>
-                        <input id="organizationDiscount" type="number"  th:field="*{discount}" min="0" max="100" value="0">
+                        <input id="organizationDiscount" type="number"  th:field="*{discount}" min="0" max="100" value="0" class="guestData">
                         <label for="organizationDiscount">Discount (%)</label>
                     </div>
                 </div>
@@ -182,8 +179,9 @@
 <div th:fragment="personalDetailsHidden(personalDetailsForm)">
 
     <div th:object="${__${personalDetailsForm}__}">
+
+        <input th:checked="*{isSamePerson}" name="isSamePerson" type="hidden">
         <!--
-        <input th:field="*{isSamePerson}" type="hidden">
         <input th:field="*{guestType}" type="hidden">
         -->
 
