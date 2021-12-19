@@ -6,6 +6,12 @@
     src: url('/fonts/materialize-webfont.woff2') format('woff2');
 }
 
+@media print {
+    .noprint {
+        display: none;
+    }
+}
+
 .material-icons {
     font-family: 'Material Icons', serif;
     font-weight: normal;
@@ -79,6 +85,11 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+}
+
+.aToBtn {
+    border: 0;
+    background: white;
 }
 
 div .row .noMargin {

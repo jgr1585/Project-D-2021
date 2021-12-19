@@ -13,9 +13,10 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h4>Invoice Preview</h4>
+    <h4 class="noprint">Invoice Preview</h4>
 
-    <br><br>
+    <br class="noprint">
+    <br class="noprint">
 
     <div class="row">
         <form action="/invoice/billView" method="post" class="col s12">
@@ -23,7 +24,7 @@
 
             <div th:object="${invoiceForm}">
                 <div class="card-content invoice-print-area">
-                    <h6>Hotel Stay</h6>
+                    <h6 class="noprint">Hotel Stay</h6>
 
                     <br>
                     <div class="divider"></div>
@@ -166,7 +167,11 @@
             </div>
 
             <!-- back/cancel/submit buttons -->
-            <div class="row right-align">
+            <div class="row right-align noprint">
+                <a href="#" class="btn waves-effect waves-light blue invoice-print">
+                    <i class="material-icons">print</i>
+                </a>
+
                 <button class="btn waves-effect waves-light blue accent-2 cancel"
                         type="submit" name="action" value="prev">Back
                     <i class="material-icons left">navigate_before</i>

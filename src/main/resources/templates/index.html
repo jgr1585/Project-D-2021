@@ -30,7 +30,6 @@
                                 <span th:text="${{stay.checkIn}}"></span>
                                 <span> until </span>
                                 <span th:text="${{stay.expectedCheckOut}}"></span>
-
                             </div>
                         </div>
 
@@ -41,12 +40,12 @@
                                     <i class="material-icons blue-grey-text no-margin center-context">receipt</i>
                                 </div>
                             </a>
-                            <a th:href="@{/checkOut/summary(stayId=${stay.id})}">
-                                <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                                     data-position="top" data-tooltip="Check-Out">
+                            <form th:action="@{/checkOut/summary(stayId=${stay.id})}" method="post">
+                                <button type="submit" class="aToBtn waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                                     data-position="top" data-tooltip="Check-Out Summary">
                                     <i class="material-icons blue-text no-margin center-context">logout</i>
-                                </div>
-                            </a>
+                                </button>
+                            </form>
                         </div>
 
                     </div>
