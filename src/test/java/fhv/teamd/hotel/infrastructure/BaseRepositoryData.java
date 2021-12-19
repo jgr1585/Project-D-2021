@@ -2,11 +2,10 @@ package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.*;
-import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.RoomId;
-import fhv.teamd.hotel.domain.ids.StayId;
+import fhv.teamd.hotel.domain.ids.*;
+
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 //TODO: Finish
@@ -33,8 +32,15 @@ public abstract class BaseRepositoryData {
 
     @SuppressWarnings({ "deprecation", "SpellCheckingInspection" })
     private static void init() {
-        final Category category1 = DomainFactory.createCategory();
-        final Category category2 = DomainFactory.createCategory();
+        final Season season1 = new Season(1L, new SeasonId("Season1"), "Summer", Month.MAY, Month.OCTOBER);
+        final Season season2 = new Season(2L, new SeasonId("Season2"), "Winter", Month.NOVEMBER, Month.APRIL);
+        seasons.addAll(List.of(season1,season2));
+
+        final Map<Season, Double> pricePerNight1 = Map.of(season1,75.0,season2,70.0);
+        final Map<Season, Double> pricePerNight2 = Map.of(season1,150.0,season2,140.0);
+
+        final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight1);
+        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"),"Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);
         categories.addAll(List.of(category1, category2));
 
         final Address addressGuest1 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");
@@ -78,6 +84,10 @@ public abstract class BaseRepositoryData {
         final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn);
         final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn);
         stays.addAll(List.of(stay1, stay2));
+
+
+
+
 
         //TODO: Data for Bill
 
