@@ -15,18 +15,10 @@ public enum Season {
     }
 
     public static Season getSeasonFromMonth(Month month) {
-        if (month.getValue() >= 5 && month.getValue() <= 10) {
+        if (month.getValue() >= Season.Summer.from.getValue() && month.getValue() <= Season.Summer.to.getValue()) {
             return Season.Summer;
         } else {
             return Season.Winter;
         }
-    }
-
-    public Month from() {
-        return this.from;
-    }
-
-    public Month to() {
-        return this.to;
     }
 }
