@@ -23,6 +23,19 @@
 
                 <input type="hidden" name="stayId" th:value="${stayId}">
 
+                <div class="section" th:object="${bill}">
+                    <th:block th:each="entry, iter: *{finalBills}">
+                        <div th:each="entryEn, iterEntry: ${entry.entries}" class="row noMargin">
+                            <div class="col s6" th:text="${entryEn.description}"></div>
+
+                            <div class="col s2">PAID/PENDING</div>
+
+                            <div class="col s2 center-align" th:text="${entryEn.amount}"></div>
+                            <div class="col s2 right-align" th:text="${entryEn.subTotal}"></div>
+                        </div>
+                    </th:block>
+                </div>
+
                 <!-- back/cancel/submit buttons -->
                 <div class="row right-align">
                     <button class="btn waves-effect waves-light blue accent-2"
