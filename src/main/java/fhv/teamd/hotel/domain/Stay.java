@@ -50,7 +50,7 @@ public class Stay {
 
     public static Stay create(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                               Set<Room> rooms,
-                              GuestDetails guest, RepresentativeDetails representative) {
+                              GuestDetails guest, RepresentativeDetails representative, Season season) {
 
         Stay stay = new Stay();
 
@@ -79,7 +79,7 @@ public class Stay {
         int nights = (int)Duration.between(checkIn, LocalDateTime.now()).toDays();
         for (Room room: rooms) {
             Category category = room.category();
-            stay.bill.charge("Night(s) in " + room, nights, category.pricePerNight());
+            stay.bill.charge("Night(s) in " + room, nights, category.pricePerNight(season));
         }
 
         return stay;

@@ -1,12 +1,11 @@
 package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.*;
-import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.RoomId;
-import fhv.teamd.hotel.domain.ids.StayId;
+import fhv.teamd.hotel.domain.ids.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Period;
 import java.util.*;
 
@@ -30,7 +29,7 @@ public abstract class DomainFactory {
     public static Category createCategory() {
         UUID uuid = UUID.randomUUID();
 
-        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, 20);
+        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, Map.of(Season.Winter, 20.0, Season.Summer, 25.0));
     }
 
     public static BookingId createBookingId() {
@@ -97,7 +96,7 @@ public abstract class DomainFactory {
 
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep);
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, Season.getSeasonFromMonth(from.getMonth()));
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {

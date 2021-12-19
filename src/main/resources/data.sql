@@ -1,3 +1,5 @@
+-- noinspection SqlResolveForFile
+
 -- noinspection SqlWithoutWhereForFile
 
 delete from stay_in_room;
@@ -20,9 +22,9 @@ values (111, 'dom-id-book-111', '2021-12-26 10:00:00', '2021-12-30 10:00:00','bo
         '1234', 'Dornbirn', 'Austria', 'mustermann@mustermail.com', '123456789', 'Cash', '5555 5555 5555 4444');
 
 
-insert into category (id, category_id, title, description, price_per_night)
-values (111, 'dom-id-cat-111', 'Single Bed', 'hier könnte ihre werbung stehen', 50),
-       (222, 'dom-id-cat-222', 'Double Bed', '........', 75);
+insert into category (id, category_id, title, description)
+values (111, 'dom-id-cat-111', 'Single Bed', 'hier könnte ihre werbung stehen'),
+       (222, 'dom-id-cat-222', 'Double Bed', '........');
 
 insert into booking_for_category (booking_id, category_id, number_of_rooms)
 values (111, 111, 3),
@@ -56,6 +58,13 @@ values (111, 'dom-id-stay-111', '2021-11-13 10:00:00', '2021-11-20 10:00:00','Ch
         'Emma', 'Ross', 'Gösting 13b', '9542', 'Linz', 'Austria',
         'e.ross@randatmail.com', '559-1716-40', 'Cash', '2222 2222 2222 2222');
 
+
+insert into price_per_season(category_id, season, price)
+values (111, 1, 75),
+       (111, 2, 70),
+       (222, 1, 150),
+       (222, 2, 140);
+
 insert into stay_in_room (stay_id, room_id)
 values (111, 114),
        (111, 115),
@@ -64,6 +73,7 @@ values (111, 114),
 insert into bill (id, bill_id)
 values (111, 'dom-id-bill-111'),
        (222, 'dom-id-bill-222');
+
 
 insert into bill_entry (bill_id, index, description, timestamp, amount, unit_price)
 values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 1, 30),
@@ -74,3 +84,4 @@ insert into organization (id, organization_id, organization_name, organization_s
 values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria', 15),
        (222, 'dom-id-org-222', 'Doppelmayr/Garaventa Group', 'Konrad-Doppelmayr-Straße 1', '6922', 'Wolfurt', 'Austria', 10),
        (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria', 5)
+

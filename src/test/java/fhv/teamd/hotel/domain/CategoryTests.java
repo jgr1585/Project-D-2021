@@ -13,11 +13,10 @@ public class CategoryTests {
     private Category cat2;
 
 
-    @SuppressWarnings("deprecation")
     @BeforeEach
     public void init() {
-        this.cat1 = new Category(1L, new CategoryId("Category 1"), "Category 1", "Category 1", 20);
-        this.cat2 = new Category(2L, new CategoryId("Category 2"),"Category 2", "Category 2", 30);
+        this.cat1 = DomainFactory.createCategory();
+        this.cat2 = DomainFactory.createCategory();
     }
 
     @SuppressWarnings({ "SimplifiableAssertion", "EqualsWithItself", "ConstantConditions", "EqualsBetweenInconvertibleTypes" })

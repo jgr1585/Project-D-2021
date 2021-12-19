@@ -21,7 +21,7 @@
         <form action="/invoice/billList" method="post" class="col s12">
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
-            <div class="section" th:object="${bill}">
+            <div id="billList" class="section" th:object="${bill}">
                 <div th:each="entry, iter: *{entries}" class="row myHighlight noMargin">
                     <div class="col s1">
                         <label th:for="'billEntry_' + ${iter.index}">
@@ -93,16 +93,20 @@
 
             <!-- back/cancel/submit buttons -->
             <div class="section row right-align">
-                <button class="btn waves-effect waves-light blue accent-2"
+                <button disabled id="createInvoice" class="btn waves-effect waves-light blue accent-2"
                         type="submit" name="action" value="next">
                     Create Invoice
                     <i class="material-icons right">navigate_next</i>
                 </button>
 
-                <a class="btn waves-effect waves-light blue accent-2"
+                <a disabled id="checkOutSummary" class="btn waves-effect waves-light blue accent-2"
                    th:href="@{/checkOut/summary(stayId=${invoiceForm.stayId})}">
-                    Check-Out
+                    Check-Out Summary
                     <i class="material-icons right">logout</i>
+                </a>
+
+                <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                    <i class="material-icons right">cancel</i>
                 </a>
             </div>
         </form>

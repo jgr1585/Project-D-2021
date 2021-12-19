@@ -100,6 +100,70 @@ function initDatePicker(elems, options) {
     }
 }
 
+function billViewButtons() {
+    let invoicePrint = $(".invoice-print");
+
+    if (invoicePrint.length) {
+        invoicePrint.on("click", function() {
+            window.print();
+        });
+    }
+}
+
+function billEditButtons() {
+    let paymentMethod = $("#representativePaymentMethod_invoice");
+    let creditCardNumber = $("#representativeCreditCardNumber_invoice");
+
+    if (paymentMethod.length && creditCardNumber.length) {
+        if (paymentMethod.val() === "CreditCard") {
+            creditCardNumber.attr("disabled", false);
+        } else {
+            creditCardNumber.attr("disabled", true);
+        }
+
+        paymentMethod.on("change", function() {
+            if (this.value === "CreditCard") {
+                creditCardNumber.attr("disabled", false);
+            } else {
+                creditCardNumber.attr("disabled", true);
+            }
+        });
+    }
+}
+
+function billListButtons() {
+    let billList = $("#billList");
+
+    if (billList.length) {
+        let checkOutSummary = $("#checkOutSummary");
+
+        if (checkOutSummary.length) {
+            if (billList.find(".myHighlight").length > 0) {
+                checkOutSummary.attr("disabled", true);
+            } else {
+                checkOutSummary.attr("disabled", false);
+            }
+        }
+
+        let createInvoice = $("#createInvoice");
+        if (createInvoice.length) {
+            if (document.querySelectorAll('input[name="billEntryChecks"]:checked').length > 0) {
+                createInvoice.attr("disabled", false);
+            } else {
+                createInvoice.attr("disabled", true);
+            }
+        }
+
+        $('input[name="billEntryChecks"]').change(function () {
+            if (document.querySelectorAll('input[name="billEntryChecks"]:checked').length > 0) {
+                createInvoice.attr("disabled", false);
+            } else {
+                createInvoice.attr("disabled", true);
+            }
+        });
+    }
+}
+
 $(document).ready(function () {
     // select Active Page in Navbar
     let page = document.querySelector('meta[name="page"]').content;
@@ -125,4 +189,10 @@ $(document).ready(function () {
     // enable
     elems = $('.sidenav');
     M.Sidenav.init(elems, {});
+
+    billViewButtons();
+
+    billEditButtons();
+
+    billListButtons();
 });

@@ -2,6 +2,7 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +22,40 @@ public class CheckOutController {
     @Autowired
     private BillingService billingService;
 
-    @GetMapping("summary")
-    public ModelAndView showBill(@RequestParam String stayId, Model model) {
+    @RequestMapping("summary")
+    public RedirectView checkOutSummary(
+            @RequestParam String stayId,
+            Model model) throws InvalidIdException {
 
-        try {
-            model.addAttribute("bill", this.billingService.getBill(stayId));
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
+        BillDTO billDTO = this.billingService.getBill(stayId);
+
+        if (billDTO.entries().size() > 0) {
+            return new RedirectView("/invoice/billList?stayId=" + stayId);
+        } else {
+            model.addAttribute("bill", billDTO);
+            model.addAttribute("stayId", stayId);
+
+            return new RedirectView("/checkOut/summary?stayId=" + stayId);
         }
+    }
 
+    @GetMapping("summary")
+    public ModelAndView showBill(
+            @RequestParam String stayId,
+            Model model) throws InvalidIdException {
+
+        model.addAttribute("bill", this.billingService.getBill(stayId));
         model.addAttribute("stayId", stayId);
 
         return new ModelAndView("/checkOut/summary");
     }
 
     @RequestMapping("perform")
-    public RedirectView checkOut(@RequestParam String stayId, Model model) {
+    public RedirectView checkOut(
+            @RequestParam String stayId,
+            Model model) throws AlreadyCheckedOutException, InvalidIdException {
 
-        try {
-            this.frontDeskService.checkOut(stayId);
-        } catch (InvalidIdException | AlreadyCheckedOutException e) {
-            e.printStackTrace();
-        }
+        this.frontDeskService.checkOut(stayId);
 
         return new RedirectView("/");
     }

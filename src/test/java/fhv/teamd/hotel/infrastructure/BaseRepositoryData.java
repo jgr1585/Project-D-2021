@@ -2,11 +2,10 @@ package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.*;
-import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.RoomId;
-import fhv.teamd.hotel.domain.ids.StayId;
+import fhv.teamd.hotel.domain.ids.*;
+
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 //TODO: Finish
@@ -31,8 +30,11 @@ public abstract class BaseRepositoryData {
 
     @SuppressWarnings({ "deprecation", "SpellCheckingInspection" })
     private static void init() {
-        final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", 50);
-        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"), "Double Bed", "........", 75);
+        final Map<Season, Double> pricePerNight1 = Map.of(Season.Winter,75.0,Season.Summer,70.0);
+        final Map<Season, Double> pricePerNight2 = Map.of(Season.Winter,150.0,Season.Summer,140.0);
+
+        final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight1);
+        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"),"Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);
         categories.addAll(List.of(category1, category2));
 
         final Address addressGuest1 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");
@@ -77,6 +79,7 @@ public abstract class BaseRepositoryData {
         final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn);
         stays.addAll(List.of(stay1, stay2));
 
+
         //TODO: Data for Bill
 
     }
@@ -97,7 +100,7 @@ public abstract class BaseRepositoryData {
         return Collections.unmodifiableList(stays);
     }
 
-//    public static List<Bill> bills() {
+    //    public static List<Bill> bills() {
 //        return Collections.unmodifiableList(bills);
 //    }
 //
