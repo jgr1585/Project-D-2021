@@ -3,9 +3,11 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.Season;
 import fhv.teamd.hotel.domain.ids.SeasonId;
 import fhv.teamd.hotel.domain.repositories.SeasonRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.Month;
 
+@Repository
 public class HibernateSeasonRepository extends HibernateBaseRepository<Season, SeasonId> implements SeasonRepository {
     @Override
     public Season getSeasonFromMonth(Month month) {

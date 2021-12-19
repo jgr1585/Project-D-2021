@@ -33,8 +33,8 @@ public abstract class BaseRepositoryData {
 
     @SuppressWarnings({ "deprecation", "SpellCheckingInspection" })
     private static void init() {
-        final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", 50);
-        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"), "Double Bed", "........", 75);
+        final Category category1 = DomainFactory.createCategory();
+        final Category category2 = DomainFactory.createCategory();
         categories.addAll(List.of(category1, category2));
 
         final Address addressGuest1 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");

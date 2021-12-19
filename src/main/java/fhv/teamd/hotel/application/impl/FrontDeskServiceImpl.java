@@ -7,6 +7,7 @@ import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Room;
+import fhv.teamd.hotel.domain.Season;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -17,6 +18,7 @@ import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
+import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,9 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
     @Autowired
     private StayRepository stayRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
 
     @Autowired
     private AvailabilityService availabilityService;
@@ -73,7 +78,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         this.stayRepository.put(Stay.create(
                 this.stayRepository.nextIdentity(),
                 checkIn, checkOut, rooms,
-                guest, representative
+                guest, representative, this.seasonRepository.getSeasonFromMonth(checkIn.getMonth())
         ));
     }
 

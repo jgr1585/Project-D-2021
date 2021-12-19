@@ -68,10 +68,8 @@ public class FrontDeskServiceTests {
                 "max","muster","m@mail.com", addr,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
-        //noinspection deprecation
-        final Category cat1 = new Category(1L, new CategoryId("Cat 1"), "Cat 1", "Cat 1", 20);
-        //noinspection deprecation
-        final Category cat2 = new Category(2L, new CategoryId("Cat 2"), "Cat 2", "Cat 2", 40);
+        final Category cat1 = DomainFactory.createCategory();
+        final Category cat2 = DomainFactory.createCategory();
 
         //noinspection deprecation
         final Room room1 = new Room(1L, new RoomId("Room 1"), cat1);
@@ -83,8 +81,8 @@ public class FrontDeskServiceTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep);
-        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep);
+        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, DomainFactory.createSeason());
+        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.createSeason());
 
         ReflectionTestUtils.setField(stay2, "stayingState", StayingState.CheckedOut);
 
@@ -130,7 +128,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep);
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, DomainFactory.createSeason());
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
@@ -164,7 +162,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails());
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), DomainFactory.createSeason());
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));

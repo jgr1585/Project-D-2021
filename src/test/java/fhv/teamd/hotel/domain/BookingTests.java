@@ -29,9 +29,8 @@ public class BookingTests {
         final LocalDateTime future = LocalDateTime.now().plus(Period.ofYears(1));
         final Period duration = Period.ofWeeks(1);
 
-        //noinspection deprecation
         final Map<Category, Integer> categories = Map.of(
-                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
+                DomainFactory.createCategory(),
                 3
         );
 

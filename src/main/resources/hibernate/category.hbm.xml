@@ -15,7 +15,6 @@
 
         <property name="title" column="title" type="string"/>
         <property name="description" column="description" type="string"/>
-        <property name="pricePerNight" column="price_per_night" type="double"/>
 
         <!-- Map<Season, Double> pricePerNight; -->
         <map name="pricePerNight" table="price_per_season">

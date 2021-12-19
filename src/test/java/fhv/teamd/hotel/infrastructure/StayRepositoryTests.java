@@ -123,7 +123,8 @@ public class StayRepositoryTests {
                 firstStay.expectedCheckOut(),
                 Set.of(rooms.get(0)),
                 firstStay.guestDetails(),
-                firstStay.representativeDetails()
+                firstStay.representativeDetails(),
+                DomainFactory.createSeason()
         );
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));

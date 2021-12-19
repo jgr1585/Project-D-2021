@@ -82,10 +82,9 @@ public class BookingServiceTests {
 
     @Test
     void given_repository_when_getAll_returnsAll() {
-
-        //noinspection deprecation
+        
         final Map<Category, Integer> categories = Map.of(
-                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
+                DomainFactory.createCategory(),
                 3
         );
 

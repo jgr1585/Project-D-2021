@@ -1,6 +1,7 @@
 package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.Season;
+import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

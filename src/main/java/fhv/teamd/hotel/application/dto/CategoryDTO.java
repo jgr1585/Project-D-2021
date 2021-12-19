@@ -1,7 +1,9 @@
 package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.Category;
+import fhv.teamd.hotel.domain.Season;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class CategoryDTO {
@@ -9,7 +11,7 @@ public class CategoryDTO {
     private String id;
     private String title;
     private String description;
-    private double price;
+    private Map<Season, Double> price;
 
     public String id() {
         return this.id;
@@ -23,14 +25,10 @@ public class CategoryDTO {
         return this.description;
     }
 
-    public double price() {
-        return this.price;
-    }
-
     private CategoryDTO() {
     }
 
-    public CategoryDTO(String id, String title, String description, double price) {
+    public CategoryDTO(String id, String title, String description, Map<Season, Double> price) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -42,11 +40,12 @@ public class CategoryDTO {
 
         categoryDTO.id = category.categoryId() == null ? null : category.categoryId().toString();
         categoryDTO.description = category.description();
-        categoryDTO.price = category.pricePerNight();
+        categoryDTO.price = category.pricePerSeason();
         categoryDTO.title = category.title();
 
         return categoryDTO;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -57,7 +56,7 @@ public class CategoryDTO {
             return false;
         }
         final CategoryDTO that = (CategoryDTO) o;
-        return Double.compare(that.price, this.price) == 0 && Objects.equals(this.id, that.id) && Objects.equals(this.title, that.title) && Objects.equals(this.description, that.description);
+        return Objects.equals(this.id, that.id) && Objects.equals(this.title, that.title) && Objects.equals(this.description, that.description) && Objects.equals(this.price, that.price);
     }
 
     @Override

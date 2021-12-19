@@ -2,6 +2,7 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.ids.CategoryId;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
@@ -43,8 +44,12 @@ public class Category {
         return this.description;
     }
 
-    public double pricePerNight() {
-        return 20;//this.pricePerNight;
+    public Map<Season, Double> pricePerSeason() {
+        return Collections.unmodifiableMap(this.pricePerNight);
+    }
+
+    public Double pricePerNight(Season season) {
+        return this.pricePerNight.get(season);
     }
 
     @Override
