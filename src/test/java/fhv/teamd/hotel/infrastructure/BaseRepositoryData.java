@@ -15,6 +15,7 @@ public abstract class BaseRepositoryData {
     private static final List<Category> categories;
     private static final List<Room> rooms;
     private static final List<Stay> stays;
+    private static final List<Season> seasons;
     // private static final List<Bill> bills;
     // private static final List<BillEntry> billEntries;
 
@@ -23,6 +24,7 @@ public abstract class BaseRepositoryData {
         categories = new LinkedList<>();
         rooms = new LinkedList<>();
         stays = new LinkedList<>();
+        seasons = new LinkedList<>();
         // bills = new LinkedList<>();
         // billEntries = new LinkedList<>();
 
@@ -97,7 +99,11 @@ public abstract class BaseRepositoryData {
         return Collections.unmodifiableList(stays);
     }
 
-//    public static List<Bill> bills() {
+    public static List<Season> seasons() {
+        return Collections.unmodifiableList(seasons);
+    }
+
+    //    public static List<Bill> bills() {
 //        return Collections.unmodifiableList(bills);
 //    }
 //
