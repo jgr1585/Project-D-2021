@@ -16,6 +16,8 @@ $(document).ready(function () {
             $(".guestData").val("").prop("readonly", false);
         }
     });
+
+    copyOrganizationFields();
 });
 
 function copyFields(clear) {
@@ -39,38 +41,24 @@ function copyFields(clear) {
 }
 
 function copyOrganizationFields() {
-    let dropDownValue = $('#alreadyExistingOrganization').val();
+    let $dropDown = $('#alreadyExistingOrganization');
+
+    if (!$dropDown.length) {
+        return;
+    }
+
+    let dropDownValue = $dropDown.val();
 
     if (dropDownValue == null || dropDownValue === "") {
         return;
     }
 
     if (dropDownValue === "noOrganization") {
-        $('#organizationName')
-            .val("")
-            .css('display', false);
-        $('#organizationDiscount')
-            .val("")
-            .css('display', false);
-        $('#organizationStreet')
-            .val("")
-            .css('display', false);
-        $('#organizationZip')
-            .val("")
-            .css('display', false);
-        $('#organizationCity')
-            .val("")
-            .css('display', false);
-        $('#organizationCountry')
-            .val("")
-            .css('display', false);
+        clearOrganizationFields();
+        showOrganizationFields(false);
     } else if (dropDownValue === "addNewOrganization") {
-        $('#organizationName').val("");
-        $('#organizationDiscount').val("");
-        $('#organizationStreet').val("");
-        $('#organizationZip').val("");
-        $('#organizationCity').val("");
-        $('#organizationCountry').val("");
+        clearOrganizationFields();
+        showOrganizationFields(true);
     } else {
         let $organizationEl = $('.' + dropDownValue);
 
@@ -80,7 +68,36 @@ function copyOrganizationFields() {
         $('#organizationZip').val($organizationEl.find('.organizationZip').attr('value'));
         $('#organizationCity').val($organizationEl.find('.organizationCity').attr('value'));
         $('#organizationCountry').val($organizationEl.find('.organizationCountry').attr('value'));
+
+        showOrganizationFields(true);
     }
 
     M.updateTextFields();
+}
+
+function clearOrganizationFields() {
+    $('#organizationName').val("");
+    $('#organizationDiscount').val("");
+    $('#organizationStreet').val("");
+    $('#organizationZip').val("");
+    $('#organizationCity').val("");
+    $('#organizationCountry').val("");
+}
+
+function showOrganizationFields(show) {
+    if (show) {
+        $('#organizationName').parent().css('display', 'block');
+        $('#organizationDiscount').parent().css('display', 'block');
+        $('#organizationStreet').parent().css('display', 'block');
+        $('#organizationZip').parent().css('display', 'block');
+        $('#organizationCity').parent().css('display', 'block');
+        $('#organizationCountry').parent().css('display', 'block');
+    } else {
+        $('#organizationName').parent().css('display', 'none');
+        $('#organizationDiscount').parent().css('display', 'none');
+        $('#organizationStreet').parent().css('display', 'none');
+        $('#organizationZip').parent().css('display', 'none');
+        $('#organizationCity').parent().css('display', 'none');
+        $('#organizationCountry').parent().css('display', 'none');
+    }
 }
