@@ -14,7 +14,6 @@ public abstract class BaseRepositoryData {
     private static final List<Category> categories;
     private static final List<Room> rooms;
     private static final List<Stay> stays;
-    private static final List<Season> seasons;
     // private static final List<Bill> bills;
     // private static final List<BillEntry> billEntries;
 
@@ -23,7 +22,6 @@ public abstract class BaseRepositoryData {
         categories = new LinkedList<>();
         rooms = new LinkedList<>();
         stays = new LinkedList<>();
-        seasons = new LinkedList<>();
         // bills = new LinkedList<>();
         // billEntries = new LinkedList<>();
 
@@ -32,12 +30,8 @@ public abstract class BaseRepositoryData {
 
     @SuppressWarnings({ "deprecation", "SpellCheckingInspection" })
     private static void init() {
-        final Season season1 = new Season(1L, new SeasonId("Season1"), "Summer", Month.MAY, Month.OCTOBER);
-        final Season season2 = new Season(2L, new SeasonId("Season2"), "Winter", Month.NOVEMBER, Month.APRIL);
-        seasons.addAll(List.of(season1,season2));
-
-        final Map<Season, Double> pricePerNight1 = Map.of(season1,75.0,season2,70.0);
-        final Map<Season, Double> pricePerNight2 = Map.of(season1,150.0,season2,140.0);
+        final Map<Season, Double> pricePerNight1 = Map.of(Season.Winter,75.0,Season.Summer,70.0);
+        final Map<Season, Double> pricePerNight2 = Map.of(Season.Winter,150.0,Season.Summer,140.0);
 
         final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight1);
         final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"),"Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);
@@ -86,9 +80,6 @@ public abstract class BaseRepositoryData {
         stays.addAll(List.of(stay1, stay2));
 
 
-
-
-
         //TODO: Data for Bill
 
     }
@@ -107,10 +98,6 @@ public abstract class BaseRepositoryData {
 
     public static List<Stay> stays() {
         return Collections.unmodifiableList(stays);
-    }
-
-    public static List<Season> seasons() {
-        return Collections.unmodifiableList(seasons);
     }
 
     //    public static List<Bill> bills() {

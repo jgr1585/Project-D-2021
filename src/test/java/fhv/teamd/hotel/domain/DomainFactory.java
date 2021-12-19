@@ -29,7 +29,7 @@ public abstract class DomainFactory {
     public static Category createCategory() {
         UUID uuid = UUID.randomUUID();
 
-        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, Map.of(createSeason(), 20.0, createSeason(), 25.0));
+        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, Map.of(Season.Winter, 20.0, Season.Summer, 25.0));
     }
 
     public static BookingId createBookingId() {
@@ -96,23 +96,7 @@ public abstract class DomainFactory {
 
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, createSeasonWithDate(from.getMonth(), until.getMonth()));
-    }
-
-    public static Season createSeason() {
-        return createSeason(UUID.randomUUID(), LocalDate.now().getMonth(), LocalDate.now().getMonth().plus(2));
-    }
-
-    private static Season createSeason(UUID uuid, Month from, Month to) {
-        return new Season(uuidToLong(uuid), createSeasonId(uuid), uuid.toString(), from, to);
-    }
-
-    private static Season createSeasonWithDate(Month from, Month to) {
-       return createSeason(UUID.randomUUID(), from, to);
-    }
-
-    private static SeasonId createSeasonId(UUID uuid) {
-        return new SeasonId(uuid.toString());
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, Season.getSeasonFromMonth(from.getMonth()));
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {

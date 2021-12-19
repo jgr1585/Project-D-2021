@@ -81,8 +81,8 @@ public class FrontDeskServiceTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, DomainFactory.createSeason());
-        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.createSeason());
+        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()));
+        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()));
 
         ReflectionTestUtils.setField(stay2, "stayingState", StayingState.CheckedOut);
 
@@ -128,7 +128,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, DomainFactory.createSeason());
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, Season.getSeasonFromMonth(LocalDateTime.now().getMonth()));
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
@@ -162,7 +162,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), DomainFactory.createSeason());
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), Season.getSeasonFromMonth(LocalDateTime.now().getMonth()));
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));

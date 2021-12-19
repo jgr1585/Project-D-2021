@@ -124,7 +124,7 @@ public class StayRepositoryTests {
                 Set.of(rooms.get(0)),
                 firstStay.guestDetails(),
                 firstStay.representativeDetails(),
-                DomainFactory.createSeason()
+                Season.getSeasonFromMonth(firstStay.checkIn().getMonth())
         );
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));
