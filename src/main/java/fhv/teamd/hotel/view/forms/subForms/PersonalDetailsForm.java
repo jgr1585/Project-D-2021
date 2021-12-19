@@ -5,10 +5,11 @@ import fhv.teamd.hotel.domain.contactInfo.GuestType;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 
 public class PersonalDetailsForm {
-    private boolean isSamePerson;
-    private GuestType guestType;
-
     private String organizationName;
+    private String organizationStreet;
+    private String organizationZip;
+    private String organizationCity;
+    private String organizationCountry;
     private int discount;
 
     private String guestFirstName;
@@ -34,14 +35,16 @@ public class PersonalDetailsForm {
     public PersonalDetailsForm() {
     }
 
-    public PersonalDetailsForm(boolean isSamePerson, GuestType guestType, String organizationName, int discount, String guestFirstName, String guestLastName,
-                               String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName, String representativeLastName,
-                               String representativeStreet, String representativeZip, String representativeCity, String representativeCountry, String representativeMail,
-                               String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
-        this.isSamePerson = isSamePerson;
-        this.guestType = guestType;
+    public PersonalDetailsForm(String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, int discount,
+                               String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName,
+                               String representativeLastName, String representativeStreet, String representativeZip, String representativeCity, String representativeCountry,
+                               String representativeMail, String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
 
         this.organizationName = organizationName;
+        this.organizationStreet = organizationStreet;
+        this.organizationZip = organizationZip;
+        this.organizationCity = organizationCity;
+        this.organizationCountry = organizationCountry;
         this.discount = discount;
 
         this.guestFirstName = guestFirstName;
@@ -63,28 +66,44 @@ public class PersonalDetailsForm {
         this.representativePaymentMethod = representativePaymentMethod;
     }
 
-    public boolean isSamePerson() {
-        return this.isSamePerson;
-    }
-
-    public void setSamePerson(boolean isSamePerson) {
-        this.isSamePerson = isSamePerson;
-    }
-
-    public GuestType getGuestType() {
-        return this.guestType;
-    }
-
-    public void setGuestType(GuestType guestType) {
-        this.guestType = guestType;
-    }
-
     public String getOrganizationName() {
         return this.organizationName;
     }
 
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
+    }
+
+    public String getOrganizationStreet() {
+        return this.organizationStreet;
+    }
+
+    public void setOrganizationStreet(String organizationStreet) {
+        this.organizationStreet = organizationStreet;
+    }
+
+    public String getOrganizationZip() {
+        return this.organizationZip;
+    }
+
+    public void setOrganizationZip(String organizationZip) {
+        this.organizationZip = organizationZip;
+    }
+
+    public String getOrganizationCity() {
+        return this.organizationCity;
+    }
+
+    public void setOrganizationCity(String organizationCity) {
+        this.organizationCity = organizationCity;
+    }
+
+    public String getOrganizationCountry() {
+        return this.organizationCountry;
+    }
+
+    public void setOrganizationCountry(String organizationCountry) {
+        this.organizationCountry = organizationCountry;
     }
 
     public int getDiscount() {

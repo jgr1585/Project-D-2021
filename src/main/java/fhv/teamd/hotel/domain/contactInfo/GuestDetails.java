@@ -3,10 +3,11 @@ package fhv.teamd.hotel.domain.contactInfo;
 import java.util.Objects;
 
 public class GuestDetails {
-    private final boolean isSamePerson;
-    private final GuestType guestType;
-
     private final String organizationName;
+    private final String organizationStreet;
+    private final String organizationZip;
+    private final String organizationCity;
+    private final String organizationCountry;
     private final int discount;
 
     private final String firstName;
@@ -14,29 +15,39 @@ public class GuestDetails {
     private final Address address;
 
     private GuestDetails() {
-        this(false, null,null, 0, null, null, null);
+        this(null, null, null, null, null, 0, null, null, null);
     }
 
-    public GuestDetails(boolean isSamePerson, GuestType guestType, String organizationName, int discount, String firstName, String lastName, Address address) {
-        this.isSamePerson = isSamePerson;
-        this.guestType = guestType;
+    public GuestDetails(String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, int discount, String firstName, String lastName, Address address) {
         this.organizationName = organizationName;
+        this.organizationStreet = organizationStreet;
+        this.organizationZip = organizationZip;
+        this.organizationCity = organizationCity;
+        this.organizationCountry = organizationCountry;
         this.discount = discount;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
     }
 
-    public boolean isSamePerson() {
-        return this.isSamePerson;
-    }
-
-    public GuestType guestType() {
-        return this.guestType;
-    }
-
     public String organizationName() {
         return this.organizationName;
+    }
+
+    public String organizationStreet() {
+        return this.organizationStreet;
+    }
+
+    public String organizationZip() {
+        return this.organizationZip;
+    }
+
+    public String organizationCity() {
+        return this.organizationCity;
+    }
+
+    public String organizationCountry() {
+        return this.organizationCountry;
     }
 
     public int discount() {

@@ -84,10 +84,11 @@ public class HotelViewController {
                 id,
                 new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
                 new PersonalDetailsForm(
-                        booking.guest().isSamePerson(),
-                        booking.guest().guestType(),
-
                         booking.guest().organizationName(),
+                        booking.guest().organizationStreet(),
+                        booking.guest().organizationZip(),
+                        booking.guest().organizationCity(),
+                        booking.guest().organizationCountry(),
                         booking.guest().discount(),
 
                         booking.guest().firstName(),
@@ -112,8 +113,5 @@ public class HotelViewController {
         ));
 
         return new RedirectView("/checkIn/chooseCategories");
-
     }
-
-
 }

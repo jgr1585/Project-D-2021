@@ -17,13 +17,13 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="representativeFirstName" type="text"
-                           th:field="*{representativeFirstName}"/>
+                    <input id="representativeFirstName" th:field="*{representativeFirstName}"
+                           type="text"/>
                     <label for="representativeFirstName">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="representativeLastName" type="text"
-                           th:field="*{representativeLastName}"/>
+                    <input id="representativeLastName" th:field="*{representativeLastName}"
+                           type="text"/>
                     <label for="representativeLastName">Last Name</label>
                 </div>
             </div>
@@ -31,20 +31,20 @@
             <div class="row">
                 <div class="input-field col s4">
                     <i class="material-icons prefix">location_city</i>
-                    <input id="representativeStreet" type="text" th:field="*{representativeStreet}"/>
+                    <input id="representativeStreet" th:field="*{representativeStreet}" type="text"/>
                     <label for="representativeStreet">Street</label>
                 </div>
                 <div class="input-field col s2">
-                    <input id="representativeZip" type="text" th:field="*{representativeZip}"
+                    <input id="representativeZip" th:field="*{representativeZip}" type="text"
                     />
                     <label for="representativeZip">Zip</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="representativeCity" type="text" th:field="*{representativeCity}"/>
+                    <input id="representativeCity" th:field="*{representativeCity}" type="text"/>
                     <label for="representativeCity">City/Town</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="representativeCountry" type="text" th:field="*{representativeCountry}"/>
+                    <input id="representativeCountry" th:field="*{representativeCountry}" type="text"/>
                     <label for="representativeCountry">Country</label>
                 </div>
             </div>
@@ -52,12 +52,12 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">email</i>
-                    <input class="validate" id="representativeMail" type="email" th:field="*{representativeMail}"/>
+                    <input class="validate" id="representativeMail" th:field="*{representativeMail}" type="email"/>
                     <label for="representativeMail">Email</label>
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">phone</i>
-                    <input class="validate" id="representativePhone" type="tel" th:field="*{representativePhone}"/>
+                    <input class="validate" id="representativePhone" th:field="*{representativePhone}" type="tel"/>
                     <label for="representativePhone">Phone</label>
                 </div>
             </div>
@@ -66,131 +66,130 @@
                     <i class="material-icons prefix">euro_symbol</i>
                     <select id="representativePaymentMethod" th:field="*{representativePaymentMethod}">
                         <option th:each="paymentMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"
-                                th:value="${paymentMethod}"
+                                th:selected="${paymentMethod==representativePaymentMethod}"
                                 th:text="${paymentMethod.displayValue}"
-                                th:selected="${paymentMethod==representativePaymentMethod}">
+                                th:value="${paymentMethod}">
                         </option>
                     </select>
                     <label for="representativePaymentMethod">Payment</label>
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">payment</i>
-                    <input class="validate" id="representativeCreditCardNumber" type="text"
-                           th:field="*{representativeCreditCardNumber}"/>
+                    <input class="validate" id="representativeCreditCardNumber" th:field="*{representativeCreditCardNumber}"
+                           type="text"/>
                     <label for="representativeCreditCardNumber">Credit Card Number</label>
                 </div>
             </div>
         </div>
 
-        <!-- guest/organization data -->
+        <!-- guest data -->
         <div class="section">
-            <h6>Guest or Organization Data</h6>
+            <h6>Guest Data</h6>
+            <p>
+                <label class="checkboxRepresentativeCheck" for="representativeCheck">
+                    <input id="representativeCheck" type="checkbox"/>
+                    <span>Representative is same Person</span>
+                </label>
+            </p>
             <div class="row">
-                <div class="input-field col s12">
-                    <p>
-                        <label for="private">
-                            <input checked id="private" onchange="swapForm(this)" name="guestType"
-                                   type="radio" value="private"/>
-                            <span>Private Guest</span>
-                        </label>
-                        <label for="representativeCheck" class="checkboxRepresentativeCheck">
-                            <input id="representativeCheck" type="checkbox" name="isSamePerson" th:checked="*{isSamePerson}"/>
-                            <span>Representative is same Person</span>
-                        </label>
-                    </p>
-                    <p>
-                        <label for="organization">
-                            <input id="organization" onchange="swapForm(this)" name="guestType"
-                                   type="radio" value="organization"/>
-                            <span>Organization</span>
-                        </label>
-                    </p>
-                </div>
-            </div>
-
-            <!-- form for private guest -->
-            <div class="row" id="privateForm">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">account_circle</i>
-                    <input id="privateGuestFirstName" type="text" th:field="*{guestFirstName}" class="guestData"/>
+                    <input class="guestData" id="privateGuestFirstName" th:field="*{guestFirstName}" type="text"/>
                     <label for="privateGuestFirstName">First Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="privateGuestLastName" type="text" th:field="*{guestLastName}" class="guestData"/>
+                    <input class="guestData" id="privateGuestLastName" th:field="*{guestLastName}" type="text"/>
                     <label for="privateGuestLastName">Last Name</label>
                 </div>
             </div>
-
-            <!-- form for organization -->
-            <div id="organizationForm" style="display: none">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">business</i>
-                        <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()" class="guestData">
-                            <option value="addNewOrganization" selected>+ New Organization</option>
-                            <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
-                            <option th:each="organization: ${organizations}"
-                                    th:value="${organization.id}"
-                                    th:text="${organization.organizationName}">
-                            </option>
-                        </select>
-                        <label for="alreadyExistingOrganization">Select Organization</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s9">
-                        <i class="material-icons prefix">group</i>
-                        <input id="organizationName" type="text" th:field="*{organizationName}" class="guestData"/>
-                        <label for="organizationName">Organization Name</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <i class="material-icons prefix">local_offer</i>
-                        <input id="organizationDiscount" type="number"  th:field="*{discount}" min="0" max="100" value="0" class="guestData">
-                        <label for="organizationDiscount">Discount (%)</label>
-                    </div>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="input-field col s4">
                     <i class="material-icons prefix">location_city</i>
-                    <input id="guestStreet" type="text" th:field="*{guestStreet}" class="guestData"/>
+                    <input class="guestData" id="guestStreet" th:field="*{guestStreet}" type="text"/>
                     <label for="guestStreet">Street</label>
                 </div>
                 <div class="input-field col s2">
-                    <input id="guestZip" type="text" th:field="*{guestZip}" class="guestData"/>
+                    <input class="guestData" id="guestZip" th:field="*{guestZip}" type="text"/>
                     <label for="guestZip">Zip</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="guestCity" type="text" th:field="*{guestCity}" class="guestData"/>
+                    <input class="guestData" id="guestCity" th:field="*{guestCity}" type="text"/>
                     <label for="guestCity">City/Town</label>
                 </div>
                 <div class="input-field col s3">
-                    <input id="guestCountry" type="text" th:field="*{guestCountry}" class="guestData"/>
+                    <input class="guestData" id="guestCountry" th:field="*{guestCountry}" type="text"/>
                     <label for="guestCountry">Country</label>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div th:replace="fragments/organizations"></div>
+        <!-- organization data -->
+        <div class="section">
+            <h6>Organization Data (Optional)</h6>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">business</i>
+                    <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()">
+                        <option selected value="noOrganization">No Organization / Private Guest</option>
+                        <option value="addNewOrganization">+ New Organization</option>
+                        <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
+                        <option th:each="organization: ${organizations}"
+                                th:text="${organization.organizationName}"
+                                th:value="${organization.id}">
+                        </option>
+                    </select>
+                    <label for="alreadyExistingOrganization">Select Organization</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s9">
+                    <i class="material-icons prefix">group</i>
+                    <input id="organizationName" th:field="*{organizationName}" type="text"/>
+                    <label for="organizationName">Organization Name</label>
+                </div>
+                <div class="input-field col s3">
+                    <i class="material-icons prefix">local_offer</i>
+                    <input id="organizationDiscount" max="100" min="0" th:field="*{discount}" type="number" value="0">
+                    <label for="organizationDiscount">Discount (%)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">location_city</i>
+                    <input id="organizationStreet" th:field="*{organizationStreet}" type="text"/>
+                    <label for="organizationStreet">Street</label>
+                </div>
+                <div class="input-field col s2">
+                    <input id="organizationZip" th:field="*{organizationZip}" type="text"/>
+                    <label for="organizationZip">Zip</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="organizationCity" th:field="*{organizationCity}" type="text"/>
+                    <label for="organizationCity">City/Town</label>
+                </div>
+                <div class="input-field col s3">
+                    <input id="organizationCountry" th:field="*{organizationCountry}" type="text"/>
+                    <label for="organizationCountry">Country</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/organizations"></div>
 </div>
 
 <div th:fragment="personalDetailsHidden(personalDetailsForm)">
-
     <div th:object="${__${personalDetailsForm}__}">
-
-        <input th:checked="*{isSamePerson}" name="isSamePerson" type="hidden">
-        <!--
-        <input th:field="*{guestType}" type="hidden">
-        -->
-
         <input th:field="*{organizationName}" type="hidden"/>
+        <input th:field="*{organizationStreet}" type="hidden">
+        <input th:field="*{organizationZip}" type="hidden">
+        <input th:field="*{organizationCity}" type="hidden">
+        <input th:field="*{organizationCountry}" type="hidden">
         <input th:field="*{discount}" type="hidden"/>
 
         <input th:field="*{guestFirstName}" type="hidden"/>
         <input th:field="*{guestLastName}" type="hidden"/>
-
         <input th:field="*{guestStreet}" type="hidden"/>
         <input th:field="*{guestZip}" type="hidden"/>
         <input th:field="*{guestCity}" type="hidden"/>

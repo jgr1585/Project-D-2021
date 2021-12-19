@@ -179,9 +179,11 @@ public class CheckInController {
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
         GuestDetails guest = new GuestDetails(
-                personalDetailsForm.isSamePerson(),
-                personalDetailsForm.getGuestType(),
                 personalDetailsForm.getOrganizationName(),
+                personalDetailsForm.getOrganizationStreet(),
+                personalDetailsForm.getOrganizationZip(),
+                personalDetailsForm.getOrganizationCity(),
+                personalDetailsForm.getOrganizationCountry(),
                 personalDetailsForm.getDiscount(),
                 personalDetailsForm.getGuestFirstName(),
                 personalDetailsForm.getGuestLastName(),
