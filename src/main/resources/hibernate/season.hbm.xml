@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
+    <class name="fhv.teamd.hotel.domain.Season" table="season">
+        <id name="id" column="id" type="long">
+            <generator class="increment" />
+        </id>
+
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.SeasonId">
+            <property name="id" column="season_id" type="string"/>
+        </component>
+
+        <property name="name" column="name" type="string" />
+
+
+        <property name="from" column="from_Month">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">java.time.Month</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+        <property name="to" column="to_Month">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">java.time.Month</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+
+    </class>
+
+</hibernate-mapping>
