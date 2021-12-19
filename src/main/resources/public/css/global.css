@@ -81,9 +81,12 @@
     display: flex;
 }
 
+div .row .noMargin {
+    margin-bottom: 0;
+}
+
 div .row .myHighlight {
     padding-top: 7px;
-    margin-bottom: 0;
 
     -webkit-transition: background-color 0.2s ease;
     -moz-transition: background-color 0.2s ease;

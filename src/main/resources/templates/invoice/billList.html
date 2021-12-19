@@ -22,7 +22,7 @@
             <!--/*@thymesVar id="invoiceForm" type="fhv.teamd.hotel.view.forms.InvoiceForm"*/-->
 
             <div class="section" th:object="${bill}">
-                <div th:each="entry, iter: *{entries}" class="row myHighlight">
+                <div th:each="entry, iter: *{entries}" class="row myHighlight noMargin">
                     <div class="col s1">
                         <label th:for="'billEntry_' + ${iter.index}">
                             <input type="checkbox"
@@ -43,11 +43,16 @@
                     <div class="col s2 right-align" th:text="${entry.subTotal}"></div>
                 </div>
 
-                <div th:each="entry, iter: *{finalBills}" class="row">
-                    <div th:each="entryEn, iterEntry: *{entries}" class="row">
+                <br>
+                <div class="divider"></div>
+                <br>
+
+                <th:block th:each="entry, iter: *{finalBills}">
+                    <div th:each="entryEn, iterEntry: ${entry.entries}" class="row noMargin">
                         <div class="col s1">
                             <label th:for="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}">
-                                <input type="checkbox"
+                                <input disabled
+                                       type="checkbox"
                                        name="finalBillEntryChecks"
                                        th:id="'finalBill_' + ${iter.index} + '_entry_' + ${iterEntry.index}"
                                        th:checked="true"
@@ -64,7 +69,7 @@
                         <div class="col s1 center-align" th:text="${entryEn.amount}"></div>
                         <div class="col s2 right-align" th:text="${entryEn.subTotal}"></div>
                     </div>
-                </div>
+                </th:block>
             </div>
 
             <div th:object="${invoiceForm}">
