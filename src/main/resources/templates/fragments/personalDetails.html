@@ -181,6 +181,8 @@
 
 <div th:fragment="personalDetailsHidden(personalDetailsForm)">
     <div th:object="${__${personalDetailsForm}__}">
+        <input th:field="*{organizationDropDownId}" type="hidden">
+
         <input th:field="*{organizationName}" type="hidden"/>
         <input th:field="*{organizationStreet}" type="hidden">
         <input th:field="*{organizationZip}" type="hidden">

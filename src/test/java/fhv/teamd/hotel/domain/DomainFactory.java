@@ -49,7 +49,7 @@ public abstract class DomainFactory {
         Map<Category, Integer> cats = new HashMap<>();
         cats.put(createCategory(), 1);
 
-        return new Booking(createBookingId(uuid), now, tomorrow, cats, rep, getFromRepresentativeDetails(rep));
+        return new Booking(createBookingId(uuid), now, tomorrow, cats, rep, getFromRepresentativeDetails(rep), new OrganizationId(""));
     }
 
     public static RepresentativeDetails createRepresentativeDetails() {
@@ -100,7 +100,7 @@ public abstract class DomainFactory {
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
-        return new GuestDetails(false, GuestType.Private, "", 0, rep.firstName(), rep.lastName(), rep.address());
+        return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
     }
 
     private static long uuidToLong(UUID uuid) {

@@ -173,4 +173,8 @@ $(document).ready(function () {
         required: true,
         creditCard: true,
     });
+
+    $("#organizationDiscount").rules("add", {
+        required: true,
+    });
 });

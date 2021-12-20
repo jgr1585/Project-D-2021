@@ -7,7 +7,6 @@ import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.OrganizationDTO;
-import fhv.teamd.hotel.domain.Organization;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
@@ -16,7 +15,6 @@ import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.BookingForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -181,19 +179,21 @@ public class CreateBookingController {
         try {
             String orgId = personalDetailsForm.getOrganizationDropDownId();
 
-            OrganizationDetails org = new OrganizationDetails(
-                    personalDetailsForm.getOrganizationName(),
-                    new Address(
-                            personalDetailsForm.getOrganizationStreet(),
-                            personalDetailsForm.getOrganizationZip(),
-                            personalDetailsForm.getOrganizationCity(),
-                            personalDetailsForm.getOrganizationCountry()
-                    ),
-                    personalDetailsForm.getDiscount()
-            );
+            if (orgId.equals("noOrganization")) {
+                orgId = "";
+            } else if (orgId.equals("addNewOrganization")) {
+                OrganizationDetails organizationDetails = new OrganizationDetails(
+                        personalDetailsForm.getOrganizationName(),
+                        new Address(
+                                personalDetailsForm.getOrganizationStreet(),
+                                personalDetailsForm.getOrganizationZip(),
+                                personalDetailsForm.getOrganizationCity(),
+                                personalDetailsForm.getOrganizationCountry()
+                        ),
+                        personalDetailsForm.getDiscount()
+                );
 
-            if (orgId.equals("addNewOrganization")) {
-                orgId = this.organizationService.add(org).toString();
+                orgId = this.organizationService.add(organizationDetails).toString();
             }
 
             this.bookingService.book(

@@ -58,6 +58,7 @@ function copyOrganizationFields() {
         showOrganizationFields(false);
     } else if (dropDownValue === "addNewOrganization") {
         clearOrganizationFields();
+        disableOrganizationFields(false);
         showOrganizationFields(true);
     } else {
         let $organizationEl = $('.' + dropDownValue);
@@ -69,6 +70,7 @@ function copyOrganizationFields() {
         $('#organizationCity').val($organizationEl.find('.organizationCity').attr('value'));
         $('#organizationCountry').val($organizationEl.find('.organizationCountry').attr('value'));
 
+        disableOrganizationFields(true);
         showOrganizationFields(true);
     }
 
@@ -82,6 +84,15 @@ function clearOrganizationFields() {
     $('#organizationZip').val("");
     $('#organizationCity').val("");
     $('#organizationCountry').val("");
+}
+
+function disableOrganizationFields(disabled) {
+    $('#organizationName').attr('disabled', disabled);
+    $('#organizationDiscount').attr('disabled', disabled);
+    $('#organizationStreet').attr('disabled', disabled);
+    $('#organizationZip').attr('disabled', disabled);
+    $('#organizationCity').attr('disabled', disabled);
+    $('#organizationCountry').attr('disabled', disabled);
 }
 
 function showOrganizationFields(show) {

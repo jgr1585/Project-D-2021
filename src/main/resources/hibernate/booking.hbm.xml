@@ -52,6 +52,10 @@
             <property name="creditCardNumber" column="representative_credit_card_number" type="string"/>
         </component>
 
+        <component name="organizationId" class="fhv.teamd.hotel.domain.ids.OrganizationId">
+            <property name="id" column="organization_id" type="string"/>
+        </component>
+
         <!-- Map<Category, Integer> categories; -->
         <map name="categories" table="booking_for_category">
             <key column="booking_id" on-delete="cascade"/>
