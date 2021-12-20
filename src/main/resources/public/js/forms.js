@@ -87,12 +87,33 @@ function clearOrganizationFields() {
 }
 
 function disableOrganizationFields(disabled) {
-    $('#organizationName').attr('disabled', disabled);
-    $('#organizationDiscount').attr('disabled', disabled);
-    $('#organizationStreet').attr('disabled', disabled);
-    $('#organizationZip').attr('disabled', disabled);
-    $('#organizationCity').attr('disabled', disabled);
-    $('#organizationCountry').attr('disabled', disabled);
+    if (disabled) {
+        $('#organizationName').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+        $('#organizationDiscount').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+        $('#organizationStreet').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+        $('#organizationZip').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+        $('#organizationCity').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+        $('#organizationCountry').addClass("disabledInputField")
+            .parent().addClass("disabledInputField");
+    } else {
+        $('#organizationName').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+        $('#organizationDiscount').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+        $('#organizationStreet').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+        $('#organizationZip').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+        $('#organizationCity').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+        $('#organizationCountry').removeClass("disabledInputField")
+            .parent().removeClass("disabledInputField");
+    }
 }
 
 function showOrganizationFields(show) {

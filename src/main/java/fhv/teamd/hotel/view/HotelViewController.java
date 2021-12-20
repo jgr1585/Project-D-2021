@@ -3,10 +3,9 @@ package fhv.teamd.hotel.view;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.OrganizationService;
-import fhv.teamd.hotel.application.dto.BookingDTO;
-import fhv.teamd.hotel.application.dto.CategoryDTO;
-import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
-import fhv.teamd.hotel.application.dto.OrganizationDTO;
+import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.Stay;
+import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -40,7 +39,27 @@ public class HotelViewController {
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
-        model.addAttribute("stays", this.frontDeskService.getActiveStays());
+        List<StayDTO> activeStays = this.frontDeskService.getActiveStays();
+
+        List<OrganizationDTO> organizations = new ArrayList<>();
+        OrganizationDTO dummyOrg = new OrganizationDTO(
+                "", "",
+                new Address("", "", "", ""),
+                0
+        );
+
+        for (StayDTO stay : activeStays) {
+            Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(stay.organizationId());
+
+            if (orgResult.isPresent()) {
+                organizations.add(orgResult.get());
+            } else {
+                organizations.add(dummyOrg);
+            }
+        }
+
+        model.addAttribute("stays", activeStays);
+        model.addAttribute("organizations", organizations);
 
         return new ModelAndView("index");
     }

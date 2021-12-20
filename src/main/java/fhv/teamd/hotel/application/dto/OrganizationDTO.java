@@ -15,8 +15,7 @@ public class OrganizationDTO {
     private OrganizationDTO() {
     }
 
-    //Test only
-    @Deprecated
+    //Test and dummy only
     public OrganizationDTO(String id, String organizationName, Address address, Integer discount) {
         this.id = id;
         this.organizationName = organizationName;

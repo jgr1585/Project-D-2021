@@ -43,21 +43,21 @@
 }
 
 .no-margin {
-  margin: 0 !important;
+    margin: 0 !important;
 }
 
 .center-context {
     text-align: center;
     position: absolute;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
 .displayNone {
     display: none;
 }
 
-.disabledPicker {
+.disabledPicker, .disabledInputField {
     color: grey;
     pointer-events: none;
 }
@@ -76,6 +76,7 @@
     -ms-flex-pack: justify;
     /* justify-content: space-between; */
 }
+
 .display-flex {
     display: -webkit-box;
     display: -webkit-flex;
@@ -100,6 +101,7 @@ div .row .myHighlight {
     -o-transition: background-color 0.2s ease;
     transition: background-color 0.2s ease;
 }
+
 div .row .myHighlight:hover {
     background-color: rgba(242, 242, 242, 0.5);
 
