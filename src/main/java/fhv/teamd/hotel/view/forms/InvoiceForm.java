@@ -17,19 +17,21 @@ public class InvoiceForm {
     private double discount;
     private double subTotal;
     private double invoiceTotal;
-    private int taxAmount;
+    private double taxAmount;
+    private double invoiceTotalTax;
 
     // required by spring/thymeleaf
     public InvoiceForm() {
         this.checkboxStates = new ArrayList<>();
         this.selectedBillEntries = new ArrayList<>();
-        this.taxAmount = 0;
-        this.subTotal = 0;
         this.discount = 0;
+        this.subTotal = 0;
         this.invoiceTotal = 0;
+        this.taxAmount = 0;
+        this.invoiceTotalTax = 0;
     }
 
-    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm, List<Boolean> selectedBills, List<BillEntryDTO> selectedBillEntries, double discount, double subTotal, double invoiceTotal, int tabAmount) {
+    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm, List<Boolean> selectedBills, List<BillEntryDTO> selectedBillEntries, double discount, double subTotal, double invoiceTotal, double tabAmount, double invoiceTotalTax) {
         this.stayId = stayId;
         this.billAssignmentForm = billAssignmentForm;
         this.checkboxStates = selectedBills;
@@ -38,6 +40,7 @@ public class InvoiceForm {
         this.subTotal = subTotal;
         this.invoiceTotal = invoiceTotal;
         this.taxAmount = tabAmount;
+        this.invoiceTotalTax = invoiceTotalTax;
     }
 
     public String getStayId() {
@@ -88,19 +91,27 @@ public class InvoiceForm {
         this.subTotal = subTotal;
     }
 
-    public int getTaxAmount() {
-        return this.taxAmount;
-    }
-
-    public void setTaxAmount(int taxAmount) {
-        this.taxAmount = taxAmount;
-    }
-
     public double getInvoiceTotal() {
         return this.invoiceTotal;
     }
 
     public void setInvoiceTotal(double invoiceTotal) {
         this.invoiceTotal = invoiceTotal;
+    }
+
+    public double getTaxAmount() {
+        return this.taxAmount;
+    }
+
+    public void setTaxAmount(double taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public double getInvoiceTotalTax() {
+        return this.invoiceTotalTax;
+    }
+
+    public void setInvoiceTotalTax(double invoiceTotalTax) {
+        this.invoiceTotalTax = invoiceTotalTax;
     }
 }
