@@ -8,7 +8,6 @@ import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.InvoiceForm;
 import fhv.teamd.hotel.view.forms.subForms.BillAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,20 +75,6 @@ public class InvoiceController {
                     selectedCheckboxStates.set(index, true);
                 }
             }
-
-
-            String organizationId = invoiceForm.getOrganizationId();
-            if (organizationId != null && !organizationId.equals("")) {
-                Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(invoiceForm.getOrganizationId());
-
-                if (orgResult.isEmpty()) {
-                    // should not happen normally
-                    return new RedirectView("/");
-                }
-
-                OrganizationDTO organizationDTO = orgResult.get();
-                invoiceForm.setDiscountPercent(organizationDTO.discount());
-            }
         }
 
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
@@ -140,13 +125,14 @@ public class InvoiceController {
             }
         }
 
-        double discountTotal = (subTotal / 100) * 0;
+        double discountTotal = (subTotal / 100) * invoiceForm.getDiscountPercent();
         double invoiceTotal = subTotal - discountTotal;
 
         double taxAmount = invoiceTotal * 0.2;
         double invoiceTotalTax = invoiceTotal + taxAmount;
 
         invoiceForm.setSubTotal(subTotal);
+        invoiceForm.setDiscount(discountTotal);
         invoiceForm.setInvoiceTotal(invoiceTotal);
         invoiceForm.setTaxAmount(taxAmount);
         invoiceForm.setInvoiceTotalTax(invoiceTotalTax);

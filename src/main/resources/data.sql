@@ -78,7 +78,10 @@ values (111, 'dom-id-bill-111'),
 insert into bill_entry (bill_id, index, description, timestamp, amount, unit_price)
 values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 1, 30),
        (111, 1, 'Kotzfleckenentfernung', '2021-11-17 07:00:00', 1, 150),
-       (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 12, 50);
+       (111, 2, '12x Übernachtungen Single Bed', '2021-11-20 09:45:00', 12, 50),
+       (222, 0, 'Partyraum', '2021-11-14 09:00:00', 1, 500),
+       (222, 1, '200x Bier', '2021-11-14 09:00:00', 200, 5),
+       (222, 2, '5x 10L Sangria Kübel', '2021-11-14 09:00:00', 5, 10);
 
 insert into organization (id, organization_id, organization_name, organization_street, organization_zip, organization_city, organization_country, discount)
 values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria', 15),

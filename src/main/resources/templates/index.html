@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="float-right valign-wrapper">
-                            <a th:href="@{/invoice/billList(stayId=${stay.id}, organizationId=${stay.organizationId})}">
+                            <a th:href="@{/invoice/billList(stayId=${stay.id}, discountPercent=${organizations['__${iter.index}__'].discount})}">
                                 <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
                                      data-position="top" data-tooltip="Create-Invoice">
                                     <i class="material-icons blue-grey-text no-margin center-context">receipt</i>

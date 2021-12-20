@@ -9,7 +9,6 @@ import java.util.List;
 public class InvoiceForm {
 
     private String stayId;
-    private String organizationId;
 
     private BillAssignmentForm billAssignmentForm = new BillAssignmentForm();
 
@@ -36,11 +35,10 @@ public class InvoiceForm {
         this.invoiceTotalTax = 0;
     }
 
-    public InvoiceForm(String stayId, String organizationId, BillAssignmentForm billAssignmentForm,
+    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm,
                        List<Boolean> selectedBills, List<BillEntryDTO> selectedBillEntries,
                        int discountPercent, double discount, double subTotal, double invoiceTotal, double tabAmount, double invoiceTotalTax) {
         this.stayId = stayId;
-        this.organizationId = organizationId;
         this.billAssignmentForm = billAssignmentForm;
         this.checkboxStates = selectedBills;
         this.selectedBillEntries = selectedBillEntries;
@@ -58,14 +56,6 @@ public class InvoiceForm {
 
     public void setStayId(String stayId) {
         this.stayId = stayId;
-    }
-
-    public String getOrganizationId() {
-        return this.organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
     }
 
     public BillAssignmentForm getBillAssignmentForm() {
