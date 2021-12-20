@@ -43,7 +43,8 @@ public class BillingServiceTests {
         idField.setAccessible(true);
         idField.set(b, new BillId("dom-id-bill-111"));
 
-        b.charge("kleine packung gummibärchen", 2, 3.0);
+        b.charge("kleine packung gummibärchen", 1, 3.0);
+        b.charge("kleine packung gummibärchen", 1, 3.0);
         b.charge("leitungswasser", 2, 1.0);
 
         Mockito.when(this.billRepository.findById(b.billId())).thenReturn(Optional.of(b));
