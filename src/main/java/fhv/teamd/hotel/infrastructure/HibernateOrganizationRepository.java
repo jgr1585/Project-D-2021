@@ -7,4 +7,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateOrganizationRepository extends HibernateBaseRepository<Organization, OrganizationId> implements OrganizationRepository {
+    @Override
+    public void put(Organization organization) {
+
+        this.entityManager.persist(organization);
+
+    }
 }

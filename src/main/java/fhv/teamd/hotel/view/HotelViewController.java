@@ -63,15 +63,15 @@ public class HotelViewController {
             @RequestParam String id,
             RedirectAttributes redirectAttributes) {
 
-        Optional<DetailedBookingDTO> result = this.bookingService.getDetails(id);
+        Optional<DetailedBookingDTO> bookingDetailsResult = this.bookingService.getDetails(id);
 
-        if (result.isEmpty()) {
+        if (bookingDetailsResult.isEmpty()) {
             // should not happen normally
             return new RedirectView("/");
         }
 
-        BookingDTO booking = result.get().basicInfo();
-        Map<CategoryDTO, Integer> categories = result.get().details();
+        BookingDTO booking = bookingDetailsResult.get().basicInfo();
+        Map<CategoryDTO, Integer> categories = bookingDetailsResult.get().details();
 
         Map<String, Integer> categoryIds = categories.entrySet().stream().collect(
                 Collectors.toMap(
