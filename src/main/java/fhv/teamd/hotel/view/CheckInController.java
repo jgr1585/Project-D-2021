@@ -12,6 +12,7 @@ import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.view.forms.CheckInForm;
@@ -179,12 +180,6 @@ public class CheckInController {
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
         GuestDetails guest = new GuestDetails(
-                personalDetailsForm.getOrganizationName(),
-                personalDetailsForm.getOrganizationStreet(),
-                personalDetailsForm.getOrganizationZip(),
-                personalDetailsForm.getOrganizationCity(),
-                personalDetailsForm.getOrganizationCountry(),
-                personalDetailsForm.getDiscount(),
                 personalDetailsForm.getGuestFirstName(),
                 personalDetailsForm.getGuestLastName(),
                 new Address(
@@ -207,6 +202,17 @@ public class CheckInController {
                 personalDetailsForm.getRepresentativePhone(),
                 personalDetailsForm.getRepresentativeCreditCardNumber(),
                 personalDetailsForm.getRepresentativePaymentMethod());
+
+        OrganizationDetails org = new OrganizationDetails(
+                personalDetailsForm.getOrganizationName(),
+                new Address(
+                        personalDetailsForm.getOrganizationStreet(),
+                        personalDetailsForm.getOrganizationZip(),
+                        personalDetailsForm.getOrganizationCity(),
+                        personalDetailsForm.getOrganizationCountry()
+                ),
+                personalDetailsForm.getDiscount()
+        );
 
         String bookingId = checkInForm.getBookingId();
 

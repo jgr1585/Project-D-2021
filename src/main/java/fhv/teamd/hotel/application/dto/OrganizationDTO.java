@@ -10,14 +10,14 @@ public class OrganizationDTO {
     private String id;
     private String organizationName;
     private Address address;
-    private int discount;
+    private Integer discount;
 
     private OrganizationDTO() {
     }
 
     //Test only
     @Deprecated
-    public OrganizationDTO(String id, String organizationName, Address address, int discount) {
+    public OrganizationDTO(String id, String organizationName, Address address, Integer discount) {
         this.id = id;
         this.organizationName = organizationName;
         this.address = address;
@@ -36,7 +36,7 @@ public class OrganizationDTO {
         return this.address;
     }
 
-    public int discount() {
+    public Integer discount() {
         return this.discount;
     }
 

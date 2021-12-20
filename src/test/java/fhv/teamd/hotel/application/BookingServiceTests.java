@@ -10,6 +10,7 @@ import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
@@ -76,7 +77,7 @@ public class BookingServiceTests {
                 "max","muster","m@mail.com", addr,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
-        this.guest = new GuestDetails(true, GuestType.Private, "", 0,"max", "muster", addr);
+        this.guest = new GuestDetails( "max", "muster", addr);
 
     }
 
@@ -90,9 +91,9 @@ public class BookingServiceTests {
 
 
         final List<Booking> allBookings = List.of(
-                new Booking(new BookingId("booking-abc"), this.past, this.past.plus(this.duration), categories, this.rep, this.guest),
-                new Booking(new BookingId("booking-def"), this.past, this.ongoing.plus(this.duration), categories, this.rep, this.guest),
-                new Booking(new BookingId("booking-ghi"), this.past, this.future.plus(this.duration), categories, this.rep, this.guest)
+                new Booking(new BookingId("booking-abc"), this.past, this.past.plus(this.duration), categories, this.rep, this.guest, new OrganizationId("")),
+                new Booking(new BookingId("booking-def"), this.past, this.ongoing.plus(this.duration), categories, this.rep, this.guest, new OrganizationId("")),
+                new Booking(new BookingId("booking-ghi"), this.past, this.future.plus(this.duration), categories, this.rep, this.guest, new OrganizationId(""))
         );
 
         Mockito.when(this.bookingRepository.getActiveBookings()).thenReturn(allBookings);
@@ -119,7 +120,7 @@ public class BookingServiceTests {
         categoryIdsAndAmounts.put(cat1.categoryId().toString(), 1);
         categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
 
-        final Booking expected = new Booking(bookingId, this.ongoing, this.future, categoriesAndAmounts, this.rep, this.guest);
+        final Booking expected = new Booking(bookingId, this.ongoing, this.future, categoriesAndAmounts, this.rep, this.guest, new OrganizationId(""));
 
 
 
@@ -132,17 +133,17 @@ public class BookingServiceTests {
         Mockito.when(this.bookingRepository.nextIdentity()).thenReturn(bookingId);
 
 
-        Assertions.assertDoesNotThrow(() -> this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep));
+        Assertions.assertDoesNotThrow(() -> this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep, new OrganizationId("")));
 
         Assertions.assertThrows(CategoryNotAvailableException.class, () -> {
             categoryIdsAndAmounts.put(cat2.categoryId().toString(), 2);
-            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep);
+            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep, new OrganizationId(""));
         });
 
         Assertions.assertThrows(InvalidIdException.class, () -> {
             categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
             categoryIdsAndAmounts.put(DomainFactory.createCategoryId().toString(), 2);
-            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep);
+            this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep, new OrganizationId(""));
         });
 
         Mockito.verify(this.bookingRepository).put(this.actualBooking.capture());

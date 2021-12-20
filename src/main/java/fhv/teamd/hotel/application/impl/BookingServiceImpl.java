@@ -9,6 +9,7 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
@@ -40,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
-                     GuestDetails guest, RepresentativeDetails rep) throws Exception {
+                     GuestDetails guest, RepresentativeDetails rep, OrganizationId orgId) throws Exception {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
@@ -70,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
         Booking newBooking = new Booking(
                 this.bookingRepository.nextIdentity(),
-                from, until, categoriesAndAmounts, rep, guest);
+                from, until, categoriesAndAmounts, rep, guest, orgId);
 
         this.bookingRepository.put(newBooking);
     }

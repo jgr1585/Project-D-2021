@@ -1,12 +1,12 @@
 package fhv.teamd.hotel.view;
 
-import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.BookingDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
-import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -33,6 +33,9 @@ public class HotelViewController {
 
     @Autowired
     private FrontDeskService frontDeskService;
+
+    @Autowired
+    private OrganizationService organizationService;
 
     @GetMapping("/")
     public ModelAndView index(Model model) {
@@ -80,16 +83,28 @@ public class HotelViewController {
         LocalDate checkIn = LocalDate.now();
         LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
 
+        Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
+
+        if (orgResult.isEmpty()) {
+            // TODO
+            return new RedirectView("/");
+        }
+
+        OrganizationDTO organizationDTO = orgResult.get();
+
+
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,
                 new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
                 new PersonalDetailsForm(
-                        booking.guest().organizationName(),
-                        booking.guest().organizationStreet(),
-                        booking.guest().organizationZip(),
-                        booking.guest().organizationCity(),
-                        booking.guest().organizationCountry(),
-                        booking.guest().discount(),
+                        booking.organizationId(),
+
+                        organizationDTO.organizationName(),
+                        organizationDTO.address().street(),
+                        organizationDTO.address().zip(),
+                        organizationDTO.address().city(),
+                        organizationDTO.address().country(),
+                        organizationDTO.discount(),
 
                         booking.guest().firstName(),
                         booking.guest().lastName(),

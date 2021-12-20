@@ -5,6 +5,7 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -23,7 +24,7 @@ public class Booking {
 
     private RepresentativeDetails contact;
     private GuestDetails guest;
-    private Organization organization;
+    private OrganizationId organizationId;
     private BookingState bookingState;
 
     private Booking() {
@@ -31,7 +32,7 @@ public class Booking {
     }
 
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
-                   RepresentativeDetails contact, GuestDetails guest) {
+                   RepresentativeDetails contact, GuestDetails guest, OrganizationId organizationId) {
 
         this.domainId = id;
         this.checkInDate = checkIn;
@@ -39,18 +40,14 @@ public class Booking {
         this.categories = categories;
         this.contact = contact;
         this.guest = guest;
+        this.organizationId = organizationId;
         this.bookingState = BookingState.booked;
-    }
-
-    public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
-                   RepresentativeDetails contact, Organization organization) {
-        // todo
     }
 
     //Test only
     @Deprecated
-    public Booking(long id, BookingId domainId, LocalDateTime checkInDate, LocalDateTime checkOutDate, Map<Category, Integer> categories, RepresentativeDetails contact, GuestDetails guest) {
-        this(domainId, checkInDate, checkOutDate, categories, contact, guest);
+    public Booking(long id, BookingId domainId, LocalDateTime checkInDate, LocalDateTime checkOutDate, Map<Category, Integer> categories, RepresentativeDetails contact, GuestDetails guest, OrganizationId organizationId) {
+        this(domainId, checkInDate, checkOutDate, categories, contact, guest, organizationId);
         this.id = id;
     }
 
@@ -82,6 +79,10 @@ public class Booking {
         return this.guest;
     }
 
+    public OrganizationId organizationId() {
+        return this.organizationId;
+    }
+
     public BookingState bookingState() {
         return this.bookingState;
     }
@@ -111,11 +112,11 @@ public class Booking {
             return false;
         }
         final Booking booking = (Booking) o;
-        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId);
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId) && Objects.equals(this.checkInDate, booking.checkInDate) && Objects.equals(this.checkOutDate, booking.checkOutDate) && Objects.equals(this.categories, booking.categories) && Objects.equals(this.contact, booking.contact) && Objects.equals(this.guest, booking.guest) && Objects.equals(this.organizationId, booking.organizationId) && this.bookingState == booking.bookingState;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.domainId);
+        return Objects.hash(this.id, this.domainId, this.checkInDate, this.checkOutDate, this.categories, this.contact, this.guest, this.organizationId, this.bookingState);
     }
 }

@@ -9,6 +9,7 @@ import fhv.teamd.hotel.application.dto.CategoryDTO;
 import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.BookingForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -149,12 +150,6 @@ public class CreateBookingController {
         ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
 
         GuestDetails guest = new GuestDetails(
-                personalDetailsForm.getOrganizationName(),
-                personalDetailsForm.getOrganizationStreet(),
-                personalDetailsForm.getOrganizationZip(),
-                personalDetailsForm.getOrganizationCity(),
-                personalDetailsForm.getOrganizationCountry(),
-                personalDetailsForm.getDiscount(),
                 personalDetailsForm.getGuestFirstName(),
                 personalDetailsForm.getGuestLastName(),
                 new Address(
@@ -173,17 +168,19 @@ public class CreateBookingController {
                         personalDetailsForm.getRepresentativeStreet(),
                         personalDetailsForm.getRepresentativeZip(),
                         personalDetailsForm.getRepresentativeCity(),
-                        personalDetailsForm.getRepresentativeCountry()),
+                        personalDetailsForm.getRepresentativeCountry()
+                ),
                 personalDetailsForm.getRepresentativePhone(),
                 personalDetailsForm.getRepresentativeCreditCardNumber(),
-                personalDetailsForm.getRepresentativePaymentMethod());
+                personalDetailsForm.getRepresentativePaymentMethod()
+        );
 
         try {
             this.bookingService.book(
                     chooseCategoriesForm.getCategorySelection(),
                     chooseCategoriesForm.getFrom().atStartOfDay(),
                     chooseCategoriesForm.getUntil().atStartOfDay(),
-                    guest, rep
+                    guest, rep, new OrganizationId(orgId)
             );
         } catch (Exception x) {
             x.printStackTrace();

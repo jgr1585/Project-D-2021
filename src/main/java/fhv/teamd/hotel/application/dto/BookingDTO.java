@@ -2,6 +2,7 @@ package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class BookingDTO {
     private LocalDateTime untilDate;
     private RepresentativeDetails representative;
     private GuestDetails guest;
+    private String organizationId;
 
     public String id() {
         return this.id;
@@ -36,6 +38,10 @@ public class BookingDTO {
         return this.guest;
     }
 
+    public String organizationId() {
+        return this.organizationId;
+    }
+
     private BookingDTO() {
     }
 
@@ -47,10 +53,10 @@ public class BookingDTO {
         bookingDTO.untilDate = booking.checkOutDate();
         bookingDTO.guest = booking.guestDetails();
         bookingDTO.representative = booking.representativeDetails();
+        bookingDTO.organizationId = booking.organizationId().toString();
 
         return bookingDTO;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -61,12 +67,12 @@ public class BookingDTO {
             return false;
         }
         final BookingDTO that = (BookingDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest);
+        return Objects.equals(this.id, that.id) && Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest) && Objects.equals(this.organizationId, that.organizationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.fromDate, this.untilDate, this.representative, this.guest);
+        return Objects.hash(this.id, this.fromDate, this.untilDate, this.representative, this.guest, this.organizationId);
     }
 }
 

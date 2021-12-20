@@ -1,16 +1,16 @@
 package fhv.teamd.hotel.view.forms.subForms;
 
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.GuestType;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 
 public class PersonalDetailsForm {
+    private String organizationDropDownId;
+
     private String organizationName;
     private String organizationStreet;
     private String organizationZip;
     private String organizationCity;
     private String organizationCountry;
-    private int discount;
+    private Integer discount;
 
     private String guestFirstName;
     private String guestLastName;
@@ -35,10 +35,12 @@ public class PersonalDetailsForm {
     public PersonalDetailsForm() {
     }
 
-    public PersonalDetailsForm(String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, int discount,
+    public PersonalDetailsForm(String organizationDropDownId, String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, Integer discount,
                                String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName,
                                String representativeLastName, String representativeStreet, String representativeZip, String representativeCity, String representativeCountry,
                                String representativeMail, String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
+
+        this.organizationDropDownId = organizationDropDownId;
 
         this.organizationName = organizationName;
         this.organizationStreet = organizationStreet;
@@ -64,6 +66,14 @@ public class PersonalDetailsForm {
         this.representativePhone = representativePhone;
         this.representativeCreditCardNumber = representativeCreditCardNumber;
         this.representativePaymentMethod = representativePaymentMethod;
+    }
+
+    public String getOrganizationDropDownId() {
+        return this.organizationDropDownId;
+    }
+
+    public void setOrganizationDropDownId(String organizationDropDownId) {
+        this.organizationDropDownId = organizationDropDownId;
     }
 
     public String getOrganizationName() {
@@ -106,11 +116,11 @@ public class PersonalDetailsForm {
         this.organizationCountry = organizationCountry;
     }
 
-    public int getDiscount() {
+    public Integer getDiscount() {
         return this.discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
