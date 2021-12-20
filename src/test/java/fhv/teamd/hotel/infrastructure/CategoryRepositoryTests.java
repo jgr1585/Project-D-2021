@@ -2,7 +2,7 @@ package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
-import fhv.teamd.hotel.domain.Room;
+import fhv.teamd.hotel.domain.Season;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @SpringBootTest
 public class CategoryRepositoryTests {
@@ -41,5 +42,29 @@ public class CategoryRepositoryTests {
     @Test
     void given_none_when_findById_return_EmptyOptional() {
         Assertions.assertEquals(Optional.empty(), this.categoryRepository.findById(DomainFactory.createCategoryId()));
+    }
+
+    @Test
+    void given_cateogory_and_date_when_findSeasonPrice_return_PriceOfSeason() {
+        List<Category> expCat = BaseRepositoryData.categories();
+        List<Category> actCat = this.categoryRepository.getAll();
+
+        for (Category category : actCat) {
+            for (Season season : Season.values()) {
+                final AtomicReference<Double> price = new AtomicReference<>();
+                final AtomicReference<Category> expCat1 = new AtomicReference<>();
+
+                for (Category category1 : expCat) {
+                    if (category1 == category) {
+                        expCat1.set(category1);
+                    }
+                }
+
+                Assertions.assertDoesNotThrow(() -> price.set(category.pricePerNight(season)));
+                Assertions.assertEquals(expCat1.get().pricePerNight(season), price.get());
+
+            }
+        }
+
     }
 }
