@@ -123,9 +123,14 @@ public class InvoiceController {
         double discountTotal = (subTotal / 100) * 0;
         double invoiceTotal = subTotal - discountTotal;
 
+        double taxAmount = invoiceTotal * 0.2;
+        double invoiceTotalTax = invoiceTotal + taxAmount;
+
         invoiceForm.setSubTotal(subTotal);
         invoiceForm.setDiscount(discountTotal);
         invoiceForm.setInvoiceTotal(invoiceTotal);
+        invoiceForm.setTaxAmount(taxAmount);
+        invoiceForm.setInvoiceTotalTax(invoiceTotalTax);
 
         model.addAttribute("invoiceForm", invoiceForm);
 

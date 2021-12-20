@@ -124,14 +124,14 @@
                                     </li>
                                     <li class="valign-wrapper display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">Tax</span>
-                                        <h6 class="invoice-subtotal-value">20%</h6>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'(20%) €' + taxAmount}"></h6>
                                     </li>
 
                                     <li class="divider"></li>
 
                                     <li class="valign-wrapper display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">Invoice Total</span>
-                                        <h6 class="invoice-subtotal-value" th:text="*{'€' + invoiceTotal}"></h6>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'€' + invoiceTotalTax}"></h6>
                                     </li>
                                 </ul>
                             </div>
