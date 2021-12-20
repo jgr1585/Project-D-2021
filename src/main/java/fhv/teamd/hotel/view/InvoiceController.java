@@ -1,12 +1,14 @@
 package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BillingService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.BillEntryDTO;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.domain.ids.BillId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.InvoiceForm;
 import fhv.teamd.hotel.view.forms.subForms.BillAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("invoice")
@@ -24,6 +27,9 @@ public class InvoiceController {
 
     @Autowired
     private BillingService billingService;
+
+    @Autowired
+    private OrganizationService organizationService;
 
     @GetMapping("billList")
     public ModelAndView billList(
@@ -69,6 +75,20 @@ public class InvoiceController {
 //                    selectedBillEntries.add(billEntryDTOList.get(index));
                     selectedCheckboxStates.set(index, true);
                 }
+            }
+
+
+            String organizationId = invoiceForm.getOrganizationId();
+            if (organizationId != null && !organizationId.equals("")) {
+                Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(invoiceForm.getOrganizationId());
+
+                if (orgResult.isEmpty()) {
+                    // should not happen normally
+                    return new RedirectView("/");
+                }
+
+                OrganizationDTO organizationDTO = orgResult.get();
+                invoiceForm.setDiscountPercent(organizationDTO.discount());
             }
         }
 
@@ -127,7 +147,6 @@ public class InvoiceController {
         double invoiceTotalTax = invoiceTotal + taxAmount;
 
         invoiceForm.setSubTotal(subTotal);
-        invoiceForm.setDiscount(discountTotal);
         invoiceForm.setInvoiceTotal(invoiceTotal);
         invoiceForm.setTaxAmount(taxAmount);
         invoiceForm.setInvoiceTotalTax(invoiceTotalTax);

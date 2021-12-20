@@ -55,6 +55,10 @@
             <property name="creditCardNumber" column="representative_credit_card_number" type="string"/>
         </component>
 
+        <component name="organizationId" class="fhv.teamd.hotel.domain.ids.OrganizationId">
+            <property name="id" column="organization_id" type="string"/>
+        </component>
+
         <property name="stayingState" column="staying_state">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">fhv.teamd.hotel.domain.StayingState</param>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -124,7 +125,8 @@ public class StayRepositoryTests {
                 Set.of(rooms.get(0)),
                 firstStay.guestDetails(),
                 firstStay.representativeDetails(),
-                Season.getSeasonFromMonth(firstStay.checkIn().getMonth())
+                Season.getSeasonFromMonth(firstStay.checkIn().getMonth()),
+                new OrganizationId("")
         );
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));

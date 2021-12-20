@@ -24,14 +24,16 @@ public class StayDTO {
     private final GuestDetails guest;
 
     private final List<RoomDTO> rooms;
+    private final String organizationId;
 
-    public StayDTO(String id, LocalDateTime checkIn, LocalDateTime expectedCheckOut, RepresentativeDetails representative, GuestDetails guest, List<RoomDTO> rooms) {
+    public StayDTO(String id, LocalDateTime checkIn, LocalDateTime expectedCheckOut, RepresentativeDetails representative, GuestDetails guest, List<RoomDTO> rooms, String organizationId) {
         this.id = id;
         this.checkIn = checkIn;
         this.expectedCheckOut = expectedCheckOut;
         this.representative = representative;
         this.guest = guest;
         this.rooms = rooms;
+        this.organizationId = organizationId;
     }
 
     public static StayDTO fromStay(Stay stay) {
@@ -41,7 +43,8 @@ public class StayDTO {
                 stay.expectedCheckOut(),
                 stay.representativeDetails(),
                 stay.guestDetails(),
-                stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList())
+                stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList()),
+                stay.organizationId().toString()
         );
     }
 
@@ -69,6 +72,9 @@ public class StayDTO {
         return Collections.unmodifiableList(this.rooms);
     }
 
+    public String organizationId() {
+        return this.organizationId;
+    }
 
     @Override
     public boolean equals(Object o) {

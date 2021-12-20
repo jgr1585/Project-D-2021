@@ -84,6 +84,14 @@ public abstract class DomainFactory {
         return new StayId(uuid.toString());
     }
 
+    private static OrganizationId createOrganizationId() {
+        return createOrganizationId(UUID.randomUUID());
+    }
+
+    private static OrganizationId createOrganizationId(UUID uuid) {
+        return new OrganizationId(uuid.toString());
+    }
+
     public static Stay createStay() {
         LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
@@ -96,7 +104,7 @@ public abstract class DomainFactory {
 
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, Season.getSeasonFromMonth(from.getMonth()));
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, Season.getSeasonFromMonth(from.getMonth()), createOrganizationId(uuid));
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {

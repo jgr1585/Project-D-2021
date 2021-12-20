@@ -3,6 +3,7 @@ package fhv.teamd.hotel.domain;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.StayId;
 
 import java.security.InvalidParameterException;
@@ -25,8 +26,8 @@ public class Stay {
     private GuestDetails guestDetails;
     private RepresentativeDetails representativeDetails;
 
+    private OrganizationId organizationId;
     private StayingState stayingState;
-
     private Bill bill;
 
     protected Stay() {
@@ -35,7 +36,9 @@ public class Stay {
 
     //Test only
     @Deprecated
-    public Stay(Long id, StayId domainId, LocalDateTime checkIn, LocalDateTime expectedCheckOut, Set<Room> rooms,RepresentativeDetails representativeDetails, GuestDetails guestDetails, StayingState stayingState) {
+    public Stay(Long id, StayId domainId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
+                Set<Room> rooms,
+                RepresentativeDetails representativeDetails, GuestDetails guestDetails, StayingState stayingState, OrganizationId organizationId) {
         this.id = id;
         this.domainId = domainId;
         this.checkIn = checkIn;
@@ -44,13 +47,14 @@ public class Stay {
         this.guestDetails = guestDetails;
         this.representativeDetails = representativeDetails;
         this.stayingState = stayingState;
+        this.organizationId = organizationId;
         this.bill = Bill.createEmpty();
     }
 
 
     public static Stay create(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                               Set<Room> rooms,
-                              GuestDetails guest, RepresentativeDetails representative, Season season) {
+                              GuestDetails guest, RepresentativeDetails representative, Season season, OrganizationId organizationId) {
 
         Stay stay = new Stay();
 
@@ -73,7 +77,7 @@ public class Stay {
         stay.representativeDetails = representative;
 
         stay.stayingState = StayingState.CheckedIn;
-
+        stay.organizationId = organizationId;
         stay.bill = Bill.createEmpty();
 
         int nights = (int)Duration.between(checkIn, LocalDateTime.now()).toDays();
@@ -117,6 +121,9 @@ public class Stay {
         return this.stayingState.equals(StayingState.CheckedIn);
     }
 
+    public OrganizationId organizationId() {
+        return this.organizationId;
+    }
 
     public void checkOut() throws AlreadyCheckedOutException {
         if (this.stayingState.equals(StayingState.CheckedOut)){

@@ -15,6 +15,7 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
@@ -203,32 +204,40 @@ public class CheckInController {
                 personalDetailsForm.getRepresentativeCreditCardNumber(),
                 personalDetailsForm.getRepresentativePaymentMethod());
 
-        OrganizationDetails org = new OrganizationDetails(
-                personalDetailsForm.getOrganizationName(),
-                new Address(
-                        personalDetailsForm.getOrganizationStreet(),
-                        personalDetailsForm.getOrganizationZip(),
-                        personalDetailsForm.getOrganizationCity(),
-                        personalDetailsForm.getOrganizationCountry()
-                ),
-                personalDetailsForm.getDiscount()
-        );
-
         String bookingId = checkInForm.getBookingId();
 
         try {
+            String orgId = personalDetailsForm.getOrganizationDropDownId();
+
+            if (orgId.equals("noOrganization")) {
+                orgId = "";
+            } else if (orgId.equals("addNewOrganization")) {
+                OrganizationDetails organizationDetails = new OrganizationDetails(
+                        personalDetailsForm.getOrganizationName(),
+                        new Address(
+                                personalDetailsForm.getOrganizationStreet(),
+                                personalDetailsForm.getOrganizationZip(),
+                                personalDetailsForm.getOrganizationCity(),
+                                personalDetailsForm.getOrganizationCountry()
+                        ),
+                        personalDetailsForm.getDiscount()
+                );
+
+                orgId = this.organizationService.add(organizationDetails).toString();
+            }
 
             if (bookingId == null || bookingId.length() == 0) {
                 this.frontDeskService.checkInWalkInGuest(
-                        roomIds,
-                        duration,
-                        guest,
-                        representative);
+                        roomIds, duration,
+                        guest, representative,
+                        new OrganizationId(orgId)
+                );
             } else {
                 this.frontDeskService.checkInWithBooking(
                         roomIds, duration,
                         guest, representative,
-                        bookingId);
+                        new OrganizationId(orgId), bookingId
+                );
             }
 
         } catch (InvalidIdException | CannotCheckinException x) {

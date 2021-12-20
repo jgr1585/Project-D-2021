@@ -48,15 +48,15 @@ insert into stay (id, stay_id, check_in, check_out,staying_state,
                   guest_first_name, guest_last_name, guest_street, guest_zip, guest_city, guest_country,
                   representative_first_name, representative_last_name,
                   representative_street, representative_zip, representative_city, representative_country,
-                  representative_email, representative_phone, representative_payment_method, representative_credit_card_number)
+                  representative_email, representative_phone, representative_payment_method, representative_credit_card_number, organization_id)
 values (111, 'dom-id-stay-111', '2021-11-13 10:00:00', '2021-11-20 10:00:00','CheckedIn',
         'John', 'Thompson', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
         'John', 'Thompson', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
-        'j.thompson@randatmail.com', '137-3936-04', 'CreditCard', '1111 1111 1111 1111'),
+        'j.thompson@randatmail.com', '137-3936-04', 'CreditCard', '1111 1111 1111 1111', ''),
        (222, 'dom-id-stay-222', '2021-11-10 10:00:00', '2021-11-15 10:00:00','CheckedIn',
         'Emma', 'Ross', 'Gösting 13b', '9542', 'Linz', 'Austria',
         'Emma', 'Ross', 'Gösting 13b', '9542', 'Linz', 'Austria',
-        'e.ross@randatmail.com', '559-1716-40', 'Cash', '2222 2222 2222 2222');
+        'e.ross@randatmail.com', '559-1716-40', 'Cash', '2222 2222 2222 2222', 'dom-id-org-111');
 
 
 insert into price_per_season(category_id, season, price)

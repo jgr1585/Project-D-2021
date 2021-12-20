@@ -3,6 +3,7 @@ package fhv.teamd.hotel.domain;
 import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import org.junit.jupiter.api.Assertions;
@@ -56,8 +57,8 @@ public class StayTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(now.getMonth()));
-        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()));
+        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(now.getMonth()), new OrganizationId(""));
+        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()), new OrganizationId(""));
 
         ReflectionTestUtils.setField(this.stay2, "stayingState", StayingState.CheckedOut);
 

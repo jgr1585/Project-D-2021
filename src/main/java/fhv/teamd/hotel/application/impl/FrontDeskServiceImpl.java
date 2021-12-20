@@ -14,6 +14,7 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
@@ -50,7 +51,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Transactional
     @Override
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
-                                   GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException, OccupiedRoomException {
+                                   GuestDetails guest, RepresentativeDetails representative, OrganizationId organizationId) throws InvalidIdException, OccupiedRoomException {
 
         Set<Room> rooms = new HashSet<>();
 
@@ -74,17 +75,18 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         this.stayRepository.put(Stay.create(
                 this.stayRepository.nextIdentity(),
                 checkIn, checkOut, rooms,
-                guest, representative, Season.getSeasonFromMonth(checkIn.getMonth()))
+                guest, representative, Season.getSeasonFromMonth(checkIn.getMonth()),
+                organizationId)
         );
     }
 
     @Transactional
     @Override
     public void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
-                                   GuestDetails guest, RepresentativeDetails representative,
+                                   GuestDetails guest, RepresentativeDetails representative, OrganizationId organizationId,
                                    String bookingId) throws InvalidIdException, OccupiedRoomException, CannotCheckinException {
 
-        this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
+        this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative, organizationId);
 
         Optional<Booking> result = this.bookingRepository.findById(new BookingId(bookingId));
 
@@ -101,8 +103,6 @@ public class FrontDeskServiceImpl implements FrontDeskService {
                 .map(StayDTO::fromStay)
                 .collect(Collectors.toList());
     }
-
-
 
 
     @Override

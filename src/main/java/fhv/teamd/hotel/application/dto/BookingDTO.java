@@ -12,11 +12,29 @@ import java.util.Objects;
 public class BookingDTO {
 
     private String id;
+
     private LocalDateTime fromDate;
     private LocalDateTime untilDate;
+
     private RepresentativeDetails representative;
     private GuestDetails guest;
     private String organizationId;
+
+    private BookingDTO() {
+    }
+
+    public static BookingDTO fromBooking(Booking booking) {
+        BookingDTO bookingDTO = new BookingDTO();
+
+        bookingDTO.id = booking.bookingId() == null ? null : booking.bookingId().toString();
+        bookingDTO.fromDate = booking.checkInDate();
+        bookingDTO.untilDate = booking.checkOutDate();
+        bookingDTO.guest = booking.guestDetails();
+        bookingDTO.representative = booking.representativeDetails();
+        bookingDTO.organizationId = booking.organizationId().toString();
+
+        return bookingDTO;
+    }
 
     public String id() {
         return this.id;
@@ -40,22 +58,6 @@ public class BookingDTO {
 
     public String organizationId() {
         return this.organizationId;
-    }
-
-    private BookingDTO() {
-    }
-
-    public static BookingDTO fromBooking(Booking booking) {
-        BookingDTO bookingDTO = new BookingDTO();
-
-        bookingDTO.id = booking.bookingId() == null ? null : booking.bookingId().toString();
-        bookingDTO.fromDate = booking.checkInDate();
-        bookingDTO.untilDate = booking.checkOutDate();
-        bookingDTO.guest = booking.guestDetails();
-        bookingDTO.representative = booking.representativeDetails();
-        bookingDTO.organizationId = booking.organizationId().toString();
-
-        return bookingDTO;
     }
 
     @Override

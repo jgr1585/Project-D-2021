@@ -81,8 +81,8 @@ public class FrontDeskServiceTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()));
-        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()));
+        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()), new OrganizationId(""));
+        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()), new OrganizationId(""));
 
         ReflectionTestUtils.setField(stay2, "stayingState", StayingState.CheckedOut);
 
@@ -125,27 +125,30 @@ public class FrontDeskServiceTests {
         final List<String> rooms = new LinkedList<>();
         final LocalDateTime checkOutDate = LocalDateTime.now().plus(Period.ofDays(1));
         rooms.add(room.roomId().toString());
+
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, Season.getSeasonFromMonth(LocalDateTime.now().getMonth()));
+
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, Season.getSeasonFromMonth(LocalDateTime.now().getMonth()), new OrganizationId(""));
+        final OrganizationId organizationId = new OrganizationId("");
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
 
-        Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep));
+        Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep, organizationId));
 
         Assertions.assertThrows(OccupiedRoomException.class, () -> {
             Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(false);
-            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep);
+            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep, organizationId);
         });
 
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
 
         Assertions.assertThrows(InvalidIdException.class, () -> {
             rooms.add(DomainFactory.createRoomId().toString());
-            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep);
+            this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep, organizationId);
         });
 
         Mockito.verify(this.stayRepository).put(this.actualStay.capture());
@@ -162,7 +165,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), Season.getSeasonFromMonth(LocalDateTime.now().getMonth()));
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), Season.getSeasonFromMonth(LocalDateTime.now().getMonth()), new OrganizationId(""));
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
@@ -170,7 +173,7 @@ public class FrontDeskServiceTests {
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
 
         Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWithBooking(rooms, Duration.between(LocalDateTime.now(), booking.checkOutDate()),
-                booking.guestDetails(), booking.representativeDetails(), booking.bookingId().toString()));
+                booking.guestDetails(), booking.representativeDetails(), booking.organizationId(), booking.bookingId().toString()));
 
 
         Assertions.assertEquals(BookingState.checkedIn, booking.bookingState());

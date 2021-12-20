@@ -9,10 +9,14 @@ import java.util.List;
 public class InvoiceForm {
 
     private String stayId;
+    private String organizationId;
+
     private BillAssignmentForm billAssignmentForm = new BillAssignmentForm();
 
     private List<Boolean> checkboxStates;
     private List<BillEntryDTO> selectedBillEntries;
+
+    private int discountPercent;
 
     private double discount;
     private double subTotal;
@@ -24,6 +28,7 @@ public class InvoiceForm {
     public InvoiceForm() {
         this.checkboxStates = new ArrayList<>();
         this.selectedBillEntries = new ArrayList<>();
+        this.discountPercent = 0;
         this.discount = 0;
         this.subTotal = 0;
         this.invoiceTotal = 0;
@@ -31,11 +36,15 @@ public class InvoiceForm {
         this.invoiceTotalTax = 0;
     }
 
-    public InvoiceForm(String stayId, BillAssignmentForm billAssignmentForm, List<Boolean> selectedBills, List<BillEntryDTO> selectedBillEntries, double discount, double subTotal, double invoiceTotal, double tabAmount, double invoiceTotalTax) {
+    public InvoiceForm(String stayId, String organizationId, BillAssignmentForm billAssignmentForm,
+                       List<Boolean> selectedBills, List<BillEntryDTO> selectedBillEntries,
+                       int discountPercent, double discount, double subTotal, double invoiceTotal, double tabAmount, double invoiceTotalTax) {
         this.stayId = stayId;
+        this.organizationId = organizationId;
         this.billAssignmentForm = billAssignmentForm;
         this.checkboxStates = selectedBills;
         this.selectedBillEntries = selectedBillEntries;
+        this.discountPercent = discountPercent;
         this.discount = discount;
         this.subTotal = subTotal;
         this.invoiceTotal = invoiceTotal;
@@ -49,6 +58,14 @@ public class InvoiceForm {
 
     public void setStayId(String stayId) {
         this.stayId = stayId;
+    }
+
+    public String getOrganizationId() {
+        return this.organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 
     public BillAssignmentForm getBillAssignmentForm() {
@@ -73,6 +90,14 @@ public class InvoiceForm {
 
     public void setSelectedBillEntries(List<BillEntryDTO> selectedBillEntries) {
         this.selectedBillEntries = selectedBillEntries;
+    }
+
+    public int getDiscountPercent() {
+        return this.discountPercent;
+    }
+
+    public void setDiscountPercent(int discountPercent) {
+        this.discountPercent = discountPercent;
     }
 
     public double getDiscount() {

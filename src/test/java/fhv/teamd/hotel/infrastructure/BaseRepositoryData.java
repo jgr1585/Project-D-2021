@@ -75,8 +75,8 @@ public abstract class BaseRepositoryData {
         final GuestDetails stayGust1 = new GuestDetails("John", "Thompson", stayAddressGuest1);
         final GuestDetails stayGust2 = new GuestDetails("Emma", "Ross", stayAddressGuest2);
 
-        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn);
-        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn);
+        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn, new OrganizationId(""));
+        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"));
         stays.addAll(List.of(stay1, stay2));
 
 

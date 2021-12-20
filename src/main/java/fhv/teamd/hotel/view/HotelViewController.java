@@ -86,12 +86,11 @@ public class HotelViewController {
         Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
 
         if (orgResult.isEmpty()) {
-            // TODO
+            // should not happen normally
             return new RedirectView("/");
         }
 
         OrganizationDTO organizationDTO = orgResult.get();
-
 
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,

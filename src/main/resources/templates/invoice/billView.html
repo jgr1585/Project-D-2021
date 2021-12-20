@@ -120,7 +120,7 @@
                                     </li>
                                     <li class="valign-wrapper display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">Discount</span>
-                                        <h6 class="invoice-subtotal-value" th:text="*{'- €' + discount}"></h6>
+                                        <h6 class="invoice-subtotal-value" th:text="*{'- €' + discountPercent}"></h6>
                                     </li>
                                     <li class="valign-wrapper display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">Tax</span>
@@ -142,6 +142,8 @@
 
                 <!-- hidden fields -->
                 <input th:field="*{stayId}" type="hidden">
+                <input th:field="*{organizationId}" type="hidden">
+                <input th:field="*{discountPercent}" type="hidden">
 
                 <input th:field="*{billAssignmentForm.firstName}" type="hidden"/>
                 <input th:field="*{billAssignmentForm.lastName}" type="hidden"/>
