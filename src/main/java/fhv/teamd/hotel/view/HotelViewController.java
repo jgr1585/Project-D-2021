@@ -71,8 +71,26 @@ public class HotelViewController {
 
         List<BookingDTO> bookings = this.bookingService.getActiveBookings();
 
+        List<OrganizationDTO> organizations = new ArrayList<>();
+        OrganizationDTO dummyOrg = new OrganizationDTO(
+                "", "",
+                new Address("", "", "", ""),
+                0
+        );
+
+        for (BookingDTO booking : bookings) {
+            Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
+
+            if (orgResult.isPresent()) {
+                organizations.add(orgResult.get());
+            } else {
+                organizations.add(dummyOrg);
+            }
+        }
+
         model.addAttribute("form", form);
         model.addAttribute("bookings", bookings);
+        model.addAttribute("organizations", organizations);
 
         return new ModelAndView("/booking/bookingOverview");
     }

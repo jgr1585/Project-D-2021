@@ -33,7 +33,7 @@
     <!-- Booking Table -->
 
     <ul class="collapsible popout" id="overview">
-        <li th:each="booking: ${bookings}" th:id="${booking.id + '-li'}">
+        <li th:each="booking, iter: ${bookings}" th:id="${booking.id + '-li'}">
             <div class="collapsible-header">
                 <div class="float-left">
                     <div>
@@ -116,10 +116,20 @@
                     </div>
 
                     <!-- organization data -->
-                    <div class="col collapsible-col s4">
+                    <div class="col collapsible-col s4" th:if="${organizations['__${iter.index}__'].id != ''}">
                         <h6>Organization</h6>
-
-                        <!-- todo -->
+                        <p class="valign-wrapper">
+                            <i class="material-icons">group</i>&nbsp
+                            <span th:text="${organizations['__${iter.index}__'].organizationName}"></span>
+                        </p>
+                        <p class="valign-wrapper">
+                            <i class="material-icons">location_city</i>&nbsp
+                            <span th:text="${organizations['__${iter.index}__'].address.street + ', ' + organizations['__${iter.index}__'].address.zip + ' ' + organizations['__${iter.index}__'].address.city + ', ' + organizations['__${iter.index}__'].address.country}"></span>
+                        </p>
+                        <p class="valign-wrapper">
+                            <i class="material-icons">local_offer</i>&nbsp
+                            <span th:text="${organizations['__${iter.index}__'].discount} + ' %'"></span>
+                        </p>
                     </div>
                 </div>
             </div>
