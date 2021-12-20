@@ -112,11 +112,11 @@ public class Booking {
             return false;
         }
         final Booking booking = (Booking) o;
-        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId) && Objects.equals(this.checkInDate, booking.checkInDate) && Objects.equals(this.checkOutDate, booking.checkOutDate) && Objects.equals(this.categories, booking.categories) && Objects.equals(this.contact, booking.contact) && Objects.equals(this.guest, booking.guest) && Objects.equals(this.organizationId, booking.organizationId) && this.bookingState == booking.bookingState;
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.domainId, this.checkInDate, this.checkOutDate, this.categories, this.contact, this.guest, this.organizationId, this.bookingState);
+        return Objects.hash(this.id, this.domainId);
     }
 }

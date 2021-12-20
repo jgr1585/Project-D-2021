@@ -49,7 +49,7 @@ public abstract class BaseRepositoryData {
         final GuestDetails gust2 = new GuestDetails("Julia", "Musterfrau", addressGuest2);
 
         final Booking booking1 = new Booking(111L, new BookingId("dom-id-book-111"), LocalDateTime.parse("2021-12-26T10:00:00"), LocalDateTime.parse("2021-12-30T10:00:00"), Map.of(category1, 3), rep1, gust1, new OrganizationId(""));
-        final Booking booking2 = new Booking(222L, new BookingId("dom-id-book-222"), LocalDateTime.parse("2022-12-26T10:00:00"), LocalDateTime.parse("2022-12-30T10:00:00"), Map.of(category1, 2, category2, 1), rep2, gust2, new OrganizationId(""));
+        final Booking booking2 = new Booking(222L, new BookingId("dom-id-book-222"), LocalDateTime.parse("2022-12-26T10:00:00"), LocalDateTime.parse("2022-12-30T10:00:00"), Map.of(category1, 2, category2, 1), rep2, gust2, new OrganizationId("dom-id-org-111"));
         bookings.addAll(List.of(booking1, booking2));
 
         final Room room1 = new Room(111L, new RoomId("R111"), category1);
