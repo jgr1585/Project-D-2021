@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -33,9 +34,8 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private StayRepository stayRepository;
 
-    @Override
     @Transactional
-    public void assignPayments(String fromBillId, Predicate<BillEntryDTO> filter, RepresentativeDetails billingAddress) throws InvalidIdException {
+    protected void assignPayments(String fromBillId, Predicate<BillEntryDTO> filter, RepresentativeDetails billingAddress) throws InvalidIdException {
 
         Optional<Bill> result = this.billRepository.findById(new BillId(fromBillId));
 
@@ -49,6 +49,12 @@ public class BillingServiceImpl implements BillingService {
 
         bill.assignResponsibility(selected, billingAddress, this.finalBillRepository::nextIdentity);
 
+    }
+
+    @Override
+    @Transactional
+    public void assignPayments(String fromBillId, List<String> filterList, RepresentativeDetails billingAddress) throws InvalidIdException {
+        this.assignPayments(fromBillId, e -> filterList.contains(e.description()), billingAddress);
     }
 
     @Override

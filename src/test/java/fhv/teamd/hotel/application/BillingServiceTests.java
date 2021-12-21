@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,7 +58,7 @@ public class BillingServiceTests {
 
         Assertions.assertDoesNotThrow(() -> this.billingService.assignPayments(
                 "dom-id-bill-111",
-                e -> e.description().equals("leitungswasser"),
+                        List.of("leitungswasser"),
                 rep));
 
         Assertions.assertFalse(b.intermediateEntries().stream().anyMatch(e -> e.description().equals("leitungswasser")));

@@ -4,7 +4,6 @@ import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.BillEntryDTO;
-import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
@@ -17,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("invoice")
@@ -159,29 +159,31 @@ public class InvoiceController {
         List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
         List<BillEntryDTO> billEntryDTOList = billDTO.entries();
 
+        BillAssignmentForm billAssignmentForm = invoiceForm.getBillAssignmentForm();
+        RepresentativeDetails representativeDetails = new RepresentativeDetails(
+                billAssignmentForm.getFirstName(),
+                billAssignmentForm.getLastName(),
+                billAssignmentForm.getMail(),
+                new Address(
+                        billAssignmentForm.getStreet(),
+                        billAssignmentForm.getZip(),
+                        billAssignmentForm.getCity(),
+                        billAssignmentForm.getCountry()
+                ),
+                billAssignmentForm.getPhone(),
+                billAssignmentForm.getCreditCardNumber(),
+                billAssignmentForm.getPaymentMethod()
+        );
+
+        List<String> filterList = new ArrayList<>();
+
         for (int i = 0; i < billEntryDTOList.size(); i++) {
             if (selectedCheckboxStates.get(i)) {
-                final String desc = billEntryDTOList.get(i).description();
-
-                BillAssignmentForm billAssignmentForm = invoiceForm.getBillAssignmentForm();
-                RepresentativeDetails representativeDetails = new RepresentativeDetails(
-                        billAssignmentForm.getFirstName(),
-                        billAssignmentForm.getLastName(),
-                        billAssignmentForm.getMail(),
-                        new Address(
-                                billAssignmentForm.getStreet(),
-                                billAssignmentForm.getZip(),
-                                billAssignmentForm.getCity(),
-                                billAssignmentForm.getCountry()
-                        ),
-                        billAssignmentForm.getPhone(),
-                        billAssignmentForm.getCreditCardNumber(),
-                        billAssignmentForm.getPaymentMethod()
-                );
-
-                this.billingService.assignPayments(billDTO.id(), e -> e.description().equals(desc), representativeDetails);
+                filterList.add(billEntryDTOList.get(i).description());
             }
         }
+
+        this.billingService.assignPayments(billDTO.id(), filterList, representativeDetails);
 
         return new RedirectView("billList?stayId=" + invoiceForm.getStayId());
     }
