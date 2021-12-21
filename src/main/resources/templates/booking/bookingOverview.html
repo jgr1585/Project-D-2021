@@ -83,10 +83,6 @@
                                 <span th:text="*{address.street + ', ' + address.zip + ' ' + address.city + ', ' + address.country}"></span>
                             </p>
                             <p class="valign-wrapper">
-                                <i class="material-icons">euro_symbol</i>&nbsp
-                                <span th:text="*{paymentMethod}"></span>
-                            </p>
-                            <p class="valign-wrapper">
                                 <i class="material-icons">email</i>&nbsp
                                 <span th:text="*{email}"></span>
                             </p>
@@ -94,6 +90,10 @@
 
                                 <i class="material-icons">phone</i>&nbsp
                                 <span th:text="*{phone}"></span>
+                            </p>
+                            <p class="valign-wrapper">
+                                <i class="material-icons">euro_symbol</i>&nbsp
+                                <span th:text="*{paymentMethod.getDisplayValue}"></span>
                             </p>
                             <p class="valign-wrapper">
                                 <i class="material-icons">payment</i>&nbsp
