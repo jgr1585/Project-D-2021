@@ -45,12 +45,12 @@ public class HotelViewController {
     public ModelAndView index(Model model) {
 
         List<StayDTO> activeStays = this.frontDeskService.getActiveStays();
-        List<OrganizationDTO> organizations = new ArrayList<>();
-
-        for (StayDTO stay : activeStays) {
-            Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(stay.organizationId());
-            organizations.add(orgResult.orElse(OrganizationDTO.empty()));
-        }
+        List<OrganizationDTO> organizations = activeStays
+                .stream()
+                .map(stay -> this.organizationService
+                        .findOrganizationById(stay.organizationId())
+                        .orElse(OrganizationDTO.empty()))
+                .collect(Collectors.toList());
 
         model.addAttribute("stays", activeStays);
         model.addAttribute("organizations", organizations);
@@ -63,16 +63,16 @@ public class HotelViewController {
             @ModelAttribute BookingListForm form,
             Model model) {
 
-        List<BookingDTO> bookings = this.bookingService.getActiveBookings();
-        List<OrganizationDTO> organizations = new ArrayList<>();
-
-        for (BookingDTO booking : bookings) {
-            Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
-            organizations.add(orgResult.orElse(OrganizationDTO.empty()));
-        }
+        List<BookingDTO> activeBookings = this.bookingService.getActiveBookings();
+        List<OrganizationDTO> organizations = activeBookings
+                .stream()
+                .map(booking -> this.organizationService
+                        .findOrganizationById(booking.organizationId())
+                        .orElse(OrganizationDTO.empty()))
+                .collect(Collectors.toList());
 
         model.addAttribute("form", form);
-        model.addAttribute("bookings", bookings);
+        model.addAttribute("bookings", activeBookings);
         model.addAttribute("organizations", organizations);
 
         return new ModelAndView("/booking/bookingOverview");
