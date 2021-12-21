@@ -19,11 +19,13 @@
         <property name="from" column="from_Month">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">java.time.Month</param>
+                <!--<param name="type">12</param>-->
             </type>
         </property>
         <property name="to" column="to_Month">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">java.time.Month</param>
+                <!--<param name="type">12</param>-->
             </type>
         </property>
 

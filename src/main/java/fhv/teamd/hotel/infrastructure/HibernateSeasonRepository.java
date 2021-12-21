@@ -13,7 +13,7 @@ public class HibernateSeasonRepository extends HibernateBaseRepository<Season, S
     public Season getSeasonFromMonth(Month month) {
         Season season = this.entityManager
                 .createQuery("select s from Season s where s.from = (SELECT MAX(s1.from) from Season s1 where s1.from <= :fromM)", Season.class)
-                .setParameter("fromM", month.getValue())
+                .setParameter("fromM", month)
                 .getSingleResult();
 
         if (season == null) {
