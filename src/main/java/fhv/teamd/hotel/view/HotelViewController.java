@@ -45,22 +45,11 @@ public class HotelViewController {
     public ModelAndView index(Model model) {
 
         List<StayDTO> activeStays = this.frontDeskService.getActiveStays();
-
         List<OrganizationDTO> organizations = new ArrayList<>();
-        OrganizationDTO dummyOrg = new OrganizationDTO(
-                "", "",
-                new Address("", "", "", ""),
-                0
-        );
 
         for (StayDTO stay : activeStays) {
             Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(stay.organizationId());
-
-            if (orgResult.isPresent()) {
-                organizations.add(orgResult.get());
-            } else {
-                organizations.add(dummyOrg);
-            }
+            organizations.add(orgResult.orElse(OrganizationDTO.empty()));
         }
 
         model.addAttribute("stays", activeStays);
@@ -75,22 +64,11 @@ public class HotelViewController {
             Model model) {
 
         List<BookingDTO> bookings = this.bookingService.getActiveBookings();
-
         List<OrganizationDTO> organizations = new ArrayList<>();
-        OrganizationDTO dummyOrg = new OrganizationDTO(
-                "", "",
-                new Address("", "", "", ""),
-                0
-        );
 
         for (BookingDTO booking : bookings) {
             Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
-
-            if (orgResult.isPresent()) {
-                organizations.add(orgResult.get());
-            } else {
-                organizations.add(dummyOrg);
-            }
+            organizations.add(orgResult.orElse(OrganizationDTO.empty()));
         }
 
         model.addAttribute("form", form);
@@ -115,12 +93,13 @@ public class HotelViewController {
         BookingDTO booking = bookingDetailsResult.get().basicInfo();
         Map<CategoryDTO, Integer> categories = bookingDetailsResult.get().details();
 
-        Map<String, Integer> categoryIds = categories.entrySet().stream().collect(
-                Collectors.toMap(
+        Map<String, Integer> categoryIds = categories
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
                         entry -> entry.getKey().id(),
                         Map.Entry::getValue
-                )
-        );
+                ));
 
         LocalDate checkIn = LocalDate.now();
         LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
