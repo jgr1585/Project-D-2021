@@ -49,6 +49,7 @@
             <h6>Categories</h6><br>
             <div class="row" th:each="category: ${categories}">
                 <div class="col s3 valign-wrapper">
+                    <i class="material-icons">hotel</i>&nbsp
                     <span style="font-weight: bold" th:text="${category.title()}"></span>
                 </div>
                 <div class="col s9">
