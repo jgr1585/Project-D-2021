@@ -75,7 +75,8 @@
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix">payment</i>
-                    <input class="validate" id="representativeCreditCardNumber" th:field="*{representativeCreditCardNumber}"
+                    <input class="validate" id="representativeCreditCardNumber"
+                           th:field="*{representativeCreditCardNumber}"
                            type="text"/>
                     <label for="representativeCreditCardNumber">Credit Card Number</label>
                 </div>
@@ -129,15 +130,22 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">business</i>
-                    <select id="alreadyExistingOrganization" th:field="*{organizationDropDownId}" onchange="copyOrganizationFields()">
-                        <option th:selected="${organizationDropDownId=='noOrganization'}" th:value="'noOrganization'">No Organization / Private Guest</option>
-                        <option th:selected="${organizationDropDownId=='addNewOrganization'}" th:value="'addNewOrganization'">+ New Organization</option>
-                        <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
-                        <option th:each="organization: ${organizations}"
-                                th:selected="${organization.id==organizationDropDownId}"
-                                th:text="${organization.organizationName}"
-                                th:value="${organization.id}">
+                    <select id="alreadyExistingOrganization" onchange="copyOrganizationFields()"
+                            th:field="*{organizationDropDownId}">
+                        <option th:selected="${organizationDropDownId=='noOrganization'}"
+                                th:value="'noOrganization'">No Organization / Private Guest
                         </option>
+                        <option th:selected="${organizationDropDownId=='addNewOrganization'}"
+                                th:value="'addNewOrganization'">+ New Organization
+                        </option>
+                        <optgroup label="Already Existing Organizations">
+                            <!--/*@thymesVar id="organizations" type="java.util.List<fhv.teamd.hotel.application.dto.OrganizationDTO>"*/-->
+                            <option th:each="organization: ${organizations}"
+                                    th:selected="${organization.id==organizationDropDownId}"
+                                    th:text="${organization.organizationName}"
+                                    th:value="${organization.id}">
+                            </option>
+                        </optgroup>
                     </select>
                     <label for="alreadyExistingOrganization">Select Organization</label>
                 </div>
