@@ -19,7 +19,7 @@
         <!-- Map<Season, Double> pricePerNight; -->
         <map name="pricePerNight" table="price_per_season">
             <key column="category_id" on-delete="cascade" />
-            <index column="season" type="fhv.teamd.hotel.domain.Season"/>
+            <index-many-to-many class="fhv.teamd.hotel.domain.Season" column="season_id"/>
             <element column="price" type="double"/>
         </map>
     </class>

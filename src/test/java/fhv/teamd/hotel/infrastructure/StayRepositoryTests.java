@@ -1,12 +1,11 @@
 package fhv.teamd.hotel.infrastructure;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
-import fhv.teamd.hotel.domain.*;
-import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.DomainFactory;
+import fhv.teamd.hotel.domain.Room;
+import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.StayId;
-import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -125,7 +127,7 @@ public class StayRepositoryTests {
                 Set.of(rooms.get(0)),
                 firstStay.guestDetails(),
                 firstStay.representativeDetails(),
-                Season.getSeasonFromMonth(firstStay.checkIn().getMonth()),
+                DomainFactory.createSeason(),
                 new OrganizationId("")
         );
 

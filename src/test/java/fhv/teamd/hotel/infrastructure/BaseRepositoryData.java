@@ -1,7 +1,10 @@
 package fhv.teamd.hotel.infrastructure;
 
 import fhv.teamd.hotel.domain.*;
-import fhv.teamd.hotel.domain.contactInfo.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ public abstract class BaseRepositoryData {
     private static final List<Category> categories;
     private static final List<Room> rooms;
     private static final List<Stay> stays;
+    private static final List<Season> seasons;
     // private static final List<Bill> bills;
     // private static final List<BillEntry> billEntries;
 
@@ -22,6 +26,7 @@ public abstract class BaseRepositoryData {
         categories = new LinkedList<>();
         rooms = new LinkedList<>();
         stays = new LinkedList<>();
+        seasons = new LinkedList<>();
         // bills = new LinkedList<>();
         // billEntries = new LinkedList<>();
 
@@ -30,17 +35,21 @@ public abstract class BaseRepositoryData {
 
     @SuppressWarnings({ "deprecation", "SpellCheckingInspection" })
     private static void init() {
-        final Map<Season, Double> pricePerNight1 = Map.of(Season.Winter,75.0,Season.Summer,70.0);
-        final Map<Season, Double> pricePerNight2 = Map.of(Season.Winter,150.0,Season.Summer,140.0);
+        final Season season1 = new Season(1L, new SeasonId("Season1"), "Summer", Month.MAY, Month.OCTOBER);
+        final Season season2 = new Season(2L, new SeasonId("Season2"), "Winter", Month.NOVEMBER, Month.APRIL);
+        seasons.addAll(List.of(season1, season2));
+
+        final Map<Season, Double> pricePerNight1 = Map.of(season1, 75.0, season2, 70.0);
+        final Map<Season, Double> pricePerNight2 = Map.of(season1, 150.0, season2, 140.0);
 
         final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight1);
-        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"),"Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);
+        final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);
         categories.addAll(List.of(category1, category2));
 
         final Address addressGuest1 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");
         final Address addressRep1 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");
-        final Address addressGuest2 = new Address("Mustergasse 5",  "1234", "Feldkirch", "Austria");
-        final Address addressRep2 = new Address("Musterstraße 5",  "1234", "Dornbirn", "Austria");
+        final Address addressGuest2 = new Address("Mustergasse 5", "1234", "Feldkirch", "Austria");
+        final Address addressRep2 = new Address("Musterstraße 5", "1234", "Dornbirn", "Austria");
 
         final RepresentativeDetails rep1 = new RepresentativeDetails("Max", "Mustermann", "mustermann@mustermail.com", addressRep1, "123456789", "4111 1111 1111 1111", PaymentMethod.CreditCard);
         final RepresentativeDetails rep2 = new RepresentativeDetails("Max", "Musterfrau", "mustermann@mustermail.com", addressRep2, "123456789", "5555 5555 5555 4444", PaymentMethod.Cash);
@@ -79,7 +88,6 @@ public abstract class BaseRepositoryData {
         final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"));
         stays.addAll(List.of(stay1, stay2));
 
-
         //TODO: Data for Bill
 
     }
@@ -98,6 +106,10 @@ public abstract class BaseRepositoryData {
 
     public static List<Stay> stays() {
         return Collections.unmodifiableList(stays);
+    }
+
+    public static List<Season> seasons() {
+        return Collections.unmodifiableList(seasons);
     }
 
     //    public static List<Bill> bills() {

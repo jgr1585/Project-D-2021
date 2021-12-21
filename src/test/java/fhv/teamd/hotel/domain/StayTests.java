@@ -1,22 +1,22 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
-import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @SpringBootTest
@@ -49,16 +49,15 @@ public class StayTests {
         rooms1.add(room1);
 
 
-        @SuppressWarnings("deprecation")
-        final Room room2 = new Room(
+        @SuppressWarnings("deprecation") final Room room2 = new Room(
                 456L,
                 new RoomId("R456"),
                 DomainFactory.createCategory());
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, Season.getSeasonFromMonth(now.getMonth()), new OrganizationId(""));
-        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, Season.getSeasonFromMonth(yesterday.getMonth()), new OrganizationId(""));
+        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
+        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
 
         ReflectionTestUtils.setField(this.stay2, "stayingState", StayingState.CheckedOut);
 
