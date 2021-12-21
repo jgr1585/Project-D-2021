@@ -50,6 +50,17 @@ public class OrganizationDTO {
         return organizationDTO;
     }
 
+    public static OrganizationDTO empty() {
+        OrganizationDTO organizationDTO = new OrganizationDTO();
+
+        organizationDTO.id = "";
+        organizationDTO.organizationName = "";
+        organizationDTO.address = new Address("", "", "", "");
+        organizationDTO.discount = 0;
+
+        return organizationDTO;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

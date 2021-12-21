@@ -4,7 +4,6 @@ import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.*;
-import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
@@ -14,14 +13,20 @@ import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -121,13 +126,7 @@ public class HotelViewController {
         LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
 
         Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
-
-        if (orgResult.isEmpty()) {
-            // should not happen normally
-            return new RedirectView("/");
-        }
-
-        OrganizationDTO organizationDTO = orgResult.get();
+        OrganizationDTO organization = orgResult.orElse(OrganizationDTO.empty());
 
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,
@@ -135,12 +134,12 @@ public class HotelViewController {
                 new PersonalDetailsForm(
                         booking.organizationId(),
 
-                        organizationDTO.organizationName(),
-                        organizationDTO.address().street(),
-                        organizationDTO.address().zip(),
-                        organizationDTO.address().city(),
-                        organizationDTO.address().country(),
-                        organizationDTO.discount(),
+                        organization.organizationName(),
+                        organization.address().street(),
+                        organization.address().zip(),
+                        organization.address().city(),
+                        organization.address().country(),
+                        organization.discount(),
 
                         booking.guest().firstName(),
                         booking.guest().lastName(),

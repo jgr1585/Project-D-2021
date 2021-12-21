@@ -4,6 +4,7 @@ import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Season;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
+import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class CategoryRepositoryTests {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
 
     @Test
     void given_category_when_getAll_return_all() {
@@ -50,7 +54,7 @@ public class CategoryRepositoryTests {
         List<Category> actCat = this.categoryRepository.getAll();
 
         for (Category category : actCat) {
-            for (Season season : Season.values()) {
+            for (Season season : this.seasonRepository.getAll()) {
                 final AtomicReference<Double> price = new AtomicReference<>();
                 final AtomicReference<Category> expCat1 = new AtomicReference<>();
 
