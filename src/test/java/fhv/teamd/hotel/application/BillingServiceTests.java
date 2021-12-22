@@ -10,6 +10,7 @@ import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.repositories.BillRepository;
+import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.lang.reflect.Field;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class BillingServiceTests {
@@ -31,6 +35,9 @@ public class BillingServiceTests {
 
     @MockBean
     private StayRepository stayRepository;
+
+    @MockBean
+    private SeasonRepository seasonRepository;
 
     @Autowired
     private BillingService billingService;
@@ -82,6 +89,7 @@ public class BillingServiceTests {
 
         Mockito.when(this.stayRepository.findById(stay1.stayId())).thenReturn(Optional.of(stay1));
         Mockito.when(this.stayRepository.findById(stay2.stayId())).thenReturn(Optional.of(stay2));
+        Mockito.when(this.seasonRepository.getSeasonFromMonth(any())).thenAnswer(invocation -> DomainFactory.getSeasonOf(invocation.getArgument(0, Month.class)));
 
         final AtomicReference<BillDTO> bill1 = new AtomicReference<>();
         final AtomicReference<BillDTO> bill2 = new AtomicReference<>();

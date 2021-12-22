@@ -13,6 +13,7 @@ import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
+import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +29,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,6 +53,9 @@ public class FrontDeskServiceTests {
 
     @MockBean
     private BookingRepository bookingRepository;
+
+    @MockBean
+    private SeasonRepository seasonRepository;
 
     @Captor
     private ArgumentCaptor<Stay> actualStay;
@@ -84,8 +89,8 @@ public class FrontDeskServiceTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
-        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
+        Stay stay1 = Stay.create(new StayId("stay-1"), yesterday, tomorrow, rooms1, guest, rep, DomainFactory.getSeasonOf(yesterday), new OrganizationId(""));
+        Stay stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.getSeasonOf(yesterday), new OrganizationId(""));
 
         ReflectionTestUtils.setField(stay2, "stayingState", StayingState.CheckedOut);
 
@@ -95,6 +100,8 @@ public class FrontDeskServiceTests {
         Mockito.when(this.stayRepository.getActiveStays()).thenReturn(List.of(stay1));
         Mockito.when(this.stayRepository.findById(new StayId("stay-1"))).thenReturn(Optional.of(stay1));
         Mockito.when(this.stayRepository.findById(new StayId("stay-2"))).thenReturn(Optional.of(stay2));
+        Mockito.when(this.seasonRepository.getSeasonFromMonth(any())).thenAnswer(invocation -> DomainFactory.getSeasonOf(invocation.getArgument(0, Month.class)));
+
 
     }
 
@@ -131,7 +138,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, DomainFactory.createSeason(), new OrganizationId(""));
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, DomainFactory.getSeasonOf(LocalDateTime.now()), new OrganizationId(""));
         final OrganizationId organizationId = new OrganizationId("");
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
@@ -166,7 +173,7 @@ public class FrontDeskServiceTests {
         final StayId stayId = DomainFactory.createStayId();
         final Set<Room> roomsSet = new HashSet<>();
         roomsSet.add(room);
-        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), DomainFactory.createSeason(), new OrganizationId(""));
+        final Stay expected = Stay.create(stayId, LocalDateTime.now(), booking.checkOutDate(), roomsSet, booking.guestDetails(), booking.representativeDetails(), DomainFactory.getSeasonOf(LocalDateTime.now()), new OrganizationId(""));
 
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));

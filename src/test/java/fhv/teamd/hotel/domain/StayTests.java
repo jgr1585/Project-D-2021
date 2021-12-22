@@ -56,8 +56,8 @@ public class StayTests {
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
-        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.createSeason(), new OrganizationId(""));
+        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, DomainFactory.getSeasonOf(now), new OrganizationId(""));
+        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.getSeasonOf(yesterday), new OrganizationId(""));
 
         ReflectionTestUtils.setField(this.stay2, "stayingState", StayingState.CheckedOut);
 

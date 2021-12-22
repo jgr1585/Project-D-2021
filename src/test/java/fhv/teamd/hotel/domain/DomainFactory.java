@@ -5,18 +5,21 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.*;
+import fhv.teamd.hotel.infrastructure.BaseRepositoryData;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Period;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public abstract class DomainFactory {
+
+    private static final List<Season> seasons;
+
+    static {
+        seasons = BaseRepositoryData.seasons();
+    }
 
     public static Address createAddress() {
         UUID uuid = UUID.randomUUID();
@@ -35,7 +38,7 @@ public abstract class DomainFactory {
     public static Category createCategory() {
         UUID uuid = UUID.randomUUID();
 
-        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, Map.of(createSeason(), 20.0, createSeason(), 25.0));
+        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, createPricePerSeason());
     }
 
     public static BookingId createBookingId() {
@@ -110,27 +113,41 @@ public abstract class DomainFactory {
 
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, createSeasonWithDate(from.getMonth(), until.getMonth()), createOrganizationId(uuid));
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, getSeasonOf(from), createOrganizationId(uuid));
     }
 
-    public static Season createSeason() {
-        return createSeason(UUID.randomUUID(), LocalDate.now().getMonth(), LocalDate.now().getMonth().plus(2));
+    public static Season getSeasonOf(LocalDateTime date) {
+        return getSeasonOf(date.getMonth());
     }
 
-    private static Season createSeason(UUID uuid, Month from, Month to) {
-        return new Season(uuidToLong(uuid), createSeasonId(uuid), uuid.toString(), from, to);
-    }
+    public static Season getSeasonOf(Month month) {
+        for (Season season : seasons) {
+            if ((season.from().getValue() >= month.getValue()) && (season.to().getValue() <= month.getValue())) {
+                return season;
+            }
+        }
 
-    private static Season createSeasonWithDate(Month from, Month to) {
-        return createSeason(UUID.randomUUID(), from, to);
-    }
+        Optional<Season> season = seasons.stream().min(Comparator.comparing(Season::from));
 
-    private static SeasonId createSeasonId(UUID uuid) {
-        return new SeasonId(uuid.toString());
+        if (season.isEmpty()) {
+            throw new NullPointerException();
+        }
+
+        return season.get();
     }
 
     public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
         return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
+    }
+
+    private static Map<Season, Double> createPricePerSeason() {
+        Random r = new Random();
+        Map<Season, Double> pricePerSeason = new HashMap<>();
+
+        //Generate a Random Price between 0 and 80 €
+        seasons.forEach(season -> pricePerSeason.put(season, (r.nextInt() % 8000 / 100.0)));
+
+        return pricePerSeason;
     }
 
     private static long uuidToLong(UUID uuid) {

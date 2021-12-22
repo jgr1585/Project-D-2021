@@ -127,7 +127,7 @@ public class StayRepositoryTests {
                 Set.of(rooms.get(0)),
                 firstStay.guestDetails(),
                 firstStay.representativeDetails(),
-                DomainFactory.createSeason(),
+                DomainFactory.getSeasonOf(firstStay.checkIn()),
                 new OrganizationId("")
         );
 
