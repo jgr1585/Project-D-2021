@@ -1,3 +1,5 @@
+# noinspection SqlResolveForFile
+
 -- noinspection SqlWithoutWhereForFile
 
 delete from stay_in_room;
@@ -59,7 +61,7 @@ values (111, 'dom-id-stay-111', '2021-11-13 10:00:00', '2021-11-20 10:00:00', 'C
 
 insert into season(id, season_id, name, from_Month, to_Month)
 values (1, 'Season1', 'Summer', 04, 09),
-       (2, 'Season1', 'Winter', 10, 03);
+       (2, 'Season2', 'Winter', 10, 03);
 
 insert into price_per_season(category_id, season_id, price)
 values (111, 1, 75),

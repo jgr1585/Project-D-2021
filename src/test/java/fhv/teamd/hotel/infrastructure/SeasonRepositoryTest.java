@@ -5,11 +5,13 @@ import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+@SpringBootTest
 public class SeasonRepositoryTest {
 
     @Autowired
@@ -20,11 +22,14 @@ public class SeasonRepositoryTest {
         List<Season> seasons = BaseRepositoryData.seasons();
 
         seasons.forEach(season -> {
-            Month month = season.from();
+            Month month;
+            int i = season.to().getValue() > season.from().getValue() ? season.from().getValue() : season.from().getValue() - 12;
 
-            while (month != season.to()) {
-                Assertions.assertEquals(season, this.seasonRepository.getSeasonFromMonth(month));
-                month = month.plus(1);
+            while (i <= season.to().getValue()) {
+                month = i > 0 ? Month.of(i) : Month.of(i + 12);
+                Season actual = this.seasonRepository.getSeasonFromMonth(month);
+                Assertions.assertEquals(season, actual);
+                i++;
             }
         });
 
