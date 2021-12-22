@@ -1,5 +1,3 @@
-# noinspection SqlResolveForFile
-
 -- noinspection SqlWithoutWhereForFile
 
 delete from stay_in_room;
