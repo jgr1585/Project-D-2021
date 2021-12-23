@@ -83,6 +83,10 @@ public class InvoiceController {
             }
         }
 
+        if (action.equals("prev")) {
+            return new RedirectView("/");
+        }
+
         redirectAttributes.addFlashAttribute("invoiceForm", invoiceForm);
 
         return new RedirectView("billEdit");
