@@ -101,7 +101,7 @@
                 </button>
 
                 <a disabled id="checkOutSummary" class="btn waves-effect waves-light blue accent-2"
-                   th:href="@{/checkOut/summary(stayId=${invoiceForm.stayId})}">
+                   th:href="@{/checkOut/summary(stayId=${invoiceForm.stayId}, discountPercent=${invoiceForm.discountPercent})}">
                     Check-Out Summary
                     <i class="material-icons right">logout</i>
                 </a>

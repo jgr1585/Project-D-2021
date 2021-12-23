@@ -36,7 +36,13 @@ public class InvoiceController {
             @RequestParam(required = false) String action,
             Model model) throws InvalidIdException {
 
-        BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
+        String stayId = invoiceForm.getStayId();
+
+        if (stayId == null || stayId.equals("")) {
+            return new ModelAndView("redirect:/");
+        }
+
+        BillDTO billDTO = this.billingService.getBill(stayId);
         model.addAttribute("bill", billDTO);
 
         List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();
@@ -87,6 +93,12 @@ public class InvoiceController {
             @ModelAttribute InvoiceForm invoiceForm,
             Model model) {
 
+        String stayId = invoiceForm.getStayId();
+
+        if (stayId == null || stayId.equals("")) {
+            return new ModelAndView("redirect:/");
+        }
+
         model.addAttribute("invoiceForm", invoiceForm);
 
         return new ModelAndView("/invoice/billEdit");
@@ -112,7 +124,13 @@ public class InvoiceController {
             @ModelAttribute InvoiceForm invoiceForm,
             Model model) throws InvalidIdException {
 
-        BillDTO billDTO = this.billingService.getBill(invoiceForm.getStayId());
+        String stayId = invoiceForm.getStayId();
+
+        if (stayId == null || stayId.equals("")) {
+            return new ModelAndView("redirect:/");
+        }
+
+        BillDTO billDTO = this.billingService.getBill(stayId);
         model.addAttribute("bill", billDTO);
 
         List<Boolean> selectedCheckboxStates = invoiceForm.getCheckboxStates();

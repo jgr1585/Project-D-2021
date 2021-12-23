@@ -23,8 +23,7 @@
                     <div class="collapsible-header">
 
                         <div class="float-left">
-
-                            <h6 th:text="${stay.guest().firstName() + ' ' + stay.guest().lastName()}"></h6>
+                            <h6 th:text="${stay.guest.firstName + ' ' + stay.guest.lastName}"></h6>
 
                             <div>
                                 <span th:text="${{stay.checkIn}}"></span>
@@ -40,7 +39,7 @@
                                     <i class="material-icons blue-grey-text no-margin center-context">receipt</i>
                                 </div>
                             </a>
-                            <form method="post" th:action="@{/checkOut/summary(stayId=${stay.id})}">
+                            <form method="post" th:action="@{/checkOut/summary(stayId=${stay.id}, discountPercent=${organizations['__${iter.index}__'].discount})}">
                                 <button class="aToBtn waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
                                         data-position="top"
                                         data-tooltip="Check-Out Summary" type="submit">

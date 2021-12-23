@@ -1,6 +1,8 @@
 package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.FinalBill;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,7 @@ public class FinalBillDTO {
 
     private double total;
     private List<BillEntryDTO> entries;
-
+    private RepresentativeDetails representative;
 
     private FinalBillDTO() { }
 
@@ -24,6 +26,7 @@ public class FinalBillDTO {
                 .stream()
                 .map(BillEntryDTO::fromEntry)
                 .collect(Collectors.toUnmodifiableList());
+        dto.representative = bill.billingAddress();
 
         return dto;
     }
@@ -35,6 +38,11 @@ public class FinalBillDTO {
     public List<BillEntryDTO> entries() {
 
         return Collections.unmodifiableList(this.entries);
+    }
+
+    public RepresentativeDetails representative() {
+
+        return this.representative;
     }
 
     @Override

@@ -17,39 +17,126 @@
 
     <!--    <div th:replace="fragments/errorMessage"></div>-->
 
-    <div class="row">
-        <div class="col s6">
-            <form action="/checkOut/perform" method="post">
+    <form action="/checkOut/perform" method="post">
 
-                <input type="hidden" name="stayId" th:value="${stayId}">
+        <input type="hidden" name="stayId" th:value="${stayId}">
 
-                <div class="section" th:object="${bill}">
-                    <th:block th:each="entry, iter: *{finalBills}">
-                        <div th:each="entryEn, iterEntry: ${entry.entries}" class="row noMargin">
-                            <div class="col s6" th:text="${entryEn.description}"></div>
+        <div th:with="discountPercent=${discountPercent}"></div>
 
-                            <div class="col s2">PAID/PENDING</div>
+        <div class="section row">
+            <div class="col s12">
+                <ul class="collapsible popout" th:object="${bill}">
+                    <li th:each="finalBill, iter: *{finalBills}">
+                        <div class="collapsible-header">
+                            <div class="float-left">
+                                <h6 th:text="${'Paid by ' + finalBill.representative.firstName + ' ' + finalBill.representative.lastName}"></h6>
 
-                            <div class="col s2 center-align" th:text="${entryEn.amount}"></div>
-                            <div class="col s2 right-align" th:text="${entryEn.subTotal}"></div>
+                                <div>
+                                    <span>Total price: </span>
+                                    <span th:text="${finalBill.total * (1 - discountPercent) * 1.2}"></span>
+                                </div>
+                            </div>
+
+                            <!--Right Table Buttons -->
+                            <!--                            <div class="float-right valign-wrapper">-->
+                            <!--                                <a th:href="@{/booking/performCheckIn(id=${booking.id})}">-->
+                            <!--                                    <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"-->
+                            <!--                                         data-position="top" data-tooltip="Check-In">-->
+                            <!--                                        <i class="material-icons green-text no-margin center-context">login</i>-->
+                            <!--                                    </div>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
                         </div>
-                    </th:block>
-                </div>
 
-                <!-- back/cancel/submit buttons -->
-                <div class="row right-align">
-                    <button class="btn waves-effect waves-light blue accent-2"
-                            type="submit" name="action" value="next">Check Out
-                        <i class="material-icons right">done</i>
-                    </button>
-                    <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
-                        <i class="material-icons right">cancel</i>
-                    </a>
-                </div>
-            </form>
+                        <div class="collapsible-body">
+                            <div class="row collapsible-row" th:object="${finalBill}">
+                                <!-- representative data -->
+                                <div class="col collapsible-col s4" th:object="${finalBill.representative}">
+                                    <h6>Billing Address</h6>
+                                    <div>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">account_circle</i>&nbsp
+                                            <span th:text="*{firstName + ' ' + lastName}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">location_city</i>&nbsp
+                                            <span th:text="*{address.street + ', ' + address.zip + ' ' + address.city + ', ' + address.country}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">email</i>&nbsp
+                                            <span th:text="*{email}"></span>
+                                        </p>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">phone</i>&nbsp
+                                            <span th:text="*{phone}"></span>
+                                        </p>
+                                    </div>
+
+                                    <br>
+
+                                    <h6>Payment Method</h6>
+                                    <div>
+                                        <p class="valign-wrapper">
+                                            <i class="material-icons">euro_symbol</i>&nbsp
+                                            <span th:text="*{paymentMethod.getDisplayValue}"></span>
+                                        </p>
+
+                                        <th:block th:if="*{creditCardNumber != ''}">
+                                            <p class="valign-wrapper">
+                                                <i class="material-icons">payment</i>&nbsp
+                                                <span th:text="*{creditCardNumber}"></span>
+                                            </p>
+                                        </th:block>
+                                    </div>
+                                </div>
+
+                                <div class="col collapsible-col s8">
+                                    <h6>Paid bills</h6>
+
+                                    <table class="striped responsive-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th class="right-align">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <th:block th:each="entry, iter: *{entries}">
+                                            <tr>
+                                                <td th:text="${entry.description}"></td>
+                                                <td th:text="${entry.amount}"></td>
+                                                <td th:text="${'€' + (entry.unitPrice * (1 - discountPercent) * 1.2)}"></td>
+                                                <td class="indigo-text right-align"
+                                                    th:text="${'€' + (entry.subTotal * (1 - discountPercent) * 1.2)}"></td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+
+        <!-- back/cancel/submit buttons -->
+        <div class="row right-align">
+            <button class="btn waves-effect waves-light blue accent-2"
+                    type="submit" name="action" value="next">Check Out
+                <i class="material-icons right">done</i>
+            </button>
+            <a class="btn waves-effect waves-light red accent-2" href="/">Cancel
+                <i class="material-icons right">cancel</i>
+            </a>
+        </div>
+    </form>
 </div>
+
 <footer th:replace="fragments/main.html :: footer"></footer>
 </body>
 
