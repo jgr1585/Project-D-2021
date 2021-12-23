@@ -6,7 +6,6 @@ import fhv.teamd.hotel.domain.ids.FinalBillId;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,13 +19,13 @@ public class Bill {
     private final List<FinalBill> finalBills;
 
     private Bill() {
-
         this.intermediateEntries = new ArrayList<>();
         this.finalBills = new ArrayList<>();
     }
 
-    public static Bill createEmpty() {
-        return new Bill();
+    public Bill(BillId id) {
+        this();
+        this.domainId = id;
     }
 
     public BillId billId() {
@@ -82,15 +81,15 @@ public class Bill {
         return Collections.unmodifiableList(this.finalBills);
     }
 
-    public void assignResponsibility(List<BillEntry> entries, RepresentativeDetails assignTo, Supplier<FinalBillId> idSupplier) {
+    public void assignResponsibility(List<BillEntry> entries, RepresentativeDetails assignTo, FinalBillId finalBillId) {
 
-        if(!this.intermediateEntries.containsAll(entries)) {
+        if (!this.intermediateEntries.containsAll(entries)) {
             throw new IllegalArgumentException();
         }
 
         this.intermediateEntries.removeAll(entries);
 
-        this.finalBills.add(new FinalBill(idSupplier.get(), entries, assignTo));
+        this.finalBills.add(new FinalBill(finalBillId, entries, assignTo));
     }
 
     @Override

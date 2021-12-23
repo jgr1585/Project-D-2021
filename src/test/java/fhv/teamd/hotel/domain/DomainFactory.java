@@ -113,7 +113,7 @@ public abstract class DomainFactory {
 
         RepresentativeDetails rep = createRepresentativeDetails();
 
-        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, getSeasonOf(from), createOrganizationId(uuid));
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, getSeasonOf(from), createOrganizationId(uuid), new BillId(UUID.randomUUID().toString()));
     }
 
     public static Season getSeasonOf(LocalDateTime date) {

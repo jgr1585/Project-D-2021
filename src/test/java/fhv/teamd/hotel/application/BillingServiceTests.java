@@ -45,7 +45,7 @@ public class BillingServiceTests {
     @Test
     void given_intermediateBill_when_assignAllToRepresentative_then_works() throws ReflectiveOperationException {
 
-        Bill b = Bill.createEmpty();
+        Bill b = new Bill(new BillId("12345"));
 
         Field idField = Bill.class.getDeclaredField("domainId");
         idField.setAccessible(true);

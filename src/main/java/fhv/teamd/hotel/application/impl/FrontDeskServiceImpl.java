@@ -15,10 +15,7 @@ import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
-import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import fhv.teamd.hotel.domain.repositories.RoomRepository;
-import fhv.teamd.hotel.domain.repositories.SeasonRepository;
-import fhv.teamd.hotel.domain.repositories.StayRepository;
+import fhv.teamd.hotel.domain.repositories.*;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +47,9 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Autowired
     private AvailabilityService availabilityService;
 
+    @Autowired
+    private BillRepository billRepository;
+
     @Transactional
     @Override
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
@@ -78,7 +78,8 @@ public class FrontDeskServiceImpl implements FrontDeskService {
                 this.stayRepository.nextIdentity(),
                 checkIn, checkOut, rooms,
                 guest, representative, this.seasonRepository.getSeasonFromMonth(checkIn.getMonth()),
-                organizationId
+                organizationId,
+                this.billRepository.nextIdentity()
         ));
     }
 

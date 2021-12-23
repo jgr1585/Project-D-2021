@@ -3,6 +3,7 @@ package fhv.teamd.hotel.infrastructure;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Room;
 import fhv.teamd.hotel.domain.Stay;
+import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.StayId;
@@ -128,7 +129,8 @@ public class StayRepositoryTests {
                 firstStay.guestDetails(),
                 firstStay.representativeDetails(),
                 DomainFactory.getSeasonOf(firstStay.checkIn()),
-                new OrganizationId("")
+                new OrganizationId(""),
+                new BillId("6421321")
         );
 
         List<Stay> expected = new ArrayList<>(List.of(newStay));

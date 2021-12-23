@@ -75,8 +75,8 @@ public abstract class BaseRepositoryData {
 
         final Address stayAddressGuest1 = new Address("Hans-Mauracher-Straße 162", "4117", "Wien", "Austria");
         final Address stayAddressRep1 = new Address("Hans-Mauracher-Straße 162", "4117", "Wien", "Austria");
-        final Address stayAddressGuest2 = new Address("Gösting 13b",  "9542", "Linz", "Austria");
-        final Address stayAddressRep2 = new Address("Gösting 13b",  "9542", "Linz", "Austria");
+        final Address stayAddressGuest2 = new Address("Gösting 13b", "9542", "Linz", "Austria");
+        final Address stayAddressRep2 = new Address("Gösting 13b", "9542", "Linz", "Austria");
 
         final RepresentativeDetails stayRep1 = new RepresentativeDetails("John", "Thompson", "j.thompson@randatmail.com", stayAddressRep1, "137-3936-04", "1111 1111 1111 1111", PaymentMethod.CreditCard);
         final RepresentativeDetails stayRep2 = new RepresentativeDetails("Emma", "Ross", "e.ross@randatmail.com", stayAddressRep2, "559-1716-40", "2222 2222 2222 2222", PaymentMethod.Cash);
@@ -84,8 +84,8 @@ public abstract class BaseRepositoryData {
         final GuestDetails stayGust1 = new GuestDetails("John", "Thompson", stayAddressGuest1);
         final GuestDetails stayGust2 = new GuestDetails("Emma", "Ross", stayAddressGuest2);
 
-        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn, new OrganizationId(""));
-        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"));
+        final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2021-11-13T10:00:00"), LocalDateTime.parse("2021-11-20T10:00:00"), Set.of(room4, room5), stayRep1, stayGust1, StayingState.CheckedIn, new OrganizationId(""), new BillId("146567"));
+        final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"), new BillId("7569526"));
         stays.addAll(List.of(stay1, stay2));
 
         //TODO: Data for Bill

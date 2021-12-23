@@ -3,6 +3,7 @@ package fhv.teamd.hotel.domain;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.StayId;
 
@@ -38,7 +39,8 @@ public class Stay {
     @Deprecated
     public Stay(Long id, StayId domainId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                 Set<Room> rooms,
-                RepresentativeDetails representativeDetails, GuestDetails guestDetails, StayingState stayingState, OrganizationId organizationId) {
+                RepresentativeDetails representativeDetails, GuestDetails guestDetails, StayingState stayingState, OrganizationId organizationId,
+                BillId billId) {
         this.id = id;
         this.domainId = domainId;
         this.checkIn = checkIn;
@@ -48,19 +50,20 @@ public class Stay {
         this.representativeDetails = representativeDetails;
         this.stayingState = stayingState;
         this.organizationId = organizationId;
-        this.bill = Bill.createEmpty();
+        this.bill = new Bill(billId);
     }
 
 
     public static Stay create(StayId stayId, LocalDateTime checkIn, LocalDateTime expectedCheckOut,
                               Set<Room> rooms,
-                              GuestDetails guest, RepresentativeDetails representative, Season season, OrganizationId organizationId) {
+                              GuestDetails guest, RepresentativeDetails representative, Season season, OrganizationId organizationId,
+                              BillId billId) {
 
         Stay stay = new Stay();
 
         stay.domainId = stayId;
 
-        if(checkIn.isAfter(expectedCheckOut)) {
+        if (checkIn.isAfter(expectedCheckOut)) {
             throw new InvalidParameterException("check in must be before check out");
         }
 
@@ -78,9 +81,9 @@ public class Stay {
 
         stay.stayingState = StayingState.CheckedIn;
         stay.organizationId = organizationId;
-        stay.bill = Bill.createEmpty();
+        stay.bill = new Bill(billId);
 
-        int nights = (int)Duration.between(checkIn, LocalDateTime.now()).toDays();
+        int nights = (int) Duration.between(checkIn, expectedCheckOut).toDays();
         for (Room room: rooms) {
             Category category = room.category();
             stay.bill.charge("Night(s) in " + room, nights, category.pricePerNight(season));
