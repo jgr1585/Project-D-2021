@@ -1,5 +1,6 @@
 package fhv.teamd.hotel.view;
 
+import fhv.teamd.hotel.application.BillingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -19,32 +19,44 @@ public class CheckOutController {
     @Autowired
     private FrontDeskService frontDeskService;
 
+    @Autowired
+    private BillingService billingService;
 
-    @GetMapping("bill")
-    public ModelAndView showBill(@RequestParam String stayId, Model model) {
+    @RequestMapping("summary")
+    public RedirectView checkOutSummary(
+            @RequestParam String stayId,
+            @RequestParam int discountPercent,
+            Model model) throws InvalidIdException {
 
-        try {
+        BillDTO billDTO = this.billingService.getBill(stayId);
+        String reqParams = "?stayId=" + stayId + "&discountPercent=" + discountPercent;
 
-            BillDTO bill = this.frontDeskService.intermediateBill(stayId);
-            model.addAttribute("bill", bill);
-
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
+        if (billDTO.entries().size() > 0) {
+            return new RedirectView("/invoice/billList" + reqParams);
+        } else {
+            return new RedirectView("/checkOut/summary" + reqParams);
         }
+    }
 
+    @GetMapping("summary")
+    public ModelAndView showBill(
+            @RequestParam String stayId,
+            @RequestParam int discountPercent,
+            Model model) throws InvalidIdException {
+
+        model.addAttribute("bill", this.billingService.getBill(stayId));
         model.addAttribute("stayId", stayId);
+        model.addAttribute("discountPercent", (double) discountPercent / 100);
 
-        return new ModelAndView("/checkOut/bill");
+        return new ModelAndView("/checkOut/summary");
     }
 
     @RequestMapping("perform")
-    public RedirectView checkOut(@RequestParam String stayId, Model model) {
+    public RedirectView checkOut(
+            @RequestParam String stayId,
+            Model model) throws AlreadyCheckedOutException, InvalidIdException {
 
-        try {
-            this.frontDeskService.checkOut(stayId);
-        } catch (InvalidIdException | AlreadyCheckedOutException e) {
-            e.printStackTrace();
-        }
+        this.frontDeskService.checkOut(stayId);
 
         return new RedirectView("/");
     }

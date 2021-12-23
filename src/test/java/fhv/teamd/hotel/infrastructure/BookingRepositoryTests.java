@@ -1,84 +1,29 @@
 package fhv.teamd.hotel.infrastructure;
 
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.BookingState;
-import fhv.teamd.hotel.domain.Category;
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
+@Transactional
 public class BookingRepositoryTests {
 
     @Autowired
     private BookingRepository bookingRepository;
 
-    @MockBean
+    @Autowired
     private EntityManager entityManager;
-
-    private Booking booking1;
-    private Booking booking2;
-    private Booking booking3;
-
-    private List<Booking> bookings;
-
-    @BeforeEach
-    void init() {
-        final LocalDateTime past = LocalDateTime.now().minus(Period.ofYears(1));
-        final LocalDateTime ongoing = LocalDateTime.now().minus(Period.ofDays(1));
-        final LocalDateTime future = LocalDateTime.now().plus(Period.ofYears(1));
-        final Period duration = Period.ofWeeks(1);
-
-        //noinspection deprecation
-        final Map<Category, Integer> categories = Map.of(
-                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
-                3
-        );
-
-        @SuppressWarnings("SpellCheckingInspection")
-        final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
-
-        final RepresentativeDetails rep = new RepresentativeDetails(
-                "max","muster","m@mail.com", addr,"123456",
-                "1111 1111 1111 1111", PaymentMethod.CreditCard);
-
-        final GuestDetails guest = new GuestDetails("max", "muster", addr);
-
-        this.booking1 = new Booking(new BookingId("booking-abc"), past, past.plus(duration), categories, rep, guest);
-        this.booking2 = new Booking(new BookingId("booking-def"), past, ongoing.plus(duration), categories, rep, guest);
-        this.booking3 = new Booking(new BookingId("booking-ghi"), past, future.plus(duration), categories, rep, guest);
-
-        ReflectionTestUtils.setField(this.booking2, "bookingState", BookingState.checkedIn);
-        ReflectionTestUtils.setField(this.booking3, "bookingState", BookingState.cancelled);
-
-        this.bookings = new LinkedList<>();
-        this.bookings.add(this.booking1);
-        this.bookings.add(this.booking2);
-        this.bookings.add(this.booking3);
-
-    }
 
     @Test
     void text_nextIdentity() {
@@ -95,14 +40,83 @@ public class BookingRepositoryTests {
 
     @Test
     void given_booking_when_getAll_return_all() {
-        //noinspection JpaQlInspection
-        Mockito.when(this.entityManager
-                .createQuery("SELECT b FROM Booking b", Booking.class)
-                        .getResultList())
-                .thenReturn(this.bookings);
+        List<Booking> expected = BaseRepositoryData.bookings();
+        List<Booking> actual = this.bookingRepository.getAll();
 
-        List<Booking> actual = this.bookingRepository.getAllBookings();
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
 
-        Assertions.assertTrue(actual.containsAll(this.bookings) && this.bookings.containsAll(actual));
+    @Test
+    void given_booking_when_getActiveBookings_return_allActiveBookings() {
+        List<Booking> expected = BaseRepositoryData.bookings();
+        List<Booking> actual = this.bookingRepository.getActiveBookings();
+
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
+    @Test
+    void given_booking_when_findById_return_bookingById() {
+        Optional<Booking> expected = BaseRepositoryData.bookings()
+                .stream()
+                .filter(b -> b.bookingId().toString().equals("dom-id-book-111"))
+                .findFirst();
+
+        Optional<Booking> actual = this.bookingRepository.findById(new BookingId("dom-id-book-111"));
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void given_none_when_findById_return_EmptyOptional() {
+        Assertions.assertEquals(Optional.empty(), this.bookingRepository.findById(DomainFactory.createBookingId()));
+    }
+
+    @Test
+    void given_booking_when_numberOfBookedRoomsByCategory_return_getNumberOfAvailableRooms() {
+        List<Booking> baseRepoBookings = BaseRepositoryData.bookings();
+
+        CategoryId categoryId = new CategoryId("dom-id-cat-111");
+        LocalDateTime from = LocalDateTime.parse("2021-12-26T10:00:00");
+        LocalDateTime until = LocalDateTime.parse("2021-12-30T10:00:00");
+
+        int expectedUsedRooms = baseRepoBookings
+                .stream()
+                .filter(booking -> booking.checkInDate().isBefore(until) && booking.checkOutDate().isAfter(from))
+                .flatMap(booking -> booking.selection().entrySet().stream())
+                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
+                .map(Map.Entry::getValue)
+                .reduce(Integer::sum)
+                .orElse(0);
+
+        int actualUsedRooms = this.bookingRepository.numberOfBookedRoomsByCategory(categoryId, from, until);
+
+        Assertions.assertEquals(expectedUsedRooms, actualUsedRooms);
+    }
+
+    @Test
+    void given_booking_when_putNewBooking_return_allBookings() {
+        List<Category> categories = BaseRepositoryData.categories();
+        List<Booking> baseRepoBookings = BaseRepositoryData.bookings();
+
+        Booking firstBooking = baseRepoBookings.get(0);
+        Booking newBooking = new Booking(
+                this.bookingRepository.nextIdentity(),
+                firstBooking.checkInDate(),
+                firstBooking.checkOutDate(),
+                Map.of(categories.get(0), 1),
+                firstBooking.representativeDetails(),
+                firstBooking.guestDetails(),
+                new OrganizationId("")
+        );
+
+        List<Booking> expected = new ArrayList<>(List.of(newBooking));
+        expected.addAll(BaseRepositoryData.bookings());
+
+        this.bookingRepository.put(newBooking);
+        this.entityManager.flush();
+
+        List<Booking> actual = this.bookingRepository.getAll();
+
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
     }
 }

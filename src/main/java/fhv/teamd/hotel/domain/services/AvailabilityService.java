@@ -13,11 +13,12 @@ public interface AvailabilityService {
 
     int numberOfSuitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until);
 
+    Set <Room> occupiedRooms(LocalDateTime from, LocalDateTime until);
+
     List<Room> suitableRooms(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int maxAmount);
 
     boolean isAvailable(CategoryId categoryId, LocalDateTime from, LocalDateTime until, int amount);
 
     boolean areAvailable(Set<Room> rooms, LocalDateTime from, LocalDateTime until);
-
 
 }

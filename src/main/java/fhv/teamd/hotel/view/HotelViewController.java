@@ -2,10 +2,11 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
-import fhv.teamd.hotel.application.dto.BookingDTO;
-import fhv.teamd.hotel.application.dto.CategoryDTO;
-import fhv.teamd.hotel.application.dto.DetailedBookingDTO;
-import fhv.teamd.hotel.application.exceptions.InvalidIdException;
+import fhv.teamd.hotel.application.OrganizationService;
+import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -14,14 +15,20 @@ import fhv.teamd.hotel.view.forms.subForms.RoomAssignmentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,10 +40,22 @@ public class HotelViewController {
     @Autowired
     private FrontDeskService frontDeskService;
 
+    @Autowired
+    private OrganizationService organizationService;
+
     @GetMapping("/")
     public ModelAndView index(Model model) {
 
-        model.addAttribute("stays", this.frontDeskService.getActiveStays());
+        List<StayDTO> activeStays = this.frontDeskService.getActiveStays();
+        List<OrganizationDTO> organizations = activeStays
+                .stream()
+                .map(stay -> this.organizationService
+                        .findOrganizationById(stay.organizationId())
+                        .orElse(OrganizationDTO.empty()))
+                .collect(Collectors.toList());
+
+        model.addAttribute("stays", activeStays);
+        model.addAttribute("organizations", organizations);
 
         return new ModelAndView("index");
     }
@@ -46,24 +65,19 @@ public class HotelViewController {
             @ModelAttribute BookingListForm form,
             Model model) {
 
-        List<BookingDTO> bookings = this.bookingService.getActiveBookings();
+        List<BookingDTO> activeBookings = this.bookingService.getActiveBookings();
+        List<OrganizationDTO> organizations = activeBookings
+                .stream()
+                .map(booking -> this.organizationService
+                        .findOrganizationById(booking.organizationId())
+                        .orElse(OrganizationDTO.empty()))
+                .collect(Collectors.toList());
 
         model.addAttribute("form", form);
-        model.addAttribute("bookings", bookings);
+        model.addAttribute("bookings", activeBookings);
+        model.addAttribute("organizations", organizations);
 
         return new ModelAndView("/booking/bookingOverview");
-    }
-
-    @RequestMapping("/intermediateBill")
-    public ModelAndView intermediateBill(@RequestParam String stayId, Model model) {
-
-        try {
-            model.addAttribute("bill", this.frontDeskService.intermediateBill(stayId));
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("/intermediateBill");
     }
 
     @RequestMapping("/booking/performCheckIn")
@@ -71,54 +85,76 @@ public class HotelViewController {
             @RequestParam String id,
             RedirectAttributes redirectAttributes) {
 
-        Optional<DetailedBookingDTO> result = this.bookingService.getDetails(id);
+        Optional<DetailedBookingDTO> bookingDetailsResult = this.bookingService.getDetails(id);
 
-        if(result.isEmpty()) {
+        if (bookingDetailsResult.isEmpty()) {
             // should not happen normally
             return new RedirectView("/");
         }
 
-        BookingDTO booking = result.get().basicInfo();
-        Map<CategoryDTO, Integer> categories = result.get().details();
+        BookingDTO booking = bookingDetailsResult.get().basicInfo();
+        Map<CategoryDTO, Integer> categories = bookingDetailsResult.get().details();
 
-        Map<String, Integer> categoryIds = categories.entrySet().stream().collect(
-                Collectors.toMap(
+        Map<String, Integer> categoryIds = categories
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
                         entry -> entry.getKey().id(),
                         Map.Entry::getValue
-                )
-        );
+                ));
 
         LocalDate checkIn = LocalDate.now();
         LocalDate checkOut = checkIn.plus(Period.between(booking.fromDate(), booking.untilDate()));
+
+        Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
+        OrganizationDTO organization = orgResult.orElse(OrganizationDTO.empty());
+
+        GuestDetails guest = booking.guest();
+        Address guestAddress = guest.address();
+
+        RepresentativeDetails rep = booking.representative();
+        Address repAddress = rep.address();
+
+        boolean checkBoxState = guest.firstName().equals(rep.firstName())
+                && guest.lastName().equals(rep.lastName())
+                && guestAddress.equals(repAddress);
 
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,
                 new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
                 new PersonalDetailsForm(
-                        booking.guest().firstName(),
-                        booking.guest().lastName(),
-                        booking.guest().address().street(),
-                        booking.guest().address().zip(),
-                        booking.guest().address().city(),
-                        booking.guest().address().country(),
+                        booking.organizationId(),
 
-                        booking.representative().firstName(),
-                        booking.representative().lastName(),
-                        booking.representative().address().street(),
-                        booking.representative().address().zip(),
-                        booking.representative().address().city(),
-                        booking.representative().address().country(),
-                        booking.representative().email(),
-                        booking.representative().phone(),
-                        booking.representative().creditCardNumber(),
-                        booking.representative().paymentMethod()
+                        organization.organizationName(),
+                        organization.address().street(),
+                        organization.address().zip(),
+                        organization.address().city(),
+                        organization.address().country(),
+                        organization.discount(),
+
+                        checkBoxState,
+
+                        guest.firstName(),
+                        guest.lastName(),
+                        guestAddress.street(),
+                        guestAddress.zip(),
+                        guestAddress.city(),
+                        guestAddress.country(),
+
+                        rep.firstName(),
+                        rep.lastName(),
+                        repAddress.street(),
+                        repAddress.zip(),
+                        repAddress.city(),
+                        repAddress.country(),
+                        rep.email(),
+                        rep.phone(),
+                        rep.creditCardNumber(),
+                        rep.paymentMethod()
                 ),
                 new RoomAssignmentForm()
         ));
 
         return new RedirectView("/checkIn/chooseCategories");
-
     }
-
-
 }

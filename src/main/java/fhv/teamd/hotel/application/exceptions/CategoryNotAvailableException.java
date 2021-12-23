@@ -6,8 +6,4 @@ public class CategoryNotAvailableException extends Exception {
         super(message);
     }
 
-    public CategoryNotAvailableException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

@@ -1,10 +1,10 @@
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Stay">
         <id name="id" type="long" column="id">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
         
-        <component name="stayId" class="fhv.teamd.hotel.domain.ids.StayId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.StayId">
             <property name="id" column="stay_id" type="string"/>
         </component>
 
@@ -55,6 +55,10 @@
             <property name="creditCardNumber" column="representative_credit_card_number" type="string"/>
         </component>
 
+        <component name="organizationId" class="fhv.teamd.hotel.domain.ids.OrganizationId">
+            <property name="id" column="organization_id" type="string"/>
+        </component>
+
         <property name="stayingState" column="staying_state">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">fhv.teamd.hotel.domain.StayingState</param>
@@ -62,6 +66,6 @@
             </type>
         </property>
 
-
+        <one-to-one name="bill" class="fhv.teamd.hotel.domain.Bill" cascade="all"/>
     </class>
 </hibernate-mapping>

@@ -5,13 +5,13 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
-import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.BillId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -45,21 +45,20 @@ public class StayTests {
         final Room room1 = new Room(
                 123L,
                 new RoomId("R123"),
-                new Category(123L, new CategoryId("C123"), "test-kategorie", "asf", 123));
+                DomainFactory.createCategory());
         final Set<Room> rooms1 = new HashSet<>();
         rooms1.add(room1);
 
 
-        @SuppressWarnings("deprecation")
-        final Room room2 = new Room(
+        @SuppressWarnings("deprecation") final Room room2 = new Room(
                 456L,
                 new RoomId("R456"),
-                new Category(456L, new CategoryId("C456"), "test-kategorie", "asf", 89));
+                DomainFactory.createCategory());
         final Set<Room> rooms2 = new HashSet<>();
         rooms2.add(room2);
 
-        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep);
-        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep);
+        this.stay1 = Stay.create(new StayId("stay-1"), now, tomorrow, rooms1, guest, rep, DomainFactory.getSeasonOf(now), new OrganizationId(""), new BillId("146567"));
+        this.stay2 = Stay.create(new StayId("stay-2"), yesterday, now, rooms2, guest, rep, DomainFactory.getSeasonOf(yesterday), new OrganizationId(""), new BillId("7515665"));
 
         ReflectionTestUtils.setField(this.stay2, "stayingState", StayingState.CheckedOut);
 

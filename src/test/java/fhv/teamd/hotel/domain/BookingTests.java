@@ -1,13 +1,11 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,9 +30,8 @@ public class BookingTests {
         final LocalDateTime future = LocalDateTime.now().plus(Period.ofYears(1));
         final Period duration = Period.ofWeeks(1);
 
-        //noinspection deprecation
         final Map<Category, Integer> categories = Map.of(
-                new Category(1L, new CategoryId("abc"), "category-abc", "halo", 99),
+                DomainFactory.createCategory(),
                 3
         );
 
@@ -47,9 +44,9 @@ public class BookingTests {
 
         final GuestDetails guest = new GuestDetails("max", "muster", addr);
 
-        this.booking1 = new Booking(new BookingId("booking-abc"), past, past.plus(duration), categories, rep, guest);
-        this.booking2 = new Booking(new BookingId("booking-def"), past, ongoing.plus(duration), categories, rep, guest);
-        this.booking3 = new Booking(new BookingId("booking-ghi"), past, future.plus(duration), categories, rep, guest);
+        this.booking1 = new Booking(new BookingId("booking-abc"), past, past.plus(duration), categories, rep, guest, new OrganizationId(""));
+        this.booking2 = new Booking(new BookingId("booking-def"), past, ongoing.plus(duration), categories, rep, guest, new OrganizationId(""));
+        this.booking3 = new Booking(new BookingId("booking-ghi"), past, future.plus(duration), categories, rep, guest, new OrganizationId(""));
 
         ReflectionTestUtils.setField(this.booking2, "bookingState", BookingState.checkedIn);
         ReflectionTestUtils.setField(this.booking3, "bookingState", BookingState.cancelled);

@@ -2,10 +2,10 @@
     <class name="fhv.teamd.hotel.domain.Room">
 
         <id name="id" type="long" column="id">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
 
-        <component name="roomId" class="fhv.teamd.hotel.domain.ids.RoomId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.RoomId">
             <property name="id" type="string" column="room_id"/>
         </component>
 

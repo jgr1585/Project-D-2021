@@ -3,6 +3,17 @@ package fhv.teamd.hotel.view.forms.subForms;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 
 public class PersonalDetailsForm {
+    private String organizationDropDownId;
+
+    private String organizationName;
+    private String organizationStreet;
+    private String organizationZip;
+    private String organizationCity;
+    private String organizationCountry;
+    private Integer discount;
+
+    private boolean checkBoxState = false;
+
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
@@ -26,10 +37,22 @@ public class PersonalDetailsForm {
     public PersonalDetailsForm() {
     }
 
-    public PersonalDetailsForm(String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity,
-                               String guestCountry, String representativeFirstName, String representativeLastName, String representativeStreet,
-                               String representativeZip, String representativeCity, String representativeCountry, String representativeMail,
-                               String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
+    public PersonalDetailsForm(String organizationDropDownId, String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, Integer discount,
+                               boolean checkBoxState, String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName,
+                               String representativeLastName, String representativeStreet, String representativeZip, String representativeCity, String representativeCountry,
+                               String representativeMail, String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
+
+        this.organizationDropDownId = organizationDropDownId;
+
+        this.organizationName = organizationName;
+        this.organizationStreet = organizationStreet;
+        this.organizationZip = organizationZip;
+        this.organizationCity = organizationCity;
+        this.organizationCountry = organizationCountry;
+        this.discount = discount;
+
+        this.checkBoxState = checkBoxState;
+
         this.guestFirstName = guestFirstName;
         this.guestLastName = guestLastName;
         this.guestStreet = guestStreet;
@@ -47,6 +70,70 @@ public class PersonalDetailsForm {
         this.representativePhone = representativePhone;
         this.representativeCreditCardNumber = representativeCreditCardNumber;
         this.representativePaymentMethod = representativePaymentMethod;
+    }
+
+    public String getOrganizationDropDownId() {
+        return this.organizationDropDownId;
+    }
+
+    public void setOrganizationDropDownId(String organizationDropDownId) {
+        this.organizationDropDownId = organizationDropDownId;
+    }
+
+    public String getOrganizationName() {
+        return this.organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String getOrganizationStreet() {
+        return this.organizationStreet;
+    }
+
+    public void setOrganizationStreet(String organizationStreet) {
+        this.organizationStreet = organizationStreet;
+    }
+
+    public String getOrganizationZip() {
+        return this.organizationZip;
+    }
+
+    public void setOrganizationZip(String organizationZip) {
+        this.organizationZip = organizationZip;
+    }
+
+    public String getOrganizationCity() {
+        return this.organizationCity;
+    }
+
+    public void setOrganizationCity(String organizationCity) {
+        this.organizationCity = organizationCity;
+    }
+
+    public String getOrganizationCountry() {
+        return this.organizationCountry;
+    }
+
+    public void setOrganizationCountry(String organizationCountry) {
+        this.organizationCountry = organizationCountry;
+    }
+
+    public Integer getDiscount() {
+        return this.discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
+
+    public boolean isCheckBoxState() {
+        return this.checkBoxState;
+    }
+
+    public void setCheckBoxState(boolean checkBoxState) {
+        this.checkBoxState = checkBoxState;
     }
 
     public String getGuestFirstName() {

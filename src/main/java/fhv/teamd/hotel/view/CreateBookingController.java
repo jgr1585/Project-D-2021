@@ -3,11 +3,15 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.CategoryService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.BookingForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
@@ -32,6 +36,8 @@ public class CreateBookingController {
     private static final Period defaultBookingLeadTime = Period.ofWeeks(2);
     private static final Period defaultStayDuration = Period.ofWeeks(1);
 
+    @Autowired
+    private OrganizationService organizationService;
 
     @Autowired
     private CategoryService categoryService;
@@ -60,6 +66,7 @@ public class CreateBookingController {
                 chooseCategoriesForm.getFrom().atStartOfDay(),
                 chooseCategoriesForm.getUntil().atStartOfDay());
 
+
         model.addAttribute("categories", categories);
         model.addAttribute("bookingForm", bookingForm);
 
@@ -74,20 +81,6 @@ public class CreateBookingController {
         // todo: check availability with application service
         // todo: basic validation goes into form obj with annotations
 
-//        ChooseCategoriesForm chooseCategoriesForm = bookingForm.getChooseCategoriesForm();
-//
-//        LocalDate from = chooseCategoriesForm.getFrom();
-//        LocalDate until = chooseCategoriesForm.getUntil();
-//
-//        boolean valid = from.isAfter(LocalDate.now()) && from.isBefore(until);
-//
-//        redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
-//
-//        if (!valid) {
-//            // todo: add an error message here
-//            return new RedirectView("/booking/chooseCategories");
-//        }
-
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
         return new RedirectView("personalDetails");
@@ -98,6 +91,9 @@ public class CreateBookingController {
             @ModelAttribute BookingForm bookingForm,
             Model model) {
 
+        List<OrganizationDTO> organizations = this.organizationService.getAll();
+
+        model.addAttribute("organizations", organizations);
         model.addAttribute("bookingForm", bookingForm);
 
         return new ModelAndView("/booking/personalDetails");
@@ -107,7 +103,10 @@ public class CreateBookingController {
     public RedirectView submitPersonalDetails(
             @ModelAttribute BookingForm bookingForm,
             @RequestParam String action,
+            @RequestParam(name = "isSameAsRep", required = false) boolean isSameAsRep,
             RedirectAttributes redirectAttributes) {
+
+        bookingForm.getPersonalDetailsForm().setCheckBoxState(isSameAsRep);
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
@@ -127,14 +126,10 @@ public class CreateBookingController {
         List<CategoryDTO> categories = new ArrayList<>();
 
         bookingForm.getChooseCategoriesForm().getCategorySelection().forEach((categoryId, amount) -> {
-
             if (amount != null && amount > 0) {
-
                 Optional<CategoryDTO> result = this.categoryService.findCategoryById(categoryId);
                 result.ifPresent(categories::add);
-
             }
-
         });
 
         model.addAttribute("categories", categories);
@@ -177,18 +172,40 @@ public class CreateBookingController {
                         personalDetailsForm.getRepresentativeStreet(),
                         personalDetailsForm.getRepresentativeZip(),
                         personalDetailsForm.getRepresentativeCity(),
-                        personalDetailsForm.getRepresentativeCountry()),
+                        personalDetailsForm.getRepresentativeCountry()
+                ),
                 personalDetailsForm.getRepresentativePhone(),
                 personalDetailsForm.getRepresentativeCreditCardNumber(),
-                personalDetailsForm.getRepresentativePaymentMethod());
+                personalDetailsForm.getRepresentativePaymentMethod()
+        );
 
         try {
+            String orgId = personalDetailsForm.getOrganizationDropDownId();
+
+            if (orgId.equals("noOrganization")) {
+                orgId = "";
+            } else if (orgId.equals("addNewOrganization")) {
+                OrganizationDetails organizationDetails = new OrganizationDetails(
+                        personalDetailsForm.getOrganizationName(),
+                        new Address(
+                                personalDetailsForm.getOrganizationStreet(),
+                                personalDetailsForm.getOrganizationZip(),
+                                personalDetailsForm.getOrganizationCity(),
+                                personalDetailsForm.getOrganizationCountry()
+                        ),
+                        personalDetailsForm.getDiscount()
+                );
+
+                orgId = this.organizationService.add(organizationDetails).toString();
+            }
+
             this.bookingService.book(
                     chooseCategoriesForm.getCategorySelection(),
                     chooseCategoriesForm.getFrom().atStartOfDay(),
                     chooseCategoriesForm.getUntil().atStartOfDay(),
-                    guest, rep
+                    guest, rep, new OrganizationId(orgId)
             );
+
         } catch (Exception x) {
             x.printStackTrace();
             redirectAttributes.addFlashAttribute("error", x.getMessage());

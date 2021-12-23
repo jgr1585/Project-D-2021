@@ -4,14 +4,14 @@
 
 <head>
     <title>Hotel Management</title>
-    <meta name="page" content="CreateBooking">
+    <meta content="CreateBooking" name="page">
     <placeholder th:replace="fragments/main.html :: head"></placeholder>
 </head>
 <body>
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Room Booking - Summary</h3>
+    <h4>Room Booking - Summary</h4>
 
     <div th:replace="fragments/errorMessage"></div>
 
@@ -23,9 +23,10 @@
 
         <div th:object="${bookingForm.chooseCategoriesForm}">
             <!-- selected time period -->
-            <h6>Time Period</h6><br>
+            <h6>Period</h6><br>
             <div class="row">
-                <div class="col s3">
+                <div class="col s3 valign-wrapper">
+                    <i class="material-icons">date_range</i>&nbsp
                     <span style="font-weight: bold">From</span>
                 </div>
                 <div class="col s9">
@@ -33,7 +34,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col s3">
+                <div class="col s3 valign-wrapper">
+                    <i class="material-icons">date_range</i>&nbsp
                     <span style="font-weight: bold">Until</span>
                 </div>
                 <div class="col s9">
@@ -45,10 +47,9 @@
 
             <!-- selected categories -->
             <h6>Categories</h6><br>
-            <div class="header"></div>
             <div class="row" th:each="category: ${categories}">
-                <!-- todo: foreach category -->
-                <div class="col s3">
+                <div class="col s3 valign-wrapper">
+                    <i class="material-icons">hotel</i>&nbsp
                     <span style="font-weight: bold" th:text="${category.title()}"></span>
                 </div>
                 <div class="col s9">
@@ -59,12 +60,12 @@
 
         <div class="divider"></div>
 
-
         <div th:object="${bookingForm.personalDetailsForm}">
             <!-- selected guest/group data -->
             <h6>Guest or Group Data</h6><br>
             <div class="row">
-                <div class="col s3">
+                <div class="col s3 valign-wrapper">
+                    <i class="material-icons">account_circle</i>&nbsp
                     <span style="font-weight: bold">Name</span>
                 </div>
                 <div class="col s9">
@@ -72,82 +73,109 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col s3">
+                <div class="col s3 valign-wrapper">
+                    <i class="material-icons">location_city</i>&nbsp
                     <span style="font-weight: bold">Address</span>
                 </div>
                 <div class="col s9">
-                    <span th:text="*{
-                    guestStreet + ',' +
-                    guestZip + ' ' + guestCity + ', ' +
-                    guestCountry}">
-                    </span>
+                    <span th:text="*{guestStreet + ', ' + guestZip + ' ' + guestCity + ', ' + guestCountry}"></span>
                 </div>
             </div>
 
             <div class="divider"></div>
 
             <!-- selected representative data -->
-            <h6>Representative Data</h6><br>
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Name</span>
-                </div>
-                <div class="col s9">
-                    <span th:text="*{representativeFirstName + ' ' + representativeLastName}"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Address</span>
-                </div>
-                <div class="col s9">
-                    <span th:text="*{
-                    representativeStreet + ', ' +
-                    representativeZip+ ' ' + representativeCity + ', ' +
-                    representativeCountry}">
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Email</span>
-                </div>
-                <div class="col s9">
-                    <span th:text="*{representativeMail}"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Phone</span>
-                </div>
-                <div class="col s9">
-                    <span th:text="*{representativePhone}"></span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Payment</span>
-                </div>
-                <div class="col s9">
-
-                    <div th:switch="*{representativePaymentMethod}">
-                        <span th:case="${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).Cash}">Cash</span>
-                        <span th:case="${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).CreditCard}">Credit Card</span>
+            <div class="section">
+                <h6>Representative Data</h6><br>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">account_circle</i>&nbsp
+                        <span style="font-weight: bold">Name</span>
                     </div>
-
-
-<!--                    <span th:each="paymentMethod : ${T(fhv.teamd.hotel.domain.contactInfo.PaymentMethod).values()}"-->
-<!--                            th:value="${paymentMethod}" th:text="${paymentMethod}">-->
-<!--                    </span>-->
+                    <div class="col s9">
+                        <span th:text="*{representativeFirstName + ' ' + representativeLastName}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">location_city</i>&nbsp
+                        <span style="font-weight: bold">Address</span>
+                    </div>
+                    <div class="col s9">
+                        <span th:text="*{representativeStreet + ', ' + representativeZip + ' ' + representativeCity + ', ' + representativeCountry}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">email</i>&nbsp
+                        <span style="font-weight: bold">Email</span>
+                    </div>
+                    <div class="col s9">
+                        <span th:text="*{representativeMail}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">phone</i>&nbsp
+                        <span style="font-weight: bold">Phone</span>
+                    </div>
+                    <div class="col s9">
+                        <span th:text="*{representativePhone}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">euro_symbol</i>&nbsp
+                        <span style="font-weight: bold">Payment</span>
+                    </div>
+                    <div class="col s9">
+                        <span th:text="*{representativePaymentMethod.getDisplayValue}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 valign-wrapper">
+                        <i class="material-icons">payment</i>&nbsp
+                        <span style="font-weight: bold">Credit Card Number</span>
+                    </div>
+                    <div class="col s9">
+                        <span th:text="*{representativeCreditCardNumber}"></span>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col s3">
-                    <span style="font-weight: bold">Credit Card Number</span>
-                </div>
-                <div class="col s9">
-                    <span th:text="*{representativeCreditCardNumber}"></span>
+
+            <div th:if="*{organizationDropDownId != 'noOrganization'}">
+                <div class="divider"></div>
+
+                <!-- selected organization data -->
+                <div class="section">
+                    <h6>Organization Data (Optional)</h6><br>
+                    <div class="row">
+                        <div class="col s3 valign-wrapper">
+                            <i class="material-icons">group</i>&nbsp
+                            <span style="font-weight: bold">Organization Name</span>
+                        </div>
+                        <div class="col s9">
+                            <span th:text="*{organizationName}"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 valign-wrapper">
+                            <i class="material-icons">location_city</i>&nbsp
+                            <span style="font-weight: bold">Address</span>
+                        </div>
+                        <div class="col s9">
+                            <span th:text="*{organizationStreet + ', ' + organizationZip + ' ' + organizationCity + ', ' + organizationCountry}"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 valign-wrapper">
+                            <i class="material-icons">local_offer</i>&nbsp
+                            <span style="font-weight: bold">Discount</span>
+                        </div>
+                        <div class="col s9">
+                            <span th:text="*{discount + ' %'}"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,11 +183,11 @@
         <!-- create booking -->
         <div class="row right-align">
             <button class="btn waves-effect waves-light blue accent-2"
-                    type="submit" name="action" value="prev">Back
+                    name="action" type="submit" value="prev">Back
                 <i class="material-icons left">navigate_before</i>
             </button>
             <button class="btn waves-effect waves-light blue accent-2"
-                    type="submit" name="action" value="next">Create Booking
+                    name="action" type="submit" value="next">Create Booking
                 <i class="material-icons right">done</i>
             </button>
             <a class="btn waves-effect waves-light red accent-2" href="/">Cancel

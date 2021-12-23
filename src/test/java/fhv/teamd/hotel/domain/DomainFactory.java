@@ -4,102 +4,153 @@ import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.RoomId;
-import fhv.teamd.hotel.domain.ids.StayId;
+import fhv.teamd.hotel.domain.ids.*;
+import fhv.teamd.hotel.infrastructure.BaseRepositoryData;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Period;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
-public class DomainFactory {
+public abstract class DomainFactory {
 
-    private static final Random r;
+    private static final List<Season> seasons;
 
     static {
-        r = new Random();
+        seasons = BaseRepositoryData.seasons();
     }
 
-    public static Address CreateAddress() {
-        int num = r.nextInt();
+    public static Address createAddress() {
+        UUID uuid = UUID.randomUUID();
 
-        return new Address("Street" + num, Integer.toString(num), "City" + num, "C" + num);
+        return new Address("Street" + uuid, uuid.toString(), "City" + uuid, "C" + uuid);
     }
 
-    public static CategoryId CreateCategoryId() {
-        return CreateCategoryId(r.nextInt());
+    public static CategoryId createCategoryId() {
+        return createCategoryId(UUID.randomUUID());
     }
 
-    private static CategoryId CreateCategoryId(int i) {
-        return new CategoryId("Category " + i);
+    private static CategoryId createCategoryId(UUID uuid) {
+        return new CategoryId(uuid.toString());
     }
 
-    public static Category CreateCategory() {
-        int num = r.nextInt();
+    public static Category createCategory() {
+        UUID uuid = UUID.randomUUID();
 
-        return new Category((long) num, CreateCategoryId(num), "Category " + num, "Category " + num, 20);
+        return new Category(uuidToLong(uuid), createCategoryId(uuid), "Category " + uuid, "Category " + uuid, createPricePerSeason());
     }
 
-    public static BookingId CreateBookingId() {
-        return CreateBookingId(r.nextInt());
+    public static BookingId createBookingId() {
+        return createBookingId(UUID.randomUUID());
     }
 
-    private static BookingId CreateBookingId(int i) {
-        return new BookingId("Category " + i);
+    private static BookingId createBookingId(UUID uuid) {
+        return new BookingId(uuid.toString());
     }
 
-    public static Booking CreateBooking() {
-        int num = r.nextInt();
+    public static Booking createBooking() {
+        UUID uuid = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
-        RepresentativeDetails rep = CreateRepresentativeDetails();
+        RepresentativeDetails rep = createRepresentativeDetails();
 
         Map<Category, Integer> cats = new HashMap<>();
-        cats.put(CreateCategory(), 1);
+        cats.put(createCategory(), 1);
 
-        return new Booking(CreateBookingId(num), now, tomorrow, cats, rep, GetFromRepresentativeDetails(rep));
+        return new Booking(createBookingId(uuid), now, tomorrow, cats, rep, getFromRepresentativeDetails(rep), new OrganizationId(""));
     }
 
-    public static RepresentativeDetails CreateRepresentativeDetails() {
-        int num = r.nextInt();
+    public static RepresentativeDetails createRepresentativeDetails() {
+        UUID uuid = UUID.randomUUID();
 
-        return new RepresentativeDetails("John the " + num + "th", "Doe", "john.doe" + num + "@mail.com", CreateAddress(),"0" + num, "1111 1111 1111 1111", PaymentMethod.CreditCard);
+        return new RepresentativeDetails("John the " + uuid, "Doe", "john" + uuid + ".doe@mail.com", createAddress(),"0" + uuid, "1111 1111 1111 1111", PaymentMethod.CreditCard);
     }
 
-
-    public static RoomId CreateRoomId() {
-        return CreateRoomId(r.nextInt());
+    public static RoomId createRoomId() {
+        return createRoomId(UUID.randomUUID());
     }
 
-    private static RoomId CreateRoomId(int i) {
-        return new RoomId("Room " + i);
+    private static RoomId createRoomId(UUID uuid) {
+        return new RoomId(uuid.toString());
     }
 
-    public static Room CreateRoom() {
-        return CreateRoomInCategory(CreateCategory());
+    public static Room createRoom() {
+        return createRoomInCategory(createCategory());
     }
 
-    public static Room CreateRoomInCategory(Category category) {
-        int num = r.nextInt();
+    public static Room createRoomInCategory(Category category) {
+        UUID uuid = UUID.randomUUID();
 
-        return new Room((long) num, CreateRoomId(num), category);
+        return new Room(uuidToLong(uuid), createRoomId(uuid), category);
     }
 
-    public static StayId CreateStayId() {
-        return CreateStayId(r.nextInt());
+    public static StayId createStayId() {
+        return createStayId(UUID.randomUUID());
     }
 
-    private static StayId CreateStayId(int i) {
-        return new StayId("Stay " + i);
+    private static StayId createStayId(UUID uuid) {
+        return new StayId(uuid.toString());
     }
 
-    public static GuestDetails GetFromRepresentativeDetails(RepresentativeDetails rep) {
+    private static OrganizationId createOrganizationId() {
+        return createOrganizationId(UUID.randomUUID());
+    }
+
+    private static OrganizationId createOrganizationId(UUID uuid) {
+        return new OrganizationId(uuid.toString());
+    }
+
+    public static Stay createStay() {
+        LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
+        LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
+
+        return createStayInRooms(Set.of(createRoom(), createRoom()), yesterday, tomorrow);
+    }
+
+    public static Stay createStayInRooms(Set<Room> rooms, LocalDateTime from, LocalDateTime until) {
+        UUID uuid = UUID.randomUUID();
+
+        RepresentativeDetails rep = createRepresentativeDetails();
+
+        return Stay.create(createStayId(uuid), from, until, rooms, getFromRepresentativeDetails(rep), rep, getSeasonOf(from), createOrganizationId(uuid), new BillId(UUID.randomUUID().toString()));
+    }
+
+    public static Season getSeasonOf(LocalDateTime date) {
+        return getSeasonOf(date.getMonth());
+    }
+
+    public static Season getSeasonOf(Month month) {
+        for (Season season : seasons) {
+            if ((season.from().getValue() >= month.getValue()) && (season.to().getValue() <= month.getValue())) {
+                return season;
+            }
+        }
+
+        Optional<Season> season = seasons.stream().min(Comparator.comparing(Season::from));
+
+        if (season.isEmpty()) {
+            throw new NullPointerException();
+        }
+
+        return season.get();
+    }
+
+    public static GuestDetails getFromRepresentativeDetails(RepresentativeDetails rep) {
         return new GuestDetails(rep.firstName(), rep.lastName(), rep.address());
     }
 
+    private static Map<Season, Double> createPricePerSeason() {
+        Random r = new Random();
+        Map<Season, Double> pricePerSeason = new HashMap<>();
 
+        //Generate a Random Price between 0 and 80 €
+        seasons.forEach(season -> pricePerSeason.put(season, (r.nextInt() % 8000 / 100.0)));
+
+        return pricePerSeason;
+    }
+
+    private static long uuidToLong(UUID uuid) {
+        return uuid.getMostSignificantBits();
+    }
 }

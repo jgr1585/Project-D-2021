@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Hotel Management</title>
-    <meta name="page" content="BookingOverview">
+    <meta content="BookingOverview" name="page">
     <placeholder th:replace="fragments/main.html :: head"></placeholder>
     <script src="/js/filter.js"></script>
 </head>
@@ -11,7 +11,7 @@
 <header th:replace="fragments/main.html :: header"></header>
 
 <div class="container">
-    <h3>Room Booking - Overview</h3>
+    <h4>Room Booking - Overview</h4>
 
     <!-- select date (from, until) -->
     <div class="section" th:object="${form}">
@@ -19,12 +19,12 @@
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">date_range</i>
-                <input id="from" type="text" class="datepicker dpOverview" th:field="*{fromDate}"/>
+                <input class="datepicker dpOverview" id="from" th:field="*{fromDate}" type="text"/>
                 <label for="from">From</label>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">date_range</i>
-                <input id="until" type="text" class="datepicker dpOverview" th:field="*{untilDate}"/>
+                <input class="datepicker dpOverview" id="until" th:field="*{untilDate}" type="text"/>
                 <label for="until">Until</label>
             </div>
         </div>
@@ -32,115 +32,103 @@
 
     <!-- Booking Table -->
 
-    <ul id="overview" class="collapsible popout">
-        <li th:each="booking: ${bookings}" th:id="${booking.id + '-li'}">
-            <div class="collapsible-header">
-                <div class="float-left">
-                    <div>
-                        <span>Booking for</span>
-                        <span th:text="${booking.guest.firstName + ' ' + booking.guest.lastName}"></span>
-                    </div>
+    <div class="section row">
+        <div class="col s12">
+            <ul class="collapsible popout" id="overview">
+                <li th:each="booking, iter: ${bookings}" th:id="${booking.id + '-li'}">
+                    <div class="collapsible-header">
 
-                    <div class="timeRange">
-                        <span class="from" th:text="${booking.fromDate}"></span>
-                        <span> until </span>
-                        <span class="to" th:text="${booking.untilDate}"></span>
-                    </div>
-                </div>
+                        <div class="float-left">
+                            <h6 th:text="${'Booking for ' + booking.guest.firstName + ' ' + booking.guest.lastName}"></h6>
 
-                <!--Right Table Buttons -->
-                <div class="float-right valign-wrapper">
-                    <a th:href="@{/booking/performCheckIn(id=${booking.id})}">
-                        <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
-                             data-position="top" data-tooltip="Check-In">
-                            <i class="material-icons green-text no-margin center-context">check_in</i>
+                            <div class="timeRange">
+                                <span class="from" th:text="${booking.fromDate}"></span>
+                                <span> until </span>
+                                <span class="to" th:text="${booking.untilDate}"></span>
+                            </div>
                         </div>
-                    </a>
-<!--                    <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"-->
-<!--                         data-position="top" data-tooltip="Edit" onclick="alert('todo Edit');">-->
-<!--                        <i class="material-icons blue-grey-text no-margin center-context">edit</i>-->
-<!--                    </div>-->
-<!--                    <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"-->
-<!--                         data-position="top" data-tooltip="Delete" onclick="alert('todo Delete');">-->
-<!--                        <i class="material-icons red-text no-margin center-context">delete_forever</i>-->
-<!--                    </div>-->
-                </div>
-            </div>
 
-            <!--booking content-->
-            <div class="collapsible-body" th:object="${booking}">
-                <!-- representative data -->
-                <div class="section">
-
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input th:id="*{id + '-name'}" type="text"
-                                   th:value="*{representative.firstName + ' ' + representative.lastName}" disabled/>
-                            <label th:for="*{id + '-name'}">Name</label>
+                        <!--Right Table Buttons -->
+                        <div class="float-right valign-wrapper">
+                            <a th:href="@{/booking/performCheckIn(id=${booking.id})}">
+                                <div class="waves-effect waves-light waves-circle waves-teal center-align tooltipped disableClickThrow"
+                                     data-position="top" data-tooltip="Check-In">
+                                    <i class="material-icons green-text no-margin center-context">login</i>
+                                </div>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="row" th:object="${booking.representative.address}">
-                        <div class="input-field col s3">
-                            <i class="material-icons prefix">location_city</i>
-                            <input id="representativeStreet" type="text" th:value="*{street}" disabled/>
-                            <label for="representativeStreet">Street</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input id="representativeZip" type="text" th:value="*{zip}" disabled/>
-                            <label for="representativeZip">Zip</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input id="representativeCity" type="text" th:value="*{city}" disabled/>
-                            <label for="representativeCity">City/Town</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input id="representativeCountry" type="text" th:value="*{country}" disabled/>
-                            <label for="representativeCountry">Country</label>
+                    <!-- booking content -->
+                    <div class="collapsible-body">
+                        <div class="row collapsible-row" th:object="${booking}">
+                            <!-- representative data -->
+                            <div class="col collapsible-col s4">
+                                <h6>Representative</h6>
+                                <div th:object="${booking.representative}">
+                                    <p class="valign-wrapper">
+                                        <i class="material-icons">account_circle</i>&nbsp
+                                        <span th:text="*{firstName + ' ' + lastName}"></span>
+                                    </p>
+                                    <p class="valign-wrapper">
+                                        <i class="material-icons">location_city</i>&nbsp
+                                        <span th:text="*{address.street + ', ' + address.zip + ' ' + address.city + ', ' + address.country}"></span>
+                                    </p>
+                                    <p class="valign-wrapper">
+                                        <i class="material-icons">email</i>&nbsp
+                                        <span th:text="*{email}"></span>
+                                    </p>
+                                    <p class="valign-wrapper">
+
+                                        <i class="material-icons">phone</i>&nbsp
+                                        <span th:text="*{phone}"></span>
+                                    </p>
+                                    <p class="valign-wrapper">
+                                        <i class="material-icons">euro_symbol</i>&nbsp
+                                        <span th:text="*{paymentMethod.getDisplayValue}"></span>
+                                    </p>
+                                    <p class="valign-wrapper">
+                                        <i class="material-icons">payment</i>&nbsp
+                                        <span th:text="*{creditCardNumber}"></span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- guest data -->
+                            <div class="col collapsible-col s4" th:object="${booking.guest}">
+                                <h6>Guest</h6>
+                                <p class="valign-wrapper">
+                                    <i class="material-icons">account_circle</i>&nbsp
+                                    <span th:text="*{firstName + ' ' + lastName}"></span>
+                                </p>
+                                <p class="valign-wrapper">
+                                    <i class="material-icons">location_city</i>&nbsp
+                                    <span th:text="*{address.street + ', ' + address.zip + ' ' + address.city + ', ' + address.country}"></span>
+                                </p>
+                            </div>
+
+                            <!-- organization data -->
+                            <div class="col collapsible-col s4" th:if="${organizations['__${iter.index}__'].id != ''}">
+                                <h6>Organization</h6>
+                                <p class="valign-wrapper">
+                                    <i class="material-icons">group</i>&nbsp
+                                    <span th:text="${organizations['__${iter.index}__'].organizationName}"></span>
+                                </p>
+                                <p class="valign-wrapper">
+                                    <i class="material-icons">location_city</i>&nbsp
+                                    <span th:text="${organizations['__${iter.index}__'].address.street + ', ' + organizations['__${iter.index}__'].address.zip + ' ' + organizations['__${iter.index}__'].address.city + ', ' + organizations['__${iter.index}__'].address.country}"></span>
+                                </p>
+                                <p class="valign-wrapper">
+                                    <i class="material-icons">local_offer</i>&nbsp
+                                    <span th:text="${organizations['__${iter.index}__'].discount} + ' %'"></span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-
-
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">email</i>
-                            <input class="validate" id="representativeMail" type="email"
-                                   th:value="*{representative.email}" disabled/>
-                            <label for="representativeMail">Email</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">phone</i>
-                            <input class="validate" id="representativePhone" type="tel"
-                                   th:value="*{representative.phone}" disabled/>
-                            <label for="representativePhone">Phone</label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">euro_symbol</i>
-                            <select id="representativePaymentMethod" th:value="*{representative.paymentMethod}"
-                                    disabled>
-                                <option th:value="${booking.representative.paymentMethod}"
-                                        th:text="${booking.representative.paymentMethod.displayValue}"
-                                >
-                                </option>
-                            </select>
-                            <label for="representativePaymentMethod">Payment</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">payment</i>
-                            <input class="validate" id="representativeCreditCardNumber" type="text"
-                                   th:value="*{representative.creditCardNumber}" disabled/>
-                            <label for="representativeCreditCardNumber">Credit Card Number</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <footer th:replace="fragments/main.html :: footer"></footer>

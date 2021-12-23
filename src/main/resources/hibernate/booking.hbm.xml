@@ -6,10 +6,10 @@
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Booking" table="booking">
         <id name="id" column="id" type="long">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
 
-        <component name="bookingId" class="fhv.teamd.hotel.domain.ids.BookingId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.BookingId">
             <property name="id" column="booking_id" type="string"/>
         </component>
 
@@ -50,6 +50,10 @@
             </property>
 
             <property name="creditCardNumber" column="representative_credit_card_number" type="string"/>
+        </component>
+
+        <component name="organizationId" class="fhv.teamd.hotel.domain.ids.OrganizationId">
+            <property name="id" column="organization_id" type="string"/>
         </component>
 
         <!-- Map<Category, Integer> categories; -->

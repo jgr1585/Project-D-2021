@@ -3,11 +3,13 @@ package fhv.teamd.hotel.application.impl;
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
+import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.*;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
@@ -39,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
-                     GuestDetails guest, RepresentativeDetails rep) throws Exception {
+                     GuestDetails guest, RepresentativeDetails rep, OrganizationId orgId) throws Exception {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
@@ -55,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
             CategoryId categoryId = new CategoryId(id);
             Optional<Category> result = this.categoryRepository.findById(categoryId);
             if (result.isEmpty()) {
-                throw new Exception("no category with this id");
+                throw new InvalidIdException("no category with this id");
             }
 
             if (!this.availabilityService.isAvailable(categoryId, from, until, amount)) {
@@ -69,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
         Booking newBooking = new Booking(
                 this.bookingRepository.nextIdentity(),
-                from, until, categoriesAndAmounts, rep, guest);
+                from, until, categoriesAndAmounts, rep, guest, orgId);
 
         this.bookingRepository.put(newBooking);
     }
@@ -89,7 +91,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Optional<DetailedBookingDTO> getDetails(String bookingId) {
 
-        Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
+        Optional<Booking> result = this.bookingRepository.findById(new BookingId(bookingId));
 
         return result.map(DetailedBookingDTO::fromBooking);
     }

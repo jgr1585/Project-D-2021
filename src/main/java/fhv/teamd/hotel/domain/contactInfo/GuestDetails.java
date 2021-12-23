@@ -3,7 +3,6 @@ package fhv.teamd.hotel.domain.contactInfo;
 import java.util.Objects;
 
 public class GuestDetails {
-
     private final String firstName;
     private final String lastName;
     private final Address address;

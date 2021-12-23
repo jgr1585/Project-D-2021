@@ -6,8 +6,4 @@ public class OccupiedRoomException extends Exception {
         super(message);
     }
 
-    public OccupiedRoomException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

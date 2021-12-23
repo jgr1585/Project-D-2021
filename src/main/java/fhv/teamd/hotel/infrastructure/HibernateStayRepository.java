@@ -16,21 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public class HibernateStayRepository implements StayRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public StayId nextIdentity() {
-        return new StayId(UUID.randomUUID().toString());
-    }
-
-    @Override
-    public List<Stay> getAll() {
-        return this.entityManager.createQuery("select s from Stay s", Stay.class)
-                .getResultList();
-    }
+public class HibernateStayRepository extends HibernateBaseRepository<Stay, StayId> implements StayRepository {
 
     @Override
     public List<Stay> getActiveStays() {
@@ -53,21 +39,20 @@ public class HibernateStayRepository implements StayRepository {
     }
 
     @Override
-    public int getNumberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
+    public int numberOfStayRoomsByCategory(CategoryId categoryId, LocalDateTime from, LocalDateTime until) {
 
         Long l = this.entityManager.createQuery(
                         "select count(r) from Stay s " +
                                 "join s.rooms r " +
                                 "where s.checkIn < :until and s.expectedCheckOut > :from " +
-                                "and r.category.categoryId = :catId",
+                                "and r.category.domainId = :catId",
                         Long.class)
                 .setParameter("from", from)
                 .setParameter("until", until)
                 .setParameter("catId", categoryId)
                 .getSingleResult();
 
-        return Optional.ofNullable(l).map(Long::intValue).orElse(0);
-
+        return l != null ? l.intValue() : 0;
     }
 
     @Override
@@ -77,12 +62,4 @@ public class HibernateStayRepository implements StayRepository {
 
     }
 
-    @Override
-    public Optional<Stay> find(StayId stayId) {
-        return this.entityManager
-                .createQuery("SELECT s FROM Stay s WHERE s.stayId = :id", Stay.class)
-                .setParameter("id", stayId)
-                .getResultStream()
-                .findFirst();
-    }
 }

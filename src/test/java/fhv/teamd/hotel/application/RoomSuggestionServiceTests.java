@@ -29,22 +29,22 @@ public class RoomSuggestionServiceTests {
 
     @Test
     void given_Catygory_when_findSuitableRooms_find_rooms() {
-        final CategoryId cat = DomainFactory.CreateCategoryId();
+        final CategoryId cat = DomainFactory.createCategoryId();
         final List<Room> rooms = new LinkedList<>();
-        rooms.add(DomainFactory.CreateRoom());
-        rooms.add(DomainFactory.CreateRoom());
-        rooms.add(DomainFactory.CreateRoom());
+        rooms.add(DomainFactory.createRoom());
+        rooms.add(DomainFactory.createRoom());
+        rooms.add(DomainFactory.createRoom());
         final LocalDateTime later = LocalDateTime.now().plus(Period.ofDays(1));
+        final LocalDateTime now = LocalDateTime.now();
 
         final List<RoomDTO> expected = rooms.stream().map(RoomDTO::fromRoom).collect(Collectors.toList());
 
-        Mockito.when(this.availabilityService
-                .suitableRooms(cat, LocalDateTime.now(), later, 3)
-                .stream()
-                .map(RoomDTO::fromRoom)
-                .collect(Collectors.toList())).thenReturn(expected);
+        Mockito.when(this.availabilityService.suitableRooms(cat, now, later, 3)).thenReturn(rooms);
 
-        Assertions.assertEquals(expected, this.roomSuggestionService.findSuitableRooms(cat.toString(), LocalDateTime.now(), later, 3));
+        List<RoomDTO> actual = this.roomSuggestionService
+                .findSuitableRooms(cat.toString(), now, later, 3);
+
+        Assertions.assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
 
     }
 

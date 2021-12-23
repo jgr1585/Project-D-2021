@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.FrontDeskService;
-import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
@@ -13,11 +12,10 @@ import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.ids.StayId;
-import fhv.teamd.hotel.domain.repositories.BookingRepository;
-import fhv.teamd.hotel.domain.repositories.RoomRepository;
-import fhv.teamd.hotel.domain.repositories.StayRepository;
+import fhv.teamd.hotel.domain.repositories.*;
 import fhv.teamd.hotel.domain.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,18 +42,24 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     private StayRepository stayRepository;
 
     @Autowired
+    private SeasonRepository seasonRepository;
+
+    @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private BillRepository billRepository;
 
     @Transactional
     @Override
     public void checkInWalkInGuest(List<String> roomIds, Duration expectedDuration,
-                                   GuestDetails guest, RepresentativeDetails representative) throws InvalidIdException, OccupiedRoomException {
+                                   GuestDetails guest, RepresentativeDetails representative, OrganizationId organizationId) throws InvalidIdException, OccupiedRoomException {
 
         Set<Room> rooms = new HashSet<>();
 
         for (String roomId : roomIds) {
 
-            Optional<Room> result = this.roomRepository.getById(new RoomId(roomId));
+            Optional<Room> result = this.roomRepository.findById(new RoomId(roomId));
 
             if (result.isEmpty()) {
                 throw new InvalidIdException("room id");
@@ -73,19 +77,21 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         this.stayRepository.put(Stay.create(
                 this.stayRepository.nextIdentity(),
                 checkIn, checkOut, rooms,
-                guest, representative
+                guest, representative, this.seasonRepository.getSeasonFromMonth(checkIn.getMonth()),
+                organizationId,
+                this.billRepository.nextIdentity()
         ));
     }
 
     @Transactional
     @Override
     public void checkInWithBooking(List<String> roomIds, Duration expectedDuration,
-                                   GuestDetails guest, RepresentativeDetails representative,
+                                   GuestDetails guest, RepresentativeDetails representative, OrganizationId organizationId,
                                    String bookingId) throws InvalidIdException, OccupiedRoomException, CannotCheckinException {
 
-        this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative);
+        this.checkInWalkInGuest(roomIds, expectedDuration, guest, representative, organizationId);
 
-        Optional<Booking> result = this.bookingRepository.findByBookingId(new BookingId(bookingId));
+        Optional<Booking> result = this.bookingRepository.findById(new BookingId(bookingId));
 
         Booking booking = result.orElseThrow(() -> new InvalidIdException(bookingId));
 
@@ -103,25 +109,12 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
 
     @Override
-    @Transactional(readOnly = true)
-    public BillDTO intermediateBill(String stayId) throws InvalidIdException {
-
-        return BillDTO.fromBill(this.stayRepository.find(new StayId(stayId))
-                .orElseThrow(() -> new InvalidIdException("stay id"))
-                .generateIntermediateBill());
-
-    }
-
-    @Override
     @Transactional
-    public BillDTO checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
-        Optional<Stay> result = this.stayRepository.find(new StayId(stayID));
+    public void checkOut(String stayID) throws InvalidIdException, AlreadyCheckedOutException {
+        Optional<Stay> result = this.stayRepository.findById(new StayId(stayID));
 
         Stay stay = result.orElseThrow(() -> new InvalidIdException("stay id"));
 
         stay.checkOut();
-
-        return BillDTO.fromBill(stay.generateIntermediateBill());
-
     }
 }

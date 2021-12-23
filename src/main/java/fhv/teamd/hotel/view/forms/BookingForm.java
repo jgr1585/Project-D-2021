@@ -4,6 +4,7 @@ import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
 
 public class BookingForm {
+
     private ChooseCategoriesForm chooseCategoriesForm = new ChooseCategoriesForm();
     private PersonalDetailsForm personalDetailsForm = new PersonalDetailsForm();
 

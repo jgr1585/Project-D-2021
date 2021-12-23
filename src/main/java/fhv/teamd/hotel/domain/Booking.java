@@ -5,6 +5,7 @@ import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCancelException;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
 import fhv.teamd.hotel.domain.ids.BookingId;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class Booking {
 
     private Long id;
-    private BookingId bookingId;
+    private BookingId domainId;
 
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
@@ -23,6 +24,7 @@ public class Booking {
 
     private RepresentativeDetails contact;
     private GuestDetails guest;
+    private OrganizationId organizationId;
     private BookingState bookingState;
 
     private Booking() {
@@ -30,15 +32,23 @@ public class Booking {
     }
 
     public Booking(BookingId id, LocalDateTime checkIn, LocalDateTime checkOut, Map<Category, Integer> categories,
-                   RepresentativeDetails contact, GuestDetails guest) {
+                   RepresentativeDetails contact, GuestDetails guest, OrganizationId organizationId) {
 
-        this.bookingId = id;
+        this.domainId = id;
         this.checkInDate = checkIn;
         this.checkOutDate = checkOut;
         this.categories = categories;
         this.contact = contact;
         this.guest = guest;
+        this.organizationId = organizationId;
         this.bookingState = BookingState.booked;
+    }
+
+    //Test only
+    @Deprecated
+    public Booking(long id, BookingId domainId, LocalDateTime checkInDate, LocalDateTime checkOutDate, Map<Category, Integer> categories, RepresentativeDetails contact, GuestDetails guest, OrganizationId organizationId) {
+        this(domainId, checkInDate, checkOutDate, categories, contact, guest, organizationId);
+        this.id = id;
     }
 
     protected Long id() {
@@ -46,7 +56,7 @@ public class Booking {
     }
 
     public BookingId bookingId() {
-        return this.bookingId;
+        return this.domainId;
     }
 
     public LocalDateTime checkInDate() {
@@ -67,6 +77,10 @@ public class Booking {
 
     public GuestDetails guestDetails() {
         return this.guest;
+    }
+
+    public OrganizationId organizationId() {
+        return this.organizationId;
     }
 
     public BookingState bookingState() {
@@ -98,11 +112,11 @@ public class Booking {
             return false;
         }
         final Booking booking = (Booking) o;
-        return Objects.equals(this.id, booking.id) && Objects.equals(this.bookingId, booking.bookingId);
+        return Objects.equals(this.id, booking.id) && Objects.equals(this.domainId, booking.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.bookingId);
+        return Objects.hash(this.id, this.domainId);
     }
 }

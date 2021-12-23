@@ -6,15 +6,22 @@
 <hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping" default-access="field">
     <class name="fhv.teamd.hotel.domain.Category" table="category">
         <id name="id" column="id" type="long">
-            <generator class="native"/>
+            <generator class="increment"/>
         </id>
 
-        <component name="categoryId" class="fhv.teamd.hotel.domain.ids.CategoryId">
+        <component name="domainId" class="fhv.teamd.hotel.domain.ids.CategoryId">
             <property name="id" column="category_id" type="string"/>
         </component>
 
         <property name="title" column="title" type="string"/>
         <property name="description" column="description" type="string"/>
-        <property name="pricePerNight" column="price_per_night" type="double"/>
+
+        <!-- Map<Season, Double> pricePerNight; -->
+        <!-- lazy loading exception in test ??? -->
+        <map name="pricePerNight" table="price_per_season" lazy="false">
+            <key column="category_id" on-delete="cascade"/>
+            <index-many-to-many class="fhv.teamd.hotel.domain.Season" column="season_id"/>
+            <element column="price" type="double"/>
+        </map>
     </class>
 </hibernate-mapping>

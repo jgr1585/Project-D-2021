@@ -3,6 +3,7 @@ package fhv.teamd.hotel.application.dto;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -14,21 +15,25 @@ public class StayDTO {
 
     private final String id;
 
+    @DateTimeFormat
     private final LocalDateTime checkIn;
+    @DateTimeFormat
     private final LocalDateTime expectedCheckOut;
 
     private final RepresentativeDetails representative;
     private final GuestDetails guest;
 
     private final List<RoomDTO> rooms;
+    private final String organizationId;
 
-    public StayDTO(String id, LocalDateTime checkIn, LocalDateTime expectedCheckOut, RepresentativeDetails representative, GuestDetails guest, List<RoomDTO> rooms) {
+    public StayDTO(String id, LocalDateTime checkIn, LocalDateTime expectedCheckOut, RepresentativeDetails representative, GuestDetails guest, List<RoomDTO> rooms, String organizationId) {
         this.id = id;
         this.checkIn = checkIn;
         this.expectedCheckOut = expectedCheckOut;
         this.representative = representative;
         this.guest = guest;
         this.rooms = rooms;
+        this.organizationId = organizationId;
     }
 
     public static StayDTO fromStay(Stay stay) {
@@ -38,7 +43,8 @@ public class StayDTO {
                 stay.expectedCheckOut(),
                 stay.representativeDetails(),
                 stay.guestDetails(),
-                stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList())
+                stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList()),
+                stay.organizationId().toString()
         );
     }
 
@@ -66,6 +72,9 @@ public class StayDTO {
         return Collections.unmodifiableList(this.rooms);
     }
 
+    public String organizationId() {
+        return this.organizationId;
+    }
 
     @Override
     public boolean equals(Object o) {

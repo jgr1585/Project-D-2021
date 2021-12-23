@@ -6,8 +6,4 @@ public class InvalidIdException extends Exception {
         super(message);
     }
 
-    public InvalidIdException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

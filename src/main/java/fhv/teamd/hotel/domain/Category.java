@@ -2,15 +2,17 @@ package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.ids.CategoryId;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 public class Category {
     private Long id;
-    private CategoryId categoryId;
+    private CategoryId domainId;
 
     private String title;
     private String description;
-    private double pricePerNight;
+    private Map<Season, Double> pricePerNight;
 
     protected Category() {
         // hibernate
@@ -18,9 +20,9 @@ public class Category {
 
     //Only for Test
     @Deprecated
-    public Category(Long id, CategoryId categoryId, String title, String description, double pricePerNight) {
+    public Category(Long id, CategoryId categoryId, String title, String description, Map<Season, Double> pricePerNight) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.domainId = categoryId;
         this.title = title;
         this.description = description;
         this.pricePerNight = pricePerNight;
@@ -31,7 +33,7 @@ public class Category {
     }
 
     public CategoryId categoryId() {
-        return this.categoryId;
+        return this.domainId;
     }
 
     public String title() {
@@ -42,8 +44,12 @@ public class Category {
         return this.description;
     }
 
-    public double pricePerNight() {
-        return this.pricePerNight;
+    public Map<Season, Double> pricePerSeason() {
+        return Collections.unmodifiableMap(this.pricePerNight);
+    }
+
+    public Double pricePerNight(Season season) {
+        return this.pricePerNight.get(season);
     }
 
     @Override
@@ -55,11 +61,11 @@ public class Category {
             return false;
         }
         final Category category = (Category) o;
-        return Objects.equals(this.id, category.id) && Objects.equals(this.categoryId, category.categoryId);
+        return Objects.equals(this.id, category.id) && Objects.equals(this.domainId, category.domainId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.categoryId);
+        return Objects.hash(this.id, this.domainId);
     }
 }

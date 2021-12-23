@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'jacoco'
+}
+
+group = 'fhv.teamd'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.h2database:h2:2.0.202'
+    implementation 'org.hibernate:hibernate-core:5.6.1.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.1.Final'
+    implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.2-api:1.0.0.Beta2'
+    implementation 'org.springframework:spring-orm'
+    implementation 'junit:junit:4.13.2'
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation group: 'org.ehcache', name: 'ehcache', version: '3.9.2'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+build.dependsOn jacocoTestReport

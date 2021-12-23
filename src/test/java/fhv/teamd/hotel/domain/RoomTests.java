@@ -22,8 +22,8 @@ public class RoomTests {
         final RoomId roomId1 = new RoomId("Room 1");
         final RoomId roomId2 = new RoomId("Room 2");
 
-        ReflectionTestUtils.setField(this.room1, "roomId", roomId1);
-        ReflectionTestUtils.setField(this.room2, "roomId", roomId2);
+        ReflectionTestUtils.setField(this.room1, "domainId", roomId1);
+        ReflectionTestUtils.setField(this.room2, "domainId", roomId2);
 
         ReflectionTestUtils.setField(this.room1, "id", 1L);
         ReflectionTestUtils.setField(this.room2, "id", 2L);

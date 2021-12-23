@@ -2,16 +2,20 @@ package fhv.teamd.hotel.view;
 
 import fhv.teamd.hotel.application.CategoryService;
 import fhv.teamd.hotel.application.FrontDeskService;
+import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.RoomSuggestionService;
 import fhv.teamd.hotel.application.dto.AvailableCategoryDTO;
 import fhv.teamd.hotel.application.dto.CategoryDTO;
+import fhv.teamd.hotel.application.dto.OrganizationDTO;
 import fhv.teamd.hotel.application.dto.RoomDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.exceptions.CannotCheckinException;
+import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
 import fhv.teamd.hotel.view.forms.subForms.PersonalDetailsForm;
@@ -39,6 +43,9 @@ public class CheckInController {
     private static final Period defaultStayDuration = Period.ofWeeks(1);
 
     @Autowired
+    private OrganizationService organizationService;
+
+    @Autowired
     private CategoryService categoryService;
 
     @Autowired
@@ -46,7 +53,6 @@ public class CheckInController {
 
     @Autowired
     private FrontDeskService frontDeskService;
-
 
     @GetMapping("chooseCategories")
     public ModelAndView chooseCategories(
@@ -92,6 +98,9 @@ public class CheckInController {
             @ModelAttribute CheckInForm checkInForm,
             Model model) {
 
+        List<OrganizationDTO> organizations = this.organizationService.getAll();
+
+        model.addAttribute("organizations", organizations);
         model.addAttribute("checkInForm", checkInForm);
 
         return new ModelAndView("/checkIn/personalDetails");
@@ -101,7 +110,10 @@ public class CheckInController {
     public RedirectView submitPersonalDetails(
             @ModelAttribute CheckInForm checkInForm,
             @RequestParam String action,
+            @RequestParam(name = "isSameAsRep", required = false) boolean isSameAsRep,
             RedirectAttributes redirectAttributes) {
+
+        checkInForm.getPersonalDetailsForm().setCheckBoxState(isSameAsRep);
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
 
@@ -128,19 +140,14 @@ public class CheckInController {
         // at end of check out day
         LocalDateTime until = chooseCategoriesForm.getUntil().atStartOfDay().plus(Period.ofDays(1));
 
-
         chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
-
             if (amount != null && amount > 0) {
-
                 List<RoomDTO> rooms = this.roomSuggestionService.findSuitableRooms(categoryId, from, until, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
                 roomAssignmentForm.getCategoriesAndRooms().put(categoryId, roomIds);
                 categories.add(this.categoryService.findCategoryById(categoryId).get());
-
             }
-
         });
 
         model.addAttribute("categories", categories);
@@ -203,18 +210,37 @@ public class CheckInController {
         String bookingId = checkInForm.getBookingId();
 
         try {
+            String orgId = personalDetailsForm.getOrganizationDropDownId();
+
+            if (orgId.equals("noOrganization")) {
+                orgId = "";
+            } else if (orgId.equals("addNewOrganization")) {
+                OrganizationDetails organizationDetails = new OrganizationDetails(
+                        personalDetailsForm.getOrganizationName(),
+                        new Address(
+                                personalDetailsForm.getOrganizationStreet(),
+                                personalDetailsForm.getOrganizationZip(),
+                                personalDetailsForm.getOrganizationCity(),
+                                personalDetailsForm.getOrganizationCountry()
+                        ),
+                        personalDetailsForm.getDiscount()
+                );
+
+                orgId = this.organizationService.add(organizationDetails).toString();
+            }
 
             if (bookingId == null || bookingId.length() == 0) {
                 this.frontDeskService.checkInWalkInGuest(
-                        roomIds,
-                        duration,
-                        guest,
-                        representative);
+                        roomIds, duration,
+                        guest, representative,
+                        new OrganizationId(orgId)
+                );
             } else {
                 this.frontDeskService.checkInWithBooking(
                         roomIds, duration,
                         guest, representative,
-                        bookingId);
+                        new OrganizationId(orgId), bookingId
+                );
             }
 
         } catch (InvalidIdException | CannotCheckinException x) {
