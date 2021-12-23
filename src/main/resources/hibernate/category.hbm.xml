@@ -17,8 +17,9 @@
         <property name="description" column="description" type="string"/>
 
         <!-- Map<Season, Double> pricePerNight; -->
-        <map name="pricePerNight" table="price_per_season">
-            <key column="category_id" on-delete="cascade" />
+        <!-- lazy loading exception in test ??? -->
+        <map name="pricePerNight" table="price_per_season" lazy="false">
+            <key column="category_id" on-delete="cascade"/>
             <index-many-to-many class="fhv.teamd.hotel.domain.Season" column="season_id"/>
             <element column="price" type="double"/>
         </map>
