@@ -110,7 +110,10 @@ public class CheckInController {
     public RedirectView submitPersonalDetails(
             @ModelAttribute CheckInForm checkInForm,
             @RequestParam String action,
+            @RequestParam(name = "isSameAsRep", required = false) boolean isSameAsRep,
             RedirectAttributes redirectAttributes) {
+
+        checkInForm.getPersonalDetailsForm().setCheckBoxState(isSameAsRep);
 
         redirectAttributes.addFlashAttribute("checkInForm", checkInForm);
 

@@ -12,6 +12,8 @@ public class PersonalDetailsForm {
     private String organizationCountry;
     private Integer discount;
 
+    private boolean checkBoxState = false;
+
     private String guestFirstName;
     private String guestLastName;
     private String guestStreet;
@@ -36,7 +38,7 @@ public class PersonalDetailsForm {
     }
 
     public PersonalDetailsForm(String organizationDropDownId, String organizationName, String organizationStreet, String organizationZip, String organizationCity, String organizationCountry, Integer discount,
-                               String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName,
+                               boolean checkBoxState, String guestFirstName, String guestLastName, String guestStreet, String guestZip, String guestCity, String guestCountry, String representativeFirstName,
                                String representativeLastName, String representativeStreet, String representativeZip, String representativeCity, String representativeCountry,
                                String representativeMail, String representativePhone, String representativeCreditCardNumber, PaymentMethod representativePaymentMethod) {
 
@@ -48,6 +50,8 @@ public class PersonalDetailsForm {
         this.organizationCity = organizationCity;
         this.organizationCountry = organizationCountry;
         this.discount = discount;
+
+        this.checkBoxState = checkBoxState;
 
         this.guestFirstName = guestFirstName;
         this.guestLastName = guestLastName;
@@ -122,6 +126,14 @@ public class PersonalDetailsForm {
 
     public void setDiscount(Integer discount) {
         this.discount = discount;
+    }
+
+    public boolean isCheckBoxState() {
+        return this.checkBoxState;
+    }
+
+    public void setCheckBoxState(boolean checkBoxState) {
+        this.checkBoxState = checkBoxState;
     }
 
     public String getGuestFirstName() {

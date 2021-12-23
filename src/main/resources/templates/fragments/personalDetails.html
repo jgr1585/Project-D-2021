@@ -87,8 +87,12 @@
         <div class="section">
             <h6>Guest Data</h6>
             <p>
-                <label class="checkboxRepresentativeCheck" for="representativeCheck">
-                    <input id="representativeCheck" type="checkbox"/>
+                <label th:for="'isSameAsRep'">
+                    <input type="checkbox"
+                           name="isSameAsRep"
+                           th:id="'isSameAsRep'"
+                           th:checked="*{checkBoxState}"
+                    >
                     <span>Representative is same Person</span>
                 </label>
             </p>
@@ -197,6 +201,12 @@
         <input th:field="*{organizationCity}" type="hidden">
         <input th:field="*{organizationCountry}" type="hidden">
         <input th:field="*{discount}" type="hidden"/>
+
+        <label th:for="'isSameNameAsRep'" hidden></label>
+        <input th:id="'isSameNameAsRep'"
+               th:field="*{checkBoxState}"
+               type="hidden"
+        >
 
         <input th:field="*{guestFirstName}" type="hidden"/>
         <input th:field="*{guestLastName}" type="hidden"/>

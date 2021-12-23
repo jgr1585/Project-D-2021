@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $("#representativeCheck").change(function () {
+    $("#isSameAsRep").change(function () {
         if ($(this).is(':checked')) {
             $("input[type='text']").change(function() {
                 copyFields(false);

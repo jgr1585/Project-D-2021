@@ -5,6 +5,8 @@ import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -107,6 +109,16 @@ public class HotelViewController {
         Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
         OrganizationDTO organization = orgResult.orElse(OrganizationDTO.empty());
 
+        GuestDetails guest = booking.guest();
+        Address guestAddress = guest.address();
+
+        RepresentativeDetails rep = booking.representative();
+        Address repAddress = rep.address();
+
+        boolean checkBoxState = guest.firstName().equals(rep.firstName())
+                && guest.lastName().equals(rep.lastName())
+                && guestAddress.equals(repAddress);
+
         redirectAttributes.addFlashAttribute("checkInForm", new CheckInForm(
                 id,
                 new ChooseCategoriesForm(checkIn, checkOut, categoryIds),
@@ -120,23 +132,25 @@ public class HotelViewController {
                         organization.address().country(),
                         organization.discount(),
 
-                        booking.guest().firstName(),
-                        booking.guest().lastName(),
-                        booking.guest().address().street(),
-                        booking.guest().address().zip(),
-                        booking.guest().address().city(),
-                        booking.guest().address().country(),
+                        checkBoxState,
 
-                        booking.representative().firstName(),
-                        booking.representative().lastName(),
-                        booking.representative().address().street(),
-                        booking.representative().address().zip(),
-                        booking.representative().address().city(),
-                        booking.representative().address().country(),
-                        booking.representative().email(),
-                        booking.representative().phone(),
-                        booking.representative().creditCardNumber(),
-                        booking.representative().paymentMethod()
+                        guest.firstName(),
+                        guest.lastName(),
+                        guestAddress.street(),
+                        guestAddress.zip(),
+                        guestAddress.city(),
+                        guestAddress.country(),
+
+                        rep.firstName(),
+                        rep.lastName(),
+                        repAddress.street(),
+                        repAddress.zip(),
+                        repAddress.city(),
+                        repAddress.country(),
+                        rep.email(),
+                        rep.phone(),
+                        rep.creditCardNumber(),
+                        rep.paymentMethod()
                 ),
                 new RoomAssignmentForm()
         ));

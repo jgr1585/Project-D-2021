@@ -103,7 +103,10 @@ public class CreateBookingController {
     public RedirectView submitPersonalDetails(
             @ModelAttribute BookingForm bookingForm,
             @RequestParam String action,
+            @RequestParam(name = "isSameAsRep", required = false) boolean isSameAsRep,
             RedirectAttributes redirectAttributes) {
+
+        bookingForm.getPersonalDetailsForm().setCheckBoxState(isSameAsRep);
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
