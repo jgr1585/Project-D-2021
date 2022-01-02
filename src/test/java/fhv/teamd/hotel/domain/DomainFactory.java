@@ -93,7 +93,7 @@ public abstract class DomainFactory {
         return new StayId(uuid.toString());
     }
 
-    private static OrganizationId createOrganizationId() {
+    public static OrganizationId createOrganizationId() {
         return createOrganizationId(UUID.randomUUID());
     }
 
