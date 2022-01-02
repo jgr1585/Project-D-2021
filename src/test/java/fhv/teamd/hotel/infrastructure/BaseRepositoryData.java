@@ -18,6 +18,7 @@ public abstract class BaseRepositoryData {
     private static final List<Room> rooms;
     private static final List<Stay> stays;
     private static final List<Season> seasons;
+    private static final List<Organization> organizations;
     // private static final List<Bill> bills;
     // private static final List<BillEntry> billEntries;
 
@@ -27,6 +28,7 @@ public abstract class BaseRepositoryData {
         rooms = new LinkedList<>();
         stays = new LinkedList<>();
         seasons = new LinkedList<>();
+        organizations = new LinkedList<>();
         // bills = new LinkedList<>();
         // billEntries = new LinkedList<>();
 
@@ -88,6 +90,16 @@ public abstract class BaseRepositoryData {
         final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2021-11-10T10:00:00"), LocalDateTime.parse("2021-11-15T10:00:00"), Set.of(room8), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"), new BillId("7569526"));
         stays.addAll(List.of(stay1, stay2));
 
+        final Address orgAddress1 = new Address("Im Städtle 40", "6973", "Höchst", "Austria");
+        final Address orgAddress2 = new Address("Konrad-Doppelmayr-Straße 1", "6922", "Wolfurt", "Austria");
+        final Address orgAddress3 = new Address("Kreuzäckerweg 33", "6800", "Feldkirch", "Austria");
+
+        final Organization org1 = new Organization(111L, new OrganizationId("dom-id-org-111"), "Blum GmbH", orgAddress1, 15);
+        final Organization org2 = new Organization(222L, new OrganizationId("dom-id-org-222"), "Doppelmayr/Garaventa Group", orgAddress2, 10);
+        final Organization org3 = new Organization(333L, new OrganizationId("dom-id-org-333"), "Bachmann electronic GmbH", orgAddress3, 5);
+        organizations.addAll(List.of(org1, org2, org3));
+
+
         //TODO: Data for Bill
 
     }
@@ -110,6 +122,10 @@ public abstract class BaseRepositoryData {
 
     public static List<Season> seasons() {
         return Collections.unmodifiableList(seasons);
+    }
+
+    public static List<Organization> organizations() {
+        return Collections.unmodifiableList(organizations);
     }
 
     //    public static List<Bill> bills() {

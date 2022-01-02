@@ -1,9 +1,15 @@
 package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.Address;
+import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
+import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
+import fhv.teamd.hotel.domain.ids.StayId;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 public class Organization {
 
@@ -18,7 +24,17 @@ public class Organization {
         // hibernate
     }
 
-    public Organization(OrganizationId domainId,String organizationName, Address address, int discount) {
+    public Organization(OrganizationId domainId, String organizationName, Address address, int discount) {
+        this.domainId = domainId;
+        this.organizationName = organizationName;
+        this.address = address;
+        this.discount = discount;
+    }
+
+    //Test only
+    @Deprecated
+    public Organization(Long id, OrganizationId domainId, String organizationName, Address address, int discount) {
+        this.id = id;
         this.domainId = domainId;
         this.organizationName = organizationName;
         this.address = address;
