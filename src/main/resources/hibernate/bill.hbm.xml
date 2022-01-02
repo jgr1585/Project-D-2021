@@ -16,7 +16,7 @@
         <!-- List<BillEntry> intermediateEntries -->
         <list name="intermediateEntries" table="bill_entry">
             <key column="bill_id"/>
-            <index column="index"/>
+            <index column="entry_index"/>
             <composite-element class="fhv.teamd.hotel.domain.BillEntry">
                 <property name="description" column="description" type="string"/>
                 <property name="timestamp" column="timestamp" type="java.time.LocalDateTime"/>
@@ -28,7 +28,7 @@
         <!-- List<FinalBill> finalBills -->
         <list name="finalBills" table="bill_final_bill" cascade="all">
             <key column="bill_id"/>
-            <index column="index"/>
+            <index column="final_index"/>
             <one-to-many class="fhv.teamd.hotel.domain.FinalBill"/>
         </list>
     </class>
