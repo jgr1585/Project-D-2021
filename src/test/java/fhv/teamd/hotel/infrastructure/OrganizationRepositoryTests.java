@@ -1,11 +1,8 @@
 package fhv.teamd.hotel.infrastructure;
 
-import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Organization;
 import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.OrganizationRepository;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @SpringBootTest
