@@ -8,6 +8,11 @@ delete from booking_for_category;
 delete from booking;
 delete from category;
 
+delete from season;
+delete from bill_entry;
+delete from bill;
+delete from organization;
+
 insert into booking (id, booking_id, check_in, check_out,booking_State, guest_first_name, guest_last_name, guest_street, guest_zip,
                      guest_city, guest_country, representative_first_name, representative_last_name,
                      representative_street, representative_zip, representative_city, representative_country,
@@ -88,5 +93,6 @@ values (111, 0, 'Sektfrühstück', '2021-11-14 09:00:00', 1, 30),
 insert into organization (id, organization_id, organization_name, organization_street, organization_zip, organization_city, organization_country, discount)
 values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria', 15),
        (222, 'dom-id-org-222', 'Doppelmayr/Garaventa Group', 'Konrad-Doppelmayr-Straße 1', '6922', 'Wolfurt', 'Austria', 10),
-       (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria', 5)
+       (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria', 5);
 
+COMMIT;
