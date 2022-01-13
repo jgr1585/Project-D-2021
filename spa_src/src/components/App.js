@@ -4,8 +4,8 @@ import withStyles from '@mui/styles/withStyles';
 import { AppBar, Snackbar } from '@mui/material';
 import clsx from 'clsx';
 
-import Loader from './loader';
-import Footer from './footer';
+import Loader from './Loader';
+import Footer from './Footer';
 import AppBarContent from "./AppBarContent";
 
 const styles = theme => ({
