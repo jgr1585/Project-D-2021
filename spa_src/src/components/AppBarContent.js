@@ -24,7 +24,7 @@ class AppBarContent extends PureComponent {
         return (
             <Toolbar className={clsx(classes.customizeToolbar)}>
                 <Typography className={clsx(classes.appTitle)} variant="h6" color="inherit">
-                    Booking.com
+                    Available Hotels
                 </Typography>
             </Toolbar>
         )
