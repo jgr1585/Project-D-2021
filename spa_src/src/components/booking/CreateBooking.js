@@ -214,23 +214,14 @@ class CreateBooking extends PureComponent {
     };
 
     render() {
-        const {classes, anchor, open} = this.props;
+        const {classes, open} = this.props;
         const {activeStep} = this.state;
 
         return (
-            <Popover open={anchor && open}
-                     anchorEl={anchor}
-                     anchorOrigin={{
-                         horizontal: 'left',
-                         vertical: 'bottom',
-                     }}
-                     transformOrigin={{
-                         horizontal: 'right',
-                         vertical: 'top',
-                     }}
+            <Popover open={open}
                      onClose={() => this.props.onPopoverClose(this.bookingDetails)}
-                     style={{maxHeight: '600px'}}
                      onKeyDown={this.onKeyDown}
+
                      disableRestoreFocus={true}
             >
                 <DialogTitle className={clsx(classes.customDialogTitle)}>
@@ -239,42 +230,37 @@ class CreateBooking extends PureComponent {
                     </Typography>
                 </DialogTitle>
 
-                <DialogContent style={{padding: 0, height: 500}}>
+                <DialogContent>
+                    <Typography variant={"h6"}/>
 
-                    <div style={{display: 'flex', height: 500, position: 'relative'}}>
-
-                        <div className={clsx(classes.greyBackground, classes.customPaddingLeft)}
-                             style={{minWidth: 140}}
-                        >
-
-                            <Typography variant={"h6"}/>
-                            <Stepper activeStep={activeStep} orientation="vertical"
-                                     className={clsx(classes.greyBackground)}
+                    <Stepper activeStep={activeStep}
+                             className={clsx(classes.greyBackground)}
+                    >
+                        {this.steps.map((label, index) => (
+                            <Step key={label}
+                                  completed={false}
                             >
-                                {this.steps.map((label, index) => (
-                                    <Step key={label} completed={false}>
-                                        <StepLabel StepIconProps={{classes: {root: classes.icon}}}
-                                                   onClick={() => {
-                                                       this.checkNextStep(index);
-                                                   }} style={{padding: 0}}>
-                                            {label}
-                                        </StepLabel>
-                                    </Step>
-                                ))}
-                            </Stepper>
-                        </div>
+                                <StepLabel StepIconProps={{classes: {root: classes.icon}}}
+                                           onClick={() => {
+                                               this.checkNextStep(index);
+                                           }} style={{padding: 0}}
+                                >
+                                    {label}
+                                </StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
 
-                        <div style={{paddingBottom: '8px', width: 680}}>
-                            {activeStep === 0 ? (
-                                this.renderChooseCategories(classes, this.bookingDetails)
-                            ) : (activeStep === 1 ? (
-                                this.renderPersonalDetails(classes, this.bookingDetails)
-                            ) : (
-                                this.renderSummary(classes, this.bookingDetails)))}
-                        </div>
-
-                        {this.renderDialogActions(classes, activeStep)}
+                    <div style={{paddingBottom: '8px', width: 680}}>
+                        {activeStep === 0 ? (
+                            this.renderChooseCategories(classes, this.bookingDetails)
+                        ) : (activeStep === 1 ? (
+                            this.renderPersonalDetails(classes, this.bookingDetails)
+                        ) : (
+                            this.renderSummary(classes, this.bookingDetails)))}
                     </div>
+
+                    {this.renderDialogActions(classes, activeStep)}
                 </DialogContent>
             </Popover>
         )

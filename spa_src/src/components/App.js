@@ -39,9 +39,7 @@ class App extends PureComponent {
 
             bookingDetails: null,
 
-            anchor: null,
             open: false,
-
             openDialogSave: false,
             dialogTextSave: '',
 
