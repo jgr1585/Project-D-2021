@@ -28,6 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.security.InvalidParameterException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -138,9 +139,17 @@ public class FrontDeskServiceTests {
         final Stay expected = Stay.create(stayId, LocalDateTime.now(), checkOutDate, roomsSet, guestDetails, rep, DomainFactory.getSeasonOf(LocalDateTime.now()), new OrganizationId(""), new BillId("654321"));
         final OrganizationId organizationId = new OrganizationId("");
 
+        final LocalDateTime invalidCheckIn = LocalDateTime.now();
+        final LocalDateTime invalidCheckOut = LocalDateTime.now().minus(Period.ofDays(1));
+        final Set<Room> invalidRoomsSet = new HashSet<>();
+
         Mockito.when(this.stayRepository.nextIdentity()).thenReturn(stayId);
         Mockito.when(this.roomRepository.findById(room.roomId())).thenReturn(Optional.of(room));
         Mockito.when(this.availabilityService.areAvailable(any(), any(), any())).thenReturn(true);
+
+        Assertions.assertThrows(InvalidParameterException.class, () -> Stay.create(stayId, invalidCheckIn, invalidCheckOut, roomsSet, guestDetails, rep, DomainFactory.getSeasonOf(LocalDateTime.now()), new OrganizationId(""), new BillId("654321")));
+
+        Assertions.assertThrows(InvalidParameterException.class, () -> Stay.create(stayId, LocalDateTime.now(), checkOutDate, invalidRoomsSet, guestDetails, rep, DomainFactory.getSeasonOf(LocalDateTime.now()), new OrganizationId(""), new BillId("654321")));
 
         Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkInWalkInGuest(rooms, Duration.between(LocalDateTime.now(), checkOutDate), guestDetails, rep, organizationId));
 
