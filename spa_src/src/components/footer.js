@@ -1,6 +1,3 @@
-/**
- * Created by Marco on 13/07/2020.
- */
 
 import React, { PureComponent } from 'react';
 
