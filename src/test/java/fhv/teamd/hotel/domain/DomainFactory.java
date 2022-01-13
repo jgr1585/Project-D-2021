@@ -101,6 +101,12 @@ public abstract class DomainFactory {
         return new OrganizationId(uuid.toString());
     }
 
+    public static Organization createOrganization() {
+        UUID uuid = UUID.randomUUID();
+
+        return new Organization(uuidToLong(uuid), createOrganizationId(uuid), "Organization " + uuid, createAddress(), 10);
+    }
+
     public static Stay createStay() {
         LocalDateTime yesterday = LocalDateTime.now().minus(Period.ofDays(1));
         LocalDateTime tomorrow = LocalDateTime.now().plus(Period.ofDays(1));
