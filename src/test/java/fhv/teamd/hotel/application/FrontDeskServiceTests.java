@@ -102,8 +102,6 @@ public class FrontDeskServiceTests {
         Mockito.when(this.stayRepository.findById(new StayId("stay-1"))).thenReturn(Optional.of(stay1));
         Mockito.when(this.stayRepository.findById(new StayId("stay-2"))).thenReturn(Optional.of(stay2));
         Mockito.when(this.seasonRepository.getSeasonFromMonth(any())).thenAnswer(invocation -> DomainFactory.getSeasonOf(invocation.getArgument(0, Month.class)));
-
-
     }
 
     @Test
@@ -125,8 +123,6 @@ public class FrontDeskServiceTests {
 
         Assertions.assertTrue(actual.containsAll(expected) && expected.containsAll(actual));
     }
-
-
 
     @Test
     void given_WalkInGuest_when_CheckIn_then_CreateStay() {
@@ -192,6 +188,12 @@ public class FrontDeskServiceTests {
         Assertions.assertEquals(expected, this.actualStay.getValue());
     }
 
+    @Test
+    void given_Stay_when_CheckOut_then_CheckOut_Stay() {
+        final Stay stay = DomainFactory.createStay();
 
+        Mockito.when(this.stayRepository.findById(stay.stayId())).thenReturn(Optional.of(stay));
 
+        Assertions.assertDoesNotThrow(() -> this.frontDeskService.checkOut(stay.stayId().toString()));
+    }
 }
