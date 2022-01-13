@@ -399,3 +399,4 @@ gradle-app.setting
 #Some other Files
 yarn.lock
 package-lock.json
+/src/main/resources/public/spa/yarn.lock
