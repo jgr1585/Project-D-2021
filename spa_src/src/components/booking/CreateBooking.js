@@ -170,14 +170,12 @@ class CreateBooking extends PureComponent {
     };
 
     renderChooseCategories = (classes, bookingDetails) => {
-        const {chooseCategory} = bookingDetails;
-
         return (
             <React.Fragment>
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <ChooseCategories
-                    chooseCategory={chooseCategory}
+                    chooseCategory={bookingDetails.chooseCategory}
                 >
                 </ChooseCategories>
             </React.Fragment>
@@ -185,14 +183,12 @@ class CreateBooking extends PureComponent {
     };
 
     renderPersonalDetails = (classes, bookingDetails) => {
-        const {personalDetails} = bookingDetails;
-
         return (
             <React.Fragment>
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <PersonalDetails
-                    personalDetails={personalDetails}
+                    personalDetails={bookingDetails.personalDetails}
                 >
                 </PersonalDetails>
             </React.Fragment>
