@@ -1,12 +1,15 @@
+import React, {PureComponent} from 'react';
 
-import React, { PureComponent } from 'react';
 import withStyles from '@mui/styles/withStyles';
-import { AppBar, Snackbar } from '@mui/material';
+import {AppBar, Button, Snackbar, Typography} from '@mui/material';
+
 import clsx from 'clsx';
 
 import Loader from './Loader';
 import Footer from './Footer';
 import AppBarContent from "./AppBarContent";
+import CreateBooking from "./booking/CreateBooking";
+import AlertDialog from "./AlertDialog";
 
 const styles = theme => ({
     app: {
@@ -33,7 +36,19 @@ class App extends PureComponent {
         this.state = {
             initCallsMade: true,
             initCallsError: false,
+
+            bookingDetails: null,
+
+            anchor: null,
+            open: false,
+
+            openDialogSave: false,
+            dialogTextSave: '',
+
+            error: '404 :(',
         };
+
+        this.hasChanged = false;
     }
 
     componentDidMount() {
@@ -45,26 +60,96 @@ class App extends PureComponent {
         // openapi??
     };
 
+    createNewBooking = () => {
+        this.setState({open: true});
+    };
+
+    // handle popover events! ----------------------------------------------------------------------------------------
+    hasValueChanged = (hasChanged) => {
+        this.hasChanged = hasChanged;
+    };
+    popoverClose = () => {
+        if (this.hasChanged) {
+            this.setState({
+                openDialogSave: true,
+                dialogTextSave: 'Do you really want to close this window?'
+            });
+        } else {
+            this.handleDialogSaveOk();
+        }
+    };
+
+    popoverOk = (bookingDetails) => {
+        // TODO:: call to backend to create booking
+
+        this.setState({open: false});
+    };
+
+    handleDialogSaveClose = () => {
+        this.setState({openDialogSave: false});
+    };
+
+    handleDialogSaveOk = () => {
+        this.setState({openDialogSave: false, open: false});
+        this.hasChanged = false;
+    };
+
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
+        const {
+            anchor, open, initCallsMade, initCallsError,
+            bookingDetails, openDialogSave, dialogTextSave, error
+        } = this.state;
 
         return (
             <div className={clsx(classes.app)}>
                 {/*check if the header param exist*/}
                 <AppBar position="static" className={clsx(classes.appBar)}>
-                    <AppBarContent />
+                    <AppBarContent/>
                 </AppBar>
 
-
                 {/*check if init calls are made*/}
-                {!this.state.initCallsMade ? (
-                    <Loader />
+                {!initCallsMade ? (
+                    <Loader/>
                 ) : (
                     <React.Fragment>
-                        <main>
 
-                        </main>
+                        {!initCallsError ? (
+                            <main>
+                                <Button variant="contained" onClick={() => this.createNewBooking()}>
+                                    Create booking
+                                </Button>
+
+                                {open ? (
+                                    <CreateBooking
+                                        anchor={anchor}
+                                        open={open}
+
+                                        bookingDetails={bookingDetails}
+
+                                        hasValueChanged={this.hasValueChanged}
+                                        onPopoverClose={this.popoverClose}
+                                        onPopoverOk={this.popoverOk}
+                                    >
+
+                                    </CreateBooking>
+                                ) : ''}
+
+                                <AlertDialog
+                                    openDialog={openDialogSave}
+                                    dialogText={dialogTextSave}
+                                    headerText={'Close window'}
+
+                                    onDialogClose={this.handleDialogSaveClose}
+                                    onDialogOk={this.handleDialogSaveOk}
+                                />
+                            </main>
+                        ) : (
+                            <Typography gutterBottom variant="subtitle1" className={classes.error}>
+                                {error}
+                            </Typography>
+                        )}
 
                         {/*add footer*/}
                         <Footer/>
