@@ -1,11 +1,10 @@
 import React, {PureComponent} from 'react'
 
 import {
-    Button,
+    Button, Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Popover,
     Step,
     StepLabel,
     Stepper,
@@ -47,6 +46,16 @@ const styles = (theme) => ({
     customPaddingLeft: {
         paddingLeft: '16px',
     },
+    customPaddingTop: {
+        paddingTop: '10px',
+    },
+
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
 });
 
 class CreateBooking extends PureComponent {
@@ -60,33 +69,37 @@ class CreateBooking extends PureComponent {
         this.bookingDetails = props.bookingDetails;
         if (this.bookingDetails == null) {
             this.bookingDetails = {
-                from: "",
-                until: "",
-                categorySelection: new Map([
-                    ["single", 0],
-                    ["double", 0],
-                    ["multi", 0],
-                    ["suite", 0],
-                ]),
+                chooseCategory: {
+                    from: "",
+                    until: "",
+                    categorySelection: new Map([
+                        ["single", 0],
+                        ["double", 0],
+                        ["multi", 0],
+                        ["suite", 0],
+                    ]),
+                },
 
-                guestFirstName: "",
-                guestLastName: "",
-                guestStreet: "",
-                guestZip: "",
-                guestCity: "",
-                guestCountry: "",
+                personalDetails: {
+                    guestFirstName: "",
+                    guestLastName: "",
+                    guestStreet: "",
+                    guestZip: "",
+                    guestCity: "",
+                    guestCountry: "",
 
-                representativeFirstName: "",
-                representativeLastName: "",
-                representativeStreet: "",
-                representativeZip: "",
-                representativeCity: "",
-                representativeCountry: "",
-                representativeMail: "",
-                representativePhone: "",
+                    representativeFirstName: "",
+                    representativeLastName: "",
+                    representativeStreet: "",
+                    representativeZip: "",
+                    representativeCity: "",
+                    representativeCountry: "",
+                    representativeMail: "",
+                    representativePhone: "",
 
-                representativeCreditCardNumber: "",
-                representativePaymentMethod: 0,
+                    representativeCreditCardNumber: "",
+                    representativePaymentMethod: 0,
+                }
             };
         }
 
@@ -162,7 +175,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <ChooseCategories
-                    // props for choose categories
+                    chooseCategory={bookingDetails.chooseCategory}
                 >
                 </ChooseCategories>
             </React.Fragment>
@@ -175,7 +188,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <PersonalDetails
-                    // props for personal details
+                    personalDetails={bookingDetails.personalDetails}
                 >
                 </PersonalDetails>
             </React.Fragment>
@@ -188,7 +201,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <Summary
-                    // props for summary
+                    bookingDetails={bookingDetails}
                 >
                 </Summary>
             </React.Fragment>
@@ -197,7 +210,7 @@ class CreateBooking extends PureComponent {
 
     renderDialogActions = (classes, activeStep) => {
         return (
-            <DialogActions className={clsx(classes.noPaddingTop, classes.positionBottom)}>
+            <DialogActions className={clsx(classes.positionBottom)}>
                 <Button variant="contained" onClick={this.goBack} disabled={activeStep === 0}>
                     Back
                 </Button>
@@ -218,11 +231,14 @@ class CreateBooking extends PureComponent {
         const {activeStep} = this.state;
 
         return (
-            <Popover open={open}
-                     onClose={() => this.props.onPopoverClose(this.bookingDetails)}
-                     onKeyDown={this.onKeyDown}
+            <Dialog open={open}
+                    onClose={() => this.props.onPopoverClose(this.bookingDetails)}
+                    onKeyDown={this.onKeyDown}
 
-                     disableRestoreFocus={true}
+                    maxWidth={"xl"}
+                    fullWidth={true}
+
+                    disableRestoreFocus={true}
             >
                 <DialogTitle className={clsx(classes.customDialogTitle)}>
                     <Typography className={clsx(classes.customTypography)}>
@@ -234,7 +250,7 @@ class CreateBooking extends PureComponent {
                     <Typography variant={"h6"}/>
 
                     <Stepper activeStep={activeStep}
-                             className={clsx(classes.greyBackground)}
+                             className={clsx(classes.greyBackground, classes.customPaddingTop)}
                     >
                         {this.steps.map((label, index) => (
                             <Step key={label}
@@ -262,7 +278,7 @@ class CreateBooking extends PureComponent {
 
                     {this.renderDialogActions(classes, activeStep)}
                 </DialogContent>
-            </Popover>
+            </Dialog>
         )
     }
 }
