@@ -69,33 +69,37 @@ class CreateBooking extends PureComponent {
         this.bookingDetails = props.bookingDetails;
         if (this.bookingDetails == null) {
             this.bookingDetails = {
-                from: "",
-                until: "",
-                categorySelection: new Map([
-                    ["single", 0],
-                    ["double", 0],
-                    ["multi", 0],
-                    ["suite", 0],
-                ]),
+                chooseCategory: {
+                    from: "",
+                    until: "",
+                    categorySelection: new Map([
+                        ["single", 0],
+                        ["double", 0],
+                        ["multi", 0],
+                        ["suite", 0],
+                    ]),
+                },
 
-                guestFirstName: "",
-                guestLastName: "",
-                guestStreet: "",
-                guestZip: "",
-                guestCity: "",
-                guestCountry: "",
+                personalDetails: {
+                    guestFirstName: "",
+                    guestLastName: "",
+                    guestStreet: "",
+                    guestZip: "",
+                    guestCity: "",
+                    guestCountry: "",
 
-                representativeFirstName: "",
-                representativeLastName: "",
-                representativeStreet: "",
-                representativeZip: "",
-                representativeCity: "",
-                representativeCountry: "",
-                representativeMail: "",
-                representativePhone: "",
+                    representativeFirstName: "",
+                    representativeLastName: "",
+                    representativeStreet: "",
+                    representativeZip: "",
+                    representativeCity: "",
+                    representativeCountry: "",
+                    representativeMail: "",
+                    representativePhone: "",
 
-                representativeCreditCardNumber: "",
-                representativePaymentMethod: 0,
+                    representativeCreditCardNumber: "",
+                    representativePaymentMethod: 0,
+                }
             };
         }
 
@@ -166,12 +170,14 @@ class CreateBooking extends PureComponent {
     };
 
     renderChooseCategories = (classes, bookingDetails) => {
+        const {chooseCategory} = bookingDetails;
+
         return (
             <React.Fragment>
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <ChooseCategories
-                    // props for choose categories
+                    chooseCategory={chooseCategory}
                 >
                 </ChooseCategories>
             </React.Fragment>
@@ -179,12 +185,14 @@ class CreateBooking extends PureComponent {
     };
 
     renderPersonalDetails = (classes, bookingDetails) => {
+        const {personalDetails} = bookingDetails;
+
         return (
             <React.Fragment>
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <PersonalDetails
-                    // props for personal details
+                    personalDetails={personalDetails}
                 >
                 </PersonalDetails>
             </React.Fragment>
@@ -197,7 +205,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <Summary
-                    // props for summary
+                    bookingDetails={bookingDetails}
                 >
                 </Summary>
             </React.Fragment>
