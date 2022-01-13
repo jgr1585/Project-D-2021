@@ -1,11 +1,10 @@
 import React, {PureComponent} from 'react'
 
 import {
-    Button,
+    Button, Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Popover,
     Step,
     StepLabel,
     Stepper,
@@ -46,6 +45,16 @@ const styles = (theme) => ({
     },
     customPaddingLeft: {
         paddingLeft: '16px',
+    },
+    customPaddingTop: {
+        paddingTop: '10px',
+    },
+
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
     },
 });
 
@@ -197,7 +206,7 @@ class CreateBooking extends PureComponent {
 
     renderDialogActions = (classes, activeStep) => {
         return (
-            <DialogActions className={clsx(classes.noPaddingTop, classes.positionBottom)}>
+            <DialogActions className={clsx(classes.positionBottom)}>
                 <Button variant="contained" onClick={this.goBack} disabled={activeStep === 0}>
                     Back
                 </Button>
@@ -218,11 +227,14 @@ class CreateBooking extends PureComponent {
         const {activeStep} = this.state;
 
         return (
-            <Popover open={open}
-                     onClose={() => this.props.onPopoverClose(this.bookingDetails)}
-                     onKeyDown={this.onKeyDown}
+            <Dialog open={open}
+                    onClose={() => this.props.onPopoverClose(this.bookingDetails)}
+                    onKeyDown={this.onKeyDown}
 
-                     disableRestoreFocus={true}
+                    maxWidth={"xl"}
+                    fullWidth={true}
+
+                    disableRestoreFocus={true}
             >
                 <DialogTitle className={clsx(classes.customDialogTitle)}>
                     <Typography className={clsx(classes.customTypography)}>
@@ -234,7 +246,7 @@ class CreateBooking extends PureComponent {
                     <Typography variant={"h6"}/>
 
                     <Stepper activeStep={activeStep}
-                             className={clsx(classes.greyBackground)}
+                             className={clsx(classes.greyBackground, classes.customPaddingTop)}
                     >
                         {this.steps.map((label, index) => (
                             <Step key={label}
@@ -262,7 +274,7 @@ class CreateBooking extends PureComponent {
 
                     {this.renderDialogActions(classes, activeStep)}
                 </DialogContent>
-            </Popover>
+            </Dialog>
         )
     }
 }
