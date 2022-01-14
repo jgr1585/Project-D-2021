@@ -64,7 +64,7 @@ class App extends PureComponent {
     hasValueChanged = (hasChanged) => {
         this.hasChanged = hasChanged;
     };
-    dialogClose = () => {
+    handleCreateBookingDialogClose = () => {
         if (this.hasChanged) {
             this.setState({
                 openDialogSave: true,
@@ -75,7 +75,7 @@ class App extends PureComponent {
         }
     };
 
-    dialogOk = (bookingDetails) => {
+    handleCreateBookingDialogOk = (bookingDetails) => {
         // TODO:: call to backend to create booking
 
         this.setState({open: false});
@@ -125,8 +125,8 @@ class App extends PureComponent {
                                         bookingDetails={bookingDetails}
 
                                         hasValueChanged={this.hasValueChanged}
-                                        onDialogClose={this.dialogClose}
-                                        onDialogOk={this.dialogOk}
+                                        onDialogClose={this.handleCreateBookingDialogClose}
+                                        onDialogOk={this.handleCreateBookingDialogOk}
                                     >
 
                                     </CreateBooking>
