@@ -37,8 +37,6 @@ class App extends PureComponent {
             initCallsMade: true,
             initCallsError: false,
 
-            bookingDetails: null,
-
             open: false,
             openDialogSave: false,
             dialogTextSave: '',
@@ -66,28 +64,28 @@ class App extends PureComponent {
     hasValueChanged = (hasChanged) => {
         this.hasChanged = hasChanged;
     };
-    popoverClose = () => {
+    handleCreateBookingDialogClose = () => {
         if (this.hasChanged) {
             this.setState({
                 openDialogSave: true,
                 dialogTextSave: 'Do you really want to close this window?'
             });
         } else {
-            this.handleDialogSaveOk();
+            this.handleAlertDialogSaveOk();
         }
     };
 
-    popoverOk = (bookingDetails) => {
+    handleCreateBookingDialogOk = (bookingDetails) => {
         // TODO:: call to backend to create booking
 
         this.setState({open: false});
     };
 
-    handleDialogSaveClose = () => {
+    handleAlertDialogSaveClose = () => {
         this.setState({openDialogSave: false});
     };
 
-    handleDialogSaveOk = () => {
+    handleAlertDialogSaveOk = () => {
         this.setState({openDialogSave: false, open: false});
         this.hasChanged = false;
     };
@@ -127,8 +125,8 @@ class App extends PureComponent {
                                         bookingDetails={bookingDetails}
 
                                         hasValueChanged={this.hasValueChanged}
-                                        onPopoverClose={this.popoverClose}
-                                        onPopoverOk={this.popoverOk}
+                                        onDialogClose={this.handleCreateBookingDialogClose}
+                                        onDialogOk={this.handleCreateBookingDialogOk}
                                     >
 
                                     </CreateBooking>
@@ -139,8 +137,8 @@ class App extends PureComponent {
                                     dialogText={dialogTextSave}
                                     headerText={'Close window'}
 
-                                    onDialogClose={this.handleDialogSaveClose}
-                                    onDialogOk={this.handleDialogSaveOk}
+                                    onDialogClose={this.handleAlertDialogSaveClose}
+                                    onDialogOk={this.handleAlertDialogSaveOk}
                                 />
                             </main>
                         ) : (

@@ -53,7 +53,7 @@ public class CategoryServiceTests {
     }
 
     @Test
-    void given_nonemptyAvailableCategories_when_getAllCategories_then_Categroy_List() {
+    void given_nonemptyAvailableCategories_when_getAllCategories_then_Category_List() {
         // given
         List<Category> categories = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
@@ -109,8 +109,6 @@ public class CategoryServiceTests {
         Assertions.assertEquals(CategoryDTO.fromCategory(cat1), this.categoryService.findCategoryById(cat1.categoryId().toString()).get());
         Assertions.assertEquals(CategoryDTO.fromCategory(cat2), this.categoryService.findCategoryById(cat2.categoryId().toString()).get());
         Assertions.assertEquals(Optional.empty(), this.categoryService.findCategoryById(nonExistingCat.toString()));
-
-
     }
 
 }

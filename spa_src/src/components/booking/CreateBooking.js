@@ -66,9 +66,8 @@ class CreateBooking extends PureComponent {
             activeStep: 0,
         }
 
-        this.bookingDetails = props.bookingDetails;
-        if (this.bookingDetails == null) {
-            this.bookingDetails = {
+        this.bookingDetails = {
+            chooseCategory: {
                 from: "",
                 until: "",
                 categorySelection: new Map([
@@ -77,7 +76,8 @@ class CreateBooking extends PureComponent {
                     ["multi", 0],
                     ["suite", 0],
                 ]),
-
+            },
+            personalDetails: {
                 guestFirstName: "",
                 guestLastName: "",
                 guestStreet: "",
@@ -96,8 +96,8 @@ class CreateBooking extends PureComponent {
 
                 representativeCreditCardNumber: "",
                 representativePaymentMethod: 0,
-            };
-        }
+            }
+        };
 
         this.steps = ['Choose categories', 'Personal details', 'Summary'];
     }
@@ -160,7 +160,7 @@ class CreateBooking extends PureComponent {
             }
         } else {
             if (this.validateChooseCategories(this.bookingDetails) && this.validatePersonalDetails(this.bookingDetails)) {
-                this.props.onPopoverOk(this.bookingDetails);
+                this.props.onDialogOk(this.bookingDetails);
             }
         }
     };
@@ -171,7 +171,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <ChooseCategories
-                    // props for choose categories
+                    chooseCategory={bookingDetails.chooseCategory}
                 >
                 </ChooseCategories>
             </React.Fragment>
@@ -184,7 +184,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <PersonalDetails
-                    // props for personal details
+                    personalDetails={bookingDetails.personalDetails}
                 >
                 </PersonalDetails>
             </React.Fragment>
@@ -197,7 +197,7 @@ class CreateBooking extends PureComponent {
                 <Typography title={'Step 1 - Properties'} variant={"h6"}/>
 
                 <Summary
-                    // props for summary
+                    bookingDetails={bookingDetails}
                 >
                 </Summary>
             </React.Fragment>
@@ -215,7 +215,7 @@ class CreateBooking extends PureComponent {
                     {activeStep === 2 ? 'Create' : 'Next'}
                 </Button>
 
-                <Button variant="contained" onClick={this.props.onPopoverClose}>
+                <Button variant="contained" onClick={this.props.onDialogClose}>
                     Cancel
                 </Button>
             </DialogActions>
@@ -228,7 +228,7 @@ class CreateBooking extends PureComponent {
 
         return (
             <Dialog open={open}
-                    onClose={() => this.props.onPopoverClose(this.bookingDetails)}
+                    onClose={this.props.onDialogClose}
                     onKeyDown={this.onKeyDown}
 
                     maxWidth={"xl"}

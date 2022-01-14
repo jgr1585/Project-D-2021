@@ -1,9 +1,6 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.ids.*;
 import fhv.teamd.hotel.infrastructure.BaseRepositoryData;
 
@@ -104,7 +101,11 @@ public abstract class DomainFactory {
     public static Organization createOrganization() {
         UUID uuid = UUID.randomUUID();
 
-        return new Organization(uuidToLong(uuid), createOrganizationId(uuid), "Organization " + uuid, createAddress(), 10);
+        return new Organization(createOrganizationId(uuid), "Organization " + uuid, createAddress(), 10);
+    }
+
+    public static OrganizationDetails createOrganizationDetailsFromOrganization(Organization organization) {
+        return new OrganizationDetails(organization.organizationName(), organization.address(), organization.discount());
     }
 
     public static Stay createStay() {
