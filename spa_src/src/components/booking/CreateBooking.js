@@ -66,42 +66,38 @@ class CreateBooking extends PureComponent {
             activeStep: 0,
         }
 
-        this.bookingDetails = props.bookingDetails;
-        if (this.bookingDetails == null) {
-            this.bookingDetails = {
-                chooseCategory: {
-                    from: "",
-                    until: "",
-                    categorySelection: new Map([
-                        ["single", 0],
-                        ["double", 0],
-                        ["multi", 0],
-                        ["suite", 0],
-                    ]),
-                },
+        this.bookingDetails = {
+            chooseCategory: {
+                from: "",
+                until: "",
+                categorySelection: new Map([
+                    ["single", 0],
+                    ["double", 0],
+                    ["multi", 0],
+                    ["suite", 0],
+                ]),
+            },
+            personalDetails: {
+                guestFirstName: "",
+                guestLastName: "",
+                guestStreet: "",
+                guestZip: "",
+                guestCity: "",
+                guestCountry: "",
 
-                personalDetails: {
-                    guestFirstName: "",
-                    guestLastName: "",
-                    guestStreet: "",
-                    guestZip: "",
-                    guestCity: "",
-                    guestCountry: "",
+                representativeFirstName: "",
+                representativeLastName: "",
+                representativeStreet: "",
+                representativeZip: "",
+                representativeCity: "",
+                representativeCountry: "",
+                representativeMail: "",
+                representativePhone: "",
 
-                    representativeFirstName: "",
-                    representativeLastName: "",
-                    representativeStreet: "",
-                    representativeZip: "",
-                    representativeCity: "",
-                    representativeCountry: "",
-                    representativeMail: "",
-                    representativePhone: "",
-
-                    representativeCreditCardNumber: "",
-                    representativePaymentMethod: 0,
-                }
-            };
-        }
+                representativeCreditCardNumber: "",
+                representativePaymentMethod: 0,
+            }
+        };
 
         this.steps = ['Choose categories', 'Personal details', 'Summary'];
     }
@@ -164,7 +160,7 @@ class CreateBooking extends PureComponent {
             }
         } else {
             if (this.validateChooseCategories(this.bookingDetails) && this.validatePersonalDetails(this.bookingDetails)) {
-                this.props.onPopoverOk(this.bookingDetails);
+                this.props.onDialogOk(this.bookingDetails);
             }
         }
     };
@@ -219,7 +215,7 @@ class CreateBooking extends PureComponent {
                     {activeStep === 2 ? 'Create' : 'Next'}
                 </Button>
 
-                <Button variant="contained" onClick={this.props.onPopoverClose}>
+                <Button variant="contained" onClick={this.props.onDialogClose}>
                     Cancel
                 </Button>
             </DialogActions>
@@ -232,7 +228,7 @@ class CreateBooking extends PureComponent {
 
         return (
             <Dialog open={open}
-                    onClose={() => this.props.onPopoverClose(this.bookingDetails)}
+                    onClose={this.props.onDialogClose}
                     onKeyDown={this.onKeyDown}
 
                     maxWidth={"xl"}
