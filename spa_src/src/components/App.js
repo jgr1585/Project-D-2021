@@ -34,7 +34,7 @@ class App extends PureComponent {
         super(props);
 
         this.state = {
-            initCallsMade: true,
+            initCallsMade: false,
             initCallsError: false,
 
             open: false,
@@ -49,11 +49,17 @@ class App extends PureComponent {
 
     componentDidMount() {
         // Ajax Calls (get all necessary information about the hotel)
-        this.initCalls();
+        this.initCalls().then(() => {
+            this.setState({initCallsMade: true});
+        });
     }
 
     initCalls = () => {
-        // openapi??
+        return new Promise(resolve => {
+            // openapi??
+
+            resolve();
+        })
     };
 
     createNewBooking = () => {
