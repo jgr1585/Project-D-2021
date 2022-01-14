@@ -74,7 +74,6 @@ class App extends PureComponent {
             this.handleAlertDialogSaveOk();
         }
     };
-
     handleCreateBookingDialogOk = (bookingDetails) => {
         // TODO:: call to backend to create booking
 
@@ -84,12 +83,10 @@ class App extends PureComponent {
     handleAlertDialogSaveClose = () => {
         this.setState({openDialogSave: false});
     };
-
     handleAlertDialogSaveOk = () => {
         this.setState({openDialogSave: false, open: false});
         this.hasChanged = false;
     };
-
 
     render() {
         const {classes} = this.props;
