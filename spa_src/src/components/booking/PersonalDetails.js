@@ -4,13 +4,16 @@ import React, { PureComponent } from 'react'
 
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
-import {Box, Checkbox, FormControlLabel, Grid, TextField, Typography} from "@mui/material";
+import {Box, Checkbox, FormControlLabel, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import {AccountCircle, LocationCity, Email, Phone, EuroSymbol, Payment} from "@mui/icons-material";
+import clsx from "clsx";
 
 const styles = () => ({
-
+    dropDownPaddingTop: {
+        paddingTop: "28px !important"
+    }
 });
 
 const HeaderItem = styled(Paper)(({theme}) => ({
@@ -32,10 +35,15 @@ const Item = styled(Paper)(({theme}) => ({
 class PersonalDetails extends PureComponent {
     constructor(props) {
         super(props);
+
+        this.state = {
+            selectedPaymentMethod: props.personalDetails.selectedPaymentMethod,
+        }
     }
 
     render() {
-        const {personalDetails} = this.props;
+        const {personalDetails, classes} = this.props;
+        const {selectedPaymentMethod} = this.state;
 
         return (
             <React.Fragment>
@@ -69,9 +77,11 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="First Name"
                                             onChange={(event => {
-                                                personalDetails.representativeFirstName.set(event.target.value);
+                                                personalDetails.representativeFirstName = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.representativeFirstName}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -81,9 +91,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Last Name"
                                         onChange={(event => {
-                                            personalDetails.representativeLastName.set(event.target.value);
+                                            personalDetails.representativeLastName = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.representativeLastName}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -95,9 +107,11 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="Street"
                                             onChange={(event => {
-                                                personalDetails.representativeStreet.set(event.target.value);
+                                                personalDetails.representativeStreet = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.representativeStreet}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -107,9 +121,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Zip"
                                         onChange={(event => {
-                                            personalDetails.representativeZip.set(event.target.value);
+                                            personalDetails.representativeZip = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.representativeZip}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -118,9 +134,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="City/Town"
                                         onChange={(event => {
-                                            personalDetails.representativeCity.set(event.target.value);
+                                            personalDetails.representativeCity = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.representativeCity}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -129,9 +147,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Country"
                                         onChange={(event => {
-                                           personalDetails.representativeCountry.set(event.target.value);
+                                           personalDetails.representativeCountry = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.representativeCountry}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -143,10 +163,12 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="Email"
                                             onChange={(event => {
-                                               personalDetails.representativeMail.set(event.target.value);
+                                               personalDetails.representativeMail = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.representativeMail}
                                             type="email"
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -158,25 +180,39 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="Phone"
                                             onChange={(event => {
-                                               personalDetails.representativePhone.set(event.target.value);
+                                               personalDetails.representativePhone = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.representativePhone}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
                             </Grid>
 
-                            <Grid item xs={6}>
+                            <Grid item xs={6} className={clsx(classes.dropDownPaddingTop)}>
                                 <Item>
                                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                         <EuroSymbol sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
-                                        <TextField
+                                        <Select
                                             label="Payment"
                                             onChange={(event => {
-                                               personalDetails.representativePaymentMethod.set(event.target.value);
+                                                this.setState({selectedPaymentMethod: event.target.value})
+                                               personalDetails.selectedPaymentMethod = event.target.value;
                                             })}
+                                            value={selectedPaymentMethod}
                                             variant="standard"
-                                        />
+                                            sx={{ width: "100%", my: 1.5, textAlign: "left"}}
+                                        >
+                                            {/*<MenuItem value="Cash">Cash</MenuItem>*/}
+                                            {/*<MenuItem value="CreditCard">Credit Card</MenuItem>*/}
+
+                                            {[...personalDetails.representativePaymentMethod.keys()].map((value, index) =>
+                                                (
+                                                    <MenuItem value={value}>{personalDetails.representativePaymentMethod.get(value)}</MenuItem>
+                                                )
+                                            )}
+                                        </Select>
                                     </Box>
                                 </Item>
                             </Grid>
@@ -187,9 +223,11 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="Credit Card Number"
                                             onChange={(event => {
-                                               personalDetails.representativeCreditCardNumber.set(event.target.value);
+                                               personalDetails.representativeCreditCardNumber = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.representativeCreditCardNumber}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -219,9 +257,11 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="First Name"
                                             onChange={(event => {
-                                               personalDetails.guestFirstName.set(event.target.value);
+                                               personalDetails.guestFirstName = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.guestFirstName}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -231,9 +271,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Last Name"
                                         onChange={(event => {
-                                           personalDetails.guestLastName.set(event.target.value);
+                                           personalDetails.guestLastName = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.guestLastName}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -245,9 +287,11 @@ class PersonalDetails extends PureComponent {
                                         <TextField
                                             label="Street"
                                             onChange={(event => {
-                                               personalDetails.guestStreet.set(event.target.value);
+                                               personalDetails.guestStreet = event.target.value;
                                             })}
+                                            defaultValue={personalDetails.guestStreet}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Box>
                                 </Item>
@@ -257,9 +301,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Zip"
                                         onChange={(event => {
-                                           personalDetails.guestZip.set(event.target.value);
+                                           personalDetails.guestZip = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.guestZip}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -268,9 +314,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="City/Town"
                                         onChange={(event => {
-                                           personalDetails.guestCity.set(event.target.value);
+                                           personalDetails.guestCity = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.guestCity}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
@@ -279,9 +327,11 @@ class PersonalDetails extends PureComponent {
                                     <TextField
                                         label="Country"
                                         onChange={(event => {
-                                           personalDetails.guestCountry.set(event.target.value);
+                                           personalDetails.guestCountry = event.target.value;
                                         })}
+                                        defaultValue={personalDetails.guestCountry}
                                         variant="standard"
+                                        required={true}
                                     />
                                 </Item>
                             </Grid>
