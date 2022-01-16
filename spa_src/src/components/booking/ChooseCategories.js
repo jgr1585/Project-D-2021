@@ -21,6 +21,15 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 class ChooseCategories extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            from: props.chooseCategory.from,
+            until: props.chooseCategory.until,
+        }
+    }
+
     onDateSelectChange = (value, chooseCategory) => {
 
     };
@@ -33,6 +42,7 @@ class ChooseCategories extends PureComponent {
 
     render() {
         const {classes, chooseCategory} = this.props;
+        const {from, until} = this.state;
 
         return (
             <React.Fragment>
@@ -54,9 +64,11 @@ class ChooseCategories extends PureComponent {
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
                                             label="From Date"
-                                            value={new Date()}
+                                            inputFormat={"yyyy-MM-dd"}
+                                            value={new Date(from)}
                                             onChange={(newValue) => {
-                                                this.onDateSelectChange(newValue, chooseCategory);
+                                                this.setState({from: newValue});
+                                                chooseCategory.from = newValue;
                                             }}
                                             renderInput={(params) => <TextField {...params} />}
                                         />
@@ -68,10 +80,12 @@ class ChooseCategories extends PureComponent {
                                 <Item>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
-                                            label="Todo Date"
-                                            value={new Date()}
+                                            label="Until Date"
+                                            inputFormat={"yyyy-MM-dd"}
+                                            value={new Date(until)}
                                             onChange={(newValue) => {
-                                                this.onDateSelectChange(newValue, chooseCategory);
+                                                this.setState({until: newValue});
+                                                chooseCategory.until = newValue;
                                             }}
                                             renderInput={(params) => <TextField {...params} />}
                                         />
@@ -81,32 +95,51 @@ class ChooseCategories extends PureComponent {
                         </Grid>
 
                         <Grid container item spacing={3}>
-                            <Grid item xs={3}>
-                                <Item>
-                                    <TextField
-                                        id="standard-number"
-                                        label="Single Room"
-                                        type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        variant="standard"
-                                    />
-                                </Item>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Item>
-                                    <TextField
-                                        id="standard-number"
-                                        label="Double Room"
-                                        type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        variant="standard"
-                                    />
-                                </Item>
-                            </Grid>
+
+                            {[...chooseCategory.categorySelection.keys()].map((value, index) => (
+                                <Grid item xs={3} key={index}>
+                                    <Item>
+                                        <TextField
+                                            id="standard-number"
+                                            label={value}
+                                            type="number"
+                                            onChange={(event) => {
+                                                chooseCategory.categorySelection.set(value, parseInt(event.target.value));
+                                            }}
+                                            InputProps={{ inputProps: { min: 0, max: 5 } }}
+                                            defaultValue={chooseCategory.categorySelection.get(value)}
+                                            variant="standard"
+                                        />
+                                    </Item>
+                                </Grid>
+                            ))}
+
+                            {/*<Grid item xs={3}>*/}
+                            {/*    <Item>*/}
+                            {/*        <TextField*/}
+                            {/*            id="standard-number"*/}
+                            {/*            label="Single Room"*/}
+                            {/*            type="number"*/}
+                            {/*            InputLabelProps={{*/}
+                            {/*                shrink: true,*/}
+                            {/*            }}*/}
+                            {/*            variant="standard"*/}
+                            {/*        />*/}
+                            {/*    </Item>*/}
+                            {/*</Grid>*/}
+                            {/*<Grid item xs={3}>*/}
+                            {/*    <Item>*/}
+                            {/*        <TextField*/}
+                            {/*            id="standard-number"*/}
+                            {/*            label="Double Room"*/}
+                            {/*            type="number"*/}
+                            {/*            InputLabelProps={{*/}
+                            {/*                shrink: true,*/}
+                            {/*            }}*/}
+                            {/*            variant="standard"*/}
+                            {/*        />*/}
+                            {/*    </Item>*/}
+                            {/*</Grid>*/}
                         </Grid>
                     </Grid>
                 </Box>

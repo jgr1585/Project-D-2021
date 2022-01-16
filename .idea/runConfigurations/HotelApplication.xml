@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="HotelApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="Projekt_2021.main" />
+    <module name="Project-D-2021.main" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="fhv.teamd.hotel.*" />
@@ -9,7 +9,6 @@
     </extension>
     <option name="SPRING_BOOT_MAIN_CLASS" value="fhv.teamd.hotel.HotelApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
-    <option name="SHORTEN_COMMAND_LINE" value="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

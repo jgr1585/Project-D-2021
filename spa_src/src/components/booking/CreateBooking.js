@@ -72,13 +72,13 @@ class CreateBooking extends PureComponent {
 
         this.bookingDetails = {
             chooseCategory: {
-                from: "",
-                until: "",
+                from: new Date(),
+                until: new Date(),
                 categorySelection: new Map([
-                    ["single", 0],
-                    ["double", 0],
-                    ["multi", 0],
-                    ["suite", 0],
+                    ["Single Bed", 0],
+                    ["Double Bed", 0],
+                    // ["multi", 0],
+                    // ["suite", 0],
                 ]),
             },
             personalDetails: {
