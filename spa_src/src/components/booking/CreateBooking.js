@@ -99,7 +99,13 @@ class CreateBooking extends PureComponent {
                 representativePhone: "",
 
                 representativeCreditCardNumber: "",
-                representativePaymentMethod: 0,
+                representativePaymentMethod: new Map([
+                    ["cash", "Cash"],
+                    ["creditCard", "Credit Card"],
+                ]),
+                selectedPaymentMethod: "cash",
+
+                checkboxState: false,
             }
         };
 
