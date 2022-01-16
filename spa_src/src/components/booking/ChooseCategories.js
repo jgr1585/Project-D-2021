@@ -116,51 +116,26 @@ class ChooseCategories extends PureComponent {
                                 </HeaderItem>
                             </Grid>
 
-                            {[...chooseCategory.categorySelection.keys()].map((value, index) => (
-                                <Grid item xs={3} key={index} className={clsx(classes.gridItemPaddingTop)}>
-                                    <Item>
-                                        <TextField
-                                            id="standard-number"
-                                            label={value}
-                                            type="number"
-                                            onChange={(event) => {
-                                                chooseCategory.categorySelection.set(value, event.target.value);
-                                            }}
-                                            InputProps={{ inputProps: { min: 0, max: 5 } }}
-                                            defaultValue={chooseCategory.categorySelection.get(value)}
-                                            variant="standard"
-                                            required={true}
-                                        />
-                                    </Item>
-                                </Grid>
-                            ))}
-
-                            {/*<Grid item xs={3}>*/}
-                            {/*    <Item>*/}
-                            {/*        <TextField*/}
-                            {/*            id="standard-number"*/}
-                            {/*            label="Single Room"*/}
-                            {/*            type="number"*/}
-                            {/*            InputLabelProps={{*/}
-                            {/*                shrink: true,*/}
-                            {/*            }}*/}
-                            {/*            variant="standard"*/}
-                            {/*        />*/}
-                            {/*    </Item>*/}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs={3}>*/}
-                            {/*    <Item>*/}
-                            {/*        <TextField*/}
-                            {/*            id="standard-number"*/}
-                            {/*            label="Double Room"*/}
-                            {/*            type="number"*/}
-                            {/*            InputLabelProps={{*/}
-                            {/*                shrink: true,*/}
-                            {/*            }}*/}
-                            {/*            variant="standard"*/}
-                            {/*        />*/}
-                            {/*    </Item>*/}
-                            {/*</Grid>*/}
+                            {[...chooseCategory.categorySelection.keys()].map((value, index) =>
+                                (
+                                    <Grid item xs={3} key={index} className={clsx(classes.gridItemPaddingTop)}>
+                                        <Item>
+                                            <TextField
+                                                id="standard-number"
+                                                label={value}
+                                                type="number"
+                                                onChange={(event) => {
+                                                    chooseCategory.categorySelection.set(value, event.target.value);
+                                                }}
+                                                InputProps={{inputProps: {min: 0, max: 5}}}
+                                                defaultValue={chooseCategory.categorySelection.get(value)}
+                                                variant="standard"
+                                                required={true}
+                                            />
+                                        </Item>
+                                    </Grid>
+                                )
+                            )}
                         </Grid>
                     </Grid>
                 </Box>
