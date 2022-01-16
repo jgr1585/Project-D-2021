@@ -125,7 +125,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Name"
-                                                    secondary="<name>"
+                                                    secondary={bookingDetails.personalDetails.guestFirstName + " " + bookingDetails.personalDetails.guestLastName}
                                                 />
                                             </ListItem>
                                             <ListItem>
@@ -134,7 +134,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Address"
-                                                    secondary="<address>"
+                                                    secondary={bookingDetails.personalDetails.guestStreet + ", " + bookingDetails.personalDetails.guestZip + " " + bookingDetails.personalDetails.guestCity + ", " + bookingDetails.personalDetails.guestCountry}
                                                 />
                                             </ListItem>
                                         </List>
@@ -160,7 +160,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Name"
-                                                    secondary="<name>"
+                                                    secondary={bookingDetails.personalDetails.representativeFirstName + " " + bookingDetails.personalDetails.representativeLastName}
                                                 />
                                             </ListItem>
                                             <ListItem>
@@ -169,7 +169,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Address"
-                                                    secondary="<address>"
+                                                    secondary={bookingDetails.personalDetails.representativeStreet + ", " + bookingDetails.personalDetails.representativeZip + " " + bookingDetails.personalDetails.representativeCity + ", " + bookingDetails.personalDetails.representativeCountry}
                                                 />
                                             </ListItem>
                                             <ListItem>
@@ -178,7 +178,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Email"
-                                                    secondary="<email>"
+                                                    secondary={bookingDetails.personalDetails.representativeMail}
                                                 />
                                             </ListItem>
                                         </List>
@@ -194,7 +194,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Phone"
-                                                    secondary="<phone>"
+                                                    secondary={bookingDetails.personalDetails.representativePhone}
                                                 />
                                             </ListItem>
                                             <ListItem>
@@ -203,7 +203,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Payment"
-                                                    secondary="<payment>"
+                                                    secondary={bookingDetails.personalDetails.representativePaymentMethod}
                                                 />
                                             </ListItem>
                                             <ListItem>
@@ -212,7 +212,7 @@ class Summary extends PureComponent {
                                                 </ListItemIcon>
                                                 <ListItemText
                                                     primary="Credit Card Number"
-                                                    secondary="<credit-card-number>"
+                                                    secondary={bookingDetails.personalDetails.representativeCreditCardNumber}
                                                 />
                                             </ListItem>
                                         </List>
