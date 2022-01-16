@@ -9,7 +9,7 @@ import {
     AccountCircle,
     CreditCard,
     DateRange,
-    Email, Euro,
+    Email, Euro, Hotel,
     LocationCity,
     Phone
 } from "@mui/icons-material";
@@ -100,12 +100,36 @@ class Summary extends PureComponent {
                                 </Grid>
                             </Grid>
 
-                            <Grid item xs={6}>
-                                <HeaderItem>
-                                    <Typography variant="h6">
-                                        Categories
-                                    </Typography>
-                                </HeaderItem>
+                            <Grid container item xs={6}>
+                                <Grid item xs={12}>
+                                    <HeaderItem>
+                                        <Typography variant="h6">
+                                            Categories
+                                        </Typography>
+                                    </HeaderItem>
+                                </Grid>
+
+                                {[...bookingDetails.chooseCategory.categorySelection.keys()].map((value, index) =>
+
+                                    bookingDetails.chooseCategory.categorySelection.get(value) > 0 ?
+                                        (
+                                            <Grid item xs={6} key={index}>
+                                                <Item>
+                                                    <List>
+                                                        <ListItem>
+                                                            <ListItemIcon>
+                                                                <Hotel/>
+                                                            </ListItemIcon>
+                                                            <ListItemText
+                                                                primary={value}
+                                                                secondary={bookingDetails.chooseCategory.categorySelection.get(value)}
+                                                            />
+                                                        </ListItem>
+                                                    </List>
+                                                </Item>
+                                            </Grid>
+                                        ) : ("")
+                                )}
                             </Grid>
                         </Grid>
 
