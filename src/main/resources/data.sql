@@ -26,8 +26,8 @@ values (111, 'dom-id-book-111', '2021-12-26 10:00:00', '2021-12-30 10:00:00','bo
 
 
 insert into category (id, category_id, title, description)
-values (111, 'dom-id-cat-111', 'Single Bed', 'hier könnte ihre werbung stehen'),
-       (222, 'dom-id-cat-222', 'Double Bed', '........');
+values (111, 'dom-id-cat-111', 'Single Bed', 'A room assigned to one person with one bed.'),
+       (222, 'dom-id-cat-222', 'Double Bed', 'A room assigned to two persons with a double bed.');
 
 insert into booking_for_category (booking_id, category_id, number_of_rooms)
 values (111, 111, 3),
@@ -83,12 +83,12 @@ values (111, 'dom-id-bill-111'),
 
 
 insert into bill_entry (bill_id, entry_index, description, timestamp, amount, unit_price)
-values (111, 0, 'stolen towels', '2021-11-14 09:00:00', 1, 30),
-       (111, 1, 'Room service', '2021-11-17 07:00:00', 1, 150),
-       (111, 2, '12x overnight stay Single Bed', '2021-11-20 09:45:00', 12, 50),
-       (222, 0, 'party room', '2021-11-14 09:00:00', 1, 500),
-       (222, 1, '200x Beer', '2021-11-14 09:00:00', 200, 5),
-       (222, 2, '5x 10L Sangria', '2021-11-14 09:00:00', 5, 10);
+values (111, 0, '2x Extra Pillows', '2021-11-14 09:00:00', 2, 5),
+       (111, 1, 'Room Service', '2021-11-17 07:00:00', 1, 150),
+       (111, 2, '12x Overnight Stay Single Bed', '2021-11-20 09:45:00', 12, 50),
+       (222, 0, 'Party Room', '2021-11-14 09:00:00', 1, 500),
+       (222, 1, '10x Beer', '2021-11-14 09:00:00', 10, 5),
+       (222, 2, '3x Bottles of Wine', '2021-11-14 09:00:00', 3, 12);
 
 insert into organization (id, organization_id, organization_name, organization_street, organization_zip, organization_city, organization_country, discount)
 values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria', 15),
