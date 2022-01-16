@@ -46,8 +46,12 @@ const styles = (theme) => ({
     customPaddingLeft: {
         paddingLeft: '16px',
     },
-    customPaddingTop: {
+    customPadding: {
         paddingTop: '10px',
+        paddingBottom: '10px'
+    },
+    customMargin: {
+        marginBottom: '10px',
     },
 
     '& .MuiDialogContent-root': {
@@ -246,7 +250,7 @@ class CreateBooking extends PureComponent {
                     <Typography variant={"h6"}/>
 
                     <Stepper activeStep={activeStep}
-                             className={clsx(classes.greyBackground, classes.customPaddingTop)}
+                             className={clsx(classes.greyBackground, classes.customPadding, classes.customMargin)}
                     >
                         {this.steps.map((label, index) => (
                             <Step key={label}
@@ -263,7 +267,7 @@ class CreateBooking extends PureComponent {
                         ))}
                     </Stepper>
 
-                    <div style={{paddingBottom: '8px', width: 680}}>
+                    <div style={{paddingBottom: '8px'}}>
                         {activeStep === 0 ? (
                             this.renderChooseCategories(classes, this.bookingDetails)
                         ) : (activeStep === 1 ? (

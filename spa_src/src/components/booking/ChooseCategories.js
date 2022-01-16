@@ -3,12 +3,22 @@ import React, {PureComponent} from 'react'
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 
-import {Box, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import Paper from '@mui/material/Paper';
+import {styled} from '@mui/material/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from "@mui/lab";
 
 const styles = () => ({});
+
+const Item = styled(Paper)(({theme}) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    boxShadow: 'none',
+}));
 
 class ChooseCategories extends PureComponent {
     onDateSelectChange = (value, chooseCategory) => {
@@ -26,74 +36,80 @@ class ChooseCategories extends PureComponent {
 
         return (
             <React.Fragment>
-                <Container maxWidth="sm">
+                <Box
+                    component="form"
+                    sx={{
+                        '& .MuiTextField-root': {m: 1, width: '95%'},
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <Grid container
+                          rowSpacing={1}
+                          columnSpacing={{xs: 1, sm: 2, md: 3}}
+                    >
+                        <Grid container item spacing={3}>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            label="From Date"
+                                            value={new Date()}
+                                            onChange={(newValue) => {
+                                                this.onDateSelectChange(newValue, chooseCategory);
+                                            }}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </Item>
+                            </Grid>
 
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                            label="From Date"
-                            value={new Date()}
-                            onChange={(newValue) => {
-                                this.onDateSelectChange(newValue, chooseCategory);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            label="Todo Date"
+                                            value={new Date()}
+                                            onChange={(newValue) => {
+                                                this.onDateSelectChange(newValue, chooseCategory);
+                                            }}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </Item>
+                            </Grid>
+                        </Grid>
 
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                            label="Todo Date"
-                            value={new Date()}
-                            onChange={(newValue) => {
-                                this.onDateSelectChange(newValue, chooseCategory);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                </Container>
-
-                <Container maxWidth="sm">
-                    <Box sx={{ minWidth: 10 }}>
-                        <FormControl sx={{ m: 1, minWidth: 120 }}>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={"single-Room"}
-                                label="Single"
-                                onChange={(newValue) => {
-                                    this.onCategorySelect(newValue, chooseCategory);
-                                }}
-                            >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={5}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-
-                    <Box sx={{ minWidth: 10 }}>
-                        <FormControl sx={{ m: 1, minWidth: 120 }}>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={"double-Room"}
-                                label="Double"
-                                onChange={(newValue) => {
-                                    this.onCategorySelect(newValue, chooseCategory);
-                                }}
-                            >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={5}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </Container>
+                        <Grid container item spacing={3}>
+                            <Grid item xs={3}>
+                                <Item>
+                                    <TextField
+                                        id="standard-number"
+                                        label="Single Room"
+                                        type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="standard"
+                                    />
+                                </Item>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Item>
+                                    <TextField
+                                        id="standard-number"
+                                        label="Double Room"
+                                        type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="standard"
+                                    />
+                                </Item>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Box>
             </React.Fragment>
         )
     }
