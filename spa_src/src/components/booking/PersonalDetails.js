@@ -145,6 +145,7 @@ class PersonalDetails extends PureComponent {
                                             onChange={(event => {
                                                personalDetails.representativeMail.set(event.target.value);
                                             })}
+                                            type="email"
                                             variant="standard"
                                         />
                                     </Box>
