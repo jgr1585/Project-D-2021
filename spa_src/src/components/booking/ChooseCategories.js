@@ -65,6 +65,7 @@ class ChooseCategories extends PureComponent {
                                         <DatePicker
                                             label="From Date"
                                             inputFormat={"yyyy-MM-dd"}
+                                            mask={"____-__-__"}
                                             value={new Date(from)}
                                             onChange={(newValue) => {
                                                 this.setState({from: newValue});
@@ -82,6 +83,7 @@ class ChooseCategories extends PureComponent {
                                         <DatePicker
                                             label="Until Date"
                                             inputFormat={"yyyy-MM-dd"}
+                                            mask={"____-__-__"}
                                             value={new Date(until)}
                                             onChange={(newValue) => {
                                                 this.setState({until: newValue});
