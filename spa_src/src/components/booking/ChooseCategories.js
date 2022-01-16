@@ -2,15 +2,28 @@ import React, {PureComponent} from 'react'
 
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-import {Box, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, Grid, TextField, Typography} from "@mui/material";
 import Paper from '@mui/material/Paper';
 import {styled} from '@mui/material/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from "@mui/lab";
 
-const styles = () => ({});
+const styles = () => ({
+    gridItemPaddingTop: {
+        paddingTop: '3px !important',
+    }
+});
+
+const HeaderItem = styled(Paper)(({theme}) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+    boxShadow: 'none',
+}));
 
 const Item = styled(Paper)(({theme}) => ({
     ...theme.typography.body2,
@@ -29,16 +42,6 @@ class ChooseCategories extends PureComponent {
             until: props.chooseCategory.until,
         }
     }
-
-    onDateSelectChange = (value, chooseCategory) => {
-
-    };
-
-
-    onCategorySelect = (value, chooseCategory) => {
-
-    };
-
 
     render() {
         const {classes, chooseCategory} = this.props;
@@ -59,7 +62,15 @@ class ChooseCategories extends PureComponent {
                           columnSpacing={{xs: 1, sm: 2, md: 3}}
                     >
                         <Grid container item spacing={3}>
-                            <Grid item xs={6}>
+                            <Grid item xs={12}>
+                                <HeaderItem>
+                                    <Typography variant={"h6"}>
+                                        Select Period
+                                    </Typography>
+                                </HeaderItem>
+                            </Grid>
+
+                            <Grid item xs={6} className={clsx(classes.gridItemPaddingTop)}>
                                 <Item>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
@@ -77,7 +88,7 @@ class ChooseCategories extends PureComponent {
                                 </Item>
                             </Grid>
 
-                            <Grid item xs={6}>
+                            <Grid item xs={6} className={clsx(classes.gridItemPaddingTop)}>
                                 <Item>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <DatePicker
@@ -97,20 +108,28 @@ class ChooseCategories extends PureComponent {
                         </Grid>
 
                         <Grid container item spacing={3}>
+                            <Grid item xs={12}>
+                                <HeaderItem>
+                                    <Typography variant={"h6"}>
+                                        Select room categories
+                                    </Typography>
+                                </HeaderItem>
+                            </Grid>
 
                             {[...chooseCategory.categorySelection.keys()].map((value, index) => (
-                                <Grid item xs={3} key={index}>
+                                <Grid item xs={3} key={index} className={clsx(classes.gridItemPaddingTop)}>
                                     <Item>
                                         <TextField
                                             id="standard-number"
                                             label={value}
                                             type="number"
                                             onChange={(event) => {
-                                                chooseCategory.categorySelection.set(value, parseInt(event.target.value));
+                                                chooseCategory.categorySelection.set(value, event.target.value);
                                             }}
                                             InputProps={{ inputProps: { min: 0, max: 5 } }}
                                             defaultValue={chooseCategory.categorySelection.get(value)}
                                             variant="standard"
+                                            required={true}
                                         />
                                     </Item>
                                 </Grid>
