@@ -10,6 +10,7 @@ import Footer from './Footer';
 import AppBarContent from "./AppBarContent";
 import CreateBooking from "./booking/CreateBooking";
 import AlertDialog from "./AlertDialog";
+import HotelOverview from "./HotelOverview";
 
 const styles = theme => ({
     app: {
@@ -120,9 +121,9 @@ class App extends PureComponent {
 
                         {!initCallsError ? (
                             <main>
-                                <Button variant="contained" onClick={() => this.createNewBooking()}>
-                                    Create booking
-                                </Button>
+                                <HotelOverview
+                                    createNewBooking={this.createNewBooking}
+                                />
 
                                 {open ? (
                                     <CreateBooking
