@@ -44,6 +44,29 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation group: 'org.ehcache', name: 'ehcache', version: '3.9.2'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+
+    testImplementation 'io.cucumber:cucumber-java:6.10.4'
+    testImplementation 'io.cucumber:cucumber-junit:6.10.4'
+    testImplementation group: 'io.cucumber', name: 'cucumber-spring', version: '6.10.4'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty',
+                    '--plugin', 'html:build/cucumber/banking.html',
+                    '--glue', 'at.fhv.se.banking.bdd', 'src/test/resources/features']
+        }
+    }
 }
 
 test {
