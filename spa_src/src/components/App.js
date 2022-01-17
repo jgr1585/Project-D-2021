@@ -28,6 +28,10 @@ const styles = theme => ({
         color: '#ffffff',
         backgroundColor: '#2196F3 !important',
     },
+    main: {
+        maxHeight: "90%",
+        overflow: "auto"
+    }
 });
 
 class App extends PureComponent {
@@ -110,7 +114,9 @@ class App extends PureComponent {
             <div className={clsx(classes.app)}>
                 {/*check if the header param exist*/}
                 <AppBar position="static" className={clsx(classes.appBar)}>
-                    <AppBarContent/>
+                    <AppBarContent
+                        createNewBooking={this.createNewBooking}
+                    />
                 </AppBar>
 
                 {/*check if init calls are made*/}
@@ -120,10 +126,8 @@ class App extends PureComponent {
                     <React.Fragment>
 
                         {!initCallsError ? (
-                            <main>
-                                <HotelOverview
-                                    createNewBooking={this.createNewBooking}
-                                />
+                            <main className={clsx(classes.main)}>
+                                <HotelOverview/>
 
                                 {open ? (
                                     <CreateBooking
