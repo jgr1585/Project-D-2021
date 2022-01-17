@@ -1,5 +1,4 @@
-
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
@@ -30,7 +29,7 @@ const styles = () => ({
 
 class Footer extends PureComponent {
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
             <footer className={clsx(classes.centered)}>

@@ -1,4 +1,3 @@
-
 import React, {PureComponent} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
@@ -63,7 +62,7 @@ class AlertDialog extends PureComponent {
     }
 
     render() {
-        const { classes, openDialog, onDialogClose, headerText, dialogText, onDialogOk } = this.props;
+        const {classes, openDialog, onDialogClose, headerText, dialogText, onDialogOk} = this.props;
 
         return (
             <Dialog
@@ -71,7 +70,7 @@ class AlertDialog extends PureComponent {
                 onClose={onDialogClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                classes={{ paper: classes.customPaperStyle }}
+                classes={{paper: classes.customPaperStyle}}
                 disableRestoreFocus={true}
             >
                 <DialogTitle

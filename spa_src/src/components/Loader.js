@@ -1,6 +1,5 @@
-
-import React, { PureComponent } from 'react';
-import { SemipolarLoading } from 'react-loadinggg';
+import React, {PureComponent} from 'react';
+import {SemipolarLoading} from 'react-loadinggg';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -23,11 +22,11 @@ const styles = () => ({
 
 class Loader extends PureComponent {
     render() {
-        const { classes, text } = this.props;
+        const {classes, text} = this.props;
 
         return (
             <div className={clsx(classes.loaderContent)}>
-                <SemipolarLoading color="#3056a8" />
+                <SemipolarLoading color="#3056a8"/>
                 <div className={clsx(classes.loaderMessageWrapper)}>
                     <span className={clsx(classes.loaderMessage, classes.myText)}>
                         {text}

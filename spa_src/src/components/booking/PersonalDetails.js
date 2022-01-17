@@ -76,8 +76,8 @@ class PersonalDetails extends PureComponent {
 
                                 <Grid item xs={6}>
                                     <Item>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                            <AccountCircle sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
+                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                            <AccountCircle sx={{color: 'action.active', mr: 1, my: 1.5}}/>
                                             <TextField
                                                 label="First Name"
                                                 onChange={(event => {
@@ -114,8 +114,8 @@ class PersonalDetails extends PureComponent {
 
                                 <Grid item xs={4}>
                                     <Item>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                            <LocationCity sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
+                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                            <LocationCity sx={{color: 'action.active', mr: 1, my: 1.5}}/>
                                             <TextField
                                                 label="Street"
                                                 onChange={(event => {
@@ -186,8 +186,8 @@ class PersonalDetails extends PureComponent {
 
                                 <Grid item xs={6}>
                                     <Item>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                            <Email sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
+                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                            <Email sx={{color: 'action.active', mr: 1, my: 1.5}}/>
                                             <TextField
                                                 label="Email"
                                                 onChange={(event => {
@@ -203,8 +203,8 @@ class PersonalDetails extends PureComponent {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Item>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                            <Phone sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
+                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                            <Phone sx={{color: 'action.active', mr: 1, my: 1.5}}/>
                                             <TextField
                                                 label="Phone"
                                                 onChange={(event => {
@@ -246,8 +246,8 @@ class PersonalDetails extends PureComponent {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Item>
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                            <Payment sx={{ color: 'action.active', mr: 1, my: 1.5 }} />
+                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                            <Payment sx={{color: 'action.active', mr: 1, my: 1.5}}/>
                                             <TextField
                                                 label="Credit Card Number"
                                                 onChange={(event => {
