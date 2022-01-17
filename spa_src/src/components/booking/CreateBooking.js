@@ -21,27 +21,19 @@ import Summary from "./Summary";
 
 let marginNum = 8;
 const styles = (theme) => ({
-    customDialogTitle: {
-        background: theme.palette.primary.light,
-        height: '32px',
-        padding: '0px',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        fontFamily: 'Arial, Helvetica, sans-serif',
-    },
     noPaddingTop: {
         paddingTop: '0',
     },
+    greyBackground: {
+        backgroundColor: '#f7f7f7',
+    },
+
     customTypography: {
         padding: '6px ' + marginNum + 'px', //top, right, bottom, left
         color: theme.color.white,
         fontSize: '14px !important',
         marginTop: '0px',
         fontFamily: 'Arial, Helvetica, sans-serif',
-    },
-    greyBackground: {
-        backgroundColor: '#f7f7f7',
     },
     customPaddingLeft: {
         paddingLeft: '16px',
@@ -52,6 +44,23 @@ const styles = (theme) => ({
     },
     customMargin: {
         marginBottom: '10px',
+    },
+
+    customDialogPaper: {
+        minHeight: '70vh',
+        maxHeight: '70vh',
+    },
+    customDialogTitle: {
+        background: theme.palette.primary.light,
+        height: '32px',
+        padding: '0px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        fontFamily: 'Arial, Helvetica, sans-serif',
+    },
+    customDialogActionPadding: {
+        padding: '20px 24px',
     },
 
     '& .MuiDialogContent-root': {
@@ -178,7 +187,7 @@ class CreateBooking extends PureComponent {
     renderChooseCategories = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 1 - Properties'} variant={"h6"}/>
+                <Typography title={'Step 1 - Choose Categories'} variant={"h6"}/>
 
                 <ChooseCategories
                     chooseCategory={bookingDetails.chooseCategory}
@@ -191,7 +200,7 @@ class CreateBooking extends PureComponent {
     renderPersonalDetails = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 1 - Properties'} variant={"h6"}/>
+                <Typography title={'Step 2 - Personal Details'} variant={"h6"}/>
 
                 <PersonalDetails
                     personalDetails={bookingDetails.personalDetails}
@@ -204,7 +213,7 @@ class CreateBooking extends PureComponent {
     renderSummary = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 1 - Properties'} variant={"h6"}/>
+                <Typography title={'Step 3 - Summary'} variant={"h6"}/>
 
                 <Summary
                     bookingDetails={bookingDetails}
@@ -216,7 +225,7 @@ class CreateBooking extends PureComponent {
 
     renderDialogActions = (classes, activeStep) => {
         return (
-            <DialogActions className={clsx(classes.positionBottom)}>
+            <DialogActions className={clsx(classes.positionBottom, classes.customDialogActionPadding)}>
                 <Button variant="contained" onClick={this.goBack} disabled={activeStep === 0}>
                     Back
                 </Button>
@@ -245,6 +254,11 @@ class CreateBooking extends PureComponent {
                     fullWidth={true}
 
                     disableRestoreFocus={true}
+
+                    classes={{paper: classes.customDialogPaper}}
+
+                    disableBackdropClick
+                    disableEscapeKeyDown
             >
                 <DialogTitle className={clsx(classes.customDialogTitle)}>
                     <Typography className={clsx(classes.customTypography)}>
@@ -273,7 +287,7 @@ class CreateBooking extends PureComponent {
                         ))}
                     </Stepper>
 
-                    <div style={{paddingBottom: '8px'}}>
+                    <div>
                         {activeStep === 0 ? (
                             this.renderChooseCategories(classes, this.bookingDetails)
                         ) : (activeStep === 1 ? (
@@ -281,9 +295,9 @@ class CreateBooking extends PureComponent {
                         ) : (
                             this.renderSummary(classes, this.bookingDetails)))}
                     </div>
-
-                    {this.renderDialogActions(classes, activeStep)}
                 </DialogContent>
+
+                {this.renderDialogActions(classes, activeStep)}
             </Dialog>
         )
     }

@@ -70,7 +70,11 @@ class App extends PureComponent {
     hasValueChanged = (hasChanged) => {
         this.hasChanged = hasChanged;
     };
-    handleCreateBookingDialogClose = () => {
+    handleCreateBookingDialogClose = (event, reason) => {
+        if (reason === "backdropClick") {
+            return;
+        }
+
         if (this.hasChanged) {
             this.setState({
                 openDialogSave: true,
