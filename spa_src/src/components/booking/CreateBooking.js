@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 
 import {
-    Button, Container, Dialog,
+    Button, Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,

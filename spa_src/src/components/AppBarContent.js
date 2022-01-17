@@ -5,6 +5,8 @@ import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
+import logo from '../img/appBarHotelLogo.png'
+
 const styles = () => ({
     appTitle: {
         fontSize: '18px',
@@ -22,7 +24,7 @@ class AppBarContent extends PureComponent {
 
         return (
             <Toolbar className={clsx(classes.customizeToolbar)}>
-                <img src={"../logo.png"} alt="logo" height={40}/>
+                <img src={logo} alt="logo" height={40}/>
             </Toolbar>
         )
     }
