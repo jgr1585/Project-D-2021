@@ -64,7 +64,7 @@ task cucumber() {
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = ['--plugin', 'pretty',
                     '--plugin', 'html:build/cucumber/banking.html',
-                    '--glue', 'at.fhv.se.banking.bdd', 'src/test/resources/features']
+                    '--glue', 'fhv.teamd.hotel.bdd', 'src/test/resources/features']
         }
     }
 }
