@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
-import {Typography, Toolbar} from '@mui/material';
-import {KingBed} from "@mui/icons-material";
+import {Toolbar} from '@mui/material';
 
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
@@ -23,18 +22,7 @@ class AppBarContent extends PureComponent {
 
         return (
             <Toolbar className={clsx(classes.customizeToolbar)}>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{mr: 2, display: {xs: 'none', md: 'flex'}}}
-                >
-                    <KingBed fontSize={"large"}/>
-                </Typography>
-
-                <Typography className={clsx(classes.appTitle)} variant="h6" color="inherit">
-                    Hotel Schwarz
-                </Typography>
+                <img src={"../logo.png"} alt="logo" height={40}/>
             </Toolbar>
         )
     }
