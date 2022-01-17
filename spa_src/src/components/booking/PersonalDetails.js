@@ -1,13 +1,14 @@
 import React, {PureComponent} from 'react'
 
-
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
-import {Box, Checkbox, Container, FormControlLabel, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
-import {styled} from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import {AccountCircle, Email, EuroSymbol, LocationCity, Payment, Phone} from "@mui/icons-material";
 import clsx from "clsx";
+
+import {Box, Checkbox, Container, FormControlLabel, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {AccountCircle, Email, EuroSymbol, LocationCity, Payment, Phone} from "@mui/icons-material";
+
+import Item from "../grid/Item";
+import HeaderItem from "../grid/HeaderItem";
 
 const styles = () => ({
     dropDownPaddingTop: {
@@ -17,22 +18,6 @@ const styles = () => ({
         display: "none",
     }
 });
-
-const HeaderItem = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
-
-const Item = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
 
 class PersonalDetails extends PureComponent {
     constructor(props) {

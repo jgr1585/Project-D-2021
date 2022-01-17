@@ -5,33 +5,18 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import {Box, Container, Grid, TextField, Typography} from "@mui/material";
-import Paper from '@mui/material/Paper';
-import {styled} from '@mui/material/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from "@mui/lab";
+
+import Item from "../grid/Item";
+import HeaderItem from "../grid/HeaderItem";
 
 const styles = () => ({
     gridItemPaddingTop: {
         paddingTop: '3px !important',
     }
 });
-
-const HeaderItem = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
-
-const Item = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
 
 class ChooseCategories extends PureComponent {
     constructor(props) {

@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
 
-
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 
@@ -13,26 +12,11 @@ import {
     LocationCity,
     Phone
 } from "@mui/icons-material";
-import {styled} from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
+
+import Item from "../grid/Item";
+import HeaderItem from "../grid/HeaderItem";
 
 const styles = () => ({});
-
-const HeaderItem = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
-
-const Item = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-}));
 
 class Summary extends PureComponent {
 
