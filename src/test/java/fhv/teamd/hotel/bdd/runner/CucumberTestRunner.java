@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "classpath:features/",
-        glue = { "at.fhv.se.banking.bdd" },
+        glue = { "fhv.teamd.hotel.bdd" },
         plugin = { "pretty", "html:build/cucumber/hotel.html" })
 public class CucumberTestRunner {
 }

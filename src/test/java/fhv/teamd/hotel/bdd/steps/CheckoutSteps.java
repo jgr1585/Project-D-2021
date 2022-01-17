@@ -8,6 +8,8 @@ import fhv.teamd.hotel.application.dto.RoomDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.exceptions.AlreadyCheckedOutException;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,6 +17,9 @@ import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,6 +30,11 @@ import java.util.stream.Collectors;
 @CucumberContextConfiguration
 @SpringBootTest
 public class CheckoutSteps {
+
+    @Autowired
+    PlatformTransactionManager txManager;
+
+    private TransactionStatus tx;
 
     @Autowired
     FrontDeskService frontDeskService;
@@ -41,6 +51,10 @@ public class CheckoutSteps {
     String stayId;
     List<String> roomIds;
 
+    @Before
+    public void beforeScenario() {
+        this.tx = this.txManager.getTransaction(new DefaultTransactionDefinition());
+    }
 
     @Given("An active hotel stay with no unassigned payments")
     public void given() throws Exception {
@@ -96,6 +110,11 @@ public class CheckoutSteps {
                 .collect(Collectors.toList());
 
         Assertions.assertTrue(freeRoomIds.containsAll(this.roomIds));
+    }
+
+    @After
+    public void afterScenario() {
+        this.txManager.rollback(this.tx);
     }
 
 }
