@@ -24,8 +24,15 @@ import {LocationOn, Pets, Spa, LocalParking, FamilyRestroom, Wifi, LocalBar, Smo
 import Item from "./grid/Item";
 import HeaderItem from "./grid/HeaderItem";
 
-import test1 from '../img/test.jpg'
-import test2 from '../img/test2.jpg'
+function importAll(r) {
+    let images = {};
+    r.keys().forEach((item, index) => {
+        images[item.replace('./', '')] = r(item);
+    });
+    return images
+}
+
+const images = importAll(require.context('../img', false, /\.(png|jpe?g|svg)$/));
 
 const styles = () => ({
     customTextStyle: {
@@ -35,11 +42,8 @@ const styles = () => ({
     customIconMarginBottom: {
         marginBottom: "16px",
     },
-    gridItemPaddingTop: {
-        paddingTop: '36px !important',
-    },
     sectionPadding: {
-        padding: '16px 0px',
+        padding: '12px 0px',
     },
     stackPaddingTop: {
         paddingTop: '12px',
@@ -54,41 +58,43 @@ class HotelOverview extends PureComponent {
     renderHeaderItems = (classes) => {
         return (
             <React.Fragment>
-                <div>
-                    <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
-                        <Grid container item spacing={3} className={clsx(classes.gridItemPaddingTop)}>
+                <div className={clsx(classes.sectionPadding)}>
+                    <div>
+                        <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
+                            <Grid container item spacing={3}>
 
-                            <Grid item xs={6}>
-                                <HeaderItem>
-                                    <Rating name="read-only" value={4} readOnly max={4}/>
-                                </HeaderItem>
+                                <Grid item xs={6}>
+                                    <HeaderItem>
+                                        <Rating name="read-only" value={4} readOnly max={4}/>
+                                    </HeaderItem>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <HeaderItem>
+                                        <Stack direction="row" spacing={1}>
+                                            <Chip label={"Airport shuttle"}/>
+                                            <Chip label={"At the ski slope"}/>
+                                            <Chip label={"Free parking"}/>
+                                        </Stack>
+                                    </HeaderItem>
+                                </Grid>
+
                             </Grid>
-
-                            <Grid item xs={6}>
-                                <HeaderItem>
-                                    <Stack direction="row" spacing={1}>
-                                        <Chip label={"Airport shuttle"}/>
-                                        <Chip label={"At the ski slope"}/>
-                                        <Chip label={"Free parking"}/>
-                                    </Stack>
-                                </HeaderItem>
-                            </Grid>
-
                         </Grid>
-                    </Grid>
-                </div>
+                    </div>
 
-                <div>
-                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                        <LocationOn
-                            sx={{color: 'action.active', mr: 1, my: 1.5}}
-                            className={clsx(classes.customIconMarginBottom)}
-                        />
+                    <div>
+                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                            <LocationOn
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classes.customIconMarginBottom)}
+                            />
 
-                        <p>
-                            Zürs 126, 6763 Zürs am Arlberg, Austria
-                        </p>
-                    </Box>
+                            <p>
+                                Zürs 126, 6763 Zürs am Arlberg, Austria
+                            </p>
+                        </Box>
+                    </div>
                 </div>
             </React.Fragment>
         )
@@ -97,46 +103,77 @@ class HotelOverview extends PureComponent {
     renderCarousel = (classes) => {
         const items = [
             {
-                logos: [test1, test2],
-                name: "Random Name #1",
-                description: "Probably the most random thing you have ever seen!"
+                logos: [images["hotelOverview_1.jpg"], images["hotelOverview_2.jpg"]],
             },
             {
-                logos: [test1, test2],
-                name: "Random Name #2",
-                description: "Hello World!"
-            }
+                logos: [images["hotelOverview_3.jpg"], images["hotelOverview_4.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_5.jpg"], images["hotelOverview_6.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_7.jpg"], images["hotelOverview_8.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_9.jpg"], images["hotelOverview_10.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_11.jpg"], images["hotelOverview_12.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_13.jpg"], images["hotelOverview_14.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_15.jpg"], images["hotelOverview_16.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_17.jpg"], images["hotelOverview_18.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_19.jpg"], images["hotelOverview_20.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_21.jpg"], images["hotelOverview_22.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_23.jpg"], images["hotelOverview_24.jpg"]],
+            },
+            {
+                logos: [images["hotelOverview_25.jpg"], images["hotelOverview_26.jpg"]],
+            },
         ];
 
         return (
-            <Carousel>
-                {items.map((item, i) =>
-                    (
-                        <Paper>
-                            <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
-                                <Grid container item spacing={3}>
-                                    {item.logos.map((img) =>
-                                        (
-                                            <Grid item xs={6}>
-                                                <Item>
-                                                    <img src={img} alt="logo" height={"100%"} width={"100%"}/>
-                                                </Item>
-                                            </Grid>
-                                        )
-                                    )}
+            <div className={clsx(classes.sectionPadding)}>
+                <Carousel>
+                    {items.map((item, index) =>
+                        (
+                            <Paper>
+                                <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}} key={index}>
+                                    <Grid container item spacing={3} key={index}>
+                                        {item.logos.map((img, index) =>
+                                            (
+                                                <Grid item xs={6} key={index}>
+                                                    <Item>
+                                                        <img src={img} alt="logo" height={370} width={550}/>
+                                                    </Item>
+                                                </Grid>
+                                            )
+                                        )}
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Paper>
-                    )
-                )}
-            </Carousel>
+                            </Paper>
+                        )
+                    )}
+                </Carousel>
+            </div>
         )
     }
 
     renderDescription = (classes) => {
         return (
             <React.Fragment>
-                <div className={clsx(classes.customTextStyle)}>
+                <div className={clsx(classes.customTextStyle, classes.sectionPadding)}>
                     <p>
                         Hotel Schwarz is a modern 4-star hotel centrally located in the
                         middle of Zürs, the cradle of alpine skiing.
