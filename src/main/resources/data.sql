@@ -26,8 +26,10 @@ values (111, 'dom-id-book-111', '2021-12-26 10:00:00', '2021-12-30 10:00:00','bo
 
 
 insert into category (id, category_id, title, description)
-values (111, 'dom-id-cat-111', 'Single Bed', 'A room assigned to one person with one bed.'),
-       (222, 'dom-id-cat-222', 'Double Bed', 'A room assigned to two persons with a double bed.');
+values (111, 'dom-id-cat-111', 'Single Room', 'A room assigned to one person with one bed.'),
+       (222, 'dom-id-cat-222', 'Double Room', 'A room assigned to two persons with a double bed.');
+#        (333, 'dom-id-cat-333', 'Family Room', 'A room assigned to a maximum of five persons with a mixture of single and double beds.'),
+#        (444, 'dom-id-cat-444', 'Suite', 'A luxurious apartment assigned to a maximum of six persons with several bedrooms.');
 
 insert into booking_for_category (booking_id, category_id, number_of_rooms)
 values (111, 111, 3),
@@ -46,6 +48,13 @@ values (111, 'R111', 111),
        (223, 'R223', 222),
        (224, 'R224', 222),
        (225, 'R225', 222);
+
+#        (331, 'R331', 333),
+#        (332, 'R332', 333),
+#        (333, 'R333', 333),
+#
+#        (441, 'R441', 444),
+#        (442, 'R442', 444);
 
 insert into stay (id, stay_id, check_in, check_out, staying_state,
                   guest_first_name, guest_last_name, guest_street, guest_zip, guest_city, guest_country,
