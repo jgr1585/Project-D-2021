@@ -7,6 +7,7 @@ import clsx from 'clsx';
 const styles = () => ({
     centered: {
         position: 'absolute',
+        width: '100%',
         bottom: 0,
     },
     positioningFooter: {
@@ -15,6 +16,7 @@ const styles = () => ({
         flexWrap: 'wrap',
         margin: '8px',
         marginBottom: 0,
+        fontSize: '14px'
     },
     newDashboardBtn: {
         padding: '2px 8px !important',
@@ -25,6 +27,13 @@ const styles = () => ({
     btnFooterMarginLeft: {
         marginLeft: '0px !important',
     },
+    customerMessage: {
+        color: '#c3c3c3',
+    },
+    customVersionNum: {
+        float: 'right',
+        color: '#c3c3c3',
+    }
 });
 
 class Footer extends PureComponent {
@@ -34,7 +43,14 @@ class Footer extends PureComponent {
         return (
             <footer className={clsx(classes.centered)}>
                 <div className={clsx(classes.positioningFooter)}>
-
+                    <p>
+                        <span className={clsx(classes.customerMessage)}>
+                            &copy; Hotel Management Software 2021 - Team D
+                        </span>
+                        <span className={clsx(classes.customVersionNum)}>
+                            v1.0
+                        </span>
+                    </p>
                 </div>
             </footer>
         );

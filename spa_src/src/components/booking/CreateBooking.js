@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 
 import {
-    Button, Dialog,
+    Button, Container, Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
@@ -187,8 +187,6 @@ class CreateBooking extends PureComponent {
     renderChooseCategories = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 1 - Choose Categories'} variant={"h6"}/>
-
                 <ChooseCategories
                     chooseCategory={bookingDetails.chooseCategory}
                 >
@@ -200,8 +198,6 @@ class CreateBooking extends PureComponent {
     renderPersonalDetails = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 2 - Personal Details'} variant={"h6"}/>
-
                 <PersonalDetails
                     personalDetails={bookingDetails.personalDetails}
                 >
@@ -213,8 +209,6 @@ class CreateBooking extends PureComponent {
     renderSummary = (classes, bookingDetails) => {
         return (
             <React.Fragment>
-                <Typography title={'Step 3 - Summary'} variant={"h6"}/>
-
                 <Summary
                     bookingDetails={bookingDetails}
                 >
@@ -274,7 +268,7 @@ class CreateBooking extends PureComponent {
                     >
                         {this.steps.map((label, index) => (
                             <Step key={label}
-                                  completed={false}
+                                  completed={index < activeStep}
                             >
                                 <StepLabel StepIconProps={{classes: {root: classes.icon}}}
                                            onClick={() => {
