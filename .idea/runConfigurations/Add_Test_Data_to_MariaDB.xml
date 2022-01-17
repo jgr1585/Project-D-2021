@@ -2,7 +2,7 @@
   <configuration default="false" name="Add Test Data to MariaDB" type="DatabaseScript">
     <script-file value="$PROJECT_DIR$/src/main/resources/data.sql" />
     <script-mode>FILE</script-mode>
-    <data-source id="6d549bd4-1ad8-4fce-ae3a-69e24b6ff2ca" namespace="schema/&quot;test&quot;" />
+    <data-source id="6d549bd4-1ad8-4fce-ae3a-69e24b6ff2ca" namespace="schema/&quot;hotelApplication&quot;" />
     <method v="2" />
   </configuration>
 </component>
