@@ -60,14 +60,6 @@ public class BookingServiceTests {
         this.ongoing = LocalDateTime.now().minus(Period.ofDays(1));
         this.future = LocalDateTime.now().plus(Period.ofYears(1));
         this.duration = Period.ofWeeks(1);
-    }
-
-    @Test
-    void given_emptyRepository_when_getAll_returnsEmpty() {
-
-        Mockito.when(this.bookingRepository.getAll()).thenReturn(Collections.emptyList());
-        Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
-        Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
 
         //noinspection SpellCheckingInspection
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
@@ -78,7 +70,14 @@ public class BookingServiceTests {
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
         this.guest = new GuestDetails( "max", "muster", addr);
+    }
 
+    @Test
+    void given_emptyRepository_when_getAll_returnsEmpty() {
+
+        Mockito.when(this.bookingRepository.getAll()).thenReturn(Collections.emptyList());
+        Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
+        Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
     }
 
     @Test
