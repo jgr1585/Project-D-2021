@@ -246,13 +246,6 @@ class HotelOverview extends PureComponent {
         const {categories} = this.props;
 
         const columns = [
-            // {
-            //     id: 'id',
-            //     label: 'ID',
-            //     minWidth: 150,
-            //     align: 'left',
-            //     format: (value) => value.toLocaleString('en-US'),
-            // },
             {
                 id: 'roomCategory',
                 label: 'Room Category',
@@ -282,33 +275,34 @@ class HotelOverview extends PureComponent {
                 format: (value) => value.toFixed(2),
             },
         ];
-        const rows = []
+        const rows = [];
+
+        let seasonPrice = (category, seasonName) => {
+            let price = 0;
+
+            for (let i = 0; i < category.priceList.length; i++) {
+                let priceList = category.priceList[i];
+
+                if (priceList != null && priceList.name === seasonName) {
+                    price = priceList.price;
+                    break;
+                }
+            }
+
+            return price;
+        };
 
         for (let i = 0; i < categories.length; i++) {
             let cat = categories[i];
 
             if (cat != null) {
 
-                let prices = {};
-                for (let i = 0; i < cat.priceList.length; i++) {
-                    let priceList = cat.priceList[i];
-
-                    if (priceList != null) {
-                        if (priceList.name === "Summer") {
-                            prices.summer = priceList.price;
-                        } else if (priceList.name === "Winter") {
-                            prices.winter = priceList.price;
-                        }
-                    }
-                }
-
                 rows.push({
-                    // id: cat.id,
                     roomCategory: cat.title,
                     description: cat.description,
-                    summerPrice: prices.summer + " €",
-                    winterPrice: prices.winter + " €",
-                })
+                    summerPrice: seasonPrice(cat, "Summer") + " €",
+                    winterPrice: seasonPrice(cat, "Winter") + " €",
+                });
             }
         }
 

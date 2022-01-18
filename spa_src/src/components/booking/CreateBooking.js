@@ -118,7 +118,7 @@ class CreateBooking extends PureComponent {
                 representativePhone: "",
 
                 representativeCreditCardNumber: "",
-                representativePaymentMethod: new Map([
+                paymentMethods: new Map([
                     ["cash", "Cash"],
                     ["creditCard", "Credit Card"],
                 ]),
