@@ -12,6 +12,7 @@
  */
 
 import ApiClient from '../ApiClient';
+import SeasonPriceDTO from './SeasonPriceDTO';
 
 /**
  * The CategoryDTO model module.
@@ -56,8 +57,8 @@ class CategoryDTO {
             if (data.hasOwnProperty('description')) {
                 obj['description'] = ApiClient.convertToType(data['description'], 'String');
             }
-            if (data.hasOwnProperty('price')) {
-                obj['price'] = ApiClient.convertToType(data['price'], {'String': 'Number'});
+            if (data.hasOwnProperty('priceList')) {
+                obj['priceList'] = ApiClient.convertToType(data['priceList'], [SeasonPriceDTO]);
             }
         }
         return obj;
@@ -82,9 +83,9 @@ CategoryDTO.prototype['title'] = undefined;
 CategoryDTO.prototype['description'] = undefined;
 
 /**
- * @member {Object.<String, Number>} price
+ * @member {Array.<module:model/SeasonPriceDTO>} priceList
  */
-CategoryDTO.prototype['price'] = undefined;
+CategoryDTO.prototype['priceList'] = undefined;
 
 
 

@@ -290,11 +290,15 @@ class HotelOverview extends PureComponent {
             if (cat != null) {
 
                 let prices = {};
-                for (let key in cat.price) {
-                    if (prices.winter == null) {
-                        prices.winter = cat.price[key];
-                    } else if (prices.summer == null) {
-                        prices.summer = cat.price[key];
+                for (let i = 0; i < cat.priceList.length; i++) {
+                    let priceList = cat.priceList[i];
+
+                    if (priceList != null) {
+                        if (priceList.name === "Summer") {
+                            prices.summer = priceList.price;
+                        } else if (priceList.name === "Winter") {
+                            prices.winter = priceList.price;
+                        }
                     }
                 }
 

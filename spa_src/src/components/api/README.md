@@ -134,6 +134,7 @@ Class | Method | HTTP request | Description
  - [OpenApiDefinition.CategoryDTO](docs/CategoryDTO.md)
  - [OpenApiDefinition.GuestDetailsDTO](docs/GuestDetailsDTO.md)
  - [OpenApiDefinition.RepresentativeDetailsDTO](docs/RepresentativeDetailsDTO.md)
+ - [OpenApiDefinition.SeasonPriceDTO](docs/SeasonPriceDTO.md)
 
 
 ## Documentation for Authorization

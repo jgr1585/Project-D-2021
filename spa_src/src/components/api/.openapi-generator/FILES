@@ -10,6 +10,7 @@ docs/CategoryControllerApi.md
 docs/CategoryDTO.md
 docs/GuestDetailsDTO.md
 docs/RepresentativeDetailsDTO.md
+docs/SeasonPriceDTO.md
 git_push.sh
 mocha.opts
 package.json
@@ -23,8 +24,5 @@ src/model/BookingDTO.js
 src/model/CategoryDTO.js
 src/model/GuestDetailsDTO.js
 src/model/RepresentativeDetailsDTO.js
-test/api/BookingControllerApi.spec.js
-test/model/AddressDTO.spec.js
-test/model/BookingDTO.spec.js
-test/model/GuestDetailsDTO.spec.js
-test/model/RepresentativeDetailsDTO.spec.js
+src/model/SeasonPriceDTO.js
+test/model/SeasonPriceDTO.spec.js

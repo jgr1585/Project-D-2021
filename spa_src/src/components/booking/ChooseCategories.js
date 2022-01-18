@@ -183,7 +183,7 @@ class ChooseCategories extends PureComponent {
                                                         this.setState({categorySelection: categorySelection});
                                                     }}
                                                     InputProps={{inputProps: {min: 0, max: categorySelection[key].max}}}
-                                                    defaultValue={categorySelection[key].value}
+                                                    value={categorySelection[key].value}
                                                     variant="standard"
                                                     required={true}
                                                 />

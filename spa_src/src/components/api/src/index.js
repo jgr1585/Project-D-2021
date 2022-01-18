@@ -19,6 +19,7 @@ import BookingDTO from './model/BookingDTO';
 import CategoryDTO from './model/CategoryDTO';
 import GuestDetailsDTO from './model/GuestDetailsDTO';
 import RepresentativeDetailsDTO from './model/RepresentativeDetailsDTO';
+import SeasonPriceDTO from './model/SeasonPriceDTO';
 import BookingControllerApi from './api/BookingControllerApi';
 import CategoryControllerApi from './api/CategoryControllerApi';
 
@@ -96,6 +97,12 @@ export {
      * @property {module:model/RepresentativeDetailsDTO}
      */
     RepresentativeDetailsDTO,
+
+    /**
+     * The SeasonPriceDTO model constructor.
+     * @property {module:model/SeasonPriceDTO}
+     */
+    SeasonPriceDTO,
 
     /**
     * The BookingControllerApi service constructor.

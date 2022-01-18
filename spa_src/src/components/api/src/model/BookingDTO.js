@@ -49,6 +49,9 @@ class BookingDTO {
         if (data) {
             obj = obj || new BookingDTO();
 
+            if (data.hasOwnProperty('id')) {
+                obj['id'] = ApiClient.convertToType(data['id'], 'String');
+            }
             if (data.hasOwnProperty('fromDate')) {
                 obj['fromDate'] = ApiClient.convertToType(data['fromDate'], 'Date');
             }
@@ -67,6 +70,11 @@ class BookingDTO {
 
 
 }
+
+/**
+ * @member {String} id
+ */
+BookingDTO.prototype['id'] = undefined;
 
 /**
  * @member {Date} fromDate
