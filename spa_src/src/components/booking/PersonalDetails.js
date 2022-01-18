@@ -158,11 +158,11 @@ class PersonalDetails extends PureComponent {
 
         if (checked) {
             personalDetails.guestFirstName = personalDetails.representativeFirstName;
-            personalDetails.guestLastName = personalDetails.representativeFirstName;
-            personalDetails.guestStreet = personalDetails.representativeFirstName;
-            personalDetails.guestZip = personalDetails.representativeFirstName;
-            personalDetails.guestCity = personalDetails.representativeFirstName;
-            personalDetails.guestCountry = personalDetails.representativeFirstName;
+            personalDetails.guestLastName = personalDetails.representativeLastName;
+            personalDetails.guestStreet = personalDetails.representativeStreet;
+            personalDetails.guestZip = personalDetails.representativeZip;
+            personalDetails.guestCity = personalDetails.representativeCity;
+            personalDetails.guestCountry = personalDetails.representativeCountry;
 
             stateObj.guestFirstName = personalDetails.representativeFirstName;
             stateObj.guestLastName = personalDetails.representativeLastName;
