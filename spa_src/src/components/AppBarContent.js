@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react'
-import {Toolbar} from '@mui/material';
+import {Button, Grid, Toolbar} from '@mui/material';
+import {BookOnline} from '@mui/icons-material';
 
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
@@ -16,6 +17,12 @@ const styles = () => ({
         minHeight: '85px',
         paddingRight: 0,
     },
+    createBookingBtnStyle: {
+        padding: "10px",
+        float: "right",
+        marginRight: "20px",
+        backgroundColor: "rgba(0, 0, 0, 0.20)",
+    }
 });
 
 class AppBarContent extends PureComponent {
@@ -24,7 +31,27 @@ class AppBarContent extends PureComponent {
 
         return (
             <Toolbar className={clsx(classes.customizeToolbar)}>
-                <img src={logo} alt="logo" height={40}/>
+                <Grid container
+                      rowSpacing={1}
+                      columnSpacing={{xs: 1, sm: 2, md: 3}}
+                >
+                    <Grid container item spacing={3}>
+                        <Grid item xs={6}>
+                            <img src={logo} alt="logo" height={40}/>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <Button
+                                color={"inherit"}
+                                startIcon={<BookOnline/>}
+                                onClick={() => this.props.createNewBooking()}
+                                className={clsx(classes.createBookingBtnStyle)}
+                            >
+                                Create booking
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Toolbar>
         )
     }

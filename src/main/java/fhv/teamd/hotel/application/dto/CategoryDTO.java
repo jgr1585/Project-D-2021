@@ -1,11 +1,13 @@
 package fhv.teamd.hotel.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.Season;
 
 import java.util.Map;
 import java.util.Objects;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CategoryDTO {
 
     private String id;
