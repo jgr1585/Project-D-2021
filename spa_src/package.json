@@ -28,7 +28,7 @@
   },
   "scripts": {
     "createApiTs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-axios -o src/components/api/ts --additional-properties=supportsES6=true",
-    "createApiJs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g javascript -o src/components/api/js",
+    "createApiJs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g javascript -o src/components/api",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
