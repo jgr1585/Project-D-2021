@@ -45,8 +45,8 @@ const styles = () => ({
     sectionPadding: {
         padding: '12px 0px',
     },
-    stackPaddingTop: {
-        paddingTop: '12px',
+    stackPadding: {
+        padding: '6px 0px',
     },
     facilityIconColor: {
         color: "#008009 !important",
@@ -204,7 +204,7 @@ class HotelOverview extends PureComponent {
                         Most Popular Facilities
                     </Typography>
 
-                    <Stack direction="row" spacing={1} className={clsx(classes.stackPaddingTop)}>
+                    <Stack direction="row" spacing={1} className={clsx(classes.stackPadding)}>
                         <Chip icon={<Pets className={clsx(classes.facilityIconColor)}/>}
                               label="Pets allowed"
                               variant="outlined"
@@ -223,7 +223,7 @@ class HotelOverview extends PureComponent {
                         />
                     </Stack>
 
-                    <Stack direction="row" spacing={1} className={clsx(classes.stackPaddingTop)}>
+                    <Stack direction="row" spacing={1} className={clsx(classes.stackPadding)}>
                         <Chip icon={<Wifi className={clsx(classes.facilityIconColor)}/>}
                               label="Wifi included"
                               variant="outlined"
@@ -243,36 +243,70 @@ class HotelOverview extends PureComponent {
     }
 
     renderCategories = (classes) => {
+        const {categories} = this.props;
+
         const columns = [
+            // {
+            //     id: 'id',
+            //     label: 'ID',
+            //     minWidth: 150,
+            //     align: 'left',
+            //     format: (value) => value.toLocaleString('en-US'),
+            // },
             {
-                id: 'capacity',
-                label: 'Person Capacity',
-                minWidth: 100,
+                id: 'roomCategory',
+                label: 'Room Category',
+                minWidth: 200,
                 align: 'left',
                 format: (value) => value.toLocaleString('en-US'),
             },
             {
-                id: 'roomCategory',
-                label: 'Room Category',
+                id: 'description',
+                label: 'Description',
                 minWidth: 500,
                 align: 'left',
                 format: (value) => value.toLocaleString('en-US'),
             },
             {
-                id: 'price',
-                label: 'Price per night',
+                id: 'summerPrice',
+                label: 'Summer Price',
+                minWidth: 100,
+                align: 'right',
+                format: (value) => value.toFixed(2),
+            },
+            {
+                id: 'winterPrice',
+                label: 'Winter Price',
                 minWidth: 100,
                 align: 'right',
                 format: (value) => value.toFixed(2),
             },
         ];
+        const rows = []
 
-        const rows = [
-            {capacity: "1", roomCategory: "Single Room", price: "N/A"},
-            {capacity: "2", roomCategory: "Double Room", price: "N/A"},
-            {capacity: "4", roomCategory: "Family Room", price: "N/A"},
-            {capacity: "3", roomCategory: "Suite Room", price: "N/A"},
-        ];
+        for (let i = 0; i < categories.length; i++) {
+            let cat = categories[i];
+
+            if (cat != null) {
+
+                let prices = {};
+                for (let key in cat.price) {
+                    if (prices.winter == null) {
+                        prices.winter = cat.price[key];
+                    } else if (prices.summer == null) {
+                        prices.summer = cat.price[key];
+                    }
+                }
+
+                rows.push({
+                    // id: cat.id,
+                    roomCategory: cat.title,
+                    description: cat.description,
+                    summerPrice: prices.summer + " €",
+                    winterPrice: prices.winter + " €",
+                })
+            }
+        }
 
         return (
             <React.Fragment>
