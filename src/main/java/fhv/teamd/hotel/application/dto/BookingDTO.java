@@ -16,6 +16,7 @@ import java.util.Objects;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BookingDTO {
 
+    private String id;
     private LocalDateTime fromDate;
     private LocalDateTime untilDate;
 
@@ -30,6 +31,7 @@ public class BookingDTO {
     public static BookingDTO fromBooking(Booking booking) {
         BookingDTO bookingDTO = new BookingDTO();
 
+        bookingDTO.id = booking.bookingId() == null ? null : booking.bookingId().toString();
         bookingDTO.fromDate = booking.checkInDate();
         bookingDTO.untilDate = booking.checkOutDate();
         bookingDTO.guest = GuestDetailsDTO.fromGuestDetail(booking.guestDetails());
@@ -37,6 +39,10 @@ public class BookingDTO {
         bookingDTO.organizationId = booking.organizationId().toString();
 
         return bookingDTO;
+    }
+
+    public String id() {
+        return this.id;
     }
 
     public LocalDate fromDate() {
@@ -68,12 +74,12 @@ public class BookingDTO {
             return false;
         }
         final BookingDTO that = (BookingDTO) o;
-        return Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest) && Objects.equals(this.organizationId, that.organizationId);
+        return Objects.equals(this.id, that.id) && Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest) && Objects.equals(this.organizationId, that.organizationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash( this.fromDate, this.untilDate, this.representative, this.guest, this.organizationId);
+        return Objects.hash(this.id, this.fromDate, this.untilDate, this.representative, this.guest, this.organizationId);
     }
 }
 
