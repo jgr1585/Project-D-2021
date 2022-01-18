@@ -25,12 +25,70 @@ class ChooseCategories extends PureComponent {
         this.state = {
             from: props.chooseCategory.from,
             until: props.chooseCategory.until,
+
+            categorySelection: props.chooseCategory.categorySelection,
         }
+
+        this.categoryControllerApi = props.categoryControllerApi;
+    }
+
+    availableCategories = (from, until) => {
+        return new Promise((resolve, reject) => {
+            this.categoryControllerApi.availableCategory(from, until, (error, data, response) => {
+                if (response.statusCode === 200) {
+                    resolve(data);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    };
+
+    setAvailableCategories = () => {
+        return new Promise((resolve) => {
+            const {chooseCategory} = this.props;
+
+            this.availableCategories(
+                this.convertToRawDateString(chooseCategory.from),
+                this.convertToRawDateString(chooseCategory.until)
+            ).then((result) => {
+
+                let categorySelection = new Map(this.state.categorySelection);
+
+                for (let i = 0; i < result.length; i++) {
+                    let cat = result[i];
+
+                    if (cat != null) {
+                        let catSel = categorySelection.get(cat.categoryName);
+
+                        catSel.max = cat.numberAvailable;
+
+                        if (catSel.value > catSel.max) {
+                            catSel.value = catSel.max;
+                        }
+                    }
+                }
+
+                chooseCategory.categorySelection = categorySelection;
+                this.setState({categorySelection: categorySelection});
+
+                resolve(result);
+            });
+        });
+    };
+
+    convertToRawDateString = (dateObj) => {
+        if (dateObj == null) {
+            return "";
+        }
+
+        let dateObjArr = dateObj.toLocaleDateString().split("/");
+        return dateObjArr != null && dateObjArr.length >= 2 ? dateObjArr[2] + "-" + dateObjArr[1] + "-" + dateObjArr[0] : "";
     }
 
     render() {
         const {classes, chooseCategory} = this.props;
-        const {from, until} = this.state;
+        const {from, until, categorySelection} = this.state;
 
         return (
             <React.Fragment>
@@ -65,8 +123,11 @@ class ChooseCategories extends PureComponent {
                                                 mask={"____-__-__"}
                                                 value={new Date(from)}
                                                 onChange={(newValue) => {
-                                                    this.setState({from: newValue});
                                                     chooseCategory.from = newValue;
+
+                                                    this.setAvailableCategories().then((result) => {
+                                                        this.setState({from: newValue});
+                                                    });
                                                 }}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
@@ -83,8 +144,11 @@ class ChooseCategories extends PureComponent {
                                                 mask={"____-__-__"}
                                                 value={new Date(until)}
                                                 onChange={(newValue) => {
-                                                    this.setState({until: newValue});
                                                     chooseCategory.until = newValue;
+
+                                                    this.setAvailableCategories().then((result) => {
+                                                        this.setState({until: newValue});
+                                                    });
                                                 }}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
@@ -111,10 +175,10 @@ class ChooseCategories extends PureComponent {
                                                     label={value}
                                                     type="number"
                                                     onChange={(event) => {
-                                                        chooseCategory.categorySelection.set(value, event.target.value);
+                                                        chooseCategory.categorySelection.get(value).value = event.target.value;
                                                     }}
-                                                    InputProps={{inputProps: {min: 0, max: 5}}}
-                                                    defaultValue={chooseCategory.categorySelection.get(value)}
+                                                    InputProps={{inputProps: {min: 0, max: chooseCategory.categorySelection.get(value).max}}}
+                                                    defaultValue={categorySelection.get(value).value}
                                                     variant="standard"
                                                     required={true}
                                                 />
