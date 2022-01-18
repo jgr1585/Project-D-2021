@@ -13,8 +13,13 @@
 
 
 import ApiClient from './ApiClient';
+import AddressDTO from './model/AddressDTO';
 import AvailableCategoryDTO from './model/AvailableCategoryDTO';
+import BookingDTO from './model/BookingDTO';
 import CategoryDTO from './model/CategoryDTO';
+import GuestDetailsDTO from './model/GuestDetailsDTO';
+import RepresentativeDetailsDTO from './model/RepresentativeDetailsDTO';
+import BookingControllerApi from './api/BookingControllerApi';
 import CategoryControllerApi from './api/CategoryControllerApi';
 
 
@@ -57,16 +62,46 @@ export {
     ApiClient,
 
     /**
+     * The AddressDTO model constructor.
+     * @property {module:model/AddressDTO}
+     */
+    AddressDTO,
+
+    /**
      * The AvailableCategoryDTO model constructor.
      * @property {module:model/AvailableCategoryDTO}
      */
     AvailableCategoryDTO,
 
     /**
+     * The BookingDTO model constructor.
+     * @property {module:model/BookingDTO}
+     */
+    BookingDTO,
+
+    /**
      * The CategoryDTO model constructor.
      * @property {module:model/CategoryDTO}
      */
     CategoryDTO,
+
+    /**
+     * The GuestDetailsDTO model constructor.
+     * @property {module:model/GuestDetailsDTO}
+     */
+    GuestDetailsDTO,
+
+    /**
+     * The RepresentativeDetailsDTO model constructor.
+     * @property {module:model/RepresentativeDetailsDTO}
+     */
+    RepresentativeDetailsDTO,
+
+    /**
+    * The BookingControllerApi service constructor.
+    * @property {module:api/BookingControllerApi}
+    */
+    BookingControllerApi,
 
     /**
     * The CategoryControllerApi service constructor.

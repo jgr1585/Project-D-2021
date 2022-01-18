@@ -101,15 +101,17 @@ Please follow the [installation](#installation) instruction and execute the foll
 var OpenApiDefinition = require('open_api_definition');
 
 
-var api = new OpenApiDefinition.CategoryControllerApi()
+var api = new OpenApiDefinition.BookingControllerApi()
+var categoryIdsAndAmounts = {key: null}; // {{String: Number}} 
+var bookingDTO = new OpenApiDefinition.BookingDTO(); // {BookingDTO} 
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully. Returned data: ' + data);
+    console.log('API called successfully.');
   }
 };
-api.allCategories(callback);
+api.book(categoryIdsAndAmounts, bookingDTO, callback);
 
 ```
 
@@ -119,14 +121,19 @@ All URIs are relative to *http://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*OpenApiDefinition.BookingControllerApi* | [**book**](docs/BookingControllerApi.md#book) | **POST** /rest/booking/book | 
 *OpenApiDefinition.CategoryControllerApi* | [**allCategories**](docs/CategoryControllerApi.md#allCategories) | **GET** /rest/category/all | 
 *OpenApiDefinition.CategoryControllerApi* | [**availableCategory**](docs/CategoryControllerApi.md#availableCategory) | **GET** /rest/category/available | 
 
 
 ## Documentation for Models
 
+ - [OpenApiDefinition.AddressDTO](docs/AddressDTO.md)
  - [OpenApiDefinition.AvailableCategoryDTO](docs/AvailableCategoryDTO.md)
+ - [OpenApiDefinition.BookingDTO](docs/BookingDTO.md)
  - [OpenApiDefinition.CategoryDTO](docs/CategoryDTO.md)
+ - [OpenApiDefinition.GuestDetailsDTO](docs/GuestDetailsDTO.md)
+ - [OpenApiDefinition.RepresentativeDetailsDTO](docs/RepresentativeDetailsDTO.md)
 
 
 ## Documentation for Authorization
