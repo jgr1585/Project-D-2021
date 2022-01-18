@@ -12,7 +12,7 @@ import CreateBooking from "./booking/CreateBooking";
 import AlertDialog from "./AlertDialog";
 import HotelOverview from "./HotelOverview";
 
-import CategoryControllerApi from './api/dist/api/CategoryControllerApi';
+import CategoryControllerApi from './api/src/api/CategoryControllerApi';
 
 const styles = theme => ({
     app: {
@@ -70,7 +70,7 @@ class App extends PureComponent {
                 this.setState({initCallsMade: true, initCallsError: true});
             }
         );
-    }
+    };
 
     initCalls = () => {
         return new Promise((resolve, reject) => {

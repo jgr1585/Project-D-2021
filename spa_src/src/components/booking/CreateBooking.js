@@ -81,12 +81,16 @@ class CreateBooking extends PureComponent {
 
         this.categoryControllerApi = props.categoryControllerApi;
 
-        let categorySelection = new Map();
+        let categorySelection = {};
         for (let i = 0; i < props.categories.length; i++) {
             let cat = props.categories[i];
 
             if (cat != null) {
-                categorySelection.set(cat.title, {max: "5", value: "0"});
+                categorySelection[cat.id] = {
+                    name: cat.title,
+                    max: "5",
+                    value: "0",
+                };
             }
         }
 
@@ -294,7 +298,8 @@ class CreateBooking extends PureComponent {
                         ) : (activeStep === 1 ? (
                             this.renderPersonalDetails(classes, this.bookingDetails)
                         ) : (
-                            this.renderSummary(classes, this.bookingDetails)))}
+                            this.renderSummary(classes, this.bookingDetails)
+                        ))}
                     </div>
                 </DialogContent>
 

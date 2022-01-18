@@ -26,7 +26,7 @@ class ChooseCategories extends PureComponent {
             from: props.chooseCategory.from,
             until: props.chooseCategory.until,
 
-            categorySelection: props.chooseCategory.categorySelection,
+            categorySelection: {...props.chooseCategory.categorySelection},
         }
 
         this.categoryControllerApi = props.categoryControllerApi;
@@ -53,13 +53,13 @@ class ChooseCategories extends PureComponent {
                 this.convertToRawDateString(chooseCategory.until)
             ).then((result) => {
 
-                let categorySelection = new Map(this.state.categorySelection);
+                let categorySelection = {...this.state.categorySelection};
 
                 for (let i = 0; i < result.length; i++) {
                     let cat = result[i];
 
                     if (cat != null) {
-                        let catSel = categorySelection.get(cat.categoryName);
+                        let catSel = categorySelection[cat.categoryId];
 
                         catSel.max = cat.numberAvailable;
 
@@ -166,19 +166,24 @@ class ChooseCategories extends PureComponent {
                                     </HeaderItem>
                                 </Grid>
 
-                                {[...chooseCategory.categorySelection.keys()].map((value, index) =>
+                                {Object.keys(categorySelection).map((key, index) =>
                                     (
                                         <Grid item xs={3} key={index} className={clsx(classes.gridItemPaddingTop)}>
                                             <Item>
                                                 <TextField
                                                     id="standard-number"
-                                                    label={value}
+                                                    label={categorySelection[key].name}
                                                     type="number"
                                                     onChange={(event) => {
-                                                        chooseCategory.categorySelection.get(value).value = event.target.value;
+                                                        let categorySelection = {...this.state.categorySelection};
+
+                                                        chooseCategory.categorySelection[key].value = event.target.value;
+                                                        categorySelection[key].value = event.target.value;
+
+                                                        this.setState({categorySelection: categorySelection});
                                                     }}
-                                                    InputProps={{inputProps: {min: 0, max: chooseCategory.categorySelection.get(value).max}}}
-                                                    defaultValue={categorySelection.get(value).value}
+                                                    InputProps={{inputProps: {min: 0, max: categorySelection[key].max}}}
+                                                    defaultValue={categorySelection[key].value}
                                                     variant="standard"
                                                     required={true}
                                                 />

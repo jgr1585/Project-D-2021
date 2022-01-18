@@ -90,9 +90,9 @@ class Summary extends PureComponent {
                                         </HeaderItem>
                                     </Grid>
 
-                                    {[...bookingDetails.chooseCategory.categorySelection.keys()].map((value, index) =>
+                                    {Object.keys(bookingDetails.chooseCategory.categorySelection).map((key, index) =>
 
-                                        bookingDetails.chooseCategory.categorySelection.get(value) > 0 ?
+                                        bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
                                             (
                                                 <Grid item xs={6} key={index}>
                                                     <Item>
@@ -102,8 +102,8 @@ class Summary extends PureComponent {
                                                                     <Hotel/>
                                                                 </ListItemIcon>
                                                                 <ListItemText
-                                                                    primary={value}
-                                                                    secondary={bookingDetails.chooseCategory.categorySelection.get(value)}
+                                                                    primary={bookingDetails.chooseCategory.categorySelection[key].name}
+                                                                    secondary={bookingDetails.chooseCategory.categorySelection[key].value}
                                                                 />
                                                             </ListItem>
                                                         </List>
