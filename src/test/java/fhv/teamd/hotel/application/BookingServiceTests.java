@@ -9,7 +9,6 @@ import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.contactInfo.*;
 import fhv.teamd.hotel.domain.ids.BookingId;
-import fhv.teamd.hotel.domain.ids.CategoryId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import fhv.teamd.hotel.domain.repositories.CategoryRepository;
@@ -180,7 +179,7 @@ public class BookingServiceTests {
         Mockito.when(this.bookingRepository.nextIdentity()).thenReturn(bookingId);
 
 
-        Assertions.assertDoesNotThrow(() -> this.bookingService.book(categoryIdsAndAmounts, bookingDTO));
+        Assertions.assertDoesNotThrow(() -> this.bookingService.book(bookingDTO));
 
         Assertions.assertThrows(CategoryNotAvailableException.class, () -> {
             categoryIdsAndAmounts.put(cat2.categoryId().toString(), 2);

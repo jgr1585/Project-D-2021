@@ -41,10 +41,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public void book(Map<String, Integer> categoryIdsAndAmounts, BookingDTO bookingDTO) throws Exception {
+    public void book(BookingDTO bookingDTO) throws Exception {
         OrganizationId organizationId = bookingDTO.organizationId() == null ? null : new OrganizationId(bookingDTO.organizationId());
 
-        this.book(categoryIdsAndAmounts, bookingDTO.fromDate().atStartOfDay(), bookingDTO.untilDate().atStartOfDay(), bookingDTO.guest(), bookingDTO.representative(), organizationId);
+        this.book(bookingDTO.categories(), bookingDTO.fromDate().atStartOfDay(), bookingDTO.untilDate().atStartOfDay(), bookingDTO.guest(), bookingDTO.representative(), organizationId);
     }
 
 
@@ -58,8 +58,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    @Transactional
-    public void book(Map<String, Integer> categoryIdsAndAmounts,
+    private void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
                      GuestDetailsDTO guest, RepresentativeDetailsDTO rep, OrganizationId orgId) throws Exception {
 
