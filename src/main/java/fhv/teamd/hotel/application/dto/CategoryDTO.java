@@ -83,7 +83,7 @@ public class CategoryDTO {
             return false;
         }
         final CategoryDTO that = (CategoryDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.title, that.title) && Objects.equals(this.description, that.description) && Objects.equals(this.price, that.price);
+        return Objects.equals(this.id, that.id) && Objects.equals(this.title, that.title) && Objects.equals(this.description, that.description);
     }
 
     @Override
