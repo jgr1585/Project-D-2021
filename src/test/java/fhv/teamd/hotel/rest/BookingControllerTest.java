@@ -49,11 +49,8 @@ public class BookingControllerTest {
     void given_bookingDTO_when_book_then_create_booking() {
         final BookingDTO booking = BookingDTO.fromBooking(DomainFactory.createBooking());
         final MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        this.localAddress.append("/book");
-
-        System.out.println(this.port);
-
         final HttpEntity<?> request = new HttpEntity<>(booking, headers);
+        this.localAddress.append("/book");
 
         System.out.println(this.restTemplate.postForEntity(this.localAddress.toString(), request, String.class));
 
