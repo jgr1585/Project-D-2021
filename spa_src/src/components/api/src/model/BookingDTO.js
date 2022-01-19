@@ -49,14 +49,14 @@ class BookingDTO {
         if (data) {
             obj = obj || new BookingDTO();
 
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'String');
-            }
             if (data.hasOwnProperty('fromDate')) {
                 obj['fromDate'] = ApiClient.convertToType(data['fromDate'], 'Date');
             }
             if (data.hasOwnProperty('untilDate')) {
                 obj['untilDate'] = ApiClient.convertToType(data['untilDate'], 'Date');
+            }
+            if (data.hasOwnProperty('categories')) {
+                obj['categories'] = ApiClient.convertToType(data['categories'], {'String': 'Number'});
             }
             if (data.hasOwnProperty('representative')) {
                 obj['representative'] = RepresentativeDetailsDTO.constructFromObject(data['representative']);
@@ -72,11 +72,6 @@ class BookingDTO {
 }
 
 /**
- * @member {String} id
- */
-BookingDTO.prototype['id'] = undefined;
-
-/**
  * @member {Date} fromDate
  */
 BookingDTO.prototype['fromDate'] = undefined;
@@ -85,6 +80,11 @@ BookingDTO.prototype['fromDate'] = undefined;
  * @member {Date} untilDate
  */
 BookingDTO.prototype['untilDate'] = undefined;
+
+/**
+ * @member {Object.<String, Number>} categories
+ */
+BookingDTO.prototype['categories'] = undefined;
 
 /**
  * @member {module:model/RepresentativeDetailsDTO} representative

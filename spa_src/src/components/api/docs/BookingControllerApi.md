@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## book
 
-> book(categoryIdsAndAmounts, bookingDTO)
+> book(bookingDTO)
 
 
 
@@ -20,9 +20,8 @@ Method | HTTP request | Description
 import OpenApiDefinition from 'open_api_definition';
 
 let apiInstance = new OpenApiDefinition.BookingControllerApi();
-let categoryIdsAndAmounts = {key: null}; // {String: Number} | 
 let bookingDTO = new OpenApiDefinition.BookingDTO(); // BookingDTO | 
-apiInstance.book(categoryIdsAndAmounts, bookingDTO, (error, data, response) => {
+apiInstance.book(bookingDTO, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -36,8 +35,7 @@ apiInstance.book(categoryIdsAndAmounts, bookingDTO, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **categoryIdsAndAmounts** | [**{String: Number}**](Number.md)|  | 
- **bookingDTO** | [**BookingDTO**](.md)|  | 
+ **bookingDTO** | [**BookingDTO**](BookingDTO.md)|  | 
 
 ### Return type
 
@@ -49,6 +47,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
