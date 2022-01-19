@@ -1,5 +1,9 @@
 package fhv.teamd.hotel.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fhv.teamd.hotel.application.dto.contactInfo.GuestDetailsDTO;
+import fhv.teamd.hotel.application.dto.contactInfo.RepresentativeDetailsDTO;
 import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
@@ -9,15 +13,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BookingDTO {
 
     private String id;
-
     private LocalDateTime fromDate;
     private LocalDateTime untilDate;
 
-    private RepresentativeDetails representative;
-    private GuestDetails guest;
+    private RepresentativeDetailsDTO representative;
+    private GuestDetailsDTO guest;
+    @JsonIgnore
     private String organizationId;
 
     private BookingDTO() {
@@ -29,8 +34,8 @@ public class BookingDTO {
         bookingDTO.id = booking.bookingId() == null ? null : booking.bookingId().toString();
         bookingDTO.fromDate = booking.checkInDate();
         bookingDTO.untilDate = booking.checkOutDate();
-        bookingDTO.guest = booking.guestDetails();
-        bookingDTO.representative = booking.representativeDetails();
+        bookingDTO.guest = GuestDetailsDTO.fromGuestDetail(booking.guestDetails());
+        bookingDTO.representative = RepresentativeDetailsDTO.fromRepresentativeDetails(booking.representativeDetails());
         bookingDTO.organizationId = booking.organizationId().toString();
 
         return bookingDTO;
@@ -48,11 +53,11 @@ public class BookingDTO {
         return this.untilDate.toLocalDate();
     }
 
-    public RepresentativeDetails representative() {
+    public RepresentativeDetailsDTO representative() {
         return this.representative;
     }
 
-    public GuestDetails guest() {
+    public GuestDetailsDTO guest() {
         return this.guest;
     }
 

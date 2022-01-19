@@ -60,14 +60,6 @@ public class BookingServiceTests {
         this.ongoing = LocalDateTime.now().minus(Period.ofDays(1));
         this.future = LocalDateTime.now().plus(Period.ofYears(1));
         this.duration = Period.ofWeeks(1);
-    }
-
-    @Test
-    void given_emptyRepository_when_getAll_returnsEmpty() {
-
-        Mockito.when(this.bookingRepository.getAll()).thenReturn(Collections.emptyList());
-        Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
-        Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
 
         //noinspection SpellCheckingInspection
         final Address addr = new Address("musterstrasse 1", "1234", "musterort", "musterland");
@@ -78,7 +70,14 @@ public class BookingServiceTests {
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
 
         this.guest = new GuestDetails( "max", "muster", addr);
+    }
 
+    @Test
+    void given_emptyRepository_when_getAll_returnsEmpty() {
+
+        Mockito.when(this.bookingRepository.getAll()).thenReturn(Collections.emptyList());
+        Assertions.assertNotEquals(null, this.bookingService.getActiveBookings());
+        Assertions.assertEquals(0, this.bookingService.getActiveBookings().size());
     }
 
     @Test
@@ -144,6 +143,54 @@ public class BookingServiceTests {
             categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
             categoryIdsAndAmounts.put(DomainFactory.createCategoryId().toString(), 2);
             this.bookingService.book(categoryIdsAndAmounts, this.ongoing, this.future, this.guest, this.rep, new OrganizationId(""));
+        });
+
+        Mockito.verify(this.bookingRepository).put(this.actualBooking.capture());
+
+        Assertions.assertEquals(expected, this.actualBooking.getValue());
+
+    }
+
+    @Test
+    void given_newBooking_when_book_via_BookingDTO_then_CreateBooking() {
+        final Map<String, Integer> categoryIdsAndAmounts = new HashMap<>();
+        final Category cat1 = DomainFactory.createCategory();
+        final Category cat2 = DomainFactory.createCategory();
+        final Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
+        final BookingId bookingId = DomainFactory.createBookingId();
+        final LocalDateTime ongoing = this.ongoing.toLocalDate().atStartOfDay();
+        final LocalDateTime future = this.future.toLocalDate().atStartOfDay();
+
+        categoriesAndAmounts.put(cat1, 1);
+
+        categoryIdsAndAmounts.put(cat1.categoryId().toString(), 1);
+        categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
+
+        final Booking expected = new Booking(bookingId, this.ongoing, this.future, categoriesAndAmounts, this.rep, this.guest, new OrganizationId(""));
+        final BookingDTO bookingDTO = BookingDTO.fromBooking(expected);
+
+
+
+        Mockito.when(this.categoryRepository.findById(cat1.categoryId())).thenReturn(Optional.of(cat1));
+        Mockito.when(this.categoryRepository.findById(cat2.categoryId())).thenReturn(Optional.of(cat2));
+
+        Mockito.when(this.availabilityService.isAvailable(cat1.categoryId(), ongoing, future, 1)).thenReturn(true);
+        Mockito.when(this.availabilityService.isAvailable(cat2.categoryId(), ongoing, future, 0)).thenReturn(true);
+
+        Mockito.when(this.bookingRepository.nextIdentity()).thenReturn(bookingId);
+
+
+        Assertions.assertDoesNotThrow(() -> this.bookingService.book(categoryIdsAndAmounts, bookingDTO));
+
+        Assertions.assertThrows(CategoryNotAvailableException.class, () -> {
+            categoryIdsAndAmounts.put(cat2.categoryId().toString(), 2);
+            this.bookingService.book(categoryIdsAndAmounts, ongoing, future, this.guest, this.rep, new OrganizationId(""));
+        });
+
+        Assertions.assertThrows(InvalidIdException.class, () -> {
+            categoryIdsAndAmounts.put(cat2.categoryId().toString(), 0);
+            categoryIdsAndAmounts.put(DomainFactory.createCategoryId().toString(), 2);
+            this.bookingService.book(categoryIdsAndAmounts, ongoing, future, this.guest, this.rep, new OrganizationId(""));
         });
 
         Mockito.verify(this.bookingRepository).put(this.actualBooking.capture());

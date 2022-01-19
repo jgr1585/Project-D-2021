@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 
 import withStyles from '@mui/styles/withStyles';
-import {AppBar, Button, Snackbar, Typography} from '@mui/material';
+import {AppBar, Typography} from '@mui/material';
 
 import clsx from 'clsx';
 
@@ -11,6 +11,8 @@ import AppBarContent from "./AppBarContent";
 import CreateBooking from "./booking/CreateBooking";
 import AlertDialog from "./AlertDialog";
 import HotelOverview from "./HotelOverview";
+
+import CategoryControllerApi from './api/src/api/CategoryControllerApi';
 
 const styles = theme => ({
     app: {
@@ -49,21 +51,36 @@ class App extends PureComponent {
             error: '404 :(',
         };
 
+        this.categories = [];
+        this.categoryControllerApi = new CategoryControllerApi();
+
         this.hasChanged = false;
     }
 
     componentDidMount() {
         // Ajax Calls (get all necessary information about the hotel)
-        this.initCalls().then(() => {
-            this.setState({initCallsMade: true});
-        });
-    }
+        this.initCalls().then(
+            // success
+            (result) => {
+                this.categories = result;
+                this.setState({initCallsMade: true});
+            },
+            // error
+            (result) => {
+                this.setState({initCallsMade: true, initCallsError: true});
+            }
+        );
+    };
 
     initCalls = () => {
-        return new Promise(resolve => {
-            // openapi??
-
-            resolve();
+        return new Promise((resolve, reject) => {
+            this.categoryControllerApi.allCategories((error, data, response) => {
+                if (response.statusCode === 200) {
+                    resolve(data);
+                } else {
+                    reject(error)
+                }
+            });
         })
     };
 
@@ -107,7 +124,7 @@ class App extends PureComponent {
         const {classes} = this.props;
         const {
             anchor, open, initCallsMade, initCallsError,
-            bookingDetails, openDialogSave, dialogTextSave, error
+            openDialogSave, dialogTextSave, error
         } = this.state;
 
         return (
@@ -127,14 +144,17 @@ class App extends PureComponent {
 
                         {!initCallsError ? (
                             <main className={clsx(classes.main)}>
-                                <HotelOverview/>
+                                <HotelOverview
+                                    categories={this.categories}
+                                />
 
                                 {open ? (
                                     <CreateBooking
                                         anchor={anchor}
                                         open={open}
 
-                                        bookingDetails={bookingDetails}
+                                        categoryControllerApi={this.categoryControllerApi}
+                                        categories={this.categories}
 
                                         hasValueChanged={this.hasValueChanged}
                                         onDialogClose={this.handleCreateBookingDialogClose}

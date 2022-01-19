@@ -79,16 +79,26 @@ class CreateBooking extends PureComponent {
             activeStep: 0,
         }
 
+        this.categoryControllerApi = props.categoryControllerApi;
+
+        let categorySelection = {};
+        for (let i = 0; i < props.categories.length; i++) {
+            let cat = props.categories[i];
+
+            if (cat != null) {
+                categorySelection[cat.id] = {
+                    name: cat.title,
+                    max: "5",
+                    value: "0",
+                };
+            }
+        }
+
         this.bookingDetails = {
             chooseCategory: {
                 from: new Date(),
                 until: new Date(),
-                categorySelection: new Map([
-                    ["Single Bed", "0"],
-                    ["Double Bed", "0"],
-                    // ["multi", "0"],
-                    // ["suite", "0"],
-                ]),
+                categorySelection: categorySelection,
             },
             personalDetails: {
                 guestFirstName: "",
@@ -108,7 +118,7 @@ class CreateBooking extends PureComponent {
                 representativePhone: "",
 
                 representativeCreditCardNumber: "",
-                representativePaymentMethod: new Map([
+                paymentMethods: new Map([
                     ["cash", "Cash"],
                     ["creditCard", "Credit Card"],
                 ]),
@@ -188,6 +198,7 @@ class CreateBooking extends PureComponent {
         return (
             <React.Fragment>
                 <ChooseCategories
+                    categoryControllerApi={this.props.categoryControllerApi}
                     chooseCategory={bookingDetails.chooseCategory}
                 >
                 </ChooseCategories>
@@ -287,7 +298,8 @@ class CreateBooking extends PureComponent {
                         ) : (activeStep === 1 ? (
                             this.renderPersonalDetails(classes, this.bookingDetails)
                         ) : (
-                            this.renderSummary(classes, this.bookingDetails)))}
+                            this.renderSummary(classes, this.bookingDetails)
+                        ))}
                     </div>
                 </DialogContent>
 

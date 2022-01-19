@@ -2,9 +2,12 @@ package fhv.teamd.hotel.application.impl;
 
 import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.dto.*;
+import fhv.teamd.hotel.application.dto.contactInfo.GuestDetailsDTO;
+import fhv.teamd.hotel.application.dto.contactInfo.RepresentativeDetailsDTO;
 import fhv.teamd.hotel.application.exceptions.CategoryNotAvailableException;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.*;
+import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
 import fhv.teamd.hotel.domain.ids.BookingId;
@@ -36,12 +39,29 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private AvailabilityService availabilityService;
 
+    @Override
+    @Transactional
+    public void book(Map<String, Integer> categoryIdsAndAmounts, BookingDTO bookingDTO) throws Exception {
+        OrganizationId organizationId = bookingDTO.organizationId() == null ? null : new OrganizationId(bookingDTO.organizationId());
+
+        this.book(categoryIdsAndAmounts, bookingDTO.fromDate().atStartOfDay(), bookingDTO.untilDate().atStartOfDay(), bookingDTO.guest(), bookingDTO.representative(), organizationId);
+    }
+
 
     @Override
     @Transactional
     public void book(Map<String, Integer> categoryIdsAndAmounts,
                      LocalDateTime from, LocalDateTime until,
                      GuestDetails guest, RepresentativeDetails rep, OrganizationId orgId) throws Exception {
+
+        this.book(categoryIdsAndAmounts, from, until, GuestDetailsDTO.fromGuestDetail(guest), RepresentativeDetailsDTO.fromRepresentativeDetails(rep), orgId);
+    }
+
+
+    @Transactional
+    public void book(Map<String, Integer> categoryIdsAndAmounts,
+                     LocalDateTime from, LocalDateTime until,
+                     GuestDetailsDTO guest, RepresentativeDetailsDTO rep, OrganizationId orgId) throws Exception {
 
         Map<Category, Integer> categoriesAndAmounts = new HashMap<>();
 
@@ -69,9 +89,15 @@ public class BookingServiceImpl implements BookingService {
             categoriesAndAmounts.put(cat, amount);
         }
 
+        Address repAddress = new Address(rep.address().street(), rep.address().zip(), rep.address().city(), rep.address().country());
+        RepresentativeDetails representativeDetails = new RepresentativeDetails(rep.firstName(), rep.lastName(), rep.email(), repAddress, rep.phone(), rep.creditCardNumber(), rep.paymentMethod());
+
+        Address guestAddress = new Address(guest.address().street(), guest.address().zip(), guest.address().city(), guest.address().country());
+        GuestDetails guestDetails = new GuestDetails(guest.firstName(), guest.lastName(), guestAddress);
+
         Booking newBooking = new Booking(
                 this.bookingRepository.nextIdentity(),
-                from, until, categoriesAndAmounts, rep, guest, orgId);
+                from, until, categoriesAndAmounts, representativeDetails, guestDetails, orgId);
 
         this.bookingRepository.put(newBooking);
     }
