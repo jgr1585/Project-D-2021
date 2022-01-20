@@ -43,16 +43,11 @@ export default class BookingControllerApi {
      */
 
     /**
-     * @param {Object.<String, {String: Number}>} categoryIdsAndAmounts 
      * @param {module:model/BookingDTO} bookingDTO 
      * @param {module:api/BookingControllerApi~bookCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    book(categoryIdsAndAmounts, bookingDTO, callback) {
-      let postBody = null;
-      // verify the required parameter 'categoryIdsAndAmounts' is set
-      if (categoryIdsAndAmounts === undefined || categoryIdsAndAmounts === null) {
-        throw new Error("Missing the required parameter 'categoryIdsAndAmounts' when calling book");
-      }
+    book(bookingDTO, callback) {
+      let postBody = bookingDTO;
       // verify the required parameter 'bookingDTO' is set
       if (bookingDTO === undefined || bookingDTO === null) {
         throw new Error("Missing the required parameter 'bookingDTO' when calling book");
@@ -61,8 +56,6 @@ export default class BookingControllerApi {
       let pathParams = {
       };
       let queryParams = {
-        'categoryIdsAndAmounts': categoryIdsAndAmounts,
-        'bookingDTO': bookingDTO
       };
       let headerParams = {
       };
@@ -70,7 +63,7 @@ export default class BookingControllerApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(

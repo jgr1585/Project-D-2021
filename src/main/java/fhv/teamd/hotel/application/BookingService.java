@@ -16,7 +16,7 @@ public interface BookingService {
               LocalDateTime from, LocalDateTime until,
               GuestDetails guest, RepresentativeDetails representative, OrganizationId orgId) throws Exception;
 
-    void book(Map<String, Integer> categoryIdsAndAmounts, BookingDTO bookingDTO) throws Exception;
+    void book(BookingDTO bookingDTO) throws Exception;
 
     List<BookingDTO> getActiveBookings();
 

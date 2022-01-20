@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 const styles = () => ({
+    footer: {
+        backgroundColor: '#f3f3f3',
+        minHeight: '35px',
+    },
     centered: {
         position: 'absolute',
         width: '100%',
@@ -33,6 +37,9 @@ const styles = () => ({
     customVersionNum: {
         float: 'right',
         color: '#c3c3c3',
+    },
+    customParagraph: {
+        margin: '5px 0px',
     }
 });
 
@@ -41,9 +48,9 @@ class Footer extends PureComponent {
         const {classes} = this.props;
 
         return (
-            <footer className={clsx(classes.centered)}>
+            <footer className={clsx(classes.footer, classes.centered)}>
                 <div className={clsx(classes.positioningFooter)}>
-                    <p>
+                    <p className={clsx(classes.customParagraph)}>
                         <span className={clsx(classes.customerMessage)}>
                             &copy; Hotel Management Software 2021 - Team D
                         </span>

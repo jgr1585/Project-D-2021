@@ -5,20 +5,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fhv.teamd.hotel.application.dto.contactInfo.GuestDetailsDTO;
 import fhv.teamd.hotel.application.dto.contactInfo.RepresentativeDetailsDTO;
 import fhv.teamd.hotel.domain.Booking;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.OrganizationDetails;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BookingDTO {
 
+    @JsonIgnore
     private String id;
     private LocalDateTime fromDate;
     private LocalDateTime untilDate;
+
+    private Map<String, Integer> categories;
 
     private RepresentativeDetailsDTO representative;
     private GuestDetailsDTO guest;
@@ -37,6 +39,12 @@ public class BookingDTO {
         bookingDTO.guest = GuestDetailsDTO.fromGuestDetail(booking.guestDetails());
         bookingDTO.representative = RepresentativeDetailsDTO.fromRepresentativeDetails(booking.representativeDetails());
         bookingDTO.organizationId = booking.organizationId().toString();
+
+        Map<String, Integer> categoryDTOIntegerHashMap = new HashMap<>();
+
+        booking.selection().forEach((category, integer) -> categoryDTOIntegerHashMap.put(category.categoryId().toString(), integer));
+
+        bookingDTO.categories = categoryDTOIntegerHashMap;
 
         return bookingDTO;
     }
@@ -65,6 +73,10 @@ public class BookingDTO {
         return this.organizationId;
     }
 
+    public Map<String, Integer> categories() {
+        return this.categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -74,7 +86,7 @@ public class BookingDTO {
             return false;
         }
         final BookingDTO that = (BookingDTO) o;
-        return Objects.equals(this.id, that.id) && Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest) && Objects.equals(this.organizationId, that.organizationId);
+        return Objects.equals(this.fromDate, that.fromDate) && Objects.equals(this.untilDate, that.untilDate) && Objects.equals(this.representative, that.representative) && Objects.equals(this.guest, that.guest);
     }
 
     @Override

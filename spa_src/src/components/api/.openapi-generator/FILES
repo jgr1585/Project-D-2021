@@ -25,4 +25,3 @@ src/model/CategoryDTO.js
 src/model/GuestDetailsDTO.js
 src/model/RepresentativeDetailsDTO.js
 src/model/SeasonPriceDTO.js
-test/model/SeasonPriceDTO.spec.js

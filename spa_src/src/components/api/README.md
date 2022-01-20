@@ -102,7 +102,6 @@ var OpenApiDefinition = require('open_api_definition');
 
 
 var api = new OpenApiDefinition.BookingControllerApi()
-var categoryIdsAndAmounts = {key: null}; // {{String: Number}} 
 var bookingDTO = new OpenApiDefinition.BookingDTO(); // {BookingDTO} 
 var callback = function(error, data, response) {
   if (error) {
@@ -111,7 +110,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.book(categoryIdsAndAmounts, bookingDTO, callback);
+api.book(bookingDTO, callback);
 
 ```
 

@@ -6,7 +6,7 @@ public enum PaymentMethod {
 
     private final String displayValue;
 
-    private PaymentMethod(String displayValue) {
+    PaymentMethod(String displayValue) {
         this.displayValue = displayValue;
     }
 
