@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.application;
 
 
-import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.dto.StayDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.application.exceptions.OccupiedRoomException;

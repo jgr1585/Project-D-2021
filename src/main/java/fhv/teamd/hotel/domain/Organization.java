@@ -1,15 +1,9 @@
 package fhv.teamd.hotel.domain;
 
 import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
-import fhv.teamd.hotel.domain.ids.BillId;
 import fhv.teamd.hotel.domain.ids.OrganizationId;
-import fhv.teamd.hotel.domain.ids.StayId;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 public class Organization {
 

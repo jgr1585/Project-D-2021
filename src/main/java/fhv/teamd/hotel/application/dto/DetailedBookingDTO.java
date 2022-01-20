@@ -2,7 +2,6 @@ package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.Booking;
 
-import java.awt.print.Book;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;

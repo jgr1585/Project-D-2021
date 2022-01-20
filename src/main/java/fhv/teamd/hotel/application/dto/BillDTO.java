@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.Bill;
-import fhv.teamd.hotel.domain.ids.BillId;
 
 import java.util.Collections;
 import java.util.List;

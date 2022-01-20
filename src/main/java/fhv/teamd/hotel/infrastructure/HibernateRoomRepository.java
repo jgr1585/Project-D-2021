@@ -6,11 +6,7 @@ import fhv.teamd.hotel.domain.ids.RoomId;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class HibernateRoomRepository extends HibernateBaseRepository<Room, RoomId> implements RoomRepository {

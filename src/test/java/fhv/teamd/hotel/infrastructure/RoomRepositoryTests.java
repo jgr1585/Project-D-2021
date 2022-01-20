@@ -1,10 +1,8 @@
 package fhv.teamd.hotel.infrastructure;
 
-import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.Category;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Room;
-import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.repositories.RoomRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

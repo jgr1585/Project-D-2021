@@ -7,7 +7,6 @@ import fhv.teamd.hotel.application.dto.*;
 import fhv.teamd.hotel.application.dto.contactInfo.AddressDTO;
 import fhv.teamd.hotel.application.dto.contactInfo.GuestDetailsDTO;
 import fhv.teamd.hotel.application.dto.contactInfo.RepresentativeDetailsDTO;
-import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
