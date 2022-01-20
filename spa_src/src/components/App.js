@@ -31,9 +31,9 @@ const styles = theme => ({
         backgroundColor: '#2196F3 !important',
     },
     main: {
-        maxHeight: "90%",
+        maxHeight: "calc(100% - 120px)",
         overflow: "auto"
-    }
+    },
 });
 
 class App extends PureComponent {
