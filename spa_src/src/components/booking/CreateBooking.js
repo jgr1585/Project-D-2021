@@ -77,6 +77,27 @@ class CreateBooking extends PureComponent {
 
         this.state = {
             activeStep: 0,
+
+            stepValidationError: false,
+
+            personalDetailsError: {
+                guestFirstNameError: "",
+                guestLastNameError: "",
+                guestStreetError: "",
+                guestZipError: "",
+                guestCityError: "",
+                guestCountryError: "",
+
+                repFirstNameError: "",
+                repLastNameError: "",
+                repStreetError: "",
+                repZipError: "",
+                repCityError: "",
+                repCountryError: "",
+                repMailError: "",
+                repPhoneError: "",
+                repCreditCardNumberError: "",
+            }
         }
 
         this.categoryControllerApi = props.categoryControllerApi;
@@ -108,22 +129,17 @@ class CreateBooking extends PureComponent {
                 guestCity: "",
                 guestCountry: "",
 
-                representativeFirstName: "",
-                representativeLastName: "",
-                representativeStreet: "",
-                representativeZip: "",
-                representativeCity: "",
-                representativeCountry: "",
-                representativeMail: "",
-                representativePhone: "",
+                repFirstName: "",
+                repLastName: "",
+                repStreet: "",
+                repZip: "",
+                repCity: "",
+                repCountry: "",
+                repMail: "",
+                repPhone: "",
+                repCreditCardNumber: "",
 
-                representativeCreditCardNumber: "",
-                paymentMethods: new Map([
-                    ["cash", "Cash"],
-                    ["creditCard", "Credit Card"],
-                ]),
                 selectedPaymentMethod: "cash",
-
                 checkboxState: false,
             }
         };
@@ -134,7 +150,7 @@ class CreateBooking extends PureComponent {
     goBack = () => {
         const {activeStep} = this.state;
 
-        this.setState({activeStep: activeStep - 1});
+        this.setState({activeStep: activeStep - 1, stepValidationError: false});
     };
     goNext = () => {
         const {activeStep} = this.state;
@@ -174,43 +190,72 @@ class CreateBooking extends PureComponent {
     };
 
     validatePersonalDetails = () => {
-        // TODO:: implement validation
+        let personalDetailsError = {...this.state.personalDetailsError};
+        let personalDetails = this.bookingDetails.personalDetails;
+
+        let stepValidationError = false;
+        for (let key in personalDetails) {
+            if (key === "selectedPaymentMethod" || key === "checkboxState" || (personalDetails.checkboxState && key.includes("guest"))) {
+                continue;
+            }
+
+            let errKey = key + "Error";
+            if (personalDetails[key] === "") {
+                personalDetailsError[errKey] = "Cannot be empty";
+                stepValidationError = true;
+            } else {
+                personalDetailsError[errKey] = "";
+            }
+        }
+
+        if (stepValidationError) {
+            this.setState({personalDetailsError: personalDetailsError, stepValidationError: true});
+
+            return false;
+        }
+
         return true;
     };
 
-    save = (activeStep) => {
+    save = (activeStep, index) => {
         if (activeStep === 0) {
-            if (this.validateChooseCategories(this.bookingDetails)) {
+            if (this.validateChooseCategories()) {
                 this.goNext();
             }
         } else if (activeStep === 1) {
-            if (this.validatePersonalDetails(this.bookingDetails)) {
+            if (this.validatePersonalDetails()) {
                 this.goNext();
             }
         } else {
-            if (this.validateChooseCategories(this.bookingDetails) && this.validatePersonalDetails(this.bookingDetails)) {
+            if (this.validateChooseCategories() && this.validatePersonalDetails()) {
                 this.props.onDialogOk(this.bookingDetails);
             }
         }
     };
 
-    renderChooseCategories = (classes, bookingDetails) => {
+    renderChooseCategories = (classes, chooseCategory) => {
+        const {chooseCategoryError} = this.state;
+
         return (
             <React.Fragment>
                 <ChooseCategories
                     categoryControllerApi={this.props.categoryControllerApi}
-                    chooseCategory={bookingDetails.chooseCategory}
+                    chooseCategory={chooseCategory}
+                    chooseCategoryError={chooseCategoryError}
                 >
                 </ChooseCategories>
             </React.Fragment>
         );
     };
 
-    renderPersonalDetails = (classes, bookingDetails) => {
+    renderPersonalDetails = (classes, personalDetails) => {
+        const {personalDetailsError} = this.state;
+
         return (
             <React.Fragment>
                 <PersonalDetails
-                    personalDetails={bookingDetails.personalDetails}
+                    personalDetails={personalDetails}
+                    personalDetailsError={personalDetailsError}
                 >
                 </PersonalDetails>
             </React.Fragment>
@@ -294,9 +339,9 @@ class CreateBooking extends PureComponent {
 
                     <div>
                         {activeStep === 0 ? (
-                            this.renderChooseCategories(classes, this.bookingDetails)
+                            this.renderChooseCategories(classes, this.bookingDetails.chooseCategory)
                         ) : (activeStep === 1 ? (
-                            this.renderPersonalDetails(classes, this.bookingDetails)
+                            this.renderPersonalDetails(classes, this.bookingDetails.personalDetails)
                         ) : (
                             this.renderSummary(classes, this.bookingDetails)
                         ))}

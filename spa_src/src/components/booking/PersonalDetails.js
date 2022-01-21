@@ -53,6 +53,9 @@ const MemoizedGridItem = React.memo((props) => {
                             variant={props.variant}
                             required={props.required}
                             disabled={props.disabled != null && props.disabled}
+
+                            error={props.errorText !== ""}
+                            helperText={props.errorText}
                         />
                     </Box>
                 ) : (
@@ -64,6 +67,9 @@ const MemoizedGridItem = React.memo((props) => {
                         variant={props.variant}
                         required={props.required}
                         disabled={props.disabled != null && props.disabled}
+
+                        error={props.errorText !== ""}
+                        helperText={props.errorText}
                     />
                 )}
 
@@ -80,6 +86,10 @@ const MemoizedGridItem = React.memo((props) => {
     if (isSame && nextProps.disabled != null) {
         isSame = nextProps.disabled === prevProps.disabled
     }
+    if (isSame && nextProps.errorText != null) {
+        isSame = nextProps.errorText === prevProps.errorText
+    }
+
     if (isSame && nextProps.xs != null) {
         isSame = nextProps.xs === prevProps.xs
     }
@@ -89,7 +99,6 @@ const MemoizedGridItem = React.memo((props) => {
 
     return isSame;
 });
-
 
 class PersonalDetails extends PureComponent {
     constructor(props) {
@@ -103,30 +112,37 @@ class PersonalDetails extends PureComponent {
             guestCity: props.personalDetails.guestCity,
             guestCountry: props.personalDetails.guestCountry,
 
-            representativeFirstName: props.personalDetails.representativeFirstName,
-            representativeLastName: props.personalDetails.representativeLastName,
-            representativeStreet: props.personalDetails.representativeStreet,
-            representativeZip: props.personalDetails.representativeZip,
-            representativeCity: props.personalDetails.representativeCity,
-            representativeCountry: props.personalDetails.representativeCountry,
-            representativeMail: props.personalDetails.representativeMail,
-            representativePhone: props.personalDetails.representativePhone,
+            repFirstName: props.personalDetails.repFirstName,
+            repLastName: props.personalDetails.repLastName,
+            repStreet: props.personalDetails.repStreet,
+            repZip: props.personalDetails.repZip,
+            repCity: props.personalDetails.repCity,
+            repCountry: props.personalDetails.repCountry,
+            repMail: props.personalDetails.repMail,
+            repPhone: props.personalDetails.repPhone,
 
-            representativeCreditCardNumber: props.personalDetails.representativeCreditCardNumber,
+            repCreditCardNumber: props.personalDetails.repCreditCardNumber,
 
             selectedPaymentMethod: props.personalDetails.selectedPaymentMethod,
             checkboxState: props.personalDetails.checkboxState,
         }
 
-        this.representativePaymentMethod = new Map([
+        this.personalDetailsError = props.personalDetailsError;
+
+        this.repPaymentMethod = new Map([
             ["cash", "Cash"],
             ["creditCard", "Credit Card"],
         ]);
     }
 
     repTextFieldOnChange = (value, keyRep, keyGuest) => {
-        const {personalDetails} = this.props;
+        let errKeyRep = keyRep + "Error";
+        let errKeyGuest = keyGuest + "Error";
+
+        const {personalDetails, personalDetailsError} = this.props;
         const {checkboxState} = this.state;
+
+        let isValValid = value !== "";
 
         let stateObj = {};
         personalDetails[keyRep] = value;
@@ -135,65 +151,93 @@ class PersonalDetails extends PureComponent {
         if (keyGuest != null && checkboxState) {
             personalDetails[keyGuest] = value;
             stateObj[keyGuest] = value;
+
+            if (isValValid) {
+                personalDetailsError[errKeyGuest] = "";
+            }
+        }
+
+        if (isValValid) {
+            personalDetailsError[errKeyRep] = "";
         }
 
         this.setState(stateObj);
     }
 
     guestIsSamePerson = (checked) => {
-        const {personalDetails} = this.props;
+        const {personalDetails, personalDetailsError} = this.props;
 
         let stateObj = {
             checkboxState: checked,
-
-            guestFirstName: "",
-            guestLastName: "",
-            guestStreet: "",
-            guestZip: "",
-            guestCity: "",
-            guestCountry: "",
         }
 
         personalDetails.checkboxState = checked;
 
         if (checked) {
-            personalDetails.guestFirstName = personalDetails.representativeFirstName;
-            personalDetails.guestLastName = personalDetails.representativeLastName;
-            personalDetails.guestStreet = personalDetails.representativeStreet;
-            personalDetails.guestZip = personalDetails.representativeZip;
-            personalDetails.guestCity = personalDetails.representativeCity;
-            personalDetails.guestCountry = personalDetails.representativeCountry;
+            personalDetails.guestFirstName = personalDetails.repFirstName;
+            personalDetails.guestLastName = personalDetails.repLastName;
+            personalDetails.guestStreet = personalDetails.repStreet;
+            personalDetails.guestZip = personalDetails.repZip;
+            personalDetails.guestCity = personalDetails.repCity;
+            personalDetails.guestCountry = personalDetails.repCountry;
 
-            stateObj.guestFirstName = personalDetails.representativeFirstName;
-            stateObj.guestLastName = personalDetails.representativeLastName;
-            stateObj.guestStreet = personalDetails.representativeStreet;
-            stateObj.guestZip = personalDetails.representativeZip;
-            stateObj.guestCity = personalDetails.representativeCity;
-            stateObj.guestCountry = personalDetails.representativeCountry;
+            stateObj.guestFirstName = personalDetails.repFirstName;
+            stateObj.guestLastName = personalDetails.repLastName;
+            stateObj.guestStreet = personalDetails.repStreet;
+            stateObj.guestZip = personalDetails.repZip;
+            stateObj.guestCity = personalDetails.repCity;
+            stateObj.guestCountry = personalDetails.repCountry;
+
+            personalDetailsError.guestFirstNameError = "";
+            personalDetailsError.guestLastNameError = "";
+            personalDetailsError.guestStreetError = "";
+            personalDetailsError.guestZipError = "";
+            personalDetailsError.guestCityError = "";
+            personalDetailsError.guestCountryError = "";
+        } else {
+            personalDetails.guestFirstName = "";
+            personalDetails.guestLastName = "";
+            personalDetails.guestStreet = "";
+            personalDetails.guestZip = "";
+            personalDetails.guestCity = "";
+            personalDetails.guestCountry = "";
+
+            stateObj.guestFirstName = "";
+            stateObj.guestLastName = "";
+            stateObj.guestStreet = "";
+            stateObj.guestZip = "";
+            stateObj.guestCity = "";
+            stateObj.guestCountry = "";
         }
 
         this.setState(stateObj)
     };
 
     guestTextFieldOnChange = (value, key) => {
-        const {personalDetails} = this.props;
+        let errKey = key + "Error";
+
+        const {personalDetails, personalDetailsError} = this.props;
 
         personalDetails[key] = value;
 
         let stateObj = {};
         stateObj[key] = value;
 
+        if (value !== "") {
+            personalDetailsError[errKey] = "";
+        }
+
         this.setState(stateObj);
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, personalDetailsError} = this.props;
         const {
-            representativeFirstName, representativeLastName, representativeStreet,
-            representativeZip, representativeCity, representativeCountry, representativeMail,
-            representativePhone, representativeCreditCardNumber, guestFirstName, guestLastName,
+            repFirstName, repLastName, repStreet,
+            repZip, repCity, repCountry, repMail,
+            repPhone, repCreditCardNumber, guestFirstName, guestLastName,
             guestStreet, guestZip, guestCity, guestCountry,
-            selectedPaymentMethod, checkboxState
+            selectedPaymentMethod, checkboxState,
         } = this.state;
 
         return (
@@ -227,12 +271,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="First Name"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeFirstName", "guestFirstName");
+                                        this.repTextFieldOnChange(event.target.value, "repFirstName", "guestFirstName");
                                     })}
-                                    value={representativeFirstName}
+                                    value={repFirstName}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repFirstNameError}
                                 />
 
                                 <MemoizedGridItem
@@ -240,12 +286,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Last Name"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeLastName", "guestLastName");
+                                        this.repTextFieldOnChange(event.target.value, "repLastName", "guestLastName");
                                     })}
-                                    value={representativeLastName}
+                                    value={repLastName}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repLastNameError}
                                 />
 
                                 <MemoizedGridItem
@@ -254,12 +302,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Street"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeStreet", "guestStreet");
+                                        this.repTextFieldOnChange(event.target.value, "repStreet", "guestStreet");
                                     })}
-                                    value={representativeStreet}
+                                    value={repStreet}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repStreetError}
                                 />
 
                                 <MemoizedGridItem
@@ -267,12 +317,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Zip"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeZip", "guestZip");
+                                        this.repTextFieldOnChange(event.target.value, "repZip", "guestZip");
                                     })}
-                                    value={representativeZip}
+                                    value={repZip}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repZipError}
                                 />
 
                                 <MemoizedGridItem
@@ -280,12 +332,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="City/Town"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeCity", "guestCity");
+                                        this.repTextFieldOnChange(event.target.value, "repCity", "guestCity");
                                     })}
-                                    value={representativeCity}
+                                    value={repCity}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repCityError}
                                 />
 
                                 <MemoizedGridItem
@@ -293,12 +347,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Country"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeCountry", "guestCountry");
+                                        this.repTextFieldOnChange(event.target.value, "repCountry", "guestCountry");
                                     })}
-                                    value={representativeCountry}
+                                    value={repCountry}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repCountryError}
                                 />
 
                                 <MemoizedGridItem
@@ -307,12 +363,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Email"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeMail", null);
+                                        this.repTextFieldOnChange(event.target.value, "repMail", null);
                                     })}
-                                    value={representativeMail}
+                                    value={repMail}
                                     type="email"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repMailError}
                                 />
 
                                 <MemoizedGridItem
@@ -321,12 +379,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Phone"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativePhone", null);
+                                        this.repTextFieldOnChange(event.target.value, "repPhone", null);
                                     })}
-                                    value={representativePhone}
+                                    value={repPhone}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repPhoneError}
                                 />
 
                                 <Grid item xs={6} className={clsx(classes.dropDownPaddingTop)}>
@@ -343,10 +403,10 @@ class PersonalDetails extends PureComponent {
                                                 sx={{width: "100%", my: 1.5, textAlign: "left"}}
                                             >
 
-                                                {[...this.representativePaymentMethod.keys()].map((key, index) =>
+                                                {[...this.repPaymentMethod.keys()].map((key, index) =>
                                                     (
                                                         <MenuItem value={key}>
-                                                            {this.representativePaymentMethod.get(key)}
+                                                            {this.repPaymentMethod.get(key)}
                                                         </MenuItem>
                                                     )
                                                 )}
@@ -361,12 +421,14 @@ class PersonalDetails extends PureComponent {
 
                                     label="Credit Card Number"
                                     onChange={(event => {
-                                        this.repTextFieldOnChange(event.target.value, "representativeCreditCardNumber", null);
+                                        this.repTextFieldOnChange(event.target.value, "repCreditCardNumber", null);
                                     })}
-                                    value={representativeCreditCardNumber}
+                                    value={repCreditCardNumber}
                                     type="text"
                                     variant="standard"
                                     required={true}
+
+                                    errorText={personalDetailsError.repCreditCardNumberError}
                                 />
 
 
@@ -382,7 +444,7 @@ class PersonalDetails extends PureComponent {
                                     <Grid item xs={4}>
                                         <Item>
                                             <FormControlLabel
-                                                label="Representative is same Person"
+                                                label="rep is same Person"
                                                 control={
                                                     <Checkbox checked={checkboxState}
                                                               onChange={(event) => {
@@ -409,6 +471,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestFirstNameError}
                                 />
 
                                 <MemoizedGridItem
@@ -424,6 +487,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestLastNameError}
                                 />
 
                                 <MemoizedGridItem
@@ -440,6 +504,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestStreetError}
                                 />
 
                                 <MemoizedGridItem
@@ -455,6 +520,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestZipError}
                                 />
 
                                 <MemoizedGridItem
@@ -470,6 +536,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestCityError}
                                 />
 
                                 <MemoizedGridItem
@@ -485,6 +552,7 @@ class PersonalDetails extends PureComponent {
                                     required={true}
 
                                     disabled={checkboxState}
+                                    errorText={personalDetailsError.guestCountryError}
                                 />
 
                             </Grid>
