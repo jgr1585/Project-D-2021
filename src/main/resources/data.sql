@@ -67,10 +67,10 @@ values (1, 'Season1', 'Summer', 04, 09),
        (2, 'Season2', 'Winter', 10, 03);
 
 insert into price_per_season(category_id, season_id, price)
-values (111, 1, 75),
-       (111, 2, 70),
-       (222, 1, 150),
-       (222, 2, 140);
+values (111, 1, 70),
+       (111, 2, 75),
+       (222, 1, 140),
+       (222, 2, 150);
 
 insert into stay_in_room (stay_id, room_id)
 values (111, 114),
