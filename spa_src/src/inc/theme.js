@@ -50,4 +50,11 @@ export default createTheme({
             // padding: '2px 0 1px 0',
         },
     },
+    MuiFormHelperText: {
+        root: {
+            // Use existing space / prevents shifting content below field
+            marginTop: 0,
+            height: 0,
+        },
+    }
 })
