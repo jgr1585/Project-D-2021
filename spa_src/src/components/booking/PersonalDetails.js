@@ -130,8 +130,8 @@ class PersonalDetails extends PureComponent {
         this.personalDetailsError = props.personalDetailsError;
 
         this.repPaymentMethod = new Map([
-            ["cash", "Cash"],
-            ["creditCard", "Credit Card"],
+            ["Cash", "Cash"],
+            ["CreditCard", "Credit Card"],
         ]);
     }
 

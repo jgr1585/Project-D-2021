@@ -13,6 +13,12 @@ import AlertDialog from "./AlertDialog";
 import HotelOverview from "./HotelOverview";
 
 import CategoryControllerApi from './api/src/api/CategoryControllerApi';
+import BookingControllerApi from './api/src/api/BookingControllerApi';
+
+import BookingDTO from "./api/src/model/BookingDTO";
+import AddressDTO from "./api/src/model/AddressDTO";
+import RepresentativeDetailsDTO from "./api/src/model/RepresentativeDetailsDTO";
+import GuestDetailsDTO from "./api/src/model/GuestDetailsDTO";
 
 const styles = theme => ({
     app: {
@@ -52,7 +58,9 @@ class App extends PureComponent {
         };
 
         this.categories = [];
+
         this.categoryControllerApi = new CategoryControllerApi();
+        this.bookingControllerApi = new BookingControllerApi();
 
         this.hasChanged = false;
     }
@@ -81,8 +89,20 @@ class App extends PureComponent {
                     reject(error)
                 }
             });
-        })
+        });
     };
+
+    pushNewBooking = (bookingDTO) => {
+        return new Promise((resolve, reject) => {
+            this.bookingControllerApi.book(bookingDTO, (error, data, response) => {
+                if (response.statusCode === 200) {
+                    resolve(data);
+                } else {
+                    reject(error)
+                }
+            });
+        });
+    }
 
     createNewBooking = () => {
         this.setState({open: true});
@@ -106,10 +126,91 @@ class App extends PureComponent {
             this.handleAlertDialogSaveOk();
         }
     };
-    handleCreateBookingDialogOk = (bookingDetails) => {
-        // TODO:: call to backend to create booking
 
-        this.setState({open: false});
+    createCategoriesObjFromObj = (categorySelection) => {
+        let categories = {};
+
+        if (categorySelection == null) {
+            return categories;
+        }
+
+        for (let key in categorySelection) {
+            categories[key] = parseInt(categorySelection[key].value);
+        }
+
+        return categories;
+    };
+
+    createRepresentativeFromObj = (personalDetails) => {
+        let representative = new RepresentativeDetailsDTO();
+
+        if (personalDetails == null) {
+            return representative;
+        }
+
+        representative.firstName = personalDetails.repFirstName;
+        representative.lastName = personalDetails.repLastName;
+        representative.email = personalDetails.repMail;
+
+        let address = new AddressDTO();
+        address.street = personalDetails.repStreet;
+        address.zip = personalDetails.repZip;
+        address.city = personalDetails.repCity;
+        address.country = personalDetails.repCountry;
+
+        representative.address = address;
+        representative.phone = personalDetails.repPhone;
+        representative.creditCardNumber = personalDetails.repCreditCardNumber;
+        representative.paymentMethod = personalDetails.selectedPaymentMethod;
+
+        return representative;
+    };
+
+    createGuestFromObj = (personalDetails) => {
+        let guest = new GuestDetailsDTO();
+
+        if (personalDetails == null) {
+            return guest;
+        }
+
+        guest.firstName = personalDetails.guestFirstName;
+        guest.lastName = personalDetails.guestLastName;
+
+        let address = new AddressDTO();
+        address.street = personalDetails.guestStreet;
+        address.zip = personalDetails.guestZip;
+        address.city = personalDetails.guestCity;
+        address.country = personalDetails.guestCountry;
+
+        guest.address = address;
+
+        return guest;
+    };
+
+    handleCreateBookingDialogOk = (bookingDetails) => {
+        let bookingDTO = BookingDTO.constructFromObject({
+            "fromDate": bookingDetails.chooseCategory.from,
+            "untilDate": bookingDetails.chooseCategory.until,
+            "categories": this.createCategoriesObjFromObj(bookingDetails.chooseCategory.categorySelection),
+
+            "representative": this.createRepresentativeFromObj(bookingDetails.personalDetails),
+            "guest": this.createGuestFromObj(bookingDetails.personalDetails),
+
+            "organizationId": "",
+        }, null);
+
+        this.pushNewBooking(bookingDTO).then(
+            // success
+            (result) => {
+                alert(result);
+                this.setState({open: false});
+            },
+            // error
+            (result) => {
+                alert(result);
+                // this.setState({open: false});
+            }
+        );
     };
 
     handleAlertDialogSaveClose = () => {
@@ -153,8 +254,9 @@ class App extends PureComponent {
                                         anchor={anchor}
                                         open={open}
 
-                                        categoryControllerApi={this.categoryControllerApi}
                                         categories={this.categories}
+
+                                        categoryControllerApi={this.categoryControllerApi}
 
                                         hasValueChanged={this.hasValueChanged}
                                         onDialogClose={this.handleCreateBookingDialogClose}

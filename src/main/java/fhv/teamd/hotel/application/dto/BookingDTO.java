@@ -24,7 +24,6 @@ public class BookingDTO {
 
     private RepresentativeDetailsDTO representative;
     private GuestDetailsDTO guest;
-    @JsonIgnore
     private String organizationId;
 
     private BookingDTO() {

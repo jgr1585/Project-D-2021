@@ -64,6 +64,9 @@ class BookingDTO {
             if (data.hasOwnProperty('guest')) {
                 obj['guest'] = GuestDetailsDTO.constructFromObject(data['guest']);
             }
+            if (data.hasOwnProperty('organizationId')) {
+                obj['organizationId'] = ApiClient.convertToType(data['organizationId'], 'String');
+            }
         }
         return obj;
     }
@@ -95,6 +98,11 @@ BookingDTO.prototype['representative'] = undefined;
  * @member {module:model/GuestDetailsDTO} guest
  */
 BookingDTO.prototype['guest'] = undefined;
+
+/**
+ * @member {String} organizationId
+ */
+BookingDTO.prototype['organizationId'] = undefined;
 
 
 
