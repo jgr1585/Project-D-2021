@@ -80,6 +80,12 @@ class CreateBooking extends PureComponent {
 
             stepValidationError: false,
 
+            chooseCategoryError: {
+                fromError: "",
+                untilError: "",
+                categorySelectionError: "",
+            },
+
             personalDetailsError: {
                 guestFirstNameError: "",
                 guestLastNameError: "",
@@ -139,7 +145,7 @@ class CreateBooking extends PureComponent {
                 repPhone: "",
                 repCreditCardNumber: "",
 
-                selectedPaymentMethod: "cash",
+                selectedPaymentMethod: "Cash",
                 checkboxState: false,
             }
         };
@@ -166,18 +172,18 @@ class CreateBooking extends PureComponent {
         } else {
             if (activeStep === 0) {
 
-                if (this.validateChooseCategories(this.bookingDetails)) {
+                if (this.validateChooseCategories()) {
 
                     if (index === 1) {
                         this.setState({activeStep: index});
                     } else {
-                        if (this.validatePersonalDetails(this.bookingDetails)) {
+                        if (this.validatePersonalDetails()) {
                             this.setState({activeStep: index});
                         }
                     }
                 }
             } else if (activeStep === 1) {
-                if (this.validatePersonalDetails(this.bookingDetails)) {
+                if (this.validatePersonalDetails()) {
                     this.setState({activeStep: index});
                 }
             }
@@ -185,7 +191,19 @@ class CreateBooking extends PureComponent {
     };
 
     validateChooseCategories = () => {
-        // TODO:: implement validation
+        let chooseCategoryError = {...this.state.chooseCategoryError};
+        // let chooseCategory = this.bookingDetails.chooseCategory;
+
+        let stepValidationError = false;
+
+        // TODO validation code here
+
+        if (stepValidationError) {
+            this.setState({chooseCategoryError: chooseCategoryError, stepValidationError: true});
+
+            return false;
+        }
+
         return true;
     };
 

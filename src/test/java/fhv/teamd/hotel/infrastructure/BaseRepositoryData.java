@@ -41,8 +41,8 @@ public abstract class BaseRepositoryData {
         final Season season2 = new Season(2L, new SeasonId("Season2"), "Winter", Month.NOVEMBER, Month.APRIL);
         seasons.addAll(List.of(season1, season2));
 
-        final Map<Season, Double> pricePerNight1 = Map.of(season1, 75.0, season2, 70.0);
-        final Map<Season, Double> pricePerNight2 = Map.of(season1, 150.0, season2, 140.0);
+        final Map<Season, Double> pricePerNight1 = Map.of(season1, 70.0, season2, 75.0);
+        final Map<Season, Double> pricePerNight2 = Map.of(season1, 140.0, season2, 150.0);
 
         final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight1);
         final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"), "Single Bed", "hier könnte ihre werbung stehen", pricePerNight2);

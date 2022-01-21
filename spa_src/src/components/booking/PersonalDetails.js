@@ -11,65 +11,112 @@ import Item from "../grid/Item";
 import HeaderItem from "../grid/HeaderItem";
 
 const styles = () => ({
+    checkboxPaddingTop: {
+        paddingTop: "6px !important"
+    },
     dropDownPaddingTop: {
-        paddingTop: "28px !important"
+        paddingTop: "9px !important"
+    },
+    minHeightPaddingTop: {
+        minHeight: "70px",
+        paddingTop: "0px !important"
+    },
+    customIconPos: {
+        marginBottom: "37px",
+    },
+    customSelectIconPos: {
+        marginBottom: "17px",
     },
 });
 
 const MemoizedGridItem = React.memo((props) => {
+    const {
+        classProp, xs, icon,
+        label, onChange, value, type, size, disabled,
+        errorText
+    } = props;
 
     return (
-        <Grid item xs={props.xs}>
+        <Grid
+            item
+            xs={xs}
+            className={clsx(classProp.minHeightPaddingTop)}
+        >
             <Item>
 
-                {props.icon != null ? (
+                {icon != null ? (
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
 
-                        {props.icon === "AccountCircle" ? (
-                            <AccountCircle sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                        {icon === "AccountCircle" ? (
+                            <AccountCircle
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classProp.customIconPos)}
+                            />
                         ) : ("")}
 
-                        {props.icon === "LocationCity" ? (
-                            <LocationCity sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                        {icon === "LocationCity" ? (
+                            <LocationCity
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classProp.customIconPos)}
+                            />
                         ) : ("")}
 
-                        {props.icon === "Email" ? (
-                            <Email sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                        {icon === "Email" ? (
+                            <Email
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classProp.customIconPos)}
+                            />
                         ) : ("")}
 
-                        {props.icon === "Phone" ? (
-                            <Phone sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                        {icon === "Phone" ? (
+                            <Phone
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classProp.customIconPos)}
+                            />
                         ) : ("")}
 
-                        {props.icon === "Payment" ? (
-                            <Payment sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                        {icon === "Payment" ? (
+                            <Payment
+                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                className={clsx(classProp.customIconPos)}
+                            />
                         ) : ("")}
 
                         <TextField
-                            label={props.label}
-                            onChange={props.onChange}
-                            value={props.value}
-                            type={props.type}
-                            variant={props.variant}
-                            required={props.required}
-                            disabled={props.disabled != null && props.disabled}
+                            className={clsx(classProp.minHeightPaddingTop)}
 
-                            error={props.errorText !== ""}
-                            helperText={props.errorText}
+                            label={label}
+                            onChange={onChange}
+                            value={value}
+                            type={type}
+                            size={size}
+
+                            variant="standard"
+                            required={true}
+
+                            disabled={disabled || false}
+
+                            error={errorText !== ""}
+                            helperText={errorText}
                         />
                     </Box>
                 ) : (
                     <TextField
-                        label={props.label}
-                        onChange={props.onChange}
-                        value={props.value}
-                        type={props.type}
-                        variant={props.variant}
-                        required={props.required}
-                        disabled={props.disabled != null && props.disabled}
+                        className={clsx(classProp.minHeightPaddingTop)}
 
-                        error={props.errorText !== ""}
-                        helperText={props.errorText}
+                        label={label}
+                        onChange={onChange}
+                        value={value}
+                        type={type}
+                        size={size}
+
+                        variant="standard"
+                        required={true}
+
+                        disabled={disabled || false}
+
+                        error={errorText !== ""}
+                        helperText={errorText}
                     />
                 )}
 
@@ -130,8 +177,8 @@ class PersonalDetails extends PureComponent {
         this.personalDetailsError = props.personalDetailsError;
 
         this.repPaymentMethod = new Map([
-            ["cash", "Cash"],
-            ["creditCard", "Credit Card"],
+            ["Cash", "Cash"],
+            ["CreditCard", "Credit Card"],
         ]);
     }
 
@@ -266,6 +313,8 @@ class PersonalDetails extends PureComponent {
                                 </Grid>
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
                                     icon={"AccountCircle"}
 
@@ -275,13 +324,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repFirstName}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repFirstNameError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
 
                                     label="Last Name"
@@ -290,13 +340,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repLastName}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repLastNameError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={4}
                                     icon={"LocationCity"}
 
@@ -306,13 +357,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repStreet}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repStreetError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={2}
 
                                     label="Zip"
@@ -321,13 +373,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repZip}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repZipError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={3}
 
                                     label="City/Town"
@@ -336,13 +389,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repCity}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repCityError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={3}
 
                                     label="Country"
@@ -351,13 +405,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repCountry}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repCountryError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
                                     icon={"Email"}
 
@@ -367,13 +422,14 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repMail}
                                     type="email"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repMailError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
                                     icon={"Phone"}
 
@@ -383,8 +439,7 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repPhone}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repPhoneError}
                                 />
@@ -392,7 +447,10 @@ class PersonalDetails extends PureComponent {
                                 <Grid item xs={6} className={clsx(classes.dropDownPaddingTop)}>
                                     <Item>
                                         <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                            <EuroSymbol sx={{color: 'action.active', mr: 1, my: 1.5}}/>
+                                            <EuroSymbol
+                                                sx={{color: 'action.active', mr: 1, my: 1.5}}
+                                                className={clsx(classes.customSelectIconPos)}
+                                            />
                                             <Select
                                                 label="Payment"
                                                 onChange={(event => {
@@ -416,6 +474,8 @@ class PersonalDetails extends PureComponent {
                                 </Grid>
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
                                     icon={"Payment"}
 
@@ -425,8 +485,7 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={repCreditCardNumber}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     errorText={personalDetailsError.repCreditCardNumberError}
                                 />
@@ -441,10 +500,10 @@ class PersonalDetails extends PureComponent {
                                         </HeaderItem>
                                     </Grid>
 
-                                    <Grid item xs={4}>
+                                    <Grid item xs={4} className={clsx(classes.checkboxPaddingTop)}>
                                         <Item>
                                             <FormControlLabel
-                                                label="rep is same Person"
+                                                label="Representative is same Person"
                                                 control={
                                                     <Checkbox checked={checkboxState}
                                                               onChange={(event) => {
@@ -458,6 +517,8 @@ class PersonalDetails extends PureComponent {
                                 </Grid>
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
                                     icon={"AccountCircle"}
 
@@ -467,14 +528,15 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestFirstName}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestFirstNameError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={6}
 
                                     label="Last Name"
@@ -483,14 +545,15 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestLastName}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestLastNameError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={4}
                                     icon={"LocationCity"}
 
@@ -500,14 +563,15 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestStreet}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestStreetError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={2}
 
                                     label="Zip"
@@ -516,14 +580,15 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestZip}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestZipError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={3}
 
                                     label="City/Town"
@@ -532,14 +597,15 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestCity}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestCityError}
                                 />
 
                                 <MemoizedGridItem
+                                    classProp={classes}
+
                                     xs={3}
 
                                     label="Country"
@@ -548,8 +614,7 @@ class PersonalDetails extends PureComponent {
                                     })}
                                     value={guestCountry}
                                     type="text"
-                                    variant="standard"
-                                    required={true}
+                                    size="small"
 
                                     disabled={checkboxState}
                                     errorText={personalDetailsError.guestCountryError}
