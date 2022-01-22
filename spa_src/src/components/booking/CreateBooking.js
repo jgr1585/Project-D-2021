@@ -44,6 +44,9 @@ const styles = (theme) => ({
     customMargin: {
         marginBottom: '10px',
     },
+    customBoxShadow: {
+        boxShadow: "0px 2px 4px -1px rgb(0 0 0 / 10%), 0px 4px 5px 0px rgb(0 0 0 / 0%), 0px 1px 10px 0px rgb(0 0 0 / 15%)",
+    },
 
     customDialogPaper: {
         minHeight: '70vh',
@@ -60,6 +63,11 @@ const styles = (theme) => ({
     },
     customDialogActionPadding: {
         padding: '20px 24px',
+    },
+
+    stepperContentHeight: {
+        maxHeight: "calc(70vh - 200px)",
+        overflow: "auto",
     },
 
     '& .MuiDialogContent-root': {
@@ -403,7 +411,7 @@ class CreateBooking extends PureComponent {
                     <Typography variant={"h6"}/>
 
                     <Stepper activeStep={activeStep}
-                             className={clsx(classes.greyBackground, classes.customPadding, classes.customMargin)}
+                             className={clsx(classes.greyBackground, classes.customPadding, classes.customMargin, classes.customBoxShadow)}
                     >
                         {this.steps.map((label, index) => (
                             <Step key={label}
@@ -420,7 +428,7 @@ class CreateBooking extends PureComponent {
                         ))}
                     </Stepper>
 
-                    <div>
+                    <div className={clsx(classes.stepperContentHeight)}>
                         {activeStep === 0 ? (
                             this.renderChooseCategories(classes, this.bookingDetails.chooseCategory)
                         ) : (activeStep === 1 ? (
