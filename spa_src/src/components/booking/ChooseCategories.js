@@ -81,20 +81,16 @@ class ChooseCategories extends PureComponent {
             return "";
         }
 
-        let dateStr = dateObj.toLocaleDateString();
+        let date = dateObj.getDate().toString();
 
-        let dateObjArr;
-        if (dateStr.includes(".")) {
-            dateObjArr = dateObj.toLocaleDateString().split(".");
-
-            if (dateObjArr[1].length <= 1) {
-                dateObjArr[1] = "0" + dateObjArr[1];
-            }
-        } else {
-            dateObjArr = dateObj.toLocaleDateString().split("/");
+        let month = dateObj.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month.toString();
         }
 
-        return dateObjArr != null && dateObjArr.length >= 2 ? dateObjArr[2] + "-" + dateObjArr[1] + "-" + dateObjArr[0] : "";
+        let year = dateObj.getFullYear().toString();
+
+        return year + "-" + month + "-" + date;
     }
 
     render() {
