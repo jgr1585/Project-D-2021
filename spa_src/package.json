@@ -25,11 +25,12 @@
     "react-scripts": "5.0.0",
     "reactstrap": "^8.10.0",
     "querystring": "^0.2.1",
+    "superagent": "^5.3.0",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "createApiTs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-axios -o src/components/api/ts --additional-properties=supportsES6=true",
-    "createApiJs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g javascript -o src/components/api",
+    "createApiTs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-axios -o ../spaAPI_src --additional-properties=supportsES6=true",
+    "createApiJs": "npx @openapitools/openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g javascript -o ../spaAPI_src",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
