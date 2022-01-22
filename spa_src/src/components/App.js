@@ -54,7 +54,7 @@ class App extends PureComponent {
             openDialogSave: false,
             dialogTextSave: '',
 
-            error: '404 :(',
+            error: 'Unexpected error occurred',
         };
 
         this.categories = [];
@@ -75,6 +75,7 @@ class App extends PureComponent {
             },
             // error
             (result) => {
+                alert(result)
                 this.setState({initCallsMade: true, initCallsError: true});
             }
         );
@@ -102,32 +103,13 @@ class App extends PureComponent {
                 }
             });
         });
-    }
+    };
 
     createNewBooking = () => {
         this.setState({open: true});
     };
 
-    // handle popover events! ----------------------------------------------------------------------------------------
-    hasValueChanged = (hasChanged) => {
-        this.hasChanged = hasChanged;
-    };
-    handleCreateBookingDialogClose = (event, reason) => {
-        if (reason === "backdropClick") {
-            return;
-        }
-
-        if (this.hasChanged) {
-            this.setState({
-                openDialogSave: true,
-                dialogTextSave: 'Do you really want to close this window?'
-            });
-        } else {
-            this.handleAlertDialogSaveOk();
-        }
-    };
-
-    createCategoriesObjFromObj = (categorySelection) => {
+    createCategoriesFromObj = (categorySelection) => {
         let categories = {};
 
         if (categorySelection == null) {
@@ -187,11 +169,30 @@ class App extends PureComponent {
         return guest;
     };
 
+    // handle popover events! ----------------------------------------------------------------------------------------
+    hasValueChanged = (hasChanged) => {
+        this.hasChanged = hasChanged;
+    };
+    handleCreateBookingDialogClose = (event, reason) => {
+        if (reason === "backdropClick") {
+            return;
+        }
+
+        if (this.hasChanged) {
+            this.setState({
+                openDialogSave: true,
+                dialogTextSave: 'Do you really want to close this window?'
+            });
+        } else {
+            this.handleAlertDialogSaveOk();
+        }
+    };
+
     handleCreateBookingDialogOk = (bookingDetails) => {
         let bookingDTO = BookingDTO.constructFromObject({
             "fromDate": bookingDetails.chooseCategory.from,
             "untilDate": bookingDetails.chooseCategory.until,
-            "categories": this.createCategoriesObjFromObj(bookingDetails.chooseCategory.categorySelection),
+            "categories": this.createCategoriesFromObj(bookingDetails.chooseCategory.categorySelection),
 
             "representative": this.createRepresentativeFromObj(bookingDetails.personalDetails),
             "guest": this.createGuestFromObj(bookingDetails.personalDetails),

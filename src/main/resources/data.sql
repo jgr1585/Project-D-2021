@@ -13,7 +13,7 @@ delete from bill_entry;
 delete from bill;
 delete from organization;
 
-insert into booking (id, booking_id, check_in, check_out,booking_State, guest_first_name, guest_last_name, guest_street, guest_zip,
+insert into booking (id, booking_id, check_in, check_out, booking_State, guest_first_name, guest_last_name, guest_street, guest_zip,
                      guest_city, guest_country, representative_first_name, representative_last_name,
                      representative_street, representative_zip, representative_city, representative_country,
                      representative_email, representative_phone, representative_payment_method, representative_credit_card_number, organization_id)
@@ -97,10 +97,14 @@ values (1, 'Season1', 'Summer', 04, 09),
        (2, 'Season2', 'Winter', 10, 03);
 
 insert into price_per_season(category_id, season_id, price)
-values (111, 1, 70),
+values (111, 1, 60),
        (111, 2, 75),
-       (222, 1, 140),
-       (222, 2, 150);
+       (222, 1, 120),
+       (222, 2, 150),
+       (333, 1, 200),
+       (333, 2, 250),
+       (444, 1, 400),
+       (444, 2, 500);
 
 insert into stay_in_room (stay_id, room_id)
 values (111, 114),
