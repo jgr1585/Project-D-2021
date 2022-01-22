@@ -32,7 +32,7 @@ const styles = () => ({
     descriptiveSpacing: {
         paddingLeft: "10px",
         paddingRight: "10px",
-    },
+    }
 });
 
 class Summary extends PureComponent {
@@ -41,7 +41,7 @@ class Summary extends PureComponent {
         return (
             <React.Fragment>
                 <Grid container item spacing={3}>
-                    <Grid container item xs={6}>
+                    <Grid container item xs={6} spacing={1}>
                         <Grid item xs={12}>
                             <HeaderItem>
                                 <Typography variant="h6">
@@ -51,53 +51,51 @@ class Summary extends PureComponent {
                         </Grid>
 
                         <Grid container item xs={12}>
-                            <Grid container item xs={12}>
-                                <Grid item xs={6}>
-                                    <Item>
-                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                            <DateRange/>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                        <DateRange/>
 
-                                            <div
-                                                className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
-                                                <span>From</span>
-                                            </div>
-                                        </Box>
-                                    </Item>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Item>
-                                        <div className={clsx(classes.descriptiveText)}>
-                                            {bookingDetails.chooseCategory.from.toDateString()}
+                                        <div
+                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                            <span>From</span>
                                         </div>
-                                    </Item>
-                                </Grid>
+                                    </Box>
+                                </Item>
                             </Grid>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <div className={clsx(classes.descriptiveText)}>
+                                        {bookingDetails.chooseCategory.from.toDateString()}
+                                    </div>
+                                </Item>
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12}>
-                                <Grid item xs={6}>
-                                    <Item>
-                                        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                                            <DateRange/>
+                        <Grid container item xs={12}>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                        <DateRange/>
 
-                                            <div
-                                                className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
-                                                <span>Until</span>
-                                            </div>
-                                        </Box>
-                                    </Item>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Item>
-                                        <div className={clsx(classes.descriptiveText)}>
-                                            {bookingDetails.chooseCategory.until.toDateString()}
+                                        <div
+                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                            <span>Until</span>
                                         </div>
-                                    </Item>
-                                </Grid>
+                                    </Box>
+                                </Item>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Item>
+                                    <div className={clsx(classes.descriptiveText)}>
+                                        {bookingDetails.chooseCategory.until.toDateString()}
+                                    </div>
+                                </Item>
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={6}>
+                    <Grid container item xs={6} spacing={1}>
                         <Grid item xs={12}>
                             <HeaderItem>
                                 <Typography variant="h6">
@@ -153,7 +151,7 @@ class Summary extends PureComponent {
                 </Grid>
 
                 <Grid container item spacing={3}>
-                    <Grid container item xs={6}>
+                    <Grid container item xs={6} spacing={1}>
                         <Grid item xs={12}>
                             <HeaderItem>
                                 <Typography variant="h6">
@@ -190,7 +188,7 @@ class Summary extends PureComponent {
                         <Grid container item xs={12}/>
                     </Grid>
 
-                    <Grid container item xs={6}>
+                    <Grid container item xs={6} spacing={1}>
                         <Grid item xs={12}>
                             <HeaderItem>
                                 <Typography variant="h6">
@@ -367,42 +365,45 @@ class Summary extends PureComponent {
                         </HeaderItem>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.id}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {Object.keys(bookingDetails.chooseCategory.categorySelection).map((key, index) =>
-                                    bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
-                                        (
-                                            <TableRow key={index}>
-                                                <TableCell>
-                                                    {bookingDetails.chooseCategory.categorySelection[key].name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {bookingDetails.chooseCategory.categorySelection[key].value}
-                                                </TableCell>
-                                                <TableCell>
-                                                    cat price
-                                                </TableCell>
-                                                <TableCell>
-                                                    sum price
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : ("")
-                                )}
-                            </TableBody>
-                        </Table>
+                    <Grid item xs={6} className={clsx(classes.minHeightPaddingTop)}>
+                        <Item>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column) => (
+                                            <TableCell
+                                                key={column.id}
+                                                align={column.id}
+                                                className={clsx(classes.descriptiveHeaderText)}
+                                            >
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {Object.keys(bookingDetails.chooseCategory.categorySelection).map((key, index) =>
+                                        bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
+                                            (
+                                                <TableRow hover role="checkbox" key={index}>
+                                                    <TableCell>
+                                                        {bookingDetails.chooseCategory.categorySelection[key].name}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {bookingDetails.chooseCategory.categorySelection[key].value}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        cat price
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        sum price
+                                                    </TableCell>
+                                                </TableRow>
+                                            ) : ("")
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </Item>
                     </Grid>
                 </Grid>
             </React.Fragment>
