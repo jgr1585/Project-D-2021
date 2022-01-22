@@ -86,6 +86,10 @@ class ChooseCategories extends PureComponent {
         let dateObjArr;
         if (dateStr.includes(".")) {
             dateObjArr = dateObj.toLocaleDateString().split(".");
+
+            if (dateObjArr[1].length <= 1) {
+                dateObjArr[1] = "0" + dateObjArr[1];
+            }
         } else {
             dateObjArr = dateObj.toLocaleDateString().split("/");
         }
