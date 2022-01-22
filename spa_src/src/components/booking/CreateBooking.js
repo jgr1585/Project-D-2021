@@ -19,7 +19,6 @@ import ChooseCategories from "./ChooseCategories";
 import PersonalDetails from "./PersonalDetails";
 import Summary from "./Summary";
 
-let marginNum = 8;
 const styles = (theme) => ({
     noPaddingTop: {
         paddingTop: '0',
@@ -29,7 +28,7 @@ const styles = (theme) => ({
     },
 
     customTypography: {
-        padding: '6px ' + marginNum + 'px', //top, right, bottom, left
+        padding: '6px 8px',
         color: theme.color.white,
         fontSize: '14px !important',
         marginTop: '0px',
@@ -72,6 +71,8 @@ const styles = (theme) => ({
 });
 
 class CreateBooking extends PureComponent {
+    static SECONDS_OF_DAY = 60 * 60 * 24;
+
     constructor(props) {
         super(props);
 
@@ -281,10 +282,18 @@ class CreateBooking extends PureComponent {
     };
 
     renderSummary = (classes, bookingDetails) => {
+        let chooseCategory = bookingDetails.chooseCategory;
+
+        let fromUnixTs = Math.round(chooseCategory.from.getTime() / 1000);
+        let untilUnixTs = Math.round(chooseCategory.until.getTime() / 1000);
+
+        let nights = Math.round(Math.abs(untilUnixTs - fromUnixTs) / CreateBooking.SECONDS_OF_DAY);
+
         return (
             <React.Fragment>
                 <Summary
                     bookingDetails={bookingDetails}
+                    nights={nights}
                 >
                 </Summary>
             </React.Fragment>

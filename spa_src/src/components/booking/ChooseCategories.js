@@ -52,7 +52,6 @@ class ChooseCategories extends PureComponent {
                 this.convertToRawDateString(chooseCategory.from),
                 this.convertToRawDateString(chooseCategory.until)
             ).then((result) => {
-
                 let categorySelection = {...this.state.categorySelection};
 
                 for (let i = 0; i < result.length; i++) {
@@ -82,7 +81,15 @@ class ChooseCategories extends PureComponent {
             return "";
         }
 
-        let dateObjArr = dateObj.toLocaleDateString().split("/");
+        let dateStr = dateObj.toLocaleDateString();
+
+        let dateObjArr;
+        if (dateStr.includes(".")) {
+            dateObjArr = dateObj.toLocaleDateString().split(".");
+        } else {
+            dateObjArr = dateObj.toLocaleDateString().split("/");
+        }
+
         return dateObjArr != null && dateObjArr.length >= 2 ? dateObjArr[2] + "-" + dateObjArr[1] + "-" + dateObjArr[0] : "";
     }
 
@@ -125,7 +132,7 @@ class ChooseCategories extends PureComponent {
                                                 onChange={(newValue) => {
                                                     chooseCategory.from = newValue;
 
-                                                    this.setAvailableCategories().then((result) => {
+                                                    this.setAvailableCategories().then(() => {
                                                         this.setState({from: newValue});
                                                     });
                                                 }}
@@ -146,7 +153,7 @@ class ChooseCategories extends PureComponent {
                                                 onChange={(newValue) => {
                                                     chooseCategory.until = newValue;
 
-                                                    this.setAvailableCategories().then((result) => {
+                                                    this.setAvailableCategories().then(() => {
                                                         this.setState({until: newValue});
                                                     });
                                                 }}
