@@ -12,13 +12,13 @@ import CreateBooking from "./booking/CreateBooking";
 import AlertDialog from "./AlertDialog";
 import HotelOverview from "./HotelOverview";
 
-import CategoryControllerApi from './api/src/api/CategoryControllerApi';
-import BookingControllerApi from './api/src/api/BookingControllerApi';
+import CategoryControllerApi from '../js/openAPI/api/CategoryControllerApi';
+import BookingControllerApi from '../js/openAPI/api/BookingControllerApi';
 
-import BookingDTO from "./api/src/model/BookingDTO";
-import AddressDTO from "./api/src/model/AddressDTO";
-import RepresentativeDetailsDTO from "./api/src/model/RepresentativeDetailsDTO";
-import GuestDetailsDTO from "./api/src/model/GuestDetailsDTO";
+import BookingDTO from "../js/openAPI/model/BookingDTO";
+import AddressDTO from "../js/openAPI/model/AddressDTO";
+import RepresentativeDetailsDTO from "../js/openAPI/model/RepresentativeDetailsDTO";
+import GuestDetailsDTO from "../js/openAPI/model/GuestDetailsDTO";
 
 const styles = theme => ({
     app: {
