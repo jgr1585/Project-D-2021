@@ -32,6 +32,10 @@ class ChooseCategories extends PureComponent {
         this.categoryControllerApi = props.categoryControllerApi;
     }
 
+    componentDidMount() {
+        this.setAvailableCategories();
+    }
+
     availableCategories = (from, until) => {
         return new Promise((resolve, reject) => {
             this.categoryControllerApi.availableCategory(from, until, (error, data, response) => {
@@ -45,34 +49,30 @@ class ChooseCategories extends PureComponent {
     };
 
     setAvailableCategories = () => {
-        return new Promise((resolve) => {
-            const {chooseCategory} = this.props;
+        const {chooseCategory} = this.props;
 
-            this.availableCategories(
-                this.convertToRawDateString(chooseCategory.from),
-                this.convertToRawDateString(chooseCategory.until)
-            ).then((result) => {
-                let categorySelection = {...this.state.categorySelection};
+        this.availableCategories(
+            this.convertToRawDateString(chooseCategory.from),
+            this.convertToRawDateString(chooseCategory.until)
+        ).then((result) => {
+            let categorySelection = {...this.state.categorySelection};
 
-                for (let i = 0; i < result.length; i++) {
-                    let cat = result[i];
+            for (let i = 0; i < result.length; i++) {
+                let cat = result[i];
 
-                    if (cat != null) {
-                        let catSel = categorySelection[cat.categoryId];
+                if (cat != null) {
+                    let catSel = categorySelection[cat.categoryId];
 
-                        catSel.max = cat.numberAvailable;
+                    catSel.max = cat.numberAvailable;
 
-                        if (catSel.value > catSel.max) {
-                            catSel.value = catSel.max;
-                        }
+                    if (catSel.value > catSel.max) {
+                        catSel.value = catSel.max;
                     }
                 }
+            }
 
-                chooseCategory.categorySelection = categorySelection;
-                this.setState({categorySelection: categorySelection});
-
-                resolve(result);
-            });
+            chooseCategory.categorySelection = categorySelection;
+            this.setState({categorySelection: categorySelection});
         });
     };
 
@@ -81,7 +81,10 @@ class ChooseCategories extends PureComponent {
             return "";
         }
 
-        let date = dateObj.getDate().toString();
+        let date = dateObj.getDate();
+        if (date < 10) {
+            date = "0" + date.toString();
+        }
 
         let month = dateObj.getMonth() + 1;
         if (month < 10) {
@@ -93,8 +96,12 @@ class ChooseCategories extends PureComponent {
         return year + "-" + month + "-" + date;
     }
 
+    isValidDate = (date) => {
+        return date instanceof Date && !isNaN(date);
+    }
+
     render() {
-        const {classes, chooseCategory} = this.props;
+        const {classes, chooseCategory, chooseCategoryError} = this.props;
         const {from, until, categorySelection} = this.state;
 
         return (
@@ -130,13 +137,34 @@ class ChooseCategories extends PureComponent {
                                                 mask={"____-__-__"}
                                                 value={new Date(from)}
                                                 onChange={(newValue) => {
-                                                    chooseCategory.from = newValue;
+                                                    if (!this.isValidDate(newValue)) {
+                                                        chooseCategory.from = "";
+                                                        return;
+                                                    }
 
-                                                    this.setAvailableCategories().then(() => {
-                                                        this.setState({from: newValue});
-                                                    });
+                                                    chooseCategory.from = newValue;
+                                                    chooseCategoryError.fromError = "";
+
+                                                    let stateObj = {};
+
+                                                    if (chooseCategory.from.getTime() > chooseCategory.until.getTime()) {
+                                                        chooseCategory.until = newValue;
+                                                        stateObj.until = newValue;
+                                                    }
+
+                                                    stateObj.from = newValue;
+                                                    this.setState(stateObj);
+
+                                                    this.setAvailableCategories();
                                                 }}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={
+                                                    (params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            error={chooseCategoryError.fromError !== ""}
+                                                        />
+                                                    )
+                                                }
                                             />
                                         </LocalizationProvider>
                                     </Item>
@@ -150,14 +178,28 @@ class ChooseCategories extends PureComponent {
                                                 inputFormat={"yyyy-MM-dd"}
                                                 mask={"____-__-__"}
                                                 value={new Date(until)}
+                                                minDate={chooseCategory.from}
                                                 onChange={(newValue) => {
-                                                    chooseCategory.until = newValue;
+                                                    if (!this.isValidDate(newValue)) {
+                                                        chooseCategory.until = "";
+                                                        return;
+                                                    }
 
-                                                    this.setAvailableCategories().then(() => {
-                                                        this.setState({until: newValue});
-                                                    });
+                                                    chooseCategory.until = newValue;
+                                                    chooseCategoryError.untilError = "";
+
+                                                    this.setState({until: newValue});
+
+                                                    this.setAvailableCategories();
                                                 }}
-                                                renderInput={(params) => <TextField {...params} />}
+                                                renderInput={
+                                                    (params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            error={chooseCategoryError.untilError !== ""}
+                                                        />
+                                                    )
+                                                }
                                             />
                                         </LocalizationProvider>
                                     </Item>
@@ -177,23 +219,45 @@ class ChooseCategories extends PureComponent {
                                     (
                                         <Grid item xs={3} key={index} className={clsx(classes.gridItemPaddingTop)}>
                                             <Item>
-                                                <TextField
-                                                    id="standard-number"
-                                                    label={categorySelection[key].name}
-                                                    type="number"
-                                                    onChange={(event) => {
-                                                        let categorySelection = {...this.state.categorySelection};
+                                                {categorySelection[key].max > 0 ? (
+                                                    <TextField
+                                                        id="standard-number"
+                                                        label={categorySelection[key].name}
+                                                        type="number"
+                                                        onChange={(event) => {
+                                                            let categorySelection = {...this.state.categorySelection};
 
-                                                        chooseCategory.categorySelection[key].value = event.target.value;
-                                                        categorySelection[key].value = event.target.value;
+                                                            chooseCategory.categorySelection[key].value = event.target.value;
+                                                            categorySelection[key].value = event.target.value;
 
-                                                        this.setState({categorySelection: categorySelection});
-                                                    }}
-                                                    InputProps={{inputProps: {min: 0, max: categorySelection[key].max}}}
-                                                    value={categorySelection[key].value}
-                                                    variant="standard"
-                                                    required={true}
-                                                />
+                                                            if (event.target.value > 0) {
+                                                                chooseCategoryError.categorySelectionError = "";
+                                                            }
+
+                                                            this.setState({categorySelection: categorySelection});
+                                                        }}
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0,
+                                                                max: categorySelection[key].max
+                                                            }
+                                                        }}
+                                                        value={categorySelection[key].value}
+                                                        variant="standard"
+
+                                                        error={chooseCategoryError.categorySelectionError !== ""}
+                                                        helperText={"Rooms available: " + categorySelection[key].max}
+                                                    />
+                                                ) : (
+                                                    <TextField
+                                                        id="standard-text"
+                                                        label={categorySelection[key].name}
+                                                        type="text"
+                                                        value={"Sold out"}
+                                                        variant="standard"
+                                                        disabled={true}
+                                                    />
+                                                )}
                                             </Item>
                                         </Grid>
                                     )

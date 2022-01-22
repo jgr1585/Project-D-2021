@@ -145,10 +145,12 @@ class CreateBooking extends PureComponent {
             }
         }
 
+        let today = new Date();
+        let weekTimeRange = 7 * CreateBooking.SECONDS_OF_DAY * 1000;
         this.bookingDetails = {
             chooseCategory: {
-                from: new Date(),
-                until: new Date(),
+                from: new Date(today.getTime() + weekTimeRange),
+                until: new Date(today.getTime() + (weekTimeRange * 2)),
                 categorySelection: categorySelection,
             },
             personalDetails: {
@@ -218,11 +220,32 @@ class CreateBooking extends PureComponent {
 
     validateChooseCategories = () => {
         let chooseCategoryError = {...this.state.chooseCategoryError};
-        // let chooseCategory = this.bookingDetails.chooseCategory;
+        let chooseCategory = this.bookingDetails.chooseCategory;
 
         let stepValidationError = false;
 
-        // TODO validation code here
+        if (chooseCategory.from === "") {
+            chooseCategoryError.fromError = "Cannot be empty";
+            stepValidationError = true;
+        }
+        if (chooseCategory.until === "") {
+            chooseCategoryError.untilError = "Cannot be empty";
+            stepValidationError = true;
+        }
+
+        let selectedCategories = 0;
+        for (let key in chooseCategory.categorySelection) {
+            let cat = chooseCategory.categorySelection[key];
+
+            if (cat != null) {
+                selectedCategories += cat.value;
+            }
+        }
+
+        if (selectedCategories <= 0) {
+            chooseCategoryError.categorySelectionError = "Take at least one category";
+            stepValidationError = true;
+        }
 
         if (stepValidationError) {
             this.setState({chooseCategoryError: chooseCategoryError, stepValidationError: true});
