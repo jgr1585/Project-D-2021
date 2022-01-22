@@ -14,15 +14,25 @@ import {
 } from "@mui/icons-material";
 
 import HeaderItem from "../grid/HeaderItem";
+import Item from "../grid/Item"
+
 import clsx from "clsx";
 
 const styles = () => ({
     minHeightPaddingTop: {
         paddingTop: "0px !important"
     },
-    descriptiveText: {
+    descriptiveHeaderText: {
         fontWeight: "bold"
-    }
+    },
+    descriptiveText: {
+        paddingTop: "3px",
+        textAlign: "left",
+    },
+    descriptiveSpacing: {
+        paddingLeft: "10px",
+        paddingRight: "10px",
+    },
 });
 
 class Summary extends PureComponent {
@@ -57,16 +67,33 @@ class Summary extends PureComponent {
 
                                     <Grid container item xs={12}>
                                         <Grid container item xs={12}>
-                                            <Grid item xs={1}>
-                                                <DateRange/>
+                                            <Grid item xs={6}>
+                                                <Item>
+                                                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                        <DateRange/>
+
+                                                        <div
+                                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}
+                                                        >
+                                                            <span>From</span>
+                                                        </div>
+                                                    </Box>
+                                                </Item>
                                             </Grid>
-                                            <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                                From
-                                            </Grid>
-                                            <Grid item xs={7}>
-                                                {bookingDetails.chooseCategory.from.toDateString()}
+
+                                            <Grid item xs={6}>
+                                                <Item>
+                                                    <div className={clsx(classes.descriptiveText)}>
+                                                        {bookingDetails.chooseCategory.until.toDateString()}
+                                                    </div>
+                                                </Item>
                                             </Grid>
                                         </Grid>
+
+
+
+                                        
+
 
                                         <Grid container item xs={12}>
                                             <Grid item xs={1}>
