@@ -3,7 +3,18 @@ import React, {PureComponent} from 'react'
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 
-import {Box, Container, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@mui/material";
+import {
+    Box,
+    Container,
+    Divider,
+    Grid, List, ListItem, ListItemText,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material";
 import {
     AccountCircle,
     CreditCard,
@@ -184,8 +195,12 @@ class Summary extends PureComponent {
                             </Grid>
                         )}
 
-                        <Grid container item xs={12}/>
-                        <Grid container item xs={12}/>
+                        <Grid container item xs={12}>
+                            <span style={{visibility: "hidden"}}>placeholder</span>
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <span style={{visibility: "hidden"}}>placeholder</span>
+                        </Grid>
                     </Grid>
 
                     <Grid container item xs={6} spacing={1}>
@@ -334,25 +349,61 @@ class Summary extends PureComponent {
         )
     }
 
-    renderCategoryPrices = (classes, bookingDetails) => {
+    renderCategoryPrices = (classes, bookingDetails, nights) => {
         const columns = [
             {
-                label: 'Room Category',
-                align: 'left'
+                id: "roomCategory",
+                label: "Room Category",
+                align: "left"
             },
             {
-                label: 'Amount',
-                align: 'left'
+                id: "amount",
+                label: "Amount",
+                align: "left"
             },
             {
-                label: 'Price per Category',
-                align: 'left'
+                id: "pricePerNight",
+                label: "Price per Night",
+                align: "left"
             },
             {
-                label: 'Summarized Price',
-                align: 'left'
+                id: "nights",
+                label: "Nights",
+                align: "left"
+            },
+            {
+                id: "totalCategoryPrice",
+                label: "Total Category Price",
+                align: "right"
             }
         ];
+
+        const rows = [];
+        let totalStayPrice = 0;
+
+        for (let key in bookingDetails.chooseCategory.categorySelection) {
+            let catSel = bookingDetails.chooseCategory.categorySelection[key];
+
+            if (catSel !== null && catSel.value > 0) {
+                totalStayPrice += catSel.unitPrice * catSel.value * nights;
+
+                rows.push({
+                    roomCategory: catSel.name,
+                    amount: catSel.value,
+                    pricePerNight: "€" + catSel.unitPrice,
+                    nights: nights,
+                    totalCategoryPrice: "€" + catSel.unitPrice * catSel.value * nights
+                });
+            }
+        }
+
+        rows.push({
+            roomCategory: "",
+            amount: "",
+            pricePerNight: "",
+            nights: "",
+            totalCategoryPrice: "€" + totalStayPrice
+        })
 
         return (
             <React.Fragment>
@@ -365,7 +416,7 @@ class Summary extends PureComponent {
                         </HeaderItem>
                     </Grid>
 
-                    <Grid item xs={6} className={clsx(classes.minHeightPaddingTop)}>
+                    <Grid item xs={12} className={clsx(classes.minHeightPaddingTop)}>
                         <Item>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
@@ -373,7 +424,7 @@ class Summary extends PureComponent {
                                         {columns.map((column) => (
                                             <TableCell
                                                 key={column.id}
-                                                align={column.id}
+                                                align={column.align}
                                                 className={clsx(classes.descriptiveHeaderText)}
                                             >
                                                 {column.label}
@@ -382,27 +433,47 @@ class Summary extends PureComponent {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Object.keys(bookingDetails.chooseCategory.categorySelection).map((key, index) =>
-                                        bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
-                                            (
-                                                <TableRow hover role="checkbox" key={index}>
-                                                    <TableCell>
-                                                        {bookingDetails.chooseCategory.categorySelection[key].name}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {bookingDetails.chooseCategory.categorySelection[key].value}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        cat price
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        sum price
-                                                    </TableCell>
-                                                </TableRow>
-                                            ) : ("")
-                                    )}
+                                    {rows.map((row) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                {columns.map((column) => {
+                                                    const value = row[column.id];
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {column.format && typeof value === 'number'
+                                                                ? column.format(value)
+                                                                : value}
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })}
                                 </TableBody>
                             </Table>
+                        </Item>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Item>
+                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                <ListItem>
+                                    <ListItemText primary="Total" secondary="zweites">
+                                        Text
+                                    </ListItemText>
+                                </ListItem>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        Text
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider component="li" />
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        Text
+                                    </ListItemText>
+                                </ListItem>
+                            </List>
                         </Item>
                     </Grid>
                 </Grid>
@@ -411,7 +482,7 @@ class Summary extends PureComponent {
     }
 
     render() {
-        const {classes, bookingDetails} = this.props;
+        const {classes, bookingDetails, nights} = this.props;
 
         return (
             <React.Fragment>
@@ -431,7 +502,7 @@ class Summary extends PureComponent {
 
                             {this.renderBookingDetails(classes, bookingDetails)}
 
-                            {this.renderCategoryPrices(classes, bookingDetails)}
+                            {this.renderCategoryPrices(classes, bookingDetails, nights)}
 
                         </Grid>
                     </Container>
