@@ -3,7 +3,7 @@ import React, {PureComponent} from 'react'
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 
-import {Box, Container, Grid, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {Box, Container, Grid, Typography} from "@mui/material";
 import {
     AccountCircle,
     CreditCard,
@@ -13,10 +13,17 @@ import {
     Phone
 } from "@mui/icons-material";
 
-import Item from "../grid/Item";
 import HeaderItem from "../grid/HeaderItem";
+import clsx from "clsx";
 
-const styles = () => ({});
+const styles = () => ({
+    minHeightPaddingTop: {
+        paddingTop: "0px !important"
+    },
+    descriptiveText: {
+        fontWeight: "bold"
+    }
+});
 
 class Summary extends PureComponent {
 
@@ -48,39 +55,70 @@ class Summary extends PureComponent {
                                         </HeaderItem>
                                     </Grid>
 
-                                    <Grid item xs={6}>
-                                        <Item>
-                                            <List>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <DateRange/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="From"
-                                                        secondary={bookingDetails.chooseCategory.from.toDateString()}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Item>
-                                    </Grid>
+                                    <Grid container item xs={12}>
+                                        <Grid container item xs={12}>
+                                            <Grid item xs={1}>
+                                                <DateRange/>
+                                            </Grid>
+                                            <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                                From
+                                            </Grid>
+                                            <Grid item xs={7}>
+                                                {bookingDetails.chooseCategory.from.toDateString()}
+                                            </Grid>
+                                        </Grid>
 
-                                    <Grid item xs={6}>
-                                        <Item>
-                                            <List>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <DateRange/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Until"
-                                                        secondary={bookingDetails.chooseCategory.until.toDateString()}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Item>
+                                        <Grid container item xs={12}>
+                                            <Grid item xs={1}>
+                                                <DateRange/>
+                                            </Grid>
+                                            <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                                Until
+                                            </Grid>
+                                            <Grid item xs={7}>
+                                                {bookingDetails.chooseCategory.until.toDateString()}
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
 
+
+                                <Grid container item xs={6}>
+                                    <Grid item xs={12}>
+                                        <HeaderItem>
+                                            <Typography variant="h6">
+                                                Guest Details
+                                            </Typography>
+                                        </HeaderItem>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <AccountCircle/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Name
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.guestFirstName + " " + bookingDetails.personalDetails.guestLastName}
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <LocationCity/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Address
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.guestStreet + ", " + bookingDetails.personalDetails.guestZip + " " + bookingDetails.personalDetails.guestCity + ", " + bookingDetails.personalDetails.guestCountry}
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container item spacing={3}>
                                 <Grid container item xs={6}>
                                     <Grid item xs={12}>
                                         <HeaderItem>
@@ -94,57 +132,19 @@ class Summary extends PureComponent {
 
                                         bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
                                             (
-                                                <Grid item xs={6} key={index}>
-                                                    <Item>
-                                                        <List>
-                                                            <ListItem>
-                                                                <ListItemIcon>
-                                                                    <Hotel/>
-                                                                </ListItemIcon>
-                                                                <ListItemText
-                                                                    primary={bookingDetails.chooseCategory.categorySelection[key].name}
-                                                                    secondary={bookingDetails.chooseCategory.categorySelection[key].value}
-                                                                />
-                                                            </ListItem>
-                                                        </List>
-                                                    </Item>
+                                                <Grid container item xs={12} key={index}>
+                                                    <Grid item xs={1}>
+                                                        <Hotel/>
+                                                    </Grid>
+                                                    <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                                        {bookingDetails.chooseCategory.categorySelection[key].name}
+                                                    </Grid>
+                                                    <Grid item xs={7}>
+                                                        {bookingDetails.chooseCategory.categorySelection[key].value}
+                                                    </Grid>
                                                 </Grid>
                                             ) : ("")
                                     )}
-                                </Grid>
-                            </Grid>
-
-                            <Grid container item spacing={3}>
-                                <Grid item xs={6}>
-                                    <HeaderItem>
-                                        <Typography variant="h6">
-                                            Guest Details
-                                        </Typography>
-                                    </HeaderItem>
-                                    <Grid item xs={6}>
-                                        <Item>
-                                            <List>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <AccountCircle/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Name"
-                                                        secondary={bookingDetails.personalDetails.guestFirstName + " " + bookingDetails.personalDetails.guestLastName}
-                                                    />
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <LocationCity/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Address"
-                                                        secondary={bookingDetails.personalDetails.guestStreet + ", " + bookingDetails.personalDetails.guestZip + " " + bookingDetails.personalDetails.guestCity + ", " + bookingDetails.personalDetails.guestCountry}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Item>
-                                    </Grid>
                                 </Grid>
 
                                 <Grid container item xs={6}>
@@ -156,72 +156,76 @@ class Summary extends PureComponent {
                                         </HeaderItem>
                                     </Grid>
 
-                                    <Grid item xs={6}>
-                                        <Item>
-                                            <List>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <AccountCircle/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Name"
-                                                        secondary={bookingDetails.personalDetails.repFirstName + " " + bookingDetails.personalDetails.repLastName}
-                                                    />
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <LocationCity/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Address"
-                                                        secondary={bookingDetails.personalDetails.repStreet + ", " + bookingDetails.personalDetails.repZip + " " + bookingDetails.personalDetails.repCity + ", " + bookingDetails.personalDetails.repCountry}
-                                                    />
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <Email/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Email"
-                                                        secondary={bookingDetails.personalDetails.repMail}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Item>
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <AccountCircle/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Name
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.repFirstName + " " + bookingDetails.personalDetails.repLastName}
+                                        </Grid>
                                     </Grid>
 
-                                    <Grid item xs={6}>
-                                        <Item>
-                                            <List>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <Phone/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Phone"
-                                                        secondary={bookingDetails.personalDetails.repPhone}
-                                                    />
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <Euro/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Payment"
-                                                        secondary={bookingDetails.personalDetails.selectedPaymentMethod}
-                                                    />
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItemIcon>
-                                                        <CreditCard/>
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary="Credit Card Number"
-                                                        secondary={bookingDetails.personalDetails.repCreditCardNumber}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Item>
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <LocationCity/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Address
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.repStreet + ", " + bookingDetails.personalDetails.repZip + " " + bookingDetails.personalDetails.repCity + ", " + bookingDetails.personalDetails.repCountry}
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <Email/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Email
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.repMail}
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <Phone/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Phone
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.repPhone}
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <Euro/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Payment
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.selectedPaymentMethod}
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item xs={12}>
+                                        <Grid item xs={1}>
+                                            <CreditCard/>
+                                        </Grid>
+                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
+                                            Credit Card Number
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            {bookingDetails.personalDetails.repCreditCardNumber}
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
