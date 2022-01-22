@@ -73,6 +73,21 @@ const styles = (theme) => ({
 class CreateBooking extends PureComponent {
     static SECONDS_OF_DAY = 60 * 60 * 24;
 
+    static MONTHS = {
+        "JANUARY": 0,
+        "FEBRUARY": 1,
+        "MARCH": 2,
+        "APRIL": 3,
+        "MAY": 4,
+        "JUNE": 5,
+        "JULY": 6,
+        "AUGUST": 7,
+        "SEPTEMBER": 8,
+        "OCTOBER": 9,
+        "NOVEMBER": 10,
+        "DECEMBER": 11,
+    };
+
     constructor(props) {
         super(props);
 
@@ -150,6 +165,8 @@ class CreateBooking extends PureComponent {
                 checkboxState: false,
             }
         };
+
+        this.categories = this.props.categories;
 
         this.steps = ['Choose categories', 'Personal details', 'Summary'];
     }
@@ -252,6 +269,43 @@ class CreateBooking extends PureComponent {
         }
     };
 
+    seasonPricedCategorySelection = (from, categories, categorySelection) => {
+        let stayStart = from.getMonth();
+
+        for (let key in categories) {
+            let cat = categories[key];
+
+            if (cat != null) {
+                if (categorySelection[cat.id] != null) {
+                    categorySelection[cat.id].unitPrice = 0;
+                }
+
+                if (cat.priceList != null) {
+                    for (let i = 0; i < cat.priceList.length; i++) {
+                        let priceItem = cat.priceList[i];
+
+                        if (priceItem != null) {
+                            let seasonStart = CreateBooking.MONTHS[priceItem.from];
+                            let seasonEnd = CreateBooking.MONTHS[priceItem.to];
+
+                            if (seasonStart > seasonEnd) {
+                                if (stayStart >= seasonStart || stayStart <= seasonEnd) {
+                                    categorySelection[cat.id].unitPrice = priceItem.price;
+                                }
+                            } else {
+                                if (stayStart >= seasonStart && stayStart <= seasonEnd) {
+                                    categorySelection[cat.id].unitPrice = priceItem.price;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return categorySelection;
+    };
+
     renderChooseCategories = (classes, chooseCategory) => {
         const {chooseCategoryError} = this.state;
 
@@ -288,6 +342,8 @@ class CreateBooking extends PureComponent {
         let untilUnixTs = Math.round(chooseCategory.until.getTime() / 1000);
 
         let nights = Math.round(Math.abs(untilUnixTs - fromUnixTs) / CreateBooking.SECONDS_OF_DAY);
+
+        chooseCategory.categorySelection = this.seasonPricedCategorySelection(chooseCategory.from, this.categories, chooseCategory.categorySelection);
 
         return (
             <React.Fragment>
