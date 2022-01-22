@@ -73,37 +73,40 @@ class Summary extends PureComponent {
                                                         <DateRange/>
 
                                                         <div
-                                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}
-                                                        >
+                                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
                                                             <span>From</span>
                                                         </div>
                                                     </Box>
                                                 </Item>
                                             </Grid>
+                                            <Grid item xs={6}>
+                                                <Item>
+                                                    <div className={clsx(classes.descriptiveText)}>
+                                                        {bookingDetails.chooseCategory.from.toDateString()}
+                                                    </div>
+                                                </Item>
+                                            </Grid>
+                                        </Grid>
 
+                                        <Grid container item xs={12}>
+                                            <Grid item xs={6}>
+                                                <Item>
+                                                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                        <DateRange/>
+
+                                                        <div
+                                                            className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                            <span>Until</span>
+                                                        </div>
+                                                    </Box>
+                                                </Item>
+                                            </Grid>
                                             <Grid item xs={6}>
                                                 <Item>
                                                     <div className={clsx(classes.descriptiveText)}>
                                                         {bookingDetails.chooseCategory.until.toDateString()}
                                                     </div>
                                                 </Item>
-                                            </Grid>
-                                        </Grid>
-
-
-
-                                        
-
-
-                                        <Grid container item xs={12}>
-                                            <Grid item xs={1}>
-                                                <DateRange/>
-                                            </Grid>
-                                            <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                                Until
-                                            </Grid>
-                                            <Grid item xs={7}>
-                                                {bookingDetails.chooseCategory.until.toDateString()}
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -120,26 +123,46 @@ class Summary extends PureComponent {
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <AccountCircle/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <AccountCircle/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Name</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Name
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.guestFirstName + " " + bookingDetails.personalDetails.guestLastName}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.guestFirstName + " " + bookingDetails.personalDetails.guestLastName}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <LocationCity/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <LocationCity/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Address</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Address
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.guestStreet + ", " + bookingDetails.personalDetails.guestZip + " " + bookingDetails.personalDetails.guestCity + ", " + bookingDetails.personalDetails.guestCountry}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.guestStreet + ", " + bookingDetails.personalDetails.guestZip + " " + bookingDetails.personalDetails.guestCity + ", " + bookingDetails.personalDetails.guestCountry}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -160,14 +183,24 @@ class Summary extends PureComponent {
                                         bookingDetails.chooseCategory.categorySelection[key].value > 0 ?
                                             (
                                                 <Grid container item xs={12} key={index}>
-                                                    <Grid item xs={1}>
-                                                        <Hotel/>
+                                                    <Grid item xs={6}>
+                                                        <Item>
+                                                            <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                                <Hotel/>
+
+                                                                <div
+                                                                    className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                                    <span>{bookingDetails.chooseCategory.categorySelection[key].name}</span>
+                                                                </div>
+                                                            </Box>
+                                                        </Item>
                                                     </Grid>
-                                                    <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                                        {bookingDetails.chooseCategory.categorySelection[key].name}
-                                                    </Grid>
-                                                    <Grid item xs={7}>
-                                                        {bookingDetails.chooseCategory.categorySelection[key].value}
+                                                    <Grid item xs={6}>
+                                                        <Item>
+                                                            <div className={clsx(classes.descriptiveText)}>
+                                                                {bookingDetails.chooseCategory.categorySelection[key].value}
+                                                            </div>
+                                                        </Item>
                                                     </Grid>
                                                 </Grid>
                                             ) : ("")
@@ -184,74 +217,134 @@ class Summary extends PureComponent {
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <AccountCircle/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <AccountCircle/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Name</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Name
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.repFirstName + " " + bookingDetails.personalDetails.repLastName}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.repFirstName + " " + bookingDetails.personalDetails.repLastName}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <LocationCity/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <LocationCity/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Address</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Address
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.repStreet + ", " + bookingDetails.personalDetails.repZip + " " + bookingDetails.personalDetails.repCity + ", " + bookingDetails.personalDetails.repCountry}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.repStreet + ", " + bookingDetails.personalDetails.repZip + " " + bookingDetails.personalDetails.repCity + ", " + bookingDetails.personalDetails.repCountry}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <Email/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <Email/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Email</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Email
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.repMail}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.repMail}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <Phone/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <Phone/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Phone</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Phone
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.repPhone}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.repPhone}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <Euro/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <Euro/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Payment</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Payment
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.selectedPaymentMethod}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.selectedPaymentMethod}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
 
                                     <Grid container item xs={12}>
-                                        <Grid item xs={1}>
-                                            <CreditCard/>
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                                    <CreditCard/>
+
+                                                    <div
+                                                        className={clsx(classes.descriptiveHeaderText, classes.descriptiveSpacing)}>
+                                                        <span>Credit Card Number</span>
+                                                    </div>
+                                                </Box>
+                                            </Item>
                                         </Grid>
-                                        <Grid item xs={4} className={clsx(classes.descriptiveText)}>
-                                            Credit Card Number
-                                        </Grid>
-                                        <Grid item xs={7}>
-                                            {bookingDetails.personalDetails.repCreditCardNumber}
+                                        <Grid item xs={6}>
+                                            <Item>
+                                                <div className={clsx(classes.descriptiveText)}>
+                                                    {bookingDetails.personalDetails.repCreditCardNumber}
+                                                </div>
+                                            </Item>
                                         </Grid>
                                     </Grid>
                                 </Grid>
