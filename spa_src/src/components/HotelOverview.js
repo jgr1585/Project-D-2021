@@ -300,8 +300,8 @@ class HotelOverview extends PureComponent {
                 rows.push({
                     roomCategory: cat.title,
                     description: cat.description,
-                    summerPrice: seasonPrice(cat, "Summer") + " €",
-                    winterPrice: seasonPrice(cat, "Winter") + " €",
+                    summerPrice: "€" + seasonPrice(cat, "Summer"),
+                    winterPrice: "€" + seasonPrice(cat, "Winter"),
                 });
             }
         }
@@ -335,9 +335,7 @@ class HotelOverview extends PureComponent {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
+                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
                                                 </TableCell>
                                             );
                                         })}

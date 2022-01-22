@@ -43,6 +43,9 @@ const styles = () => ({
     descriptiveSpacing: {
         paddingLeft: "10px",
         paddingRight: "10px",
+    },
+    textAlignRight: {
+        textAlign: "right",
     }
 });
 
@@ -384,7 +387,7 @@ class Summary extends PureComponent {
         for (let key in bookingDetails.chooseCategory.categorySelection) {
             let catSel = bookingDetails.chooseCategory.categorySelection[key];
 
-            if (catSel !== null && catSel.value > 0) {
+            if (catSel != null && catSel.value > 0) {
                 totalStayPrice += catSel.unitPrice * catSel.value * nights;
 
                 rows.push({
@@ -392,18 +395,12 @@ class Summary extends PureComponent {
                     amount: catSel.value,
                     pricePerNight: "€" + catSel.unitPrice,
                     nights: nights,
-                    totalCategoryPrice: "€" + catSel.unitPrice * catSel.value * nights
+                    totalCategoryPrice: "€" + catSel.unitPrice * catSel.value * nights,
                 });
             }
         }
 
-        rows.push({
-            roomCategory: "",
-            amount: "",
-            pricePerNight: "",
-            nights: "",
-            totalCategoryPrice: "€" + totalStayPrice
-        })
+        let tax = totalStayPrice / 100 * 20;
 
         return (
             <React.Fragment>
@@ -440,9 +437,7 @@ class Summary extends PureComponent {
                                                     const value = row[column.id];
                                                     return (
                                                         <TableCell key={column.id} align={column.align}>
-                                                            {column.format && typeof value === 'number'
-                                                                ? column.format(value)
-                                                                : value}
+                                                            {column.format && typeof value === 'number' ? column.format(value) : value}
                                                         </TableCell>
                                                     );
                                                 })}
@@ -455,22 +450,33 @@ class Summary extends PureComponent {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Item>
-                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <Item className={clsx(classes.textAlignRight)}>
+                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: "auto", }}>
                                 <ListItem>
-                                    <ListItemText primary="Total" secondary="zweites">
-                                        Text
-                                    </ListItemText>
-                                </ListItem>
-                                <ListItem alignItems="flex-start">
                                     <ListItemText>
-                                        Text
+                                        Subtotal
+                                    </ListItemText>
+                                    <ListItemText className={clsx(classes.textAlignRight)}>
+                                        €{totalStayPrice}
                                     </ListItemText>
                                 </ListItem>
+                                <ListItem>
+                                    <ListItemText>
+                                        Tax
+                                    </ListItemText>
+                                    <ListItemText className={clsx(classes.textAlignRight)}>
+                                        + (20%) €{tax}
+                                    </ListItemText>
+                                </ListItem>
+
                                 <Divider component="li" />
-                                <ListItem alignItems="flex-start">
+
+                                <ListItem>
                                     <ListItemText>
-                                        Text
+                                        Total
+                                    </ListItemText>
+                                    <ListItemText className={clsx(classes.textAlignRight)}>
+                                        €{totalStayPrice + tax}
                                     </ListItemText>
                                 </ListItem>
                             </List>
