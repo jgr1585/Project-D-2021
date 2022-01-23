@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 
 import withStyles from '@mui/styles/withStyles';
-import {AppBar, Typography} from '@mui/material';
+import {AppBar, Snackbar, Typography} from '@mui/material';
 
 import clsx from 'clsx';
 
@@ -19,6 +19,7 @@ import BookingDTO from "../js/openAPI/model/BookingDTO";
 import AddressDTO from "../js/openAPI/model/AddressDTO";
 import RepresentativeDetailsDTO from "../js/openAPI/model/RepresentativeDetailsDTO";
 import GuestDetailsDTO from "../js/openAPI/model/GuestDetailsDTO";
+import {Alert} from "@mui/lab";
 
 const styles = theme => ({
     app: {
@@ -52,9 +53,13 @@ class App extends PureComponent {
 
             open: false,
             openDialogSave: false,
-            dialogTextSave: '',
+            dialogTextSave: "",
 
-            error: 'Unexpected error occurred',
+            notificationOpen: false,
+            notificationText: "Text N/A",
+            notificationType: "success",
+
+            error: "Unexpected error occurred",
         };
 
         this.categories = [];
@@ -75,7 +80,7 @@ class App extends PureComponent {
             },
             // error
             (result) => {
-                alert(result)
+                this.snackbarOpen('Request error occurred!\nPlease check your internet connection.' + result, 'error');
                 this.setState({initCallsMade: true, initCallsError: true});
             }
         );
@@ -203,13 +208,12 @@ class App extends PureComponent {
         this.pushNewBooking(bookingDTO).then(
             // success
             (result) => {
-                alert(result);
+                this.snackbarOpen('Create booking successful!\nYou will shortly receive a confirmation email.', 'success');
                 this.setState({open: false});
             },
             // error
             (result) => {
-                alert(result);
-                // this.setState({open: false});
+                this.snackbarOpen('Create booking failed!\nPlease check your input data and your internet connection.', 'error');
             }
         );
     };
@@ -220,6 +224,36 @@ class App extends PureComponent {
     handleAlertDialogSaveOk = () => {
         this.setState({openDialogSave: false, open: false});
         this.hasChanged = false;
+    };
+
+    snackbarOpen = (notificationText, type) => {
+        this.setState({ notificationOpen: true, notificationText: notificationText, notificationType: type })
+    };
+    snackbarClose = () => {
+        this.setState({ notificationOpen: false })
+    };
+    snackbarContent = (classes) => {
+        const { notificationOpen, notificationText, notificationType } = this.state;
+
+        return (
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+
+                open={notificationOpen}
+                onClose={this.snackbarClose}
+                autoHideDuration={10000}
+
+                key={notificationText}
+            >
+                <Alert
+                    onClose={this.snackbarClose}
+                    severity={notificationType}
+                    className={classes.notificationText}
+                >
+                    {notificationText}
+                </Alert>
+            </Snackbar>
+        )
     };
 
     render() {
@@ -288,7 +322,7 @@ class App extends PureComponent {
                 )}
 
                 {/* Notification container*/}
-                {/*{this.snackbarContent(classes)}*/}
+                {this.snackbarContent(classes)}
             </div>
         );
     }
