@@ -136,15 +136,15 @@ values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst',
        (222, 'dom-id-org-222', 'Doppelmayr/Garaventa Group', 'Konrad-Doppelmayr-Straße 1', '6922', 'Wolfurt', 'Austria', 10),
        (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria', 5);
 
-insert into final_bill(id,representative_first_name, representative_last_name,
+insert into final_bill(id, representative_first_name, representative_last_name,
                        representative_street, representative_zip, representative_city, representative_country,
                        representative_email, representative_phone, representative_payment_method,
                        representative_credit_card_number, bill_id, final_index)
-values(111, 'Jonas', 'Keckeis', 'Keckweg 15', '6900', 'Bregenz', 'Austria',
-       'jonas.k@hotmail.com', '06991906931', 'Cash', '3333 3333 3333 3333', 333 , 0);
+values (111, 'Jonas', 'Keckeis', 'Keckweg 15', '6900', 'Bregenz', 'Austria',
+        'jonas.k@hotmail.com', '06991906931', 'Cash', '3333 3333 3333 3333', 333, 0);
 
 insert into final_bill_entry(final_bill_id, final_index, description, timestamp, amount, unit_price)
-values(111, 0, "Bill-entry for the stay", '2022-01-23 09:00:00', 3, 31);
+values (111, 0, 'Mineral Water', '2022-01-23 09:00:00', 3, 31);
 
 
 COMMIT;
