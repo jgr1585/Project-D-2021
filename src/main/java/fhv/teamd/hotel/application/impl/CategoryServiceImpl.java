@@ -40,7 +40,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<AvailableCategoryDTO> result = new ArrayList<>();
 
-        // todo optimize with query
 
         this.categoryRepository.getAll().forEach(cat -> {
             int count = this.availabilityService.numberOfSuitableRooms(cat.categoryId(), from, until);

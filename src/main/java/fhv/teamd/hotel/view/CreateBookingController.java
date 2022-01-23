@@ -78,8 +78,6 @@ public class CreateBookingController {
             @ModelAttribute BookingForm bookingForm,
             RedirectAttributes redirectAttributes) {
 
-        // todo: check availability with application service
-        // todo: basic validation goes into form obj with annotations
 
         redirectAttributes.addFlashAttribute("bookingForm", bookingForm);
 
