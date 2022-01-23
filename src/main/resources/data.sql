@@ -10,10 +10,10 @@ delete from category;
 
 delete from season;
 delete from bill_entry;
-delete from bill;
 delete from organization;
-delete from final_bill;
 delete from final_bill_entry;
+delete from final_bill;
+delete from bill;
 
 
 insert into booking (id, booking_id, check_in, check_out, booking_State, guest_first_name, guest_last_name, guest_street, guest_zip,
