@@ -3,12 +3,14 @@ package fhv.teamd.hotel.application;
 import fhv.teamd.hotel.application.dto.BillDTO;
 import fhv.teamd.hotel.application.exceptions.InvalidIdException;
 import fhv.teamd.hotel.domain.Bill;
+import fhv.teamd.hotel.domain.BillEntry;
 import fhv.teamd.hotel.domain.DomainFactory;
 import fhv.teamd.hotel.domain.Stay;
 import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.PaymentMethod;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 import fhv.teamd.hotel.domain.ids.BillId;
+import fhv.teamd.hotel.domain.ids.FinalBillId;
 import fhv.teamd.hotel.domain.repositories.BillRepository;
 import fhv.teamd.hotel.domain.repositories.SeasonRepository;
 import fhv.teamd.hotel.domain.repositories.StayRepository;
@@ -20,7 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -62,6 +66,12 @@ public class BillingServiceTests {
         RepresentativeDetails rep = new RepresentativeDetails(
                 "max","muster","m@mail.com", address,"123456",
                 "1111 1111 1111 1111", PaymentMethod.CreditCard);
+
+        List<BillEntry> incompleteEntries = new LinkedList<>();
+        incompleteEntries.add(new BillEntry("kleine packung gummibärchen", LocalDateTime.now(), 1, 3.0));
+        incompleteEntries.add(new BillEntry("kleine packung gummibärhcen", LocalDateTime.now(), 1, 3.0));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> b.assignResponsibility(incompleteEntries, rep, new FinalBillId("")));
 
         Assertions.assertDoesNotThrow(() -> this.billingService.assignPayments(
                 "dom-id-bill-111",

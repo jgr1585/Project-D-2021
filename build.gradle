@@ -7,7 +7,6 @@ plugins {
 
 group = 'fhv.teamd'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -34,18 +33,44 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.4'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'com.h2database:h2:2.0.202'
-    implementation 'org.hibernate:hibernate-core:5.6.1.Final'
-    implementation 'org.hibernate:hibernate-entitymanager:5.6.1.Final'
+    implementation 'com.h2database:h2:2.0.204'
+    implementation 'org.hibernate:hibernate-core:5.6.3.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.3.Final'
     implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.2-api:1.0.0.Beta2'
     implementation 'org.springframework:spring-orm'
     implementation 'junit:junit:4.13.2'
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation group: 'org.ehcache', name: 'ehcache', version: '3.9.2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+
+    testImplementation 'io.cucumber:cucumber-java:6.10.4'
+    testImplementation 'io.cucumber:cucumber-junit:6.10.4'
+    testImplementation group: 'io.cucumber', name: 'cucumber-spring', version: '6.10.4'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty',
+                    '--plugin', 'html:build/cucumber/banking.html',
+                    '--glue', 'fhv.teamd.hotel.bdd', 'src/test/resources/features']
+        }
+    }
 }
 
 test {
+    systemProperty 'spring.profiles.active', 'test'
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }

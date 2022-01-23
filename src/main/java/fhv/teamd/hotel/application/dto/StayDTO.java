@@ -44,7 +44,7 @@ public class StayDTO {
                 stay.representativeDetails(),
                 stay.guestDetails(),
                 stay.rooms().stream().map(RoomDTO::fromRoom).collect(Collectors.toList()),
-                stay.organizationId().toString()
+                stay.organizationId() == null ? null : stay.organizationId().toString()
         );
     }
 

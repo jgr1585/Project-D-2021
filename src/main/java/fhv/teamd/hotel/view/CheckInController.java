@@ -140,8 +140,11 @@ public class CheckInController {
         // at end of check out day
         LocalDateTime until = chooseCategoriesForm.getUntil().atStartOfDay().plus(Period.ofDays(1));
 
+        List<RoomDTO> allAvailableRooms = new LinkedList<>();
         chooseCategoriesForm.getCategorySelection().forEach((categoryId, amount) -> {
             if (amount != null && amount > 0) {
+                allAvailableRooms.addAll(this.roomSuggestionService.findSuitableRooms(categoryId, from, until, 20));
+
                 List<RoomDTO> rooms = this.roomSuggestionService.findSuitableRooms(categoryId, from, until, amount);
                 List<String> roomIds = rooms.stream().map(RoomDTO::id).collect(Collectors.toList());
 
@@ -150,6 +153,7 @@ public class CheckInController {
             }
         });
 
+        model.addAttribute("rooms", allAvailableRooms);
         model.addAttribute("categories", categories);
         model.addAttribute("checkInForm", checkInForm);
 

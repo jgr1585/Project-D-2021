@@ -1,7 +1,6 @@
 package fhv.teamd.hotel.application.dto;
 
 import fhv.teamd.hotel.domain.FinalBill;
-import fhv.teamd.hotel.domain.contactInfo.Address;
 import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
 
 import java.util.Collections;

@@ -121,7 +121,6 @@ $(document).ready(function () {
 
     //Require at lest one Category
     $(".roomCat").rules("add", {
-        required: true,
         min: 0,
         atLeastNInClass: {
             class: ".roomCat",

@@ -1,6 +1,5 @@
 package fhv.teamd.hotel.domain;
 
-import fhv.teamd.hotel.domain.ids.CategoryId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

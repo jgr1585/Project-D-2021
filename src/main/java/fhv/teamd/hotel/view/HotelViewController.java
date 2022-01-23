@@ -4,9 +4,9 @@ import fhv.teamd.hotel.application.BookingService;
 import fhv.teamd.hotel.application.FrontDeskService;
 import fhv.teamd.hotel.application.OrganizationService;
 import fhv.teamd.hotel.application.dto.*;
-import fhv.teamd.hotel.domain.contactInfo.Address;
-import fhv.teamd.hotel.domain.contactInfo.GuestDetails;
-import fhv.teamd.hotel.domain.contactInfo.RepresentativeDetails;
+import fhv.teamd.hotel.application.dto.contactInfo.AddressDTO;
+import fhv.teamd.hotel.application.dto.contactInfo.GuestDetailsDTO;
+import fhv.teamd.hotel.application.dto.contactInfo.RepresentativeDetailsDTO;
 import fhv.teamd.hotel.view.forms.CheckInForm;
 import fhv.teamd.hotel.view.forms.subForms.BookingListForm;
 import fhv.teamd.hotel.view.forms.subForms.ChooseCategoriesForm;
@@ -25,7 +25,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,11 +108,11 @@ public class HotelViewController {
         Optional<OrganizationDTO> orgResult = this.organizationService.findOrganizationById(booking.organizationId());
         OrganizationDTO organization = orgResult.orElse(OrganizationDTO.empty());
 
-        GuestDetails guest = booking.guest();
-        Address guestAddress = guest.address();
+        GuestDetailsDTO guest = booking.guest();
+        AddressDTO guestAddress = guest.address();
 
-        RepresentativeDetails rep = booking.representative();
-        Address repAddress = rep.address();
+        RepresentativeDetailsDTO rep = booking.representative();
+        AddressDTO repAddress = rep.address();
 
         boolean checkBoxState = guest.firstName().equals(rep.firstName())
                 && guest.lastName().equals(rep.lastName())

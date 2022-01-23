@@ -37,7 +37,7 @@
         <!-- List<BillEntry> entries -->
         <list name="entries" table="final_bill_entry" cascade="all">
             <key column="final_bill_id"/>
-            <index column="index"/>
+            <index column="final_index"/>
             <composite-element class="fhv.teamd.hotel.domain.BillEntry">
                 <property name="description" column="description" type="string"/>
                 <property name="timestamp" column="timestamp" type="java.time.LocalDateTime"/>

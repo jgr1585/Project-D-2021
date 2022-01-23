@@ -4,7 +4,6 @@ import fhv.teamd.hotel.domain.Booking;
 import fhv.teamd.hotel.domain.BookingState;
 import fhv.teamd.hotel.domain.ids.BookingId;
 import fhv.teamd.hotel.domain.ids.CategoryId;
-import fhv.teamd.hotel.domain.ids.DomainId;
 import fhv.teamd.hotel.domain.repositories.BookingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -38,15 +37,6 @@ public class HibernateBookingRepository extends HibernateBaseRepository<Booking,
                 .getSingleResult();
 
         return Optional.ofNullable(l).map(Long::intValue).orElse(0);
-
-        //#region equivalent to
-//        return this.bookingsByCheckInDate(from, until)
-//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
-//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
-//                .map(Map.Entry::getValue)
-//                .reduce(Integer::sum)
-//                .orElse(0);
-         //#endregion
     }
 
     @Override

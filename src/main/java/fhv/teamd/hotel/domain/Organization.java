@@ -18,7 +18,17 @@ public class Organization {
         // hibernate
     }
 
-    public Organization(OrganizationId domainId,String organizationName, Address address, int discount) {
+    public Organization(OrganizationId domainId, String organizationName, Address address, int discount) {
+        this.domainId = domainId;
+        this.organizationName = organizationName;
+        this.address = address;
+        this.discount = discount;
+    }
+
+    //Test only
+    @Deprecated
+    public Organization(Long id, OrganizationId domainId, String organizationName, Address address, int discount) {
+        this.id = id;
         this.domainId = domainId;
         this.organizationName = organizationName;
         this.address = address;
