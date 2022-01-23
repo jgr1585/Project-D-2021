@@ -116,7 +116,8 @@ values (111, 1, 60),
 insert into stay_in_room (stay_id, room_id)
 values (111, 114),
        (111, 115),
-       (222, 223);
+       (222, 223),
+       (333, 441);
 
 insert into bill (id, bill_id)
 values (111, 'dom-id-bill-111'),

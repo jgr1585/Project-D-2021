@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 
-//TODO: Finish
 public abstract class BaseRepositoryData {
     private static final List<Booking> bookings;
     private static final List<Category> categories;
@@ -19,8 +18,6 @@ public abstract class BaseRepositoryData {
     private static final List<Stay> stays;
     private static final List<Season> seasons;
     private static final List<Organization> organizations;
-    // private static final List<Bill> bills;
-    // private static final List<BillEntry> billEntries;
 
     static {
         bookings = new LinkedList<>();
@@ -29,8 +26,6 @@ public abstract class BaseRepositoryData {
         stays = new LinkedList<>();
         seasons = new LinkedList<>();
         organizations = new LinkedList<>();
-        // bills = new LinkedList<>();
-        // billEntries = new LinkedList<>();
 
         init();
     }
@@ -49,7 +44,7 @@ public abstract class BaseRepositoryData {
         final Category category1 = new Category(111L, new CategoryId("dom-id-cat-111"), "Single Room", "A room assigned to one person with one bed.", pricePerNight1);
         final Category category2 = new Category(222L, new CategoryId("dom-id-cat-222"), "Double Room", "A room assigned to two persons with a double bed.", pricePerNight2);
         final Category category3 = new Category(333L, new CategoryId("dom-id-cat-333"), "Family Room", "A room assigned to a maximum of five persons with a mixture of single and double beds.", pricePerNight3);
-        final Category category4 = new Category(333L, new CategoryId("dom-id-cat-333"), "Suite", "A luxurious apartment assigned to a maximum of six persons with several bedrooms.", pricePerNight4);
+        final Category category4 = new Category(444L, new CategoryId("dom-id-cat-444"), "Suite", "A luxurious apartment assigned to a maximum of six persons with several bedrooms.", pricePerNight4);
         categories.addAll(List.of(category1, category2, category3, category4));
 
         final Address addressGuest1 = new Address("Bachgasse 5", "6850", "Dornbirn", "Austria");
@@ -120,16 +115,21 @@ public abstract class BaseRepositoryData {
         final Address stayAddressRep1 = new Address("Hans-Mauracher-Straße 162", "4117", "Wien", "Austria");
         final Address stayAddressGuest2 = new Address("Gösting 13b", "9542", "Linz", "Austria");
         final Address stayAddressRep2 = new Address("Gösting 13b", "9542", "Linz", "Austria");
+        final Address stayAddressGuest3 = new Address("Keckweg 15", "6900", "Bregenz", "Austria");
+        final Address stayAddressRep3 = new Address("Keckweg 15", "6900", "Bregenz", "Austria");
 
         final RepresentativeDetails stayRep1 = new RepresentativeDetails("Jonas", "Tiefenthaler", "j.thiefenthaler@outlook.com", stayAddressRep1, "069954321", "1111 1111 1111 1111", PaymentMethod.CreditCard);
         final RepresentativeDetails stayRep2 = new RepresentativeDetails("Emma", "Bauer", "emma.b@outlook.com", stayAddressRep2, "0664123987", "2222 2222 2222 2222", PaymentMethod.Cash);
+        final RepresentativeDetails stayRep3 = new RepresentativeDetails("Jonas", "Keckeis", "jonas.k@hotmail.com", stayAddressRep3, "06991906931", "3333 3333 3333 3333", PaymentMethod.Cash);
 
         final GuestDetails stayGust1 = new GuestDetails("Jonas", "Tiefenthaler", stayAddressGuest1);
         final GuestDetails stayGust2 = new GuestDetails("Emma", "Bauer", stayAddressGuest2);
+        final GuestDetails stayGust3 = new GuestDetails("Jonas", "Keckeis", stayAddressGuest3);
 
         final Stay stay1 = new Stay(111L, new StayId("dom-id-stay-111"), LocalDateTime.parse("2022-01-20T10:00:00"), LocalDateTime.parse("2022-02-01T10:00:00"), Set.of(room04, room05), stayRep1, stayGust1, StayingState.CheckedIn, new OrganizationId(""), new BillId("146567"));
         final Stay stay2 = new Stay(222L, new StayId("dom-id-stay-222"), LocalDateTime.parse("2022-01-20T10:00:00"), LocalDateTime.parse("2022-02-10T10:00:00"), Set.of(room08), stayRep2, stayGust2, StayingState.CheckedIn, new OrganizationId("dom-id-org-111"), new BillId("7569526"));
-        stays.addAll(List.of(stay1, stay2));
+        final Stay stay3 = new Stay(333L, new StayId("dom-id-stay-333"), LocalDateTime.parse("2022-01-28T10:00:00"), LocalDateTime.parse("2022-02-04T10:00:00"), Set.of(room31), stayRep3, stayGust3, StayingState.CheckedIn, new OrganizationId(""), new BillId("213123"));
+        stays.addAll(List.of(stay1, stay2, stay3));
 
         final Address orgAddress1 = new Address("Im Städtle 40", "6973", "Höchst", "Austria");
         final Address orgAddress2 = new Address("Konrad-Doppelmayr-Straße 1", "6922", "Wolfurt", "Austria");
@@ -139,9 +139,6 @@ public abstract class BaseRepositoryData {
         final Organization org2 = new Organization(222L, new OrganizationId("dom-id-org-222"), "Doppelmayr/Garaventa Group", orgAddress2, 10);
         final Organization org3 = new Organization(333L, new OrganizationId("dom-id-org-333"), "Bachmann electronic GmbH", orgAddress3, 5);
         organizations.addAll(List.of(org1, org2, org3));
-
-
-        //TODO: Data for Bill
 
     }
 
@@ -169,12 +166,5 @@ public abstract class BaseRepositoryData {
         return Collections.unmodifiableList(organizations);
     }
 
-    //    public static List<Bill> bills() {
-//        return Collections.unmodifiableList(bills);
-//    }
-//
-//    public static List<BillEntry> billEntries() {
-//        return Collections.unmodifiableList(billEntries);
-//    }
 
 }
