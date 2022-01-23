@@ -12,6 +12,9 @@ delete from season;
 delete from bill_entry;
 delete from bill;
 delete from organization;
+delete from final_bill;
+delete from final_bill_entry;
+
 
 insert into booking (id, booking_id, check_in, check_out, booking_State, guest_first_name, guest_last_name, guest_street, guest_zip,
                      guest_city, guest_country, representative_first_name, representative_last_name,
@@ -86,11 +89,15 @@ insert into stay (id, stay_id, check_in, check_out, staying_state,
 values (111, 'dom-id-stay-111', '2022-01-20 10:00:00', '2022-02-01 10:00:00', 'CheckedIn',
         'Jonas', 'Tiefenthaler', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
         'Jonas', 'Tiefenthaler', 'Hans-Mauracher-Straße 162', '4117', 'Wien', 'Austria',
-        'j.thiefenthaler@outlook.com', '069954321', 'CreditCard', '1111 1111 1111 1111', ''),
+        'j.thiefenthaler@outlook.com', '069954321', 'CreditCard', '1111 1111 1111 1111', null),
        (222, 'dom-id-stay-222', '2022-01-20 10:00:00', '2022-02-10 10:00:00', 'CheckedIn',
         'Emma', 'Bauer', 'Gösting 13b', '9542', 'Linz', 'Austria',
         'Emma', 'Bauer', 'Gösting 13b', '9542', 'Linz', 'Austria',
-        'emma.b@outlook.com', '0664123987', 'Cash', '2222 2222 2222 2222', 'dom-id-org-222');
+        'emma.b@outlook.com', '0664123987', 'Cash', '2222 2222 2222 2222', 'dom-id-org-222'),
+       (333,'dom-id-stay-333', '2022-01-28 10:00:00', '2022-02-04 10:00:00', 'CheckedIn',
+        'Jonas', 'Keckeis', 'Keckweg 15', '6900', 'Bregenz', 'Austria',
+        'Jonas', 'Keckeis', 'Keckweg 15', '6900', 'Bregenz', 'Austria',
+        'jonas.k@hotmail.com', '06991906931', 'Cash', '3333 3333 3333 3333', null);
 
 insert into season(id, season_id, name, from_Month, to_Month)
 values (1, 'Season1', 'Summer', 04, 09),
@@ -113,7 +120,8 @@ values (111, 114),
 
 insert into bill (id, bill_id)
 values (111, 'dom-id-bill-111'),
-       (222, 'dom-id-bill-222');
+       (222, 'dom-id-bill-222'),
+       (333, 'dom-id-bill-333');
 
 insert into bill_entry (bill_id, entry_index, description, timestamp, amount, unit_price)
 values (111, 0, '2x Extra Pillows', '2021-11-14 09:00:00', 2, 5),
@@ -127,5 +135,16 @@ insert into organization (id, organization_id, organization_name, organization_s
 values (111, 'dom-id-org-111', 'Blum GmbH', 'Im Städtle 40', '6973', 'Höchst', 'Austria', 15),
        (222, 'dom-id-org-222', 'Doppelmayr/Garaventa Group', 'Konrad-Doppelmayr-Straße 1', '6922', 'Wolfurt', 'Austria', 10),
        (333, 'dom-id-org-333', 'Bachmann electronic GmbH', 'Kreuzäckerweg 33', '6800', 'Feldkirch', 'Austria', 5);
+
+insert into final_bill(id,representative_first_name, representative_last_name,
+                       representative_street, representative_zip, representative_city, representative_country,
+                       representative_email, representative_phone, representative_payment_method,
+                       representative_credit_card_number, bill_id, final_index)
+values(111, 'Jonas', 'Keckeis', 'Keckweg 15', '6900', 'Bregenz', 'Austria',
+       'jonas.k@hotmail.com', '06991906931', 'Cash', '3333 3333 3333 3333', 333 , 0);
+
+insert into final_bill_entry(final_bill_id, final_index, description, timestamp, amount, unit_price)
+values(111, 0, "Bill-entry for the stay", '2022-01-23 09:00:00', 3, 31);
+
 
 COMMIT;
