@@ -8,7 +8,9 @@ $(document).ready(function () {
     insertAutocompleteData(elems);
 
     $(elems).on("change", function () {
-        insertAutocompleteData($('.autocomplete'));
+        setTimeout(() => {
+            insertAutocompleteData($('.autocomplete'));
+        }, 100);
     });
 });
 
