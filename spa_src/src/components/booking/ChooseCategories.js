@@ -152,7 +152,7 @@ class ChooseCategories extends PureComponent {
     };
 
     renderDatePicker = (classes) => {
-        const {chooseCategory, chooseCategoryError} = this.props;
+        const {chooseCategory, chooseCategoryError, hasValueChanged} = this.props;
         const {from, until} = this.state;
 
         return (
@@ -179,6 +179,8 @@ class ChooseCategories extends PureComponent {
                                             chooseCategory.from = "";
                                             return;
                                         }
+
+                                        hasValueChanged(true);
 
                                         chooseCategory.from = newValue;
                                         chooseCategoryError.fromError = "";
@@ -223,6 +225,8 @@ class ChooseCategories extends PureComponent {
                                             return;
                                         }
 
+                                        hasValueChanged(true);
+
                                         chooseCategory.until = newValue;
                                         chooseCategoryError.untilError = "";
 
@@ -248,7 +252,7 @@ class ChooseCategories extends PureComponent {
     };
 
     renderCategories = (classes) => {
-        const {chooseCategory, chooseCategoryError} = this.props;
+        const {chooseCategory, chooseCategoryError, hasValueChanged} = this.props;
         const {categorySelection} = this.state;
 
         return (
@@ -273,6 +277,8 @@ class ChooseCategories extends PureComponent {
                                             type="number"
                                             onChange={(event) => {
                                                 let categorySelection = {...this.state.categorySelection};
+
+                                                hasValueChanged(true);
 
                                                 chooseCategory.categorySelection[key].value = event.target.value;
                                                 categorySelection[key].value = event.target.value;

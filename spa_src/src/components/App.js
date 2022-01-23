@@ -323,6 +323,15 @@ class App extends PureComponent {
 
                 {/* Notification container*/}
                 {this.snackbarContent(classes)}
+
+                <AlertDialog
+                    openDialog={openDialogSave}
+                    dialogText={dialogTextSave}
+                    headerText={'Close window'}
+
+                    onDialogClose={this.handleAlertDialogSaveClose}
+                    onDialogOk={this.handleAlertDialogSaveOk}
+                />
             </div>
         );
     }

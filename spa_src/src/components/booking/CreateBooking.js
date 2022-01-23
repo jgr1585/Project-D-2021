@@ -183,17 +183,20 @@ class CreateBooking extends PureComponent {
 
     goBack = () => {
         const {activeStep} = this.state;
+        this.props.hasValueChanged(true);
 
         this.setState({activeStep: activeStep - 1, stepValidationError: false});
     };
     goNext = () => {
         const {activeStep} = this.state;
+        this.props.hasValueChanged(true);
 
         this.setState({activeStep: activeStep + 1});
     };
 
     checkNextStep = (index) => {
         const {activeStep} = this.state;
+        this.props.hasValueChanged(true);
 
         if (activeStep > index) {
             this.setState({activeStep: index});
@@ -437,6 +440,7 @@ class CreateBooking extends PureComponent {
                     categoryControllerApi={this.props.categoryControllerApi}
                     chooseCategory={chooseCategory}
                     chooseCategoryError={chooseCategoryError}
+                    hasValueChanged={this.props.hasValueChanged}
                 >
                 </ChooseCategories>
             </React.Fragment>
