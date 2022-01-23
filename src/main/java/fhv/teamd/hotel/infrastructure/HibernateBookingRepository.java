@@ -37,15 +37,6 @@ public class HibernateBookingRepository extends HibernateBaseRepository<Booking,
                 .getSingleResult();
 
         return Optional.ofNullable(l).map(Long::intValue).orElse(0);
-
-        //#region equivalent to
-//        return this.bookingsByCheckInDate(from, until)
-//                .stream().flatMap(booking -> booking.selection().entrySet().stream())
-//                .filter(entry -> entry.getKey().categoryId().equals(categoryId))
-//                .map(Map.Entry::getValue)
-//                .reduce(Integer::sum)
-//                .orElse(0);
-         //#endregion
     }
 
     @Override

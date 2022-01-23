@@ -74,16 +74,14 @@ public class InvoiceController {
                 selectedCheckboxStates.add(false);
             }
 
-//            List<BillEntryDTO> selectedBillEntries = invoiceForm.getSelectedBillEntries();
             if (billEntryChecks != null) {
                 for (Integer index: billEntryChecks) {
-//                    selectedBillEntries.add(billEntryDTOList.get(index));
                     selectedCheckboxStates.set(index, true);
                 }
             }
         }
 
-        if (action.equals("prev")) {
+        if (action != null && action.equals("prev")) {
             return new RedirectView("/");
         }
 
