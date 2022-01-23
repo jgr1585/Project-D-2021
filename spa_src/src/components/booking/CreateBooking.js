@@ -256,6 +256,57 @@ class CreateBooking extends PureComponent {
         return true;
     };
 
+    validateZip = (value) => {
+        return /^[0-9]*$/.test(value);
+    }
+
+    validateEmail = (value) => {
+        let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        return regex.test(value.toLowerCase());
+    };
+
+    validatePhone = (value) => {
+        let regex = /[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+
+        return regex.test(value);
+    };
+
+    validateCreditCardNumber = (value) => {
+        // Accept only spaces, digits and dashes
+        if (/[^0-9 \-]+/.test(value)) {
+            return false;
+        }
+
+        let nCheck = 0,
+            nDigit = 0,
+            bEven = false,
+            n, cDigit;
+
+        value = value.replace(/\D/g, "");
+
+        // Basing min and max length on
+        // https://dev.ean.com/general-info/valid-card-types/
+        if (value.length < 13 || value.length > 19) {
+            return false;
+        }
+
+        for (n = value.length - 1; n >= 0; n--) {
+            cDigit = value.charAt(n);
+            nDigit = parseInt(cDigit, 10);
+            if (bEven) {
+                if ((nDigit *= 2) > 9) {
+                    nDigit -= 9;
+                }
+            }
+
+            nCheck += nDigit;
+            bEven = !bEven;
+        }
+
+        return (nCheck % 10) === 0;
+    };
+
     validatePersonalDetails = () => {
         let personalDetailsError = {...this.state.personalDetailsError};
         let personalDetails = this.bookingDetails.personalDetails;
@@ -267,10 +318,50 @@ class CreateBooking extends PureComponent {
             }
 
             let errKey = key + "Error";
+
             if (personalDetails[key] === "") {
+
                 personalDetailsError[errKey] = "Cannot be empty";
                 stepValidationError = true;
-            } else {
+            }
+            else if (key === "guestZip" || key === "repZip") {
+
+                if (!this.validateZip(personalDetails[key])) {
+                    personalDetailsError[errKey] = "Invalid zip";
+                    stepValidationError = true;
+                } else {
+                    personalDetailsError[errKey] = "";
+                }
+            }
+            else if (key === "repMail") {
+
+                if (!this.validateEmail(personalDetails[key])) {
+                    personalDetailsError[errKey] = "Invalid email";
+                    stepValidationError = true;
+                } else {
+                    personalDetailsError[errKey] = "";
+                }
+            }
+            else if (key === "repPhone") {
+
+                if (!this.validatePhone(personalDetails[key])) {
+                    personalDetailsError[errKey] = "Invalid phone number";
+                    stepValidationError = true;
+                } else {
+                    personalDetailsError[errKey] = "";
+                }
+            }
+            else if (key === "repCreditCardNumber") {
+
+                if (!this.validateCreditCardNumber(personalDetails[key])) {
+                    personalDetailsError[errKey] = "Invalid credit card number";
+                    stepValidationError = true;
+                } else {
+                    personalDetailsError[errKey] = "";
+                }
+            }
+            else {
+
                 personalDetailsError[errKey] = "";
             }
         }

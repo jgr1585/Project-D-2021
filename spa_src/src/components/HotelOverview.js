@@ -173,7 +173,7 @@ class HotelOverview extends PureComponent {
                     </p>
                     <p>
                         Enjoy skiing with the highest comfort: the ski slopes end directly in front of
-                        the front door, ski lifts and cable car are 150m away from the house.
+                        the front door, ski lifts and cable car are 300m away from the house.
                         Also the meeting point of the ski school and the ski kindergarten are right next to the
                         hotel.
                     </p>
