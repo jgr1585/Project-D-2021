@@ -32,7 +32,7 @@ function importAll(r) {
     return images
 }
 
-const images = importAll(require.context('../img', false, /\.(png|jpe?g|svg)$/));
+const images = importAll(require.context('../img/hotel_overview', false, /\.(png|jpe?g|svg)$/));
 
 const styles = () => ({
     customTextStyle: {
@@ -132,41 +132,34 @@ class HotelOverview extends PureComponent {
             {
                 logos: [images["hotelOverview_19.jpg"], images["hotelOverview_20.jpg"]],
             },
-            {
-                logos: [images["hotelOverview_21.jpg"], images["hotelOverview_22.jpg"]],
-            },
-            {
-                logos: [images["hotelOverview_23.jpg"], images["hotelOverview_24.jpg"]],
-            },
-            {
-                logos: [images["hotelOverview_25.jpg"], images["hotelOverview_26.jpg"]],
-            },
         ];
 
         return (
-            <div className={clsx(classes.sectionPadding)}>
-                <Carousel>
-                    {items.map((item, index) =>
-                        (
-                            <Paper>
-                                <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}} key={index}>
-                                    <Grid container item spacing={3} key={index}>
-                                        {item.logos.map((img, index) =>
-                                            (
-                                                <Grid item xs={6} key={index}>
-                                                    <Item>
-                                                        <img src={img} alt="logo" height={370} width={550}/>
-                                                    </Item>
-                                                </Grid>
-                                            )
-                                        )}
+            <React.Fragment>
+                <div className={clsx(classes.sectionPadding)}>
+                    <Carousel>
+                        {items.map((item, index) =>
+                            (
+                                <Paper>
+                                    <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}} key={index}>
+                                        <Grid container item spacing={3} key={index}>
+                                            {item.logos.map((img, index) =>
+                                                (
+                                                    <Grid item xs={6} key={index}>
+                                                        <Item>
+                                                            <img src={img} alt="logo" height={370} width={550}/>
+                                                        </Item>
+                                                    </Grid>
+                                                )
+                                            )}
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </Paper>
-                        )
-                    )}
-                </Carousel>
-            </div>
+                                </Paper>
+                            )
+                        )}
+                    </Carousel>
+                </div>
+            </React.Fragment>
         )
     }
 
