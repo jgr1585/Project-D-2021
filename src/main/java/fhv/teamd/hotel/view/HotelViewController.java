@@ -59,6 +59,12 @@ public class HotelViewController {
         return new ModelAndView("index");
     }
 
+    @RequestMapping("/spa")
+    public RedirectView spaIndex(Model model) {
+
+        return new RedirectView("/spa/index.html");
+    }
+
     @GetMapping("/booking/overview")
     public ModelAndView bookingOverview(
             @ModelAttribute BookingListForm form,
