@@ -404,7 +404,7 @@ class ChooseCategories extends PureComponent {
             <React.Fragment>
                 <div className={clsx(classes.sectionPaddingTop)}>
                     <Carousel
-                        autoPlay={false}
+                        interval={6000}
                         navButtonsAlwaysInvisible={true}
                     >
                         {items.map((item, index) =>
