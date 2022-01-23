@@ -24,7 +24,6 @@ function insertAutocompleteData(selects) {
 
         let options = {
             data: {},
-            closeOnClick: false,
         };
 
         // set all rooms into dataObject according to the category id
